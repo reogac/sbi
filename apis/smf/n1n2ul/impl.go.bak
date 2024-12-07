@@ -1,0 +1,14 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/smf/n1n2ul"
+)
+func (p *Producer) HandleSessionResourceNotify(smCtxRef string,body *models.SessionResourceNotification)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleSessionResourceModifyIndication(smCtxRef string,body *models.SessionResourceModifyIndication)(rsp *models.SessionResourceModifyConfirm,prob *models.ProblemDetails){
+	return
+}
+*/

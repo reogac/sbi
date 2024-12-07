@@ -1,0 +1,10 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/nsm/amfman"
+)
+func (p *Producer) HandleAmfRegister(body *models.AmfRegistrationRequest)(rsp *models.AmfRegistrationResponse,prob *models.ProblemDetails){
+	return
+}
+*/

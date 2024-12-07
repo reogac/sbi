@@ -1,0 +1,18 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/amf/uectx"
+)
+func (p *Producer) HandleN2SmInfoUplink(ueId int64,body *models.N2SmInfoUplinkTransport)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUeContextRelease(ueId int64,body *models.UeContextReleaseRequest)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleRrcInactivityStatusReport(ueId int64,body *models.RrcInactivityTransportReport)(prob *models.ProblemDetails){
+	return
+}
+*/

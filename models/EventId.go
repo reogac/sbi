@@ -1,0 +1,28 @@
+/*
+This file is generated with a SBI APIs generator tool developed by ETRI
+Generated at Sat Dec  7 16:57:27 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Do not modify
+*/
+
+package models
+
+type EventId string
+
+// Define constant values for EventId
+const (
+	EVENTID_LOAD_LEVEL_INFORMATION EventId = "LOAD_LEVEL_INFORMATION"
+	EVENTID_NETWORK_PERFORMANCE    EventId = "NETWORK_PERFORMANCE"
+	EVENTID_NF_LOAD                EventId = "NF_LOAD"
+	EVENTID_SERVICE_EXPERIENCE     EventId = "SERVICE_EXPERIENCE"
+	EVENTID_UE_MOBILITY            EventId = "UE_MOBILITY"
+	EVENTID_UE_COMMUNICATION       EventId = "UE_COMMUNICATION"
+	EVENTID_QOS_SUSTAINABILITY     EventId = "QOS_SUSTAINABILITY"
+	EVENTID_ABNORMAL_BEHAVIOUR     EventId = "ABNORMAL_BEHAVIOUR"
+	EVENTID_USER_DATA_CONGESTION   EventId = "USER_DATA_CONGESTION"
+	EVENTID_NSI_LOAD_LEVEL         EventId = "NSI_LOAD_LEVEL"
+	EVENTID_SM_CONGESTION          EventId = "SM_CONGESTION"
+	EVENTID_DISPERSION             EventId = "DISPERSION"
+	EVENTID_RED_TRANS_EXP          EventId = "RED_TRANS_EXP"
+	EVENTID_WLAN_PERFORMANCE       EventId = "WLAN_PERFORMANCE"
+	EVENTID_DN_PERFORMANCE         EventId = "DN_PERFORMANCE"
+)

@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  version: 1.2.3
+  title: PRAN handover APIs
+  description: |
+    PRAN Handover service
+    © 2023, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/pran-handover/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /request:
+    post:
+      operationId: HandoverRequest
+      parameters:
+        - name: callback
+          in: header
+          required: true
+          schema:
+            $ref: 'ETRI_Common_Data.yaml#/components/schemas/EndpointInfo'
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/HandoverRequest'
+        required: true
+      responses:
+        '201':
+          description: HandoverRequestAcknowledge
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/HandoverRequestAcknowledge'
+
+        '400':
+          description: HandoverRequestFailure
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/HandoverRequestFailure'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        
+components:
+  securitySchemes:
+  schemas:
+

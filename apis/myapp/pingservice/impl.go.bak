@@ -1,0 +1,14 @@
+/*package yourpkg
+
+import (
+	"etrib5gc/sbi/models"
+	"etrib5gc/sbi/apis/myapp/pingservice"
+)
+func (p *Producer) HandlePing(body *models.PingRequest)(rsp *models.PingResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleForward(body *models.PingFwRequest)(rsp *models.PingResponse,prob *models.ProblemDetails){
+	return
+}
+*/

@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  version: 1.2.3
+  title: AMF callback APIs
+  description: |
+    AMF callback service
+    © 2023, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/amf-callback/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /smctx/{supi}/{sessionId}:
+    put:
+      operationId: SmContextStatusNotify
+      parameters:
+        - name: supi
+          in: path
+          required: true
+          schema:
+            type: string
+
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int16
+ 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'TS29502_Nsmf_PDUSession.yaml#/components/schemas/SmContextStatusNotification'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+ 
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+ 
+
+components:
+  securitySchemes:
+  schemas:
+

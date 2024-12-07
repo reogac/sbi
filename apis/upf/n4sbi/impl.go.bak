@@ -1,0 +1,26 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/upf/n4sbi"
+)
+func (p *Producer) HandleSessionModification(seid int64,body *message.PFCPSessionModificationRequest)(rsp *message.PFCPSessionModificationResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleSessionDeletion(seid int64,body *message.PFCPSessionDeletionRequest)(rsp *message.PFCPSessionDeletionResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleAssociationRequest(callback *models.EndpointInfo,body *message.PFCPAssociationSetupRequest)(rsp *message.PFCPAssociationSetupResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDisassociationRequest(smfId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleSessionEstablishment(smfId string,body *message.PFCPSessionEstablishmentRequest)(rsp *message.PFCPSessionEstablishmentResponse,prob *models.ProblemDetails){
+	return
+}
+*/

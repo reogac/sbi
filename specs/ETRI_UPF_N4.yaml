@@ -1,0 +1,207 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: UPF N4 APIs
+  description: |
+    UPF N4 service
+    © 2024, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/upf-n4/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /associate:
+    post:
+      operationId: AssociationRequest
+      parameters:
+        - name: callback
+          in: header
+          required: true
+          schema:
+            $ref: 'ETRI_Common_Data.yaml#/components/schemas/EndpointInfo'
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/message.PFCPAssociationSetupRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message.PFCPAssociationSetupResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /disassociate/{smfId}:
+    put:
+      operationId: DisassociationRequest
+      parameters:
+        - name: smfId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '201':
+          description: Success
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /session/setup/{smfId}:
+    post:
+      operationId: SessionEstablishment
+      parameters:
+        - name: smfId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/message.PFCPSessionEstablishmentRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message.PFCPSessionEstablishmentResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+
+  /session/modify/{seid}:
+    put:
+      operationId: SessionModification
+      parameters:
+        - name: seid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/message.PFCPSessionModificationRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message.PFCPSessionModificationResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+
+  /session/delete/{seid}:
+    put:
+      operationId: SessionDeletion
+      parameters:
+        - name: seid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/message.PFCPSessionDeletionRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message.PFCPSessionDeletionResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+
+components:
+  securitySchemes:
+  schemas:
+
+    message.PFCPAssociationSetupRequest:
+      description: N4 association request
+      type: external
+
+    message.PFCPAssociationSetupResponse:
+      description: N4 association request
+      type: external
+
+    message.PFCPSessionEstablishmentRequest:
+      description: N4 session establishment request
+      type: external
+
+    message.PFCPSessionEstablishmentResponse:
+      description: N4 session establishment response
+      type: external
+
+    message.PFCPSessionModificationRequest:
+      description: N4 session modification request
+      type: external
+
+    message.PFCPSessionModificationResponse:
+      description: N4 session modification response
+      type: external
+
+    message.PFCPSessionDeletionRequest:
+      description: N4 session deletion request
+      type: external
+
+    message.PFCPSessionDeletionResponse:
+      description: N4 session deletion response
+      type: external
+
+

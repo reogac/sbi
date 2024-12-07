@@ -1,0 +1,831 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0.0'
+  title: 'ETRI Common Data Types'
+  description: |
+    Common Data Types for Service Based Interfaces.  
+    © 2024, ETRI
+    All rights reserved.  
+
+externalDocs:
+  description: 3GPP TS 29.571 Common Data Types for Service Based Interfaces, version 17.11.0
+  url: 'https://etri.re.kr'
+
+paths: {}
+
+components:
+
+  schemas:
+
+    NfSelection:
+      description: a key value string map as options for NF selection
+      type: object
+      additionalProperties:
+        type: string
+
+    CoreAssistInfo:
+      description: Core Network Assistance Info
+      type: object
+      properties:
+        dummy:
+          type: string
+
+    UeAmbr:
+      description: Ue AMBR in integer format
+      type: object
+      properties:
+        ul:
+          type: integer
+          format: int64
+        dl:
+          type: integer
+          format: int64
+      required:
+        - ul
+        - dl
+
+    UeAuthCtx:
+      description: An authenticated UeContext
+      type: object
+      properties:
+        supi:
+          type: string
+        kamf:
+          type: string
+          format: binary
+        rand:
+          type: string
+          format: binary
+        authType:
+          $ref: 'TS29509_Nausf_UEAuthentication.yaml#/components/schemas/AuthType'
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+        eap:
+          type: string
+          format: binary
+        eapSuccess:
+          type: boolean
+        ngKsi:
+          $ref: 'TS29518_Namf_Communication.yaml#/components/schemas/NgKsi'
+        amData:
+          $ref: 'TS29505_Subscription_Data.yaml#/components/schemas/AccessAndMobilitySubscriptionData'
+      required:
+        - supi
+        - plmnId
+        - eapSuccess
+        - ngKsi
+
+    SecurityCapability:
+      description: Security capability
+      type: object
+      properties:
+        enc:
+          type: string
+          format: binary
+        int:
+          type: string
+          format: binary
+      
+    UeSecurityCapability:
+      description: UE Security capability
+      type: object
+      properties:
+        nr:
+          $ref: '#/components/schemas/SecurityCapability'
+        eutra:
+          $ref: '#/components/schemas/SecurityCapability'
+
+    SecurityContext:
+      description: gnB Security Context
+      type: object
+      properties:
+        ncc:
+          type: integer
+          format: int16
+        nh:
+          type: string
+          format: binary
+
+    EndpointInfo:
+      description: Location address of an deployed network function
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: An unique identity
+        sbiUri:
+          type: string
+          description: SBI transport address
+        gwUri:
+          type: string
+          description: Gateway Uri
+      required:
+        - uuid
+        - sbiUri
+
+    RanUeId:
+      description: Identification of UeContext at gnB
+      type: object
+      properties:
+        ran:
+          type: string
+        id:
+          type: integer
+          format: int64
+      required:
+        - ran
+        - id
+
+    RanUeInfo:
+      description: Identification of UeContext and gnB
+      type: object
+      properties:
+        ranInfo:
+          $ref: '#/components/schemas/EndpointInfo'
+        ranUeId:
+          $ref: '#/components/schemas/RanUeId'
+      required:
+        - ranInfo
+        - ranUeId
+
+    N2SmInfoUplinkTransport:
+      description: N2SmInfo Uplink transport
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoUplinkContent'
+
+    N2SmInfoUplinkContent:
+      description: N2SmInfo Uplink content
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int16
+        n2SmInfo:
+          type: string
+          format: binary
+        n2SmInfoType:
+          $ref: 'TS29502_Nsmf_PDUSession.yaml#/components/schemas/N2SmInfoType'
+      required:
+        - sessionId
+
+    N2SmInfoDownlinkTransport:
+      description: N2SmInfo Downlink transport
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+        nasPdu:
+          type: string
+          format: binary
+
+    N2SmInfoDownlinkContent:
+      description: N2SmInfo Downlink content
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int16
+        n2SmInfo:
+          type: string
+          format: binary
+        nasPdu:
+          type: string
+          format: binary
+        n2SmInfoType:
+          $ref: 'TS29502_Nsmf_PDUSession.yaml#/components/schemas/N2SmInfoType'
+        snssai:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+      required:
+        - sessionId
+
+    NasUplinkTransport:
+      description: Nas Uplink transport
+      type: object
+      properties:
+        nasPdu:
+          type: string
+          format: binary
+        loc: 
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
+      required:
+        - nasPdu
+
+    NasDownlinkTransport:
+      description: Nas Downlink transport
+      type: object
+      properties:
+        nasPdu:
+          type: string
+          format: binary
+
+    UplinkNasError:
+      description: Nas Uplink error message
+      type: object
+      properties:
+        nasPdu:
+          type: string
+          format: binary
+        causePresent:
+          type: integer
+          format: int16
+        causeValue:
+          type: integer
+          format: int16
+      required:
+        - causePresent
+        - causeValue
+        - nasPdu
+
+    N2Cause:
+      description: Ngap cause
+      type: object
+      properties:
+        causePresent:
+          type: integer
+          format: int16
+        causeValue:
+          type: integer
+          format: int16
+      required:
+        - causePresent
+        - causeValue
+
+    HandoverRequire:
+      description: Handover Required message from source gnB
+      type: object
+      properties:
+        sourceToTargetContent:
+          type: string
+          format: binary
+        handoverType:
+          type: integer
+          format: int16
+        ranInfo:
+          $ref: '#/components/schemas/EndpointInfo'
+        targetId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/GlobalRanNodeId'
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoUplinkContent'
+        cause:
+          $ref: '#/components/schemas/N2Cause'
+
+      required:
+        - handoverType
+        - ranInfo
+        - targetId
+        - cause
+
+    HandoverCommand:
+      description: Handover Command message to source gnB
+      type: object
+      properties:
+        targetToSourceContent:
+          type: string
+          format: binary
+        handoverType:
+          type: integer
+          format: int16
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+      required:
+        - handoverType
+
+    HandoverPreparationFailure:
+      description:
+      type: object
+      properties:
+        cause:
+          $ref: '#/components/schemas/N2Cause'
+      required:
+        - cause
+
+    HandoverRequest:
+      description: Handover Request message to target gnB
+      type: object
+      properties:
+        sourceToTargetContent:
+          type: string
+          format: binary
+        handoverType:
+          type: integer
+          format: int16
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+        secCtx:
+          $ref: '#/components/schemas/SecurityContext'
+        guami:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Guami'
+        allowedNssai:
+          $ref: 'TS29531_Nnssf_NSSelection.yaml#/components/schemas/AllowedNssai'
+        cause:
+          $ref: '#/components/schemas/N2Cause'
+        maskedImeisv:
+          type: string
+          format: binary
+        newSecInd:
+          type: boolean
+        ueSecCap:
+          $ref: '#/components/schemas/UeSecurityCapability'
+        ueAmbr:
+          $ref: '#/components/schemas/UeAmbr'
+      required:
+        - handoverType
+        - ranUeId
+        - secCtx
+        - guami
+        - ueAmbr
+        - cause
+        - secCtx
+        - newSecInd
+        - ueSecCap
+
+    HandoverRequestAcknowledge:
+      description: Handover Request Acknowledgement from target gnB
+      type: object
+      properties:
+        targetToSourceContent:
+          type: string
+          format: binary
+        nasSplit:
+          type: boolean
+        ranUeId:
+          $ref: '#/components/schemas/RanUeId'
+        ranNets:
+          type: array
+          items:
+            type: string
+        nfSelection:
+          $ref: '#/components/schemas/NfSelection'
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoUplinkContent'
+      required:
+        - nasSplit
+        - ranUeId
+
+    HandoverRequestFailure:
+      description: Handover Request Failure from target gnB
+      type: object
+      properties:
+        cause:
+          $ref: '#/components/schemas/N2Cause'
+      required:
+        - cause
+
+    HandoverNotify:
+      description: Handover Notify from target gnB
+      type: object
+      properties:
+        loc:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
+
+    HandoverCancel:
+      description: Handover Cancel from source gnB
+      type: object
+      properties:
+        cause:
+          $ref: '#/components/schemas/N2Cause'
+      required:
+        - cause
+
+    HandoverCancelAcknowledge:
+      description: Handover Cancel Acknowledgement to source gnB 
+      type: object
+      properties:
+        ok:
+          type: string
+
+    PathSwitchRequest:
+      description: Path Switch Request
+      type: object
+      properties:
+        ranUeId:
+          $ref: '#/components/schemas/RanUeId'
+        loc: 
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
+        ueSecCap:
+          $ref: '#/components/schemas/UeSecurityCapability'
+        switchedSessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoUplinkContent'
+        failedSessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoUplinkContent'
+      required:
+        - ranUeId
+
+    PathSwitchFailure:
+      description: Path Switch Failure
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+
+    PathSwitchAcknowledge:
+      description: "Path Switch Acknowledge"
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+
+
+    UplinkRanStatusTransfer:
+     description: Uplink Ran Status Transfer
+     type: object
+     properties:
+       content:
+          type: string
+          format: binary
+
+    InitialUeMessage:
+      description: Equivalance to Ngap message to deliver the first Ue NAS message
+      type: object
+      properties:
+        authCtx:
+          $ref: '#/components/schemas/UeAuthCtx'
+        nasPdu:
+          type: string
+          format: binary
+        contextRequest:
+          type: boolean
+        transfer:
+          type: boolean
+        rrcCause:
+          type: integer
+          format: int16
+        loc:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
+        access:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/AccessType'
+        ranNets:
+          type: array
+          items:
+            type: string
+        ranUeId:
+            $ref: '#/components/schemas/RanUeId'
+        nasSplit:
+          type: boolean
+        nfSelection:
+            $ref: '#/components/schemas/NfSelection'
+      required:
+        - ranUeId
+        - nasSplit
+        - access
+        - contextRequest
+        - transfer
+        - rrcCause
+
+    InitialUeMessageResponse:
+      description: Response from core network for an initial Ue message
+      type: object
+      properties:
+        amfUeId:
+          type: integer
+          format: int64
+      required:
+        - amfUeId
+
+    UpdateAmfInfo:
+      description: Location of UeContext at an AMF instance
+      type: object
+      properties:
+        amfSet:
+          type: string
+        amfPointer:
+          type: integer
+          format: int16
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+        amfUeId:
+          type: integer
+          format: int64
+      required:
+        - amfSet
+        - amfPointer
+        - plmnId
+        - amfUeId
+  
+    SessionResourceSetupRequest:
+      description: Session resource setup request from SMF to gnB
+      type: object
+      properties:
+        ref:
+          type: string
+        smf:
+          $ref: '#/components/schemas/EndpointInfo'
+        snssai:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+        sessionId:
+          type: integer
+          format: int16
+        transfer:
+          type: string
+          format: binary
+        n1Sm:
+          type: string
+          format: binary
+      required:
+        - ref
+        - smf
+        - sessionId
+        - snssai
+
+    SessionResourceSetupResponse:
+      description: Session resource setup response to SMF
+      type: object
+      properties:
+        success:
+          type: boolean
+        transfer:
+          type: string
+          format: binary
+      required:
+        - success
+          
+         
+    SessionResourceModifyRequest:
+      description: Session resource modification request from SMF to gnB
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int16
+        transfer:
+          type: string
+          format: binary
+        n1Sm:
+          type: string
+          format: binary
+      required:
+        - sessionId
+
+    SessionResourceModifyResponse:
+      description: Session resource modification response to SMF
+      type: object
+      properties:
+        success:
+          type: boolean
+        transfer:
+          type: string
+          format: binary
+      required:
+        - success
+
+    SessionResourceReleaseRequest:
+      description: Session resource release request from SMF to gnB
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int16
+        transfer:
+          type: string
+          format: binary
+        n1Sm:
+          type: string
+          format: binary
+      required:
+        - sessionId
+
+    SessionResourceReleaseResponse:
+      description: Session resource release response to SMF
+      type: object
+      properties:
+        transfer:
+          type: string
+          format: binary
+   
+    SessionResourceNotification:
+      description: Session resource notification from gnB to SMF
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int16
+        release:
+          type: boolean
+        transfer:
+          type: string
+          format: binary
+      required:
+        - sessionId
+        - release
+
+    SessionResourceModifyIndication:
+      description: Session resource modification indication from gnB to SMF
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int16
+        transfer:
+          type: string
+          format: binary
+      required:
+        - sessionId
+
+
+    SessionResourceModifyConfirm:
+      description: Session resource modification confirm from SMF to gnB
+      type: object
+      properties:
+        success:
+          type: boolean
+        transfer:
+          type: string
+          format: binary
+      required:
+        - success
+
+    UeContextSetupRequest:
+      description: Request gnB to setup UeContext
+      type: object
+      properties:
+        N2SmInfoDownlinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+        nasPdu:
+          type: string
+          format: binary
+        secKey:
+          type: string
+          format: binary
+        ueSecCap:
+          $ref: '#/components/schemas/UeSecurityCapability'
+        oldAmf:
+          type: string
+        guami:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Guami'
+        allowedNssai:
+          type: array
+          items:
+            $ref: 'TS29531_Nnssf_NSSelection.yaml#/components/schemas/AllowedSnssai'
+        ueAmbr:
+          $ref: '#/components/schemas/UeAmbr'
+        ueRadCap:
+          type: string
+        rfsp:
+          type: integer
+          format: int64
+        oldAmfNgapId:
+          type: integer
+          format: int64
+        rrcStatusReport:
+          type: integer
+          format: int16
+      required:
+        - guami
+        - allowedSnssai
+        - ueAmbr
+        - ueSecCap
+ 
+    UeContextSetupResponse:
+      description: UeContext is setup at gnB
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/N2SmInfoUplinkContent'
+ 
+    UeContextSetupFailure:
+      description: UeContext setup failed at gnB
+      type: object
+      properties:
+        causePresent:
+          type: integer
+          format: int16
+        causeValue:
+          type: integer
+          format: int16
+        failedList:
+          type: array
+          items:
+            type: integer
+            format: int16
+        error:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+      required:
+        - causePresent
+        - causeValue
+        - error
+ 
+    UeContextReleaseRequest:
+      description: gnB request core for its releasing of UeContext
+      type: object
+      properties:
+        causePresent:
+          type: integer
+          format: int16
+        causeValue:
+          type: integer
+          format: int16
+        sessionList:
+          type: array
+          items:
+            type: integer
+            format: int16
+      required:
+        - causePresent
+        - causeValue
+ 
+    UeContextReleaseCommand:
+      description: ask gnB to release UeContext
+      type: object
+      properties:
+        causePresent:
+          type: integer
+          format: int16
+        causeValue:
+          type: integer
+          format: int16
+      required:
+        - causePresent
+        - causeValue
+ 
+    UeContextReleaseComplete:
+      description: UeContext release completed at gnB
+      type: object
+      properties:
+        sessionList:
+          type: array
+          items:
+            type: integer
+            format: int16
+ 
+    UeContextModifyRequest:
+      description: UeContext modification request to gnB
+      type: object
+      properties:
+        ueAmbr:
+          $ref: '#/components/schemas/UeAmbr'
+        secKey:
+          type: string
+          format: binary
+        rfsp:
+          type: integer
+          format: int64
+        oldAmfNgapId:
+          type: integer
+          format: int64
+        rrcStatusReport:
+          type: integer
+          format: int16
+        emergencyFallbackInd:
+          type: boolean
+        pagingPriority:
+          type: integer
+          format: int16
+        coreAssistInfo:
+          $ref: '#/components/schemas/CoreAssistInfo'
+
+    UeContextModifyResponse:
+      description: UeContext modification response from gnB
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+        - success
+
+    UeContextModifyFailure:
+      description: gnB failed to modify UeContext
+      type: object
+      properties:
+        error:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+      required:
+        - error
+
+    RrcInactivityTransportReport:
+      description: report of RRC activity
+      type: object
+      properties:
+        loc:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
+        rrcState:
+          type: integer
+          format: int16
+      required:
+        - rrcState

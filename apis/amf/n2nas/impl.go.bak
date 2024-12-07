@@ -1,0 +1,18 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/amf/n2nas"
+)
+func (p *Producer) HandleNasUl(ueId int64,body *models.NasUplinkTransport)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleNasErr(ueId int64,body *models.UplinkNasError)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleInitialUeMessage(callback *models.EndpointInfo,body *models.InitialUeMessage)(rsp *models.InitialUeMessageResponse,prob *models.ProblemDetails){
+	return
+}
+*/

@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  version: 1.2.3
+  title: SMF N1N2 direct transport APIs
+  description: |
+    SMF N1N2 direct transport service
+    © 2023, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/smf-n1n2/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /res-notify/{smCtxRef}:
+    post:
+      operationId: SessionResourceNotify
+      parameters:
+        - name: smCtxRef
+          in: path
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceNotification'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+ 
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+ 
+  /res-modify/{smCtxRef}:
+    put:
+      operationId: SessionResourceModifyIndication
+      parameters:
+        - name: smCtxRef
+          in: path
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceModifyIndication'
+        required: true
+
+      responses:
+        '201':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceModifyConfirm'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+  schemas:
+

@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: NSM AMF management APIs
+  description: |
+    NSM AMF management service
+    © 2024, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/nsm-man/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /register:
+    put:
+      operationId: AmfRegister
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmfRegistrationRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmfRegistrationResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+  schemas:
+    AmfRegistrationRequest:
+      description: AMF registration request to NSM
+      type: object
+      properties:
+        uuid:
+          type: string
+        amfSet:
+          type: string
+      required:
+        - uuid
+        - amfSet
+
+    AmfRegistrationResponse:
+      description: AMF registration response from NSM
+      type: object
+      properties:
+        amfPointer:
+          type: integer
+          format: int16
+        slices:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+      required:
+        - amfPointer
+
+    PfcpMessage:
+      description: a test pfcp message
+      type: external
+ 

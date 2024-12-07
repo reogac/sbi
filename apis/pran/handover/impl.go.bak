@@ -1,0 +1,10 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/pran/handover"
+)
+func (p *Producer) HandleHandoverRequest(callback *models.EndpointInfo,body *models.HandoverRequest)(rsp *models.HandoverRequestAcknowledge,ersp *models.HandoverRequestFailure,prob *models.ProblemDetails){
+	return
+}
+*/

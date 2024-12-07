@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  version: 1.2.3
+  title: MyApp APIs
+  description: |
+    Ping service
+    © 2023, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/myapp/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /ping:
+    post:
+      operationId: Ping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PingRequest'
+        required: true
+      responses:
+        '201':
+          description: Ping response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+ 
+  /forward:
+    post:
+      operationId: Forward
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PingFwRequest'
+        required: true
+      responses:
+        '201':
+          description: Ping response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+ 
+
+
+components:
+  schemas:
+    PingRequest:
+      type: object
+      properties:
+        message:
+          type: string
+        nonce:
+          type: integer
+          format: int64
+        time:
+          type: string
+      required:
+        - message
+        - nonce
+        - time
+
+    PingFwRequest:
+      type: object
+      properties:
+        service:
+          type: string
+        message:
+          type: string
+        nonce:
+          type: integer
+          format: int64
+        time:
+          type: string
+      required:
+        - service
+        - message
+        - nonce
+        - time
+
+
+    PingResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        nonce:
+          type: integer
+          format: int64
+        time:
+          type: string
+        from:
+          type: string
+      required:
+        - message
+        - nonce
+        - time
+
+

@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  version: 1.2.3
+  title: PRAN Nas downlink transport APIs
+  description: |
+    PRAN Nas downlink transport service
+    © 2023, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/pran-nas/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /dl/{ueId}:
+    post:
+      operationId: NasDl
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/NasDownlinkTransport'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+ 
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+  schemas:
+

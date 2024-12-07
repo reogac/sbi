@@ -1,0 +1,22 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/amf/handover"
+)
+func (p *Producer) HandleHandoverRequire(ueId int64,body *models.HandoverRequire)(rsp *models.HandoverCommand,ersp *models.HandoverPreparationFailure,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleHandoverNotify(ueId int64,body *models.HandoverNotify)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleHandoverCancel(ueId int64,body *models.HandoverCancel)(rsp *models.HandoverCancelAcknowledge,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandlePathSwitch(params *handover.PathSwitchParams,body *models.PathSwitchRequest)(rsp *models.PathSwitchAcknowledge,ersp *models.PathSwitchFailure,prob *models.ProblemDetails){
+	return
+}
+*/

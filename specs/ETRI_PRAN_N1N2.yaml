@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  version: 1.2.3
+  title: PRAN N1N2 transport APIs
+  description: |
+    PRAN N1N2 transport service
+    © 2023, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/pran-n1n2/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+
+  /n2/{ueId}:
+    put:
+      operationId: N2SmInfoDownlink
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/N2SmInfoDownlinkTransport'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /sess/setup/{ueId}:
+    post:
+      operationId: SessionResourceSetup
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceSetupRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceSetupResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /sess/modify/{ueId}:
+    put:
+      operationId: SessionResourceModify
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceModifyRequest'
+          required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceModifyResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+         
+  /sess/release/{ueId}:
+    put:
+      operationId: SessionResourceRelease
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceReleaseRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/SessionResourceReleaseResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+  
+components:
+  securitySchemes:
+  schemas:
+

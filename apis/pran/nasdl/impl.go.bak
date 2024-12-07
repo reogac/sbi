@@ -1,0 +1,10 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/pran/nasdl"
+)
+func (p *Producer) HandleNasDl(ueId int64,body *models.NasDownlinkTransport)(prob *models.ProblemDetails){
+	return
+}
+*/

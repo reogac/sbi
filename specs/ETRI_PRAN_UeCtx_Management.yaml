@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: PRAN UeCtx management APIs
+  description: |
+    PRAN UeCtx management service
+    © 2024, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/pran-uectx/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /amfinfo/{ueId}:
+    put:
+      operationId: UpdateAmfInfo
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/UpdateAmfInfo'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /uectx/modify/{ueId}:
+    put:
+      operationId: UeContextModify
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextModifyRequest'
+          required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextModifyResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextModifyFailure'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+         
+  /uectx/release/{ueId}:
+    put:
+      operationId: UeContextRelease
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextReleaseCommand'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextReleaseComplete'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+
+  /uectx/setup/{ueId}:
+    post:
+      operationId: UeContextSetup
+      parameters:
+        - name: ueId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextSetupRequest'
+          required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextSetupResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: 'ETRI_Common_Data.yaml#/components/schemas/UeContextSetupFailure'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+  schemas:
+
