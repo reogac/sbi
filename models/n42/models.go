@@ -1,7 +1,7 @@
 package n42
 
 import (
-	"etrib5gc/sbi/models"
+	"github.com/reogac/sbi/models"
 	"time"
 )
 

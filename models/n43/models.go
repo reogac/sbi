@@ -1,8 +1,8 @@
 package n43
 
 import (
-	"etrib5gc/sbi/models"
 	"fmt"
+	"github.com/reogac/sbi/models"
 	"net"
 	"strings"
 )
