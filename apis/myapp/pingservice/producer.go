@@ -7,8 +7,8 @@ Do not modify
 package pingservice
 
 import (
-	"etrib5gc/sbi"
-	"etrib5gc/sbi/models"
+	"github.com/reogac/sbi"
+	"github.com/reogac/sbi/models"
 	"fmt"
 )
 

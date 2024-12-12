@@ -1,9 +1,9 @@
 package upf2upmf
 
 import (
-	"etrib5gc/sbi"
-	"etrib5gc/sbi/models"
-	"etrib5gc/sbi/models/n42"
+	"github.com/reogac/sbi"
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/models/n42"
 	"net/http"
 )
 

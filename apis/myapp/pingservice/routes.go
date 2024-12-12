@@ -7,7 +7,7 @@ Do not modify
 package pingservice
 
 import (
-	"etrib5gc/sbi"
+	"github.com/reogac/sbi"
 	"net/http"
 )
 

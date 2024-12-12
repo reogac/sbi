@@ -1,7 +1,7 @@
 package upmf2activate
 
 import (
-	"etrib5gc/sbi"
+	"github.com/reogac/sbi"
 	"net/http"
 )
 

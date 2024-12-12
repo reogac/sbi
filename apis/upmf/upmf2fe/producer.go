@@ -1,9 +1,9 @@
 package upmf2fe
 
 import (
-	"etrib5gc/sbi"
-	"etrib5gc/sbi/models"
-	"etrib5gc/sbi/models/n43"
+	"github.com/reogac/sbi"
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/models/n43"
 )
 
 // sbi producer handler for Topo Path :
