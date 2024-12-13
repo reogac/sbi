@@ -7,8 +7,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/reogac/nas v1.0.2 h1:+KNhjFNKOpRQshztr8hDBpRZ9oRzmZ6D+A/QAHqsEoU=
 github.com/reogac/nas v1.0.2/go.mod h1:zLQ4qTG16J1ekkLeK3tRrmfGrU3jP7h/2AbJlk3IjU8=
-github.com/reogac/pfcp v1.0.0 h1:0ckIxlaIOTyEfLVkx3mS0NaSsMjX1lfy/fR+OYmh484=
-github.com/reogac/pfcp v1.0.0/go.mod h1:laD5tcwVTrJC30dez7zeIP92brhkMNs9MJ50YFK0QPk=
+github.com/reogac/pfcp v1.0.1 h1:svFiYqCqiVwY6MZFNocvf1FbjF6zRMGG6wT9+y3CVgY=
+github.com/reogac/pfcp v1.0.1/go.mod h1:laD5tcwVTrJC30dez7zeIP92brhkMNs9MJ50YFK0QPk=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
