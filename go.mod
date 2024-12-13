@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.23.4
 
 require (
-	github.com/reogac/nas v1.0.2
+	github.com/reogac/nas v1.0.3
 	github.com/reogac/pfcp v1.0.1
 )
 
