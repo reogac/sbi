@@ -7,7 +7,7 @@ Do not modify
 package n4sbi
 
 import (
-	"etrib5gc/pfcp/message"
+	"github.com/reogac/pfcp/message"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
