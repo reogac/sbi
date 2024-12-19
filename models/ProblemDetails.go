@@ -1,21 +1,21 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Dec 19 14:28:45 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Dec 19 15:44:19 KST 2024 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ProblemDetails struct {
-	Status             int             `json:"status"`
-	Cause              string          `json:"cause,omitempty"`
-	InvalidParams      []InvalidParam  `json:"invalidParams,omitempty"`
-	NrfId              string          `json:"nrfId,omitempty"`
-	Type               string          `json:"type,omitempty"`
 	Title              string          `json:"title,omitempty"`
+	Status             int             `json:"status"`
 	Detail             string          `json:"detail,omitempty"`
-	Instance           string          `json:"instance,omitempty"`
-	SupportedFeatures  string          `json:"supportedFeatures,omitempty"`
+	Cause              string          `json:"cause,omitempty"`
 	AccessTokenError   *AccessTokenErr `json:"accessTokenError,omitempty"`
+	Type               string          `json:"type,omitempty"`
+	InvalidParams      []InvalidParam  `json:"invalidParams,omitempty"`
+	SupportedFeatures  string          `json:"supportedFeatures,omitempty"`
 	AccessTokenRequest *AccessTokenReq `json:"accessTokenRequest,omitempty"`
+	NrfId              string          `json:"nrfId,omitempty"`
+	Instance           string          `json:"instance,omitempty"`
 }

@@ -235,15 +235,10 @@ components:
         nasPdu:
           type: string
           format: binary
-        causePresent:
-          type: integer
-          format: int16
-        causeValue:
-          type: integer
-          format: int16
+        cause:
+          $ref: '#/components/schemas/N2Cause'
       required:
-        - causePresent
-        - causeValue
+        - cause
         - nasPdu
 
     N2Cause:
@@ -739,12 +734,8 @@ components:
       description: UeContext setup failed at gnB
       type: object
       properties:
-        causePresent:
-          type: integer
-          format: int16
-        causeValue:
-          type: integer
-          format: int16
+        cause:
+          $ref: '#/components/schemas/N2Cause'
         failedList:
           type: array
           items:
@@ -753,42 +744,31 @@ components:
         error:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
       required:
-        - causePresent
-        - causeValue
+        - cause
         - error
  
     UeContextReleaseRequest:
       description: gnB request core for its releasing of UeContext
       type: object
       properties:
-        causePresent:
-          type: integer
-          format: int16
-        causeValue:
-          type: integer
-          format: int16
+        cause:
+          $ref: '#/components/schemas/N2Cause'
         sessionList:
           type: array
           items:
             type: integer
             format: int16
       required:
-        - causePresent
-        - causeValue
+        - cause
  
     UeContextReleaseCommand:
       description: ask gnB to release UeContext
       type: object
       properties:
-        causePresent:
-          type: integer
-          format: int16
-        causeValue:
-          type: integer
-          format: int16
+        cause:
+          $ref: '#/components/schemas/N2Cause'
       required:
-        - causePresent
-        - causeValue
+        - cause
  
     UeContextReleaseComplete:
       description: UeContext release completed at gnB
