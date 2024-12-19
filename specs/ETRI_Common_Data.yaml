@@ -354,7 +354,7 @@ components:
       required:
         - handoverType
         - ranUeId
-        - secCtx
+        - securityContext
         - guami
         - ueAmbr
         - cause
