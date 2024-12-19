@@ -16,7 +16,7 @@ servers:
 paths:
   /require/{ueId}:
     post:
-      operationId: HandoverRequire
+      operationId: HandoverRequired
       parameters:
         - name: ueId
           in: path
@@ -29,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'ETRI_Common_Data.yaml#/components/schemas/HandoverRequire'
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/HandoverRequired'
         required: true
       responses:
         '201':

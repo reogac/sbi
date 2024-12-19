@@ -4,7 +4,7 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/amf/handover"
 )
-func (p *Producer) HandleHandoverRequire(ueId int64,body *models.HandoverRequire)(rsp *models.HandoverCommand,ersp *models.HandoverPreparationFailure,prob *models.ProblemDetails){
+func (p *Producer) HandleHandoverRequired(ueId int64,body *models.HandoverRequired)(rsp *models.HandoverCommand,ersp *models.HandoverPreparationFailure,prob *models.ProblemDetails){
 	return
 }
 

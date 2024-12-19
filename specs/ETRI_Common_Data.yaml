@@ -106,6 +106,9 @@ components:
         nh:
           type: string
           format: binary
+      required:
+        - ncc
+        - nh
 
     EndpointInfo:
       description: Location address of an deployed network function
@@ -257,7 +260,7 @@ components:
         - causePresent
         - causeValue
 
-    HandoverRequire:
+    HandoverRequired:
       description: Handover Required message from source gnB
       type: object
       properties:
@@ -277,12 +280,15 @@ components:
             $ref: '#/components/schemas/N2SmInfoUplinkContent'
         cause:
           $ref: '#/components/schemas/N2Cause'
+        directFwdPathFlag:
+          type: boolean
 
       required:
         - handoverType
         - ranInfo
         - targetId
         - cause
+        - sessions
 
     HandoverCommand:
       description: Handover Command message to source gnB
@@ -298,8 +304,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+        nasSecFromNGRan:
+          type: string
+          format: binary
       required:
         - handoverType
+        - targetToSourceContent
 
     HandoverPreparationFailure:
       description:
@@ -337,7 +347,7 @@ components:
           format: binary
         newSecInd:
           type: boolean
-        ueSecCap:
+        ueSecurityCapability:
           $ref: '#/components/schemas/UeSecurityCapability'
         ueAmbr:
           $ref: '#/components/schemas/UeAmbr'
@@ -350,7 +360,8 @@ components:
         - cause
         - secCtx
         - newSecInd
-        - ueSecCap
+        - ueSecurityCapability
+        - allowedNssai
 
     HandoverRequestAcknowledge:
       description: Handover Request Acknowledgement from target gnB
@@ -392,6 +403,8 @@ components:
       properties:
         loc:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
+      required:
+        - loc
 
     HandoverCancel:
       description: Handover Cancel from source gnB
@@ -417,37 +430,50 @@ components:
           $ref: '#/components/schemas/RanUeId'
         loc: 
           $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
-        ueSecCap:
+        ueSecurityCapability:
           $ref: '#/components/schemas/UeSecurityCapability'
-        switchedSessions:
-          type: array
-          items:
-            $ref: '#/components/schemas/N2SmInfoUplinkContent'
-        failedSessions:
+        sessions:
           type: array
           items:
             $ref: '#/components/schemas/N2SmInfoUplinkContent'
       required:
         - ranUeId
+        - loc
+        - sessions
 
     PathSwitchFailure:
       description: Path Switch Failure
       type: object
       properties:
-        transfers:
+        sessions:
           type: array
           items:
             $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+      required:
+        - sessions
 
     PathSwitchAcknowledge:
       description: "Path Switch Acknowledge"
       type: object
       properties:
-        transfers:
+        sessions:
           type: array
           items:
             $ref: '#/components/schemas/N2SmInfoDownlinkContent'
+        ueSecurityCapability:
+          $ref: '#/components/schemas/UeSecurityCapability'
+        newSecInt:
+          type: boolean
+        securityContext:
+          $ref: '#/components/schemas/SecurityContext'
+        allowedNssai:
+          $ref: 'TS29531_Nnssf_NSSelection.yaml#/components/schemas/AllowedNssai'
 
+      required:
+        - sessions
+        - ueSecurityCapability
+        - securityContext
+        - allowedNssai
 
     UplinkRanStatusTransfer:
      description: Uplink Ran Status Transfer

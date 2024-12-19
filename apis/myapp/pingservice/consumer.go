@@ -7,9 +7,9 @@ Do not modify
 package pingservice
 
 import (
+	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
-	"fmt"
 	"net/http"
 )
 

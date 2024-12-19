@@ -1,11 +1,15 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:15 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Dec 19 11:07:25 KST 2024 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type PathSwitchAcknowledge struct {
-	Transfers []N2SmInfoDownlinkContent `json:"transfers,omitempty"`
+	Sessions             []N2SmInfoDownlinkContent `json:"sessions"`
+	UeSecurityCapability UeSecurityCapability      `json:"ueSecurityCapability"`
+	NewSecInt            *bool                     `json:"newSecInt,omitempty"`
+	SecurityContext      SecurityContext           `json:"securityContext"`
+	AllowedNssai         AllowedNssai              `json:"allowedNssai"`
 }

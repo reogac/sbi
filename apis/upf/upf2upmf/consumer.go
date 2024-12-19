@@ -1,10 +1,10 @@
 package upf2upmf
 
 import (
+	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/models/n42"
-	"fmt"
 	"net/http"
 )
 

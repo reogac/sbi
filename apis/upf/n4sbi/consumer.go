@@ -7,8 +7,8 @@ Do not modify
 package n4sbi
 
 import (
-	"github.com/reogac/pfcp/message"
 	"fmt"
+	"github.com/reogac/pfcp/message"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 	"net/http"

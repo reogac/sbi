@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:15 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Dec 19 11:07:25 KST 2024 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,7 +12,7 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnHandoverRequire(ctx sbi.RequestContext, handler any) {
+func OnHandoverRequired(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
@@ -30,14 +30,14 @@ func OnHandoverRequire(ctx sbi.RequestContext, handler any) {
 	}
 
 	// decode request body
-	body := new(models.HandoverRequire)
+	body := new(models.HandoverRequired)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp, ersp, prob := prod.HandleHandoverRequire(ueId, body)
+	rsp, ersp, prob := prod.HandleHandoverRequired(ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -198,7 +198,7 @@ func OnPathSwitch(ctx sbi.RequestContext, handler any) {
 }
 
 type Producer interface {
-	HandleHandoverRequire(int64, *models.HandoverRequire) (*models.HandoverCommand, *models.HandoverPreparationFailure, *models.ProblemDetails)
+	HandleHandoverRequired(int64, *models.HandoverRequired) (*models.HandoverCommand, *models.HandoverPreparationFailure, *models.ProblemDetails)
 
 	HandleHandoverNotify(int64, *models.HandoverNotify) *models.ProblemDetails
 

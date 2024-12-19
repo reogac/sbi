@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:15 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Dec 19 11:07:25 KST 2024 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,10 +13,10 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
-		Label:   "HandoverRequire",
+		Label:   "HandoverRequired",
 		Method:  http.MethodPost,
 		Path:    "/require/:ueId",
-		Handler: OnHandoverRequire,
+		Handler: OnHandoverRequired,
 	},
 	{
 		Label:   "HandoverNotify",
