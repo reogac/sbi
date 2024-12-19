@@ -334,7 +334,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/N2SmInfoDownlinkContent'
-        secCtx:
+        securityContext:
           $ref: '#/components/schemas/SecurityContext'
         guami:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Guami'
@@ -462,7 +462,7 @@ components:
             $ref: '#/components/schemas/N2SmInfoDownlinkContent'
         ueSecurityCapability:
           $ref: '#/components/schemas/UeSecurityCapability'
-        newSecInt:
+        newSecInd:
           type: boolean
         securityContext:
           $ref: '#/components/schemas/SecurityContext'
