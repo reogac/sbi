@@ -51,9 +51,12 @@ components:
           type: string
         amfSet:
           type: string
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
       required:
         - uuid
         - amfSet
+        - plmnId
 
     AmfRegistrationResponse:
       description: AMF registration response from NSM
