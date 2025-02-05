@@ -56,14 +56,11 @@ components:
       properties:
         tac:
           type: string
-        plmnId:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
-        slices:
+        plmnList:
           type: array
           items:
-            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+            $ref: 'ETRI_NSM_Amf_Management.yaml#/components/schemas/SupportedPlmnItem'
       required:
-        - plmnId
         - tac
 
 
