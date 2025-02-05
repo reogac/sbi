@@ -1,10 +1,10 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Feb  5 17:38:43 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Feb  5 17:39:08 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
-package amfman
+package subs
 
 import (
 	"fmt"
@@ -14,22 +14,27 @@ import (
 )
 
 const (
-	PATH_ROOT string = "nsm-man/v1"
+	PATH_ROOT string = "pran-amf/v1"
 )
 
 // Summary:
 // Description:
-// Path: /register
+// Path: /subscribe
 // Path Params:
-func AmfRegister(cli sbi.ConsumerClient, body *models.AmfRegistrationRequest) (rsp *models.AmfRegistrationResponse, err error) {
+func AmfSubscribe(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *models.AmfSubscribeRequest) (rsp *models.AmfSubscribeResponse, err error) {
 
+	if callback == nil {
+		err = fmt.Errorf("callback is required")
+		return
+	}
 	if body == nil {
 		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/register", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPut, body)
+	path := fmt.Sprintf("%s/subscribe", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	request.AddHeader("callback", models.EndpointInfoToString(*callback))
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
@@ -37,7 +42,7 @@ func AmfRegister(cli sbi.ConsumerClient, body *models.AmfRegistrationRequest) (r
 
 	switch response.GetCode() {
 	case 201:
-		rsp = new(models.AmfRegistrationResponse)
+		rsp = new(models.AmfSubscribeResponse)
 		err = response.DecodeBody(rsp)
 	case 500:
 		prob := new(models.ProblemDetails)

@@ -6,8 +6,6 @@ Do not modify
 
 package models
 
-type PlmnIdNid struct {
-	Mcc string `json:"mcc"`
-	Mnc string `json:"mnc"`
-	Nid string `json:"nid,omitempty"`
+type AmfSubscribeRequest struct {
+	Id string `json:"id"`
 }

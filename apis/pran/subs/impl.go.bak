@@ -1,0 +1,10 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/pran/subs"
+)
+func (p *Producer) HandleAmfSubscribe(callback *models.EndpointInfo,body *models.AmfSubscribeRequest)(rsp *models.AmfSubscribeResponse,prob *models.ProblemDetails){
+	return
+}
+*/

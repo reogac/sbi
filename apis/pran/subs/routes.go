@@ -1,10 +1,10 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Feb  5 17:38:43 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Feb  5 17:39:08 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
-package amfman
+package subs
 
 import (
 	"github.com/reogac/sbi"
@@ -13,10 +13,10 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
-		Label:   "AmfRegister",
-		Method:  http.MethodPut,
-		Path:    "/register",
-		Handler: OnAmfRegister,
+		Label:   "AmfSubscribe",
+		Method:  http.MethodPost,
+		Path:    "/subscribe",
+		Handler: OnAmfSubscribe,
 	},
 }
 

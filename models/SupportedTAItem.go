@@ -6,8 +6,8 @@ Do not modify
 
 package models
 
-type PlmnIdNid struct {
-	Mcc string `json:"mcc"`
-	Mnc string `json:"mnc"`
-	Nid string `json:"nid,omitempty"`
+type SupportedTAItem struct {
+	Tac    string   `json:"tac"`
+	PlmnId PlmnId   `json:"plmnId"`
+	Slices []Snssai `json:"slices,omitempty"`
 }
