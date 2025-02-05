@@ -43,6 +43,20 @@ paths:
 components:
   securitySchemes:
   schemas:
+    SupportedPlmnItem:
+      description: Plmn id and slices supported by an AMF
+      type: object
+      properties:
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+        slices:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+      required:
+        - plmnId
+        - slices
+
     AmfRegistrationRequest:
       description: AMF registration request to NSM
       type: object
@@ -65,10 +79,10 @@ components:
         amfPointer:
           type: integer
           format: int16
-        slices:
+        plmnList:
           type: array
           items:
-            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+            $ref: '#/components/schemas/SupportedPlmnItem'
       required:
         - amfPointer
 
