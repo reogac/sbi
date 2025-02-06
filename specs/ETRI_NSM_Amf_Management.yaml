@@ -39,6 +39,32 @@ paths:
             application/problem+json:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+  /supported-plmn-list:
+    get:
+      operationId: GetSupportedPlmnList
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetSupportedPlmnListRequest'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSupportedPlmnListResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
 
 components:
   securitySchemes:
@@ -84,6 +110,24 @@ components:
             $ref: '#/components/schemas/SupportedPlmnItem'
       required:
         - amfPointer
+
+    GetSupportedPlmnListRequest:
+      description: Request Supported Plmn list for an Amf region
+      type: object
+      properties:
+        amfRegion:
+          type: string
+      required:
+        - amfRegion
+
+    GetSupportedPlmnListResponse:
+      description: Response to get supported Plmn list for an Amf region
+      type: object
+      properties:
+        plmnList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedPlmnItem'
 
     PfcpMessage:
       description: a test pfcp message

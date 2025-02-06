@@ -6,7 +6,6 @@ Do not modify
 
 package models
 
-type SupportedPlmnItem struct {
-	Slices []Snssai `json:"slices,omitempty"`
-	PlmnId PlmnId   `json:"plmnId"`
+type GetSupportedPlmnListRequest struct {
+	AmfRegion string `json:"amfRegion"`
 }

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Feb  5 17:38:43 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Feb  6 13:48:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -40,6 +40,36 @@ func OnAmfRegister(ctx sbi.RequestContext, handler any) {
 
 }
 
+func OnGetSupportedPlmnList(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// decode request body
+	body := new(models.GetSupportedPlmnListRequest)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGetSupportedPlmnList(body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
 type Producer interface {
 	HandleAmfRegister(*models.AmfRegistrationRequest) (*models.AmfRegistrationResponse, *models.ProblemDetails)
+
+	HandleGetSupportedPlmnList(*models.GetSupportedPlmnListRequest) (*models.GetSupportedPlmnListResponse, *models.ProblemDetails)
 }

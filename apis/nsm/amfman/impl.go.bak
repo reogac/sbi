@@ -7,4 +7,8 @@ import (
 func (p *Producer) HandleAmfRegister(body *models.AmfRegistrationRequest)(rsp *models.AmfRegistrationResponse,prob *models.ProblemDetails){
 	return
 }
+
+func (p *Producer) HandleGetSupportedPlmnList(body *models.GetSupportedPlmnListRequest)(rsp *models.GetSupportedPlmnListResponse,prob *models.ProblemDetails){
+	return
+}
 */

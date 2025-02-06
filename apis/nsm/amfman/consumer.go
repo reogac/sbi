@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Feb  5 17:38:43 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Feb  6 13:48:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -38,6 +38,39 @@ func AmfRegister(cli sbi.ConsumerClient, body *models.AmfRegistrationRequest) (r
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.AmfRegistrationResponse)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /supported-plmn-list
+// Path Params:
+func GetSupportedPlmnList(cli sbi.ConsumerClient, body *models.GetSupportedPlmnListRequest) (rsp *models.GetSupportedPlmnListResponse, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/supported-plmn-list", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.GetSupportedPlmnListResponse)
 		err = response.DecodeBody(rsp)
 	case 500:
 		prob := new(models.ProblemDetails)
