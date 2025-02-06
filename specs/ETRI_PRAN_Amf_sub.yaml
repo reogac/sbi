@@ -79,11 +79,14 @@ components:
       properties:
         id:
           type: string
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
         supportedTAList:
           type: array
           items:
             $ref: '#/components/schemas/SupportedTAItem'
       required:
         - id
+        - plmnId
 
 
