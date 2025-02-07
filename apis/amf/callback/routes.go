@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:18 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Feb  7 10:27:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "RanInfoUpdate",
+		Method:  http.MethodPut,
+		Path:    "/ran-updated/:ranId",
+		Handler: OnRanInfoUpdate,
+	},
 	{
 		Label:   "SmContextStatusNotify",
 		Method:  http.MethodPut,

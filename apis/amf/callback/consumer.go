@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:18 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Feb  7 10:27:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -48,6 +48,42 @@ func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyP
 	case 201:
 		return
 	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /ran-updated/:ranId
+// Path Params: ranId
+func RanInfoUpdate(cli sbi.ConsumerClient, ranId string, body *models.RanInfoUpdateData) (err error) {
+
+	if len(ranId) == 0 {
+		err = fmt.Errorf("ranId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/ran-updated/%s", PATH_ROOT, ranId)
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 201:
+		return
+	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

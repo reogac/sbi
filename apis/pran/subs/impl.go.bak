@@ -7,4 +7,8 @@ import (
 func (p *Producer) HandleAmfSubscribe(callback *models.EndpointInfo,body *models.AmfSubscribeRequest)(rsp *models.AmfSubscribeResponse,prob *models.ProblemDetails){
 	return
 }
+
+func (p *Producer) HandleSendPaging(body *models.PagingMessage)(prob *models.ProblemDetails){
+	return
+}
 */

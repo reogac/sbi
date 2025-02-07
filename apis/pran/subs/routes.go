@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Feb  6 14:02:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Feb  7 10:22:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,6 +17,12 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPost,
 		Path:    "/subscribe",
 		Handler: OnAmfSubscribe,
+	},
+	{
+		Label:   "SendPaging",
+		Method:  http.MethodPost,
+		Path:    "/paging",
+		Handler: OnSendPaging,
 	},
 }
 

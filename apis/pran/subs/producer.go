@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Feb  6 14:02:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Feb  7 10:22:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -53,6 +53,33 @@ func OnAmfSubscribe(ctx sbi.RequestContext, handler any) {
 
 }
 
+func OnSendPaging(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// decode request body
+	body := new(models.PagingMessage)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleSendPaging(body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(201, nil)
+
+}
+
 type Producer interface {
 	HandleAmfSubscribe(*models.EndpointInfo, *models.AmfSubscribeRequest) (*models.AmfSubscribeResponse, *models.ProblemDetails)
+
+	HandleSendPaging(*models.PagingMessage) *models.ProblemDetails
 }

@@ -55,8 +55,51 @@ paths:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
  
+  /ran-updated/{ranId}:
+    put:
+      operationId: RanInfoUpdate
+      parameters:
+        - name: ranId
+          schema: 
+            type: string
+          in: path
+          required: true
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RanInfoUpdateData'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
 
 components:
   securitySchemes:
   schemas:
+    RanInfoUpdateData:
+      description: PRAN information to update to AMF
+      type: object
+      properties:
+        id:
+          type: string
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+        supportedTAList:
+          type: array
+          items:
+            $ref: 'ETRI_PRAN_Amf_sub.yaml#/components/schemas/SupportedTAItem'
+      required:
+        - id
+        - plmnId
+
 

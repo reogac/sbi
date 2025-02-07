@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:18 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Feb  7 10:27:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -57,6 +57,41 @@ func OnSmContextStatusNotify(ctx sbi.RequestContext, handler any) {
 
 }
 
+func OnRanInfoUpdate(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ranId'
+	var ranId string
+	ranId = ctx.Param("ranId")
+	if len(ranId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ranId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.RanInfoUpdateData)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleRanInfoUpdate(ranId, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(201, nil)
+
+}
+
 type Producer interface {
 	HandleSmContextStatusNotify(*SmContextStatusNotifyParams, *models.SmContextStatusNotification) *models.ProblemDetails
+
+	HandleRanInfoUpdate(string, *models.RanInfoUpdateData) *models.ProblemDetails
 }

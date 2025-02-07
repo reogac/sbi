@@ -45,6 +45,27 @@ paths:
             application/problem+json:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+  /paging:
+    post:
+      operationId: SendPaging
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagingMessage'
+        required: true
+
+      responses:
+        '201':
+          description: Success
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
 
 components:
   securitySchemes:
@@ -89,4 +110,28 @@ components:
         - id
         - plmnId
 
+    PagingMessage:
+      description: Paging message to gnB
+      type: object
+      properties:
+        tmsi:
+          type: integer
+          format: int32
+        amfSet:
+          type: integer
+          format: int16
+        amfPointer:
+          type: integer
+          format: int16
+        pagingOrigin:
+          type: boolean
+        taList:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Tai'
+      required:
+        - tmsi
+        - amfSet
+        - amfPointer
+        - gpp
 
