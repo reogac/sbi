@@ -1,0 +1,14 @@
+/*package yourpkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/pingapp/pingservice"
+)
+func (p *Producer) HandlePing(body *models.PingRequest)(rsp *models.PingResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleForward(body *models.PingFwRequest)(rsp *models.PingResponse,prob *models.ProblemDetails){
+	return
+}
+*/
