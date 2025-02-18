@@ -5,23 +5,25 @@ Do not modify
 */
 
 package handover
+
 import (
-"github.com/reogac/sbi"
-"net/http"
+	"github.com/reogac/sbi"
+	"net/http"
 )
+
 var _routes = []sbi.SbiRoute{
-{
-Label:"HandoverRequest",
-Method:http.MethodPost,
-Path:"/request",
-Handler:OnHandoverRequest,
-},
+	{
+		Label:   "HandoverRequest",
+		Method:  http.MethodPost,
+		Path:    "/request",
+		Handler: OnHandoverRequest,
+	},
 }
 
 func Service(p Producer) sbi.SbiService {
-return sbi.SbiService {
-Group:PATH_ROOT,
-Routes: _routes,
-Handler:p,
-}
+	return sbi.SbiService{
+		Group:   PATH_ROOT,
+		Routes:  _routes,
+		Handler: p,
+	}
 }

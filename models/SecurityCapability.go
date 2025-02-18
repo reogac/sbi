@@ -5,7 +5,8 @@ Do not modify
 */
 
 package models
+
 type SecurityCapability struct {
-	 Enc	[]byte	`json:"enc,omitempty"`
-	 Int	[]byte	`json:"int,omitempty"`
+	Enc []byte `json:"enc,omitempty"`
+	Int []byte `json:"int,omitempty"`
 }

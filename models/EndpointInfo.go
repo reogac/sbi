@@ -5,8 +5,9 @@ Do not modify
 */
 
 package models
+
 type EndpointInfo struct {
-	 Uuid	string	`json:"uuid"`
-	 SbiUri	string	`json:"sbiUri"`
-	 GwUri	string	`json:"gwUri,omitempty"`
+	Uuid   string `json:"uuid"`
+	SbiUri string `json:"sbiUri"`
+	GwUri  string `json:"gwUri,omitempty"`
 }

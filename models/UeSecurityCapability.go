@@ -5,7 +5,8 @@ Do not modify
 */
 
 package models
+
 type UeSecurityCapability struct {
-	 Nr	*SecurityCapability	`json:"nr,omitempty"`
-	 Eutra	*SecurityCapability	`json:"eutra,omitempty"`
+	Nr    *SecurityCapability `json:"nr,omitempty"`
+	Eutra *SecurityCapability `json:"eutra,omitempty"`
 }

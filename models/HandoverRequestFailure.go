@@ -5,6 +5,7 @@ Do not modify
 */
 
 package models
+
 type HandoverRequestFailure struct {
-	 Cause	N2Cause	`json:"cause"`
+	Cause N2Cause `json:"cause"`
 }

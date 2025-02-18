@@ -5,8 +5,9 @@ Do not modify
 */
 
 package models
+
 type N2SmInfoUplinkContent struct {
-	 N2SmInfoType	N2SmInfoType	`json:"n2SmInfoType,omitempty"`
-	 SessionId	int16	`json:"sessionId"`
-	 N2SmInfo	[]byte	`json:"n2SmInfo,omitempty"`
+	N2SmInfoType N2SmInfoType `json:"n2SmInfoType,omitempty"`
+	SessionId    int16        `json:"sessionId"`
+	N2SmInfo     []byte       `json:"n2SmInfo,omitempty"`
 }

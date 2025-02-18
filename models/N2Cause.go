@@ -5,7 +5,8 @@ Do not modify
 */
 
 package models
+
 type N2Cause struct {
-	 CausePresent	int16	`json:"causePresent"`
-	 CauseValue	int16	`json:"causeValue"`
+	CausePresent int16 `json:"causePresent"`
+	CauseValue   int16 `json:"causeValue"`
 }

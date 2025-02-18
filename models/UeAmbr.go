@@ -5,7 +5,8 @@ Do not modify
 */
 
 package models
+
 type UeAmbr struct {
-	 Ul	int64	`json:"ul"`
-	 Dl	int64	`json:"dl"`
+	Ul int64 `json:"ul"`
+	Dl int64 `json:"dl"`
 }

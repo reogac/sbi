@@ -5,7 +5,8 @@ Do not modify
 */
 
 package models
+
 type SecurityContext struct {
-	 Ncc	int16	`json:"ncc"`
-	 Nh	[]byte	`json:"nh"`
+	Ncc int16  `json:"ncc"`
+	Nh  []byte `json:"nh"`
 }

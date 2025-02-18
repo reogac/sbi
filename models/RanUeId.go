@@ -5,7 +5,8 @@ Do not modify
 */
 
 package models
+
 type RanUeId struct {
-	 Ran	string	`json:"ran"`
-	 Id	int64	`json:"id"`
+	Ran string `json:"ran"`
+	Id  int64  `json:"id"`
 }
