@@ -265,8 +265,6 @@ components:
         handoverType:
           type: integer
           format: int16
-        ranInfo:
-          $ref: '#/components/schemas/EndpointInfo'
         targetId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/GlobalRanNodeId'
         sessions:
@@ -280,7 +278,6 @@ components:
 
       required:
         - handoverType
-        - ranInfo
         - targetId
         - cause
         - sessions
@@ -319,6 +316,9 @@ components:
       description: Handover Request message to target gnB
       type: object
       properties:
+        amfUeId:
+          type: integer
+          format: int64
         sourceToTargetContent:
           type: string
           format: binary
@@ -348,7 +348,7 @@ components:
           $ref: '#/components/schemas/UeAmbr'
       required:
         - handoverType
-        - ranUeId
+        - amfUeId
         - securityContext
         - guami
         - ueAmbr
@@ -421,8 +421,6 @@ components:
       description: Path Switch Request
       type: object
       properties:
-        ranUeId:
-          $ref: '#/components/schemas/RanUeId'
         loc: 
           $ref: 'TS29571_CommonData.yaml#/components/schemas/UserLocation'
         ueSecurityCapability:
@@ -432,7 +430,6 @@ components:
           items:
             $ref: '#/components/schemas/N2SmInfoUplinkContent'
       required:
-        - ranUeId
         - loc
         - sessions
 

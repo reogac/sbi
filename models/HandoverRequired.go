@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Dec 19 15:44:19 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Feb 18 15:01:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,7 +11,6 @@ type HandoverRequired struct {
 	DirectFwdPathFlag     *bool                   `json:"directFwdPathFlag,omitempty"`
 	SourceToTargetContent []byte                  `json:"sourceToTargetContent,omitempty"`
 	HandoverType          int16                   `json:"handoverType"`
-	RanInfo               EndpointInfo            `json:"ranInfo"`
 	TargetId              GlobalRanNodeId         `json:"targetId"`
 	Sessions              []N2SmInfoUplinkContent `json:"sessions"`
 }
