@@ -129,7 +129,3 @@ components:
           items:
             $ref: '#/components/schemas/SupportedPlmnItem'
 
-    PfcpMessage:
-      description: a test pfcp message
-      type: external
- 

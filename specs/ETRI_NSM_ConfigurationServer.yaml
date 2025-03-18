@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: NSM Configuration Server APIs
+  description: |
+    NSM Configuration service
+    © 2024, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/nsm-conf/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /nssf-config:
+    get:
+      operationId: GetNssfConfiguration
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NssfConfiguration'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /smf-config/{slice}:
+    get:
+      operationId: GetSessionManagementConfiguration
+      parameters:
+        - name: slice
+          in: path
+          required: true
+          schema:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionManagementConfiguration'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+  schemas:
+    AmfSetConfiguration:
+      description: Amf set configuration
+      type: object
+      properties:
+        setId:
+          type: string
+        supportedPlmns:
+          type: array
+          items:
+            $ref: 'ETRI_NSM_Amf_Management.yaml#/components/schemas/SupportedPlmnItem'
+      required:
+        - setId
+
+    NssfConfiguration:
+      description: Nssf configuration
+      type: object
+      properties:
+        amfSets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmfSetConfiguration'
+      required:
+        - amfSets
+
+    DataNetworkConfiguration:
+      description: Data network configuration
+      type: object
+      properties:
+        name:
+          type: string
+        dhcpServer:
+          type: string
+        cidr:
+          type: string
+        numPools:
+          type: integer
+          format: int16
+        poolIndexList:
+          type: array
+          items:
+            type: integer
+            format: int16
+      required:
+        - name
+
+    SessionManagementConfiguration:
+      description: Session management configuration for an SMF
+      type: object
+      properties:
+        transportNetworks:
+          type: array
+          items:
+            type: string
+        dataNetworks:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataNetworkConfiguration'
+      required:
+        - dataNetworks
+        - transportNetworks
+
