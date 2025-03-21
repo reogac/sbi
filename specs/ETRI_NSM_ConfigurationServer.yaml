@@ -36,7 +36,7 @@ paths:
     get:
       operationId: GetSessionManagementConfiguration
       parameters:
-        - uuid:
+        - name: uuid
           in: path
           required: true
           schema:
