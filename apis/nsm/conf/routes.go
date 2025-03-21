@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Mar 19 09:38:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Mar 21 09:41:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,16 +13,16 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
-		Label:   "GetSessionManagementConfiguration",
-		Method:  http.MethodGet,
-		Path:    "/smf-config/:slice",
-		Handler: OnGetSessionManagementConfiguration,
-	},
-	{
 		Label:   "GetNssfConfiguration",
 		Method:  http.MethodGet,
 		Path:    "/nssf-config",
 		Handler: OnGetNssfConfiguration,
+	},
+	{
+		Label:   "GetSessionManagementConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/smf-config/:slice",
+		Handler: OnGetSessionManagementConfiguration,
 	},
 }
 

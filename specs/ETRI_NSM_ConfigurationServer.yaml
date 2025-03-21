@@ -94,9 +94,9 @@ components:
           type: string
         cidr:
           type: string
-        numPools:
+        ipRange:
           type: integer
-          format: int16
+          format: int64
         poolIndexList:
           type: array
           items:
