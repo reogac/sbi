@@ -14,6 +14,43 @@ servers:
         description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
 
 paths:
+  /udr-config:
+    get:
+      operationId: GetUdrConfiguration
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdrConfiguration'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /udm-config:
+    get:
+      operationId: GetUdmConfiguration
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdmConfiguration'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+
   /nssf-config:
     get:
       operationId: GetNssfConfiguration
@@ -126,3 +163,54 @@ components:
         - dataNetworks
         - transportNetworks
 
+    SuciProfile:
+      description: SUCI profile
+      type: object
+      properties:
+        protectionScheme:
+          type: string
+        publicKey:
+          type: string
+        privateKey:
+          type: string
+      required:
+        - protectionScheme
+        - publicKey
+        - privateKey
+
+    UdrConfiguration:
+      description: Udr configuration
+      type: object
+      properties:
+        dbName:
+          type: string
+        authSub:
+          type: string
+        amSub:
+          type: string
+        smSub:
+          type: string
+        smfSel:
+          type: string
+        url:
+          type: string
+        mock:
+          type: boolean
+      required:
+        - dbName
+        - authSub
+        - url
+
+    UdmConfiguration:
+      description: Udm configuration
+      type: object
+      properties:
+        udr:
+          $ref: '#/components/schemas/UdrConfiguration'
+        suciProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuciProfile'
+      required:
+        - udr
+        - suciProfiles

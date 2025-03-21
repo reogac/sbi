@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Mar 21 10:42:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Mar 21 17:39:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,6 +16,62 @@ import (
 const (
 	PATH_ROOT string = "nsm-conf/v1"
 )
+
+// Summary:
+// Description:
+// Path: /udr-config
+// Path Params:
+func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/udr-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UdrConfiguration)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /udm-config
+// Path Params:
+func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/udm-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UdmConfiguration)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
 
 // Summary:
 // Description:
@@ -48,24 +104,24 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 // Summary:
 // Description:
 // Path: /smf-config/:uuid/:slice
-// Path Params: uuid, slice
+// Path Params: slice, uuid
 type GetSessionManagementConfigurationParams struct {
-	Uuid  string
 	Slice *models.Snssai
+	Uuid  string
 }
 
 func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSessionManagementConfigurationParams) (rsp *models.SessionManagementConfiguration, err error) {
 
-	if len(params.Uuid) == 0 {
-		err = fmt.Errorf("uuid is required")
-		return
-	}
 	if params.Slice == nil {
 		err = fmt.Errorf("slice is required")
 		return
 	}
+	if len(params.Uuid) == 0 {
+		err = fmt.Errorf("uuid is required")
+		return
+	}
 
-	path := fmt.Sprintf("%s/smf-config/%s/%s", PATH_ROOT, params.Uuid, models.SnssaiToString(*params.Slice))
+	path := fmt.Sprintf("%s/smf-config/%s/%s", PATH_ROOT, models.SnssaiToString(*params.Slice), params.Uuid)
 	request := sbi.NewRequest(path, http.MethodPost, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {

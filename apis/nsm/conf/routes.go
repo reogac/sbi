@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Mar 21 10:42:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Mar 21 17:39:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,18 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "GetUdrConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/udr-config",
+		Handler: OnGetUdrConfiguration,
+	},
+	{
+		Label:   "GetUdmConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/udm-config",
+		Handler: OnGetUdmConfiguration,
+	},
 	{
 		Label:   "GetNssfConfiguration",
 		Method:  http.MethodGet,
