@@ -33,7 +33,7 @@ paths:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
 
   /smf-config/{uuid}/{slice}:
-    get:
+    post:
       operationId: GetSessionManagementConfiguration
       parameters:
         - name: uuid
@@ -48,7 +48,7 @@ paths:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
 
       responses:
-        '200':
+        '201':
           description: Success
           content:
             application/json:

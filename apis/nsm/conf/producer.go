@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Mar 21 10:38:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Mar 21 10:42:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -37,6 +37,13 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params GetSessionManagementConfigurationParams
 
+	// read 'uuid'
+	params.Uuid = ctx.Param("uuid")
+	if len(params.Uuid) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"))
+		return
+	}
+
 	// read 'slice'
 	sliceStr := ctx.Param("slice")
 	if len(sliceStr) == 0 {
@@ -49,19 +56,12 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'uuid'
-	params.Uuid = ctx.Param("uuid")
-	if len(params.Uuid) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"))
-		return
-	}
-
 	// call application handler
 	rsp, prob := prod.HandleGetSessionManagementConfiguration(&params)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(201, rsp)
 		return
 	}
 
