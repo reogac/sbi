@@ -32,10 +32,15 @@ paths:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
 
-  /smf-config/{slice}:
+  /smf-config/{uuid}/{slice}:
     get:
       operationId: GetSessionManagementConfiguration
       parameters:
+        - uuid:
+          in: path
+          required: true
+          schema:
+            type: string
         - name: slice
           in: path
           required: true

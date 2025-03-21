@@ -7,8 +7,4 @@ import (
 func (p *Producer) HandleGetNssfConfiguration()(rsp *models.NssfConfiguration,prob *models.ProblemDetails){
 	return
 }
-
-func (p *Producer) HandleGetSessionManagementConfiguration(slice *models.Snssai)(rsp *models.SessionManagementConfiguration,prob *models.ProblemDetails){
-	return
-}
 */
