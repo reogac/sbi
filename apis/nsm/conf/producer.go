@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Mar 21 17:39:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Mon Mar 24 10:34:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,6 +11,46 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
+
+func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// call application handler
+	rsp, prob := prod.HandleGetUdmConfiguration()
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnGetNssfConfiguration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// call application handler
+	rsp, prob := prod.HandleGetNssfConfiguration()
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
 
 func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -73,52 +113,12 @@ func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// call application handler
-	rsp, prob := prod.HandleGetUdmConfiguration()
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnGetNssfConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// call application handler
-	rsp, prob := prod.HandleGetNssfConfiguration()
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
 type Producer interface {
-	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
-
-	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
-
 	HandleGetUdmConfiguration() (*models.UdmConfiguration, *models.ProblemDetails)
 
 	HandleGetNssfConfiguration() (*models.NssfConfiguration, *models.ProblemDetails)
+
+	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
+
+	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
 }

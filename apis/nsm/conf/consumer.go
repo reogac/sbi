@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Mar 21 17:39:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Mon Mar 24 10:34:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -104,7 +104,7 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 // Summary:
 // Description:
 // Path: /smf-config/:uuid/:slice
-// Path Params: slice, uuid
+// Path Params: uuid, slice
 type GetSessionManagementConfigurationParams struct {
 	Slice *models.Snssai
 	Uuid  string
@@ -121,7 +121,7 @@ func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSession
 		return
 	}
 
-	path := fmt.Sprintf("%s/smf-config/%s/%s", PATH_ROOT, models.SnssaiToString(*params.Slice), params.Uuid)
+	path := fmt.Sprintf("%s/smf-config/%s/%s", PATH_ROOT, params.Uuid, models.SnssaiToString(*params.Slice))
 	request := sbi.NewRequest(path, http.MethodPost, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
