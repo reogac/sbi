@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Mar 25 10:55:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Mar 25 13:26:59 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,34 +16,6 @@ import (
 const (
 	PATH_ROOT string = "nsm-conf/v1"
 )
-
-// Summary:
-// Description:
-// Path: /udr-config
-// Path Params:
-func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/udr-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UdrConfiguration)
-		err = response.DecodeBody(rsp)
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -147,7 +119,7 @@ func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSession
 // Description:
 // Path: /upf-config
 // Path Params:
-func GetuserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneConfigurationRequest) (rsp *models.UserPlaneConfigurationResponse, err error) {
+func GetUserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneConfigurationRequest) (rsp *models.UserPlaneConfigurationResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -164,6 +136,34 @@ func GetuserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneCon
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UserPlaneConfigurationResponse)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /udr-config
+// Path Params:
+func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/udr-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UdrConfiguration)
 		err = response.DecodeBody(rsp)
 	case 500:
 		prob := new(models.ProblemDetails)

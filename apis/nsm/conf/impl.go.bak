@@ -20,7 +20,7 @@ func (p *Producer) HandleGetSessionManagementConfiguration(params *conf.GetSessi
 	return
 }
 
-func (p *Producer) HandleGetuserPlaneConfiguration(body *models.UserPlaneConfigurationRequest)(rsp *models.UserPlaneConfigurationResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleGetUserPlaneConfiguration(body *models.UserPlaneConfigurationRequest)(rsp *models.UserPlaneConfigurationResponse,prob *models.ProblemDetails){
 	return
 }
 */

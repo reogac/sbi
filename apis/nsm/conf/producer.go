@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Mar 25 10:55:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Mar 25 13:26:59 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -113,7 +113,7 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetuserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
+func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
@@ -125,7 +125,7 @@ func OnGetuserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleGetuserPlaneConfiguration(body)
+	rsp, prob := prod.HandleGetUserPlaneConfiguration(body)
 
 	// check for success response
 	if rsp != nil {
@@ -150,5 +150,5 @@ type Producer interface {
 
 	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
 
-	HandleGetuserPlaneConfiguration(*models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
+	HandleGetUserPlaneConfiguration(*models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
 }

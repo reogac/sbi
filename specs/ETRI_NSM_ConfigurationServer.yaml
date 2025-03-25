@@ -100,7 +100,7 @@ paths:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
   /upf-config:
     get:
-      operationId: GetuserPlaneConfiguration
+      operationId: GetUserPlaneConfiguration
       requestBody:
         content:
           application/json:
