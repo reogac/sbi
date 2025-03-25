@@ -98,6 +98,30 @@ paths:
             application/problem+json:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+  /upf-config:
+    get:
+      operationId: GetuserPlaneConfiguration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPlaneConfigurationRequest'
+        required: true
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPlaneConfigurationResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
 
 components:
   securitySchemes:
@@ -159,6 +183,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataNetworkConfiguration'
+      required:
+        - dataNetworks
+        - transportNetworks
+
+    DataNetworkInfo:
+      description: Data network Information
+      type: object
+      properties:
+        name:
+          type: string
+        cidr:
+          type: string
+      required:
+        - name
+        - cidr
+
+    UserPlaneConfigurationRequest:
+      description: Request User Plane configuration from UPF
+      type: object
+      properties:
+        slices:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+      required:
+        - slices
+
+    UserPlaneConfigurationResponse:
+      description: User Plane configuration response to UPF
+      type: object
+      properties:
+        transportNetworks:
+          type: array
+          items:
+            type: string
+        dataNetworks:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataNetworkInfo'
       required:
         - dataNetworks
         - transportNetworks

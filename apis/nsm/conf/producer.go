@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Mon Mar 24 10:34:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Mar 25 10:55:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,6 +11,26 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
+
+func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// call application handler
+	rsp, prob := prod.HandleGetUdrConfiguration()
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
 
 func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -93,11 +113,19 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
+func OnGetuserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
+	var err error
+
+	// decode request body
+	body := new(models.UserPlaneConfigurationRequest)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
 
 	// call application handler
-	rsp, prob := prod.HandleGetUdrConfiguration()
+	rsp, prob := prod.HandleGetuserPlaneConfiguration(body)
 
 	// check for success response
 	if rsp != nil {
@@ -114,11 +142,13 @@ func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
 }
 
 type Producer interface {
+	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
+
 	HandleGetUdmConfiguration() (*models.UdmConfiguration, *models.ProblemDetails)
 
 	HandleGetNssfConfiguration() (*models.NssfConfiguration, *models.ProblemDetails)
 
 	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
 
-	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
+	HandleGetuserPlaneConfiguration(*models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
 }

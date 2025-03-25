@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Mon Mar 24 10:34:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Mar 25 10:55:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -106,18 +106,18 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 // Path: /smf-config/:uuid/:slice
 // Path Params: uuid, slice
 type GetSessionManagementConfigurationParams struct {
-	Slice *models.Snssai
 	Uuid  string
+	Slice *models.Snssai
 }
 
 func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSessionManagementConfigurationParams) (rsp *models.SessionManagementConfiguration, err error) {
 
-	if params.Slice == nil {
-		err = fmt.Errorf("slice is required")
-		return
-	}
 	if len(params.Uuid) == 0 {
 		err = fmt.Errorf("uuid is required")
+		return
+	}
+	if params.Slice == nil {
+		err = fmt.Errorf("slice is required")
 		return
 	}
 
@@ -131,6 +131,39 @@ func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSession
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.SessionManagementConfiguration)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /upf-config
+// Path Params:
+func GetuserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneConfigurationRequest) (rsp *models.UserPlaneConfigurationResponse, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/upf-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UserPlaneConfigurationResponse)
 		err = response.DecodeBody(rsp)
 	case 500:
 		prob := new(models.ProblemDetails)

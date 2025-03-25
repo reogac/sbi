@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Mon Mar 24 10:34:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Mar 25 10:55:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -29,6 +29,12 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPost,
 		Path:    "/smf-config/:uuid/:slice",
 		Handler: OnGetSessionManagementConfiguration,
+	},
+	{
+		Label:   "GetuserPlaneConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/upf-config",
+		Handler: OnGetuserPlaneConfiguration,
 	},
 	{
 		Label:   "GetUdrConfiguration",

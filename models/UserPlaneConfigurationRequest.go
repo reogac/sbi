@@ -6,7 +6,6 @@ Do not modify
 
 package models
 
-type UdmConfiguration struct {
-	Udr          UdrConfiguration `json:"udr"`
-	SuciProfiles []SuciProfile    `json:"suciProfiles"`
+type UserPlaneConfigurationRequest struct {
+	Slices []Snssai `json:"slices"`
 }
