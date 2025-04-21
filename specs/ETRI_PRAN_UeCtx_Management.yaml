@@ -16,7 +16,7 @@ servers:
 paths:
   /amfinfo/{ueId}:
     put:
-      operationId: UpdateAmfInfo
+      operationId: UpdateAmfUeContextInfo
       parameters:
         - name: ueId
           in: path
@@ -29,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'ETRI_Common_Data.yaml#/components/schemas/UpdateAmfInfo'
+              $ref: 'ETRI_Common_Data.yaml#/components/schemas/AmfUeContextInfo'
         required: true
 
       responses:

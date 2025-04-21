@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Dec 19 15:48:22 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Mon Apr 21 15:01:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,38 +16,6 @@ import (
 const (
 	PATH_ROOT string = "pran-uectx/v1"
 )
-
-// Summary:
-// Description:
-// Path: /amfinfo/:ueId
-// Path Params: ueId
-func UpdateAmfInfo(cli sbi.ConsumerClient, ueId int64, body *models.UpdateAmfInfo) (err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/amfinfo/%s", PATH_ROOT, models.Int64ToString(ueId))
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		return
-	case 400, 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -134,6 +102,38 @@ func UeContextSetup(cli sbi.ConsumerClient, ueId int64, body *models.UeContextSe
 		ersp = new(models.UeContextSetupFailure)
 		err = response.DecodeBody(ersp)
 	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /amfinfo/:ueId
+// Path Params: ueId
+func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ueId int64, body *models.AmfUeContextInfo) (err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/amfinfo/%s", PATH_ROOT, models.Int64ToString(ueId))
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 201:
+		return
+	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

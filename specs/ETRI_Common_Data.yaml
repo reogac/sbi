@@ -227,6 +227,11 @@ components:
         nasPdu:
           type: string
           format: binary
+        amfUeInfo:
+          $ref: '#/components/schemas/AmfUeContextInfo'
+
+      required:
+        - nasPdu
 
     UplinkNasError:
       description: Nas Uplink error message
@@ -523,7 +528,7 @@ components:
       required:
         - amfUeId
 
-    UpdateAmfInfo:
+    AmfUeContextInfo:
       description: Location of UeContext at an AMF instance
       type: object
       properties:
