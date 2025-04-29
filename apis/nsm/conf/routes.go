@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Mar 25 13:26:59 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Apr 29 09:34:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,12 +12,6 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
-	{
-		Label:   "GetUdmConfiguration",
-		Method:  http.MethodGet,
-		Path:    "/udm-config",
-		Handler: OnGetUdmConfiguration,
-	},
 	{
 		Label:   "GetNssfConfiguration",
 		Method:  http.MethodGet,
@@ -41,6 +35,12 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodGet,
 		Path:    "/udr-config",
 		Handler: OnGetUdrConfiguration,
+	},
+	{
+		Label:   "GetUdmConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/udm-config",
+		Handler: OnGetUdmConfiguration,
 	},
 }
 

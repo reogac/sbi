@@ -195,6 +195,10 @@ components:
           type: string
         cidr:
           type: string
+        dns:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/IpAddr'
+        pcscf:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/IpAddr'
       required:
         - name
         - cidr

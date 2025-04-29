@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Mar 25 13:26:59 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Apr 29 09:34:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,26 +11,6 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
-
-func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// call application handler
-	rsp, prob := prod.HandleGetUdrConfiguration()
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
 
 func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -141,9 +121,27 @@ func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-type Producer interface {
-	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
+func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
 
+	// call application handler
+	rsp, prob := prod.HandleGetUdrConfiguration()
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+type Producer interface {
 	HandleGetUdmConfiguration() (*models.UdmConfiguration, *models.ProblemDetails)
 
 	HandleGetNssfConfiguration() (*models.NssfConfiguration, *models.ProblemDetails)
@@ -151,4 +149,6 @@ type Producer interface {
 	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
 
 	HandleGetUserPlaneConfiguration(*models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
+
+	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
 }
