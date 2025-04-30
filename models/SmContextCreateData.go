@@ -1,109 +1,109 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:19 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Apr 30 14:54:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SmContextCreateData struct {
-	AddUeLocation              *UserLocation             `json:"addUeLocation,omitempty"`
-	BackupAmfInfo              []BackupAmfInfo           `json:"backupAmfInfo,omitempty"`
-	SmContextSmfBinding        SbiBindingLevel           `json:"smContextSmfBinding,omitempty"`
-	RanNets                    []string                  `json:"ranNets,omitempty"`
-	Pei                        string                    `json:"pei,omitempty"`
-	SNssai                     *Snssai                   `json:"sNssai,omitempty"`
-	AdditionalAnType           AccessType                `json:"additionalAnType,omitempty"`
-	N2SmInfoTypeExt1           N2SmInfoType              `json:"n2SmInfoTypeExt1,omitempty"`
-	SmallDataRateStatus        *SmallDataRateStatus      `json:"smallDataRateStatus,omitempty"`
-	SmfBindingInfo             string                    `json:"smfBindingInfo,omitempty"`
 	UeTimeZone                 string                    `json:"ueTimeZone,omitempty"`
-	CpOnlyInd                  *bool                     `json:"cpOnlyInd,omitempty"`
-	MaNwUpgradeInd             *bool                     `json:"maNwUpgradeInd,omitempty"`
-	N2SmInfoType               N2SmInfoType              `json:"n2SmInfoType,omitempty"`
-	ExtendedNasSmTimerInd      *bool                     `json:"extendedNasSmTimerInd,omitempty"`
-	NrfAccessTokenUri          string                    `json:"nrfAccessTokenUri,omitempty"`
-	NrfOauth2Required          map[string]bool           `json:"nrfOauth2Required,omitempty"`
-	RanUeInfo                  *RanUeInfo                `json:"ranUeInfo,omitempty"`
-	ServingNfId                string                    `json:"servingNfId"`
-	SmfUri                     string                    `json:"smfUri,omitempty"`
-	DirectForwardingFlag       *bool                     `json:"directForwardingFlag,omitempty"`
-	OldPduSessionRef           string                    `json:"oldPduSessionRef,omitempty"`
-	AnchorSmfOauth2Required    *bool                     `json:"anchorSmfOauth2Required,omitempty"`
-	ServiceName                ServiceName               `json:"serviceName,omitempty"`
-	RatType                    RatType                   `json:"ratType,omitempty"`
-	RoutingIndicator           string                    `json:"routingIndicator,omitempty"`
-	CpCiotEnabled              *bool                     `json:"cpCiotEnabled,omitempty"`
-	SupportedFeatures          string                    `json:"supportedFeatures,omitempty"`
-	DdnFailureSubs             *DdnFailureSubs           `json:"ddnFailureSubs,omitempty"`
-	SmPolicyNotifyInd          *bool                     `json:"smPolicyNotifyInd,omitempty"`
+	UdmGroupId                 string                    `json:"udmGroupId,omitempty"`
+	HNwPubKeyId                *int                      `json:"hNwPubKeyId,omitempty"`
+	ApnRateStatus              *ApnRateStatus            `json:"apnRateStatus,omitempty"`
 	SatelliteBackhaulCat       SatelliteBackhaulCategory `json:"satelliteBackhaulCat,omitempty"`
+	TargetDnai                 string                    `json:"targetDnai,omitempty"`
+	NrfDiscoveryUri            string                    `json:"nrfDiscoveryUri,omitempty"`
+	PvsInfo                    []ServerAddressingInfo    `json:"pvsInfo,omitempty"`
 	UnauthenticatedSupi        *bool                     `json:"unauthenticatedSupi,omitempty"`
+	HplmnSnssai                *Snssai                   `json:"hplmnSnssai,omitempty"`
+	Guami                      *Guami                    `json:"guami,omitempty"`
+	PresenceInLadn             PresenceState             `json:"presenceInLadn,omitempty"`
+	SmContextSmfServiceSetId   string                    `json:"smContextSmfServiceSetId,omitempty"`
+	SmContextSmfBinding        SbiBindingLevel           `json:"smContextSmfBinding,omitempty"`
+	OldSmContextRef            string                    `json:"oldSmContextRef,omitempty"`
+	SmPolicyNotifyInd          *bool                     `json:"smPolicyNotifyInd,omitempty"`
+	AdditionalAnType           AccessType                `json:"additionalAnType,omitempty"`
+	UeLocation                 *UserLocation             `json:"ueLocation,omitempty"`
+	AdditionalSmfUri           []string                  `json:"additionalSmfUri,omitempty"`
+	SelMode                    DnnSelectionMode          `json:"selMode,omitempty"`
+	RoutingIndicator           string                    `json:"routingIndicator,omitempty"`
+	PcfUeCallbackInfo          *PcfUeCallbackInfo        `json:"pcfUeCallbackInfo,omitempty"`
+	DdnFailureSubs             *DdnFailureSubs           `json:"ddnFailureSubs,omitempty"`
+	Dnn                        string                    `json:"dnn,omitempty"`
+	SmContextStatusUri         string                    `json:"smContextStatusUri"`
+	PcfId                      string                    `json:"pcfId,omitempty"`
+	NrfUri                     string                    `json:"nrfUri,omitempty"`
+	DlDataWaitingInd           *bool                     `json:"dlDataWaitingInd,omitempty"`
+	RequestType                RequestType               `json:"requestType,omitempty"`
+	EpsInterworkingInd         EpsInterworkingIndication `json:"epsInterworkingInd,omitempty"`
+	DirectForwardingFlag       *bool                     `json:"directForwardingFlag,omitempty"`
+	TngfInfo                   *TngfInfo                 `json:"tngfInfo,omitempty"`
+	UavAuthenticated           *bool                     `json:"uavAuthenticated,omitempty"`
+	SmContextSmfOauth2Required *bool                     `json:"smContextSmfOauth2Required,omitempty"`
+	IndirectForwardingFlag     *bool                     `json:"indirectForwardingFlag,omitempty"`
+	TargetId                   *NgRanTargetId            `json:"targetId,omitempty"`
+	N2SmInfoExt1               *RefToBinaryData          `json:"n2SmInfoExt1,omitempty"`
+	SmfTransferInd             *bool                     `json:"smfTransferInd,omitempty"`
+	SmfBindingInfo             string                    `json:"smfBindingInfo,omitempty"`
+	RanUnchangedInd            *bool                     `json:"ranUnchangedInd,omitempty"`
+	NrfOauth2Required          map[string]bool           `json:"nrfOauth2Required,omitempty"`
+	SupportedFeatures          string                    `json:"supportedFeatures,omitempty"`
+	SmContextSmfSetId          string                    `json:"smContextSmfSetId,omitempty"`
+	ExtendedNasSmTimerInd      *bool                     `json:"extendedNasSmTimerInd,omitempty"`
+	OldSmfId                   string                    `json:"oldSmfId,omitempty"`
+	WAgfInfo                   *WAgfInfo                 `json:"wAgfInfo,omitempty"`
+	ServiceName                ServiceName               `json:"serviceName,omitempty"`
+	HSmfId                     string                    `json:"hSmfId,omitempty"`
+	N2SmInfoType               N2SmInfoType              `json:"n2SmInfoType,omitempty"`
+	UpipSupported              *bool                     `json:"upipSupported,omitempty"`
+	InvokeNef                  *bool                     `json:"invokeNef,omitempty"`
+	SmContextRef               string                    `json:"smContextRef,omitempty"`
+	RanTransportNets           []string                  `json:"ranTransportNets,omitempty"`
+	SelectedDnn                string                    `json:"selectedDnn,omitempty"`
 	SmfId                      string                    `json:"smfId,omitempty"`
+	AdditionalHsmfUri          []string                  `json:"additionalHsmfUri,omitempty"`
+	CpCiotEnabled              *bool                     `json:"cpCiotEnabled,omitempty"`
+	AnType                     AccessType                `json:"anType"`
+	AdditionalSmfId            []string                  `json:"additionalSmfId,omitempty"`
+	CpOnlyInd                  *bool                     `json:"cpOnlyInd,omitempty"`
+	SamePcfSelectionInd        *bool                     `json:"samePcfSelectionInd,omitempty"`
+	OldPduSessionId            *int                      `json:"oldPduSessionId,omitempty"`
+	PcfSetId                   string                    `json:"pcfSetId,omitempty"`
+	BackupAmfInfo              []BackupAmfInfo           `json:"backupAmfInfo,omitempty"`
+	RanUeInfo                  *RanUeInfo                `json:"ranUeInfo,omitempty"`
+	PduSessionId               *int                      `json:"pduSessionId,omitempty"`
+	PduSessionsActivateList    []int                     `json:"pduSessionsActivateList,omitempty"`
+	MaNwUpgradeInd             *bool                     `json:"maNwUpgradeInd,omitempty"`
+	N2SmInfoTypeExt1           N2SmInfoType              `json:"n2SmInfoTypeExt1,omitempty"`
+	TwifInfo                   *TwifInfo                 `json:"twifInfo,omitempty"`
+	N1SmMsg                    *RefToBinaryData          `json:"n1SmMsg,omitempty"`
+	AddUeLocation              *UserLocation             `json:"addUeLocation,omitempty"`
 	UeEpsPdnConnection         string                    `json:"ueEpsPdnConnection,omitempty"`
 	PcfGroupId                 string                    `json:"pcfGroupId,omitempty"`
 	SmContextSmfId             string                    `json:"smContextSmfId,omitempty"`
-	UavAuthenticated           *bool                     `json:"uavAuthenticated,omitempty"`
-	HoState                    HoState                   `json:"hoState,omitempty"`
-	PcfSetId                   string                    `json:"pcfSetId,omitempty"`
-	TraceData                  *TraceData                `json:"traceData,omitempty"`
-	MaRequestInd               *bool                     `json:"maRequestInd,omitempty"`
 	EpsBearerCtxStatus         string                    `json:"epsBearerCtxStatus,omitempty"`
-	SmContextSmfPlmnId         *PlmnIdNid                `json:"smContextSmfPlmnId,omitempty"`
-	DisasterRoamingInd         *bool                     `json:"disasterRoamingInd,omitempty"`
-	SmContextStatusUri         string                    `json:"smContextStatusUri"`
-	AdditionalHsmfUri          []string                  `json:"additionalHsmfUri,omitempty"`
-	UdmGroupId                 string                    `json:"udmGroupId,omitempty"`
-	HNwPubKeyId                *int                      `json:"hNwPubKeyId,omitempty"`
-	SmContextSmfSetId          string                    `json:"smContextSmfSetId,omitempty"`
-	SmContextSmfServiceSetId   string                    `json:"smContextSmfServiceSetId,omitempty"`
-	SmContextSmfOauth2Required *bool                     `json:"smContextSmfOauth2Required,omitempty"`
-	SmContextRef               string                    `json:"smContextRef,omitempty"`
-	NrfDiscoveryUri            string                    `json:"nrfDiscoveryUri,omitempty"`
-	PcfUeCallbackInfo          *PcfUeCallbackInfo        `json:"pcfUeCallbackInfo,omitempty"`
-	Supi                       string                    `json:"supi,omitempty"`
-	PresenceInLadn             PresenceState             `json:"presenceInLadn,omitempty"`
-	AdditionalSmfUri           []string                  `json:"additionalSmfUri,omitempty"`
-	OldPduSessionId            *int                      `json:"oldPduSessionId,omitempty"`
-	PcfId                      string                    `json:"pcfId,omitempty"`
-	IndirectForwardingFlag     *bool                     `json:"indirectForwardingFlag,omitempty"`
-	TngfInfo                   *TngfInfo                 `json:"tngfInfo,omitempty"`
-	SamePcfSelectionInd        *bool                     `json:"samePcfSelectionInd,omitempty"`
-	OnboardingInd              *bool                     `json:"onboardingInd,omitempty"`
-	UpipSupported              *bool                     `json:"upipSupported,omitempty"`
-	UpCnxState                 UpCnxState                `json:"upCnxState,omitempty"`
-	OldSmContextRef            string                    `json:"oldSmContextRef,omitempty"`
-	TwifInfo                   *TwifInfo                 `json:"twifInfo,omitempty"`
-	RanUnchangedInd            *bool                     `json:"ranUnchangedInd,omitempty"`
-	AnType                     AccessType                `json:"anType"`
-	NrfUri                     string                    `json:"nrfUri,omitempty"`
-	EpsInterworkingInd         EpsInterworkingIndication `json:"epsInterworkingInd,omitempty"`
-	SelMode                    DnnSelectionMode          `json:"selMode,omitempty"`
-	ApnRateStatus              *ApnRateStatus            `json:"apnRateStatus,omitempty"`
-	DlDataWaitingInd           *bool                     `json:"dlDataWaitingInd,omitempty"`
-	TargetDnai                 string                    `json:"targetDnai,omitempty"`
-	Dnn                        string                    `json:"dnn,omitempty"`
-	HSmfUri                    string                    `json:"hSmfUri,omitempty"`
-	AdditionalSmfId            []string                  `json:"additionalSmfId,omitempty"`
-	PduSessionsActivateList    []int                     `json:"pduSessionsActivateList,omitempty"`
-	PvsInfo                    []ServerAddressingInfo    `json:"pvsInfo,omitempty"`
-	SmfTransferInd             *bool                     `json:"smfTransferInd,omitempty"`
-	HplmnSnssai                *Snssai                   `json:"hplmnSnssai,omitempty"`
-	ServingNetwork             PlmnIdNid                 `json:"servingNetwork"`
-	HSmfId                     string                    `json:"hSmfId,omitempty"`
-	TargetId                   *NgRanTargetId            `json:"targetId,omitempty"`
-	N2SmInfoExt1               *RefToBinaryData          `json:"n2SmInfoExt1,omitempty"`
-	WAgfInfo                   *WAgfInfo                 `json:"wAgfInfo,omitempty"`
-	Guami                      *Guami                    `json:"guami,omitempty"`
-	UeLocation                 *UserLocation             `json:"ueLocation,omitempty"`
-	AdditionalHsmfId           []string                  `json:"additionalHsmfId,omitempty"`
-	InvokeNef                  *bool                     `json:"invokeNef,omitempty"`
-	N1SmMsg                    *RefToBinaryData          `json:"n1SmMsg,omitempty"`
 	N2SmInfo                   *RefToBinaryData          `json:"n2SmInfo,omitempty"`
-	OldSmfId                   string                    `json:"oldSmfId,omitempty"`
+	OnboardingInd              *bool                     `json:"onboardingInd,omitempty"`
+	SNssai                     *Snssai                   `json:"sNssai,omitempty"`
+	ServingNfId                string                    `json:"servingNfId"`
+	ServingNetwork             PlmnIdNid                 `json:"servingNetwork"`
+	HSmfUri                    string                    `json:"hSmfUri,omitempty"`
+	TraceData                  *TraceData                `json:"traceData,omitempty"`
+	OldPduSessionRef           string                    `json:"oldPduSessionRef,omitempty"`
+	SmallDataRateStatus        *SmallDataRateStatus      `json:"smallDataRateStatus,omitempty"`
+	AnchorSmfOauth2Required    *bool                     `json:"anchorSmfOauth2Required,omitempty"`
+	Supi                       string                    `json:"supi,omitempty"`
+	Pei                        string                    `json:"pei,omitempty"`
+	RatType                    RatType                   `json:"ratType,omitempty"`
+	SmfUri                     string                    `json:"smfUri,omitempty"`
+	UpCnxState                 UpCnxState                `json:"upCnxState,omitempty"`
 	NrfManagementUri           string                    `json:"nrfManagementUri,omitempty"`
+	NrfAccessTokenUri          string                    `json:"nrfAccessTokenUri,omitempty"`
+	DisasterRoamingInd         *bool                     `json:"disasterRoamingInd,omitempty"`
 	Gpsi                       string                    `json:"gpsi,omitempty"`
-	PduSessionId               *int                      `json:"pduSessionId,omitempty"`
-	SelectedDnn                string                    `json:"selectedDnn,omitempty"`
-	RequestType                RequestType               `json:"requestType,omitempty"`
+	AdditionalHsmfId           []string                  `json:"additionalHsmfId,omitempty"`
+	HoState                    HoState                   `json:"hoState,omitempty"`
+	MaRequestInd               *bool                     `json:"maRequestInd,omitempty"`
+	SmContextSmfPlmnId         *PlmnIdNid                `json:"smContextSmfPlmnId,omitempty"`
 }

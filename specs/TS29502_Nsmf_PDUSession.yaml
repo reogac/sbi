@@ -1706,7 +1706,7 @@ components:
       properties:
         supi:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Supi'
-        ranNets:
+        ranTransportNets:
           type: array
           items:
             type: string
@@ -2033,6 +2033,10 @@ components:
           $ref: '#/components/schemas/UpCnxState'
         hoState:
           $ref: '#/components/schemas/HoState'
+        ranTransportNets:
+          type: array
+          items:
+            type: string
         toBeSwitched:
           type: boolean
           default: false
