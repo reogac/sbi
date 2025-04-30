@@ -6,6 +6,7 @@ Do not modify
 
 package models
 
-type NssfConfiguration struct {
-	AmfSets []AmfSetConfiguration `json:"amfSets"`
+type SliceConfiguration struct {
+	Id      Snssai   `json:"id"`
+	DnnList []string `json:"dnnList,omitempty"`
 }

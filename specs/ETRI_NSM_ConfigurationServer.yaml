@@ -187,9 +187,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataNetworkConfiguration'
+        slices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SliceConfiguration'
+
       required:
         - dataNetworks
         - transportNetworks
+        - slices
 
     DataNetworkInfo:
       description: Data network Information
@@ -226,9 +232,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataNetworkInfo'
+        slices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SliceConfiguration'
+
+
       required:
         - dataNetworks
         - transportNetworks
+        - slices
+    
+    SliceConfiguration:
+      description: Slice configuration
+      type: object
+      properties:
+        id:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+        dnnList:
+          type: array
+          items:
+            type: string
+      required:
+        - id
 
     SuciProfile:
       description: SUCI profile
