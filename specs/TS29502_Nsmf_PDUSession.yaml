@@ -2037,6 +2037,8 @@ components:
           type: array
           items:
             type: string
+        ranUeInfo:
+          $ref: 'ETRI_Common_Data.yaml#/components/schemas/RanUeInfo'
         toBeSwitched:
           type: boolean
           default: false

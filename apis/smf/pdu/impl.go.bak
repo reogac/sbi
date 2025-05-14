@@ -8,23 +8,7 @@ func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.Re
 	return
 }
 
-func (p *Producer) HandleTransferMoData(pduSessionRef string,body *models.TransferMoDataRequest)(prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandlePostSmContexts(callback *models.EndpointInfo,body *models.PostSmContextsRequest)(rsp *models.PostSmContextsResponse,ersp *models.PostSmContextsErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandlePostPduSessions(body *models.PostPduSessionsRequest)(rsp *models.PostPduSessionsResponse,ersp *models.PostPduSessionsErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdatePduSession(pduSessionRef string,body *models.UpdatePduSessionRequest)(rsp *models.UpdatePduSessionResponse,ersp *models.UpdatePduSessionErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.ReleasePduSessionRequest)(rsp *models.ReleasePduSessionResponse,prob *models.ProblemDetails){
 	return
 }
 
@@ -41,6 +25,22 @@ func (p *Producer) HandleReleaseSmContext(smContextRef string,body *models.Relea
 }
 
 func (p *Producer) HandleSendMoData(smContextRef string,body *models.SendMoDataRequest)(ersp *models.ExtProblemDetails,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandlePostPduSessions(body *models.PostPduSessionsRequest)(rsp *models.PostPduSessionsResponse,ersp *models.PostPduSessionsErrorResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpdatePduSession(pduSessionRef string,body *models.UpdatePduSessionRequest)(rsp *models.UpdatePduSessionResponse,ersp *models.UpdatePduSessionErrorResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.ReleasePduSessionRequest)(rsp *models.ReleasePduSessionResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleTransferMoData(pduSessionRef string,body *models.TransferMoDataRequest)(prob *models.ProblemDetails){
 	return
 }
 */
