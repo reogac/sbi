@@ -9,7 +9,7 @@ import (
 	"net/url"
 )
 
-func (sbiRequest *Request) BuildHttpRequest(remoteAddr string) (httpRequest *http.Request, err error) {
+func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http.Request, err error) {
 	var body io.Reader
 	if sbiRequest.body != nil {
 		var bodyBytes []byte
