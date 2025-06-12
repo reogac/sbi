@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Dec 19 15:47:48 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:17 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,6 +13,12 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
+		Label:   "N2SmInfoUplink",
+		Method:  http.MethodPost,
+		Path:    "/n2sminfo/:ueId",
+		Handler: OnN2SmInfoUplink,
+	},
+	{
 		Label:   "UeContextRelease",
 		Method:  http.MethodPost,
 		Path:    "/release/:ueId",
@@ -23,12 +29,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPost,
 		Path:    "/rrc/:ueId",
 		Handler: OnRrcInactivityStatusReport,
-	},
-	{
-		Label:   "N2SmInfoUplink",
-		Method:  http.MethodPost,
-		Path:    "/n2sminfo/:ueId",
-		Handler: OnN2SmInfoUplink,
 	},
 }
 

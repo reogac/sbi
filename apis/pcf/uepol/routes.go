@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:32 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:34 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "ReportObservedEventTriggersForIndividualUEPolicyAssociation",
+		Method:  http.MethodPost,
+		Path:    "/policies/:polAssoId/update",
+		Handler: OnReportObservedEventTriggersForIndividualUEPolicyAssociation,
+	},
 	{
 		Label:   "CreateIndividualUEPolicyAssociation",
 		Method:  http.MethodPost,
@@ -29,12 +35,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodDelete,
 		Path:    "/policies/:polAssoId",
 		Handler: OnDeleteIndividualUEPolicyAssociation,
-	},
-	{
-		Label:   "ReportObservedEventTriggersForIndividualUEPolicyAssociation",
-		Method:  http.MethodPost,
-		Path:    "/policies/:polAssoId/update",
-		Handler: OnReportObservedEventTriggersForIndividualUEPolicyAssociation,
 	},
 }
 

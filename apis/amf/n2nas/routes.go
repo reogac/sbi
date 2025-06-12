@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Dec 19 15:49:54 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,6 +13,12 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
+		Label:   "InitialUeMessage",
+		Method:  http.MethodPost,
+		Path:    "/init-ue-msg",
+		Handler: OnInitialUeMessage,
+	},
+	{
 		Label:   "NasUl",
 		Method:  http.MethodPut,
 		Path:    "/nas-ul/:ueId",
@@ -23,12 +29,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPut,
 		Path:    "/nas-err/:ueId",
 		Handler: OnNasErr,
-	},
-	{
-		Label:   "InitialUeMessage",
-		Method:  http.MethodPost,
-		Path:    "/init-ue-msg",
-		Handler: OnInitialUeMessage,
 	},
 }
 

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Apr 30 17:37:55 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,6 +11,26 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
+
+func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// call application handler
+	rsp, prob := prod.HandleGetUdrConfiguration()
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
 
 func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -57,13 +77,6 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params GetSessionManagementConfigurationParams
 
-	// read 'uuid'
-	params.Uuid = ctx.Param("uuid")
-	if len(params.Uuid) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"))
-		return
-	}
-
 	// read 'slice'
 	sliceStr := ctx.Param("slice")
 	if len(sliceStr) == 0 {
@@ -73,6 +86,13 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 
 	if params.Slice, err = models.SnssaiFromString(sliceStr); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse slice failed: %+v", err)))
+		return
+	}
+
+	// read 'uuid'
+	params.Uuid = ctx.Param("uuid")
+	if len(params.Uuid) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"))
 		return
 	}
 
@@ -121,27 +141,9 @@ func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// call application handler
-	rsp, prob := prod.HandleGetUdrConfiguration()
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
 type Producer interface {
+	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
+
 	HandleGetUdmConfiguration() (*models.UdmConfiguration, *models.ProblemDetails)
 
 	HandleGetNssfConfiguration() (*models.NssfConfiguration, *models.ProblemDetails)
@@ -149,6 +151,4 @@ type Producer interface {
 	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
 
 	HandleGetUserPlaneConfiguration(*models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
-
-	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
 }

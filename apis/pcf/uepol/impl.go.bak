@@ -4,19 +4,19 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pcf/uepol"
 )
-func (p *Producer) HandleDeleteIndividualUEPolicyAssociation(polAssoId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReportObservedEventTriggersForIndividualUEPolicyAssociation(polAssoId string,body *models.PolicyAssociationUpdateRequest)(rsp *models.PolicyUpdate,prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandleCreateIndividualUEPolicyAssociation(body *models.PolicyAssociationRequest)(rsp *models.PolicyAssociation,prob *models.ProblemDetails){
 	return
 }
 
 func (p *Producer) HandleReadIndividualUEPolicyAssociation(polAssoId string)(rsp *models.PolicyAssociation,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteIndividualUEPolicyAssociation(polAssoId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReportObservedEventTriggersForIndividualUEPolicyAssociation(polAssoId string,body *models.PolicyAssociationUpdateRequest)(rsp *models.PolicyUpdate,prob *models.ProblemDetails){
 	return
 }
 */

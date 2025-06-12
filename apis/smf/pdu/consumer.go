@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed May 14 15:26:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,6 +16,41 @@ import (
 const (
 	PATH_ROOT string = "nsmf-pdusession/v1"
 )
+
+// Summary: Release
+// Description:
+// Path: /pdu-sessions/:pduSessionRef/release
+// Path Params: pduSessionRef
+func ReleasePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.ReleasePduSessionRequest) (rsp *models.ReleasePduSessionResponse, err error) {
+
+	if len(pduSessionRef) == 0 {
+		err = fmt.Errorf("pduSessionRef is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pdu-sessions/%s/release", PATH_ROOT, pduSessionRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.ReleasePduSessionResponse)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
 
 // Summary: Transfer MO Data
 // Description:
@@ -53,14 +88,14 @@ func TransferMoData(cli sbi.ConsumerClient, pduSessionRef string, body *models.T
 	return
 }
 
-// Summary: Update (initiated by V-SMF or I-SMF)
+// Summary: Create SM Context
 // Description:
-// Path: /pdu-sessions/:pduSessionRef/modify
-// Path Params: pduSessionRef
-func UpdatePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.UpdatePduSessionRequest) (rsp *models.UpdatePduSessionResponse, ersp *models.UpdatePduSessionErrorResponse, err error) {
+// Path: /sm-contexts
+// Path Params:
+func PostSmContexts(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *models.PostSmContextsRequest) (rsp *models.PostSmContextsResponse, ersp *models.PostSmContextsErrorResponse, err error) {
 
-	if len(pduSessionRef) == 0 {
-		err = fmt.Errorf("pduSessionRef is required")
+	if callback == nil {
+		err = fmt.Errorf("callback is required")
 		return
 	}
 	if body == nil {
@@ -68,98 +103,20 @@ func UpdatePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models
 		return
 	}
 
-	path := fmt.Sprintf("%s/pdu-sessions/%s/modify", PATH_ROOT, pduSessionRef)
+	path := fmt.Sprintf("%s/sm-contexts", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
+	request.AddHeader("callback", models.EndpointInfoToString(*callback))
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
 
 	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UpdatePduSessionResponse)
+	case 201:
+		rsp = new(models.PostSmContextsResponse)
 		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 403, 404, 500, 503:
-		ersp = new(models.UpdatePduSessionErrorResponse)
-		err = response.DecodeBody(ersp)
-	case 411, 413, 415, 429:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Release
-// Description:
-// Path: /pdu-sessions/:pduSessionRef/release
-// Path Params: pduSessionRef
-func ReleasePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.ReleasePduSessionRequest) (rsp *models.ReleasePduSessionResponse, err error) {
-
-	if len(pduSessionRef) == 0 {
-		err = fmt.Errorf("pduSessionRef is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pdu-sessions/%s/release", PATH_ROOT, pduSessionRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.ReleasePduSessionResponse)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Update SM Context
-// Description:
-// Path: /sm-contexts/:smContextRef/modify
-// Path Params: smContextRef
-func UpdateSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.UpdateSmContextRequest) (rsp *models.UpdateSmContextResponse, ersp *models.UpdateSmContextErrorResponse, err error) {
-
-	if len(smContextRef) == 0 {
-		err = fmt.Errorf("smContextRef is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/sm-contexts/%s/modify", PATH_ROOT, smContextRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UpdateSmContextResponse)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
 	case 400, 403, 404, 413, 415, 429, 500, 503, 504:
-		ersp = new(models.UpdateSmContextErrorResponse)
+		ersp = new(models.PostSmContextsErrorResponse)
 		err = response.DecodeBody(ersp)
 	case 411:
 		prob := new(models.ProblemDetails)
@@ -282,6 +239,123 @@ func PostPduSessions(cli sbi.ConsumerClient, body *models.PostPduSessionsRequest
 	return
 }
 
+// Summary: Retrieve SM Context
+// Description:
+// Path: /sm-contexts/:smContextRef/retrieve
+// Path Params: smContextRef
+func RetrieveSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.SmContextRetrieveData) (rsp *models.SmContextRetrievedData, err error) {
+
+	if len(smContextRef) == 0 {
+		err = fmt.Errorf("smContextRef is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/sm-contexts/%s/retrieve", PATH_ROOT, smContextRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.SmContextRetrievedData)
+		err = response.DecodeBody(rsp)
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503, 504:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Update SM Context
+// Description:
+// Path: /sm-contexts/:smContextRef/modify
+// Path Params: smContextRef
+func UpdateSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.UpdateSmContextRequest) (rsp *models.UpdateSmContextResponse, ersp *models.UpdateSmContextErrorResponse, err error) {
+
+	if len(smContextRef) == 0 {
+		err = fmt.Errorf("smContextRef is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/sm-contexts/%s/modify", PATH_ROOT, smContextRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UpdateSmContextResponse)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 403, 404, 413, 415, 429, 500, 503, 504:
+		ersp = new(models.UpdateSmContextErrorResponse)
+		err = response.DecodeBody(ersp)
+	case 411:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Update (initiated by V-SMF or I-SMF)
+// Description:
+// Path: /pdu-sessions/:pduSessionRef/modify
+// Path Params: pduSessionRef
+func UpdatePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.UpdatePduSessionRequest) (rsp *models.UpdatePduSessionResponse, ersp *models.UpdatePduSessionErrorResponse, err error) {
+
+	if len(pduSessionRef) == 0 {
+		err = fmt.Errorf("pduSessionRef is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pdu-sessions/%s/modify", PATH_ROOT, pduSessionRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UpdatePduSessionResponse)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 403, 404, 500, 503:
+		ersp = new(models.UpdatePduSessionErrorResponse)
+		err = response.DecodeBody(ersp)
+	case 411, 413, 415, 429:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
 // Summary: Retrieve
 // Description:
 // Path: /pdu-sessions/:pduSessionRef/retrieve
@@ -307,80 +381,6 @@ func RetrievePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *mode
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.RetrievedData)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503, 504:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Create SM Context
-// Description:
-// Path: /sm-contexts
-// Path Params:
-func PostSmContexts(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *models.PostSmContextsRequest) (rsp *models.PostSmContextsResponse, ersp *models.PostSmContextsErrorResponse, err error) {
-
-	if callback == nil {
-		err = fmt.Errorf("callback is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/sm-contexts", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	request.AddHeader("callback", models.EndpointInfoToString(*callback))
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.PostSmContextsResponse)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 413, 415, 429, 500, 503, 504:
-		ersp = new(models.PostSmContextsErrorResponse)
-		err = response.DecodeBody(ersp)
-	case 411:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Retrieve SM Context
-// Description:
-// Path: /sm-contexts/:smContextRef/retrieve
-// Path Params: smContextRef
-func RetrieveSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.SmContextRetrieveData) (rsp *models.SmContextRetrievedData, err error) {
-
-	if len(smContextRef) == 0 {
-		err = fmt.Errorf("smContextRef is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/sm-contexts/%s/retrieve", PATH_ROOT, smContextRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.SmContextRetrievedData)
 		err = response.DecodeBody(rsp)
 	case 400, 403, 404, 411, 413, 415, 429, 500, 503, 504:
 		prob := new(models.ProblemDetails)

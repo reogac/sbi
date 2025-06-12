@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:34 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,14 +17,14 @@ const (
 	PATH_ROOT string = ""
 )
 
-// Summary: Create or modify the UE policy set data for a subscriber
+// Summary: Modify a subscription to receive notification of policy data changes
 // Description:
-// Path: /policy-data/ues/:ueId/ue-policy-set
-// Path Params: ueId
-func CreateOrReplaceUEPolicySet(cli sbi.ConsumerClient, ueId string, body *models.UePolicySet) (rsp *models.UePolicySet, err error) {
+// Path: /policy-data/subs-to-notify/:subsId
+// Path Params: subsId
+func ReplaceIndividualPolicyDataSubscription(cli sbi.ConsumerClient, subsId string, body *models.PolicyDataSubscription) (rsp *models.PolicyDataSubscription, err error) {
 
-	if len(ueId) == 0 {
-		err = fmt.Errorf("ueId is required")
+	if len(subsId) == 0 {
+		err = fmt.Errorf("subsId is required")
 		return
 	}
 	if body == nil {
@@ -32,7 +32,7 @@ func CreateOrReplaceUEPolicySet(cli sbi.ConsumerClient, ueId string, body *model
 		return
 	}
 
-	path := fmt.Sprintf("%s/policy-data/ues/%s/ue-policy-set", PATH_ROOT, ueId)
+	path := fmt.Sprintf("%s/policy-data/subs-to-notify/%s", PATH_ROOT, subsId)
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -41,7 +41,7 @@ func CreateOrReplaceUEPolicySet(cli sbi.ConsumerClient, ueId string, body *model
 
 	switch response.GetCode() {
 	case 200:
-		rsp = new(models.UePolicySet)
+		rsp = new(models.PolicyDataSubscription)
 		err = response.DecodeBody(rsp)
 	case 204:
 		return
@@ -56,30 +56,30 @@ func CreateOrReplaceUEPolicySet(cli sbi.ConsumerClient, ueId string, body *model
 	return
 }
 
-// Summary: Retrieve the policy data for a subscriber
+// Summary: Retrieve the operator specific policy data of an UE
 // Description:
-// Path: /policy-data/ues/:ueId
+// Path: /policy-data/ues/:ueId/operator-specific-data
 // Path Params: ueId
-type ReadPolicyDataParams struct {
-	DataSubsetNames []string
-	UeId            string
-	SuppFeat        string
+type ReadOperatorSpecificDataParams struct {
+	UeId     string
+	Fields   []string
+	SuppFeat string
 }
 
-func ReadPolicyData(cli sbi.ConsumerClient, params ReadPolicyDataParams) (rsp *models.PolicyDataForIndividualUe, err error) {
+func ReadOperatorSpecificData(cli sbi.ConsumerClient, params ReadOperatorSpecificDataParams) (rsp *map[string]models.OperatorSpecificDataContainer, err error) {
 
 	if len(params.UeId) == 0 {
 		err = fmt.Errorf("ueId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/policy-data/ues/%s", PATH_ROOT, params.UeId)
+	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, params.UeId)
 	request := sbi.NewRequest(path, http.MethodGet, nil)
 	if len(params.SuppFeat) > 0 {
 		request.AddParam("supp-feat", params.SuppFeat)
 	}
-	if len(params.DataSubsetNames) > 0 {
-		request.AddParam("data-subset-names", models.ArrayOfStringToString(params.DataSubsetNames))
+	if len(params.Fields) > 0 {
+		request.AddParam("fields", models.ArrayOfStringToString(params.Fields))
 	}
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -88,7 +88,48 @@ func ReadPolicyData(cli sbi.ConsumerClient, params ReadPolicyDataParams) (rsp *m
 
 	switch response.GetCode() {
 	case 200:
-		rsp = new(models.PolicyDataForIndividualUe)
+		rsp = new(map[string]models.OperatorSpecificDataContainer)
+		err = response.DecodeBody(rsp)
+	case 400, 401, 403, 404, 414, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieves a network Slice specific policy control data resource
+// Description:
+// Path: /policy-data/slice-control-data/:snssai
+// Path Params: snssai
+type ReadSlicePolicyControlDataParams struct {
+	Snssai   *models.Snssai
+	SuppFeat string
+}
+
+func ReadSlicePolicyControlData(cli sbi.ConsumerClient, params ReadSlicePolicyControlDataParams) (rsp *models.SlicePolicyData, err error) {
+
+	if params.Snssai == nil {
+		err = fmt.Errorf("snssai is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/slice-control-data/%s", PATH_ROOT, models.SnssaiToString(*params.Snssai))
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	if len(params.SuppFeat) > 0 {
+		request.AddParam("supp-feat", params.SuppFeat)
+	}
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.SlicePolicyData)
 		err = response.DecodeBody(rsp)
 	case 400, 401, 403, 404, 429, 500, 503:
 		prob := new(models.ProblemDetails)
@@ -101,28 +142,100 @@ func ReadPolicyData(cli sbi.ConsumerClient, params ReadPolicyDataParams) (rsp *m
 	return
 }
 
-// Summary: Retrieves the access and mobility policy data for a subscriber
+// Summary: Modify the UE policy set data for a subscriber
 // Description:
-// Path: /policy-data/ues/:ueId/am-data
+// Path: /policy-data/ues/:ueId/ue-policy-set
 // Path Params: ueId
-func ReadAccessAndMobilityPolicyData(cli sbi.ConsumerClient, ueId string) (rsp *models.AmPolicyData, err error) {
+func UpdateUEPolicySet(cli sbi.ConsumerClient, ueId string, body *models.UePolicySetPatch) (err error) {
+
+	if len(ueId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s/ue-policy-set", PATH_ROOT, ueId)
+	request := sbi.NewRequest(path, http.MethodPatch, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Creates an BDT data resource associated with an BDT reference Id
+// Description:
+// Path: /policy-data/bdt-data/:bdtReferenceId
+// Path Params: bdtReferenceId
+func CreateIndividualBdtData(cli sbi.ConsumerClient, bdtReferenceId string, body *models.BdtData) (rsp *models.BdtData, err error) {
+
+	if len(bdtReferenceId) == 0 {
+		err = fmt.Errorf("bdtReferenceId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/bdt-data/%s", PATH_ROOT, bdtReferenceId)
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.BdtData)
+		err = response.DecodeBody(rsp)
+	case 400, 401, 403, 404, 411, 413, 414, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: When the feature OSDResource_Create_Delete is supported, delete OperatorSpecificData resource
+// Description:
+// Path: /policy-data/ues/:ueId/operator-specific-data
+// Path Params: ueId
+func DeleteOperatorSpecificData(cli sbi.ConsumerClient, ueId string) (err error) {
 
 	if len(ueId) == 0 {
 		err = fmt.Errorf("ueId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/policy-data/ues/%s/am-data", PATH_ROOT, ueId)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
+	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, ueId)
+	request := sbi.NewRequest(path, http.MethodDelete, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
 
 	switch response.GetCode() {
-	case 200:
-		rsp = new(models.AmPolicyData)
-		err = response.DecodeBody(rsp)
+	case 204:
+		return
 	case 400, 401, 403, 404, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
@@ -134,18 +247,66 @@ func ReadAccessAndMobilityPolicyData(cli sbi.ConsumerClient, ueId string) (rsp *
 	return
 }
 
-// Summary: Retrieves the sponsored connectivity information for a given sponsorId
+// Summary: Retrieve a usage monitoring resource
 // Description:
-// Path: /policy-data/sponsor-connectivity-data/:sponsorId
-// Path Params: sponsorId
-func ReadSponsorConnectivityData(cli sbi.ConsumerClient, sponsorId string) (rsp *models.SponsorConnectivityData, err error) {
+// Path: /policy-data/ues/:ueId/sm-data/:usageMonId
+// Path Params: ueId, usageMonId
+type ReadUsageMonitoringInformationParams struct {
+	UsageMonId string
+	SuppFeat   string
+	UeId       string
+}
 
-	if len(sponsorId) == 0 {
-		err = fmt.Errorf("sponsorId is required")
+func ReadUsageMonitoringInformation(cli sbi.ConsumerClient, params ReadUsageMonitoringInformationParams) (rsp *models.UsageMonData, err error) {
+
+	if len(params.UeId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+	if len(params.UsageMonId) == 0 {
+		err = fmt.Errorf("usageMonId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/policy-data/sponsor-connectivity-data/%s", PATH_ROOT, sponsorId)
+	path := fmt.Sprintf("%s/policy-data/ues/%s/sm-data/%s", PATH_ROOT, params.UeId, params.UsageMonId)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	if len(params.SuppFeat) > 0 {
+		request.AddParam("supp-feat", params.SuppFeat)
+	}
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UsageMonData)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 401, 403, 404, 414, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieve the UE policy set data for an H-PLMN
+// Description:
+// Path: /policy-data/plmns/:plmnId/ue-policy-set
+// Path Params: plmnId
+func ReadPlmnUePolicySet(cli sbi.ConsumerClient, plmnId string) (rsp *models.UePolicySet, err error) {
+
+	if len(plmnId) == 0 {
+		err = fmt.Errorf("plmnId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/plmns/%s/ue-policy-set", PATH_ROOT, plmnId)
 	request := sbi.NewRequest(path, http.MethodGet, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -154,10 +315,49 @@ func ReadSponsorConnectivityData(cli sbi.ConsumerClient, sponsorId string) (rsp 
 
 	switch response.GetCode() {
 	case 200:
-		rsp = new(models.SponsorConnectivityData)
+		rsp = new(models.UePolicySet)
 		err = response.DecodeBody(rsp)
-	case 204:
+	case 400, 401, 403, 404, 412, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieves the UE policy set data for a subscriber
+// Description:
+// Path: /policy-data/ues/:ueId/ue-policy-set
+// Path Params: ueId
+type ReadUEPolicySetParams struct {
+	UeId     string
+	SuppFeat string
+}
+
+func ReadUEPolicySet(cli sbi.ConsumerClient, params ReadUEPolicySetParams) (rsp *models.UePolicySet, err error) {
+
+	if len(params.UeId) == 0 {
+		err = fmt.Errorf("ueId is required")
 		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s/ue-policy-set", PATH_ROOT, params.UeId)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	if len(params.SuppFeat) > 0 {
+		request.AddParam("supp-feat", params.SuppFeat)
+	}
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UePolicySet)
+		err = response.DecodeBody(rsp)
 	case 400, 401, 403, 404, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
@@ -210,41 +410,35 @@ func ReadIndividualBdtData(cli sbi.ConsumerClient, params ReadIndividualBdtDataP
 	return
 }
 
-// Summary: Retrieve the operator specific policy data of an UE
+// Summary: Create or modify the operator specific policy data of a UE
 // Description:
 // Path: /policy-data/ues/:ueId/operator-specific-data
 // Path Params: ueId
-type ReadOperatorSpecificDataParams struct {
-	SuppFeat string
-	UeId     string
-	Fields   []string
-}
+func ReplaceOperatorSpecificData(cli sbi.ConsumerClient, ueId string, body *map[string]models.OperatorSpecificDataContainer) (rsp *map[string]models.OperatorSpecificDataContainer, err error) {
 
-func ReadOperatorSpecificData(cli sbi.ConsumerClient, params ReadOperatorSpecificDataParams) (rsp *map[string]models.OperatorSpecificDataContainer, err error) {
-
-	if len(params.UeId) == 0 {
+	if len(ueId) == 0 {
 		err = fmt.Errorf("ueId is required")
 		return
 	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
 
-	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, params.UeId)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.SuppFeat) > 0 {
-		request.AddParam("supp-feat", params.SuppFeat)
-	}
-	if len(params.Fields) > 0 {
-		request.AddParam("fields", models.ArrayOfStringToString(params.Fields))
-	}
+	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, ueId)
+	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
 
 	switch response.GetCode() {
-	case 200:
+	case 201:
 		rsp = new(map[string]models.OperatorSpecificDataContainer)
 		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 414, 429, 500, 503:
+	case 204:
+		return
+	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -255,29 +449,28 @@ func ReadOperatorSpecificData(cli sbi.ConsumerClient, params ReadOperatorSpecifi
 	return
 }
 
-// Summary: Retrieve MBS Session Policy Control Data for an MBS Session.
+// Summary: Delete the individual Policy Data subscription
 // Description:
-// Path: /policy-data/mbs-session-pol-data/:polSessionId
-// Path Params: polSessionId
-func GetMBSSessPolCtrlData(cli sbi.ConsumerClient, polSessionId *models.MbsSessPolDataId) (rsp *models.MbsSessPolCtrlData, err error) {
+// Path: /policy-data/subs-to-notify/:subsId
+// Path Params: subsId
+func DeleteIndividualPolicyDataSubscription(cli sbi.ConsumerClient, subsId string) (err error) {
 
-	if polSessionId == nil {
-		err = fmt.Errorf("polSessionId is required")
+	if len(subsId) == 0 {
+		err = fmt.Errorf("subsId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/policy-data/mbs-session-pol-data/%s", PATH_ROOT, models.MbsSessPolDataIdToString(polSessionId))
-	request := sbi.NewRequest(path, http.MethodGet, nil)
+	path := fmt.Sprintf("%s/policy-data/subs-to-notify/%s", PATH_ROOT, subsId)
+	request := sbi.NewRequest(path, http.MethodDelete, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
 
 	switch response.GetCode() {
-	case 200:
-		rsp = new(models.MbsSessPolCtrlData)
-		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 414, 429, 500, 503:
+	case 204:
+		return
+	case 400, 401, 403, 404, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -288,27 +481,19 @@ func GetMBSSessPolCtrlData(cli sbi.ConsumerClient, polSessionId *models.MbsSessP
 	return
 }
 
-// Summary: Retrieves the UE policy set data for a subscriber
+// Summary: Retrieves the access and mobility policy data for a subscriber
 // Description:
-// Path: /policy-data/ues/:ueId/ue-policy-set
+// Path: /policy-data/ues/:ueId/am-data
 // Path Params: ueId
-type ReadUEPolicySetParams struct {
-	UeId     string
-	SuppFeat string
-}
+func ReadAccessAndMobilityPolicyData(cli sbi.ConsumerClient, ueId string) (rsp *models.AmPolicyData, err error) {
 
-func ReadUEPolicySet(cli sbi.ConsumerClient, params ReadUEPolicySetParams) (rsp *models.UePolicySet, err error) {
-
-	if len(params.UeId) == 0 {
+	if len(ueId) == 0 {
 		err = fmt.Errorf("ueId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/policy-data/ues/%s/ue-policy-set", PATH_ROOT, params.UeId)
+	path := fmt.Sprintf("%s/policy-data/ues/%s/am-data", PATH_ROOT, ueId)
 	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.SuppFeat) > 0 {
-		request.AddParam("supp-feat", params.SuppFeat)
-	}
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
@@ -316,7 +501,7 @@ func ReadUEPolicySet(cli sbi.ConsumerClient, params ReadUEPolicySetParams) (rsp 
 
 	switch response.GetCode() {
 	case 200:
-		rsp = new(models.UePolicySet)
+		rsp = new(models.AmPolicyData)
 		err = response.DecodeBody(rsp)
 	case 400, 401, 403, 404, 429, 500, 503:
 		prob := new(models.ProblemDetails)
@@ -354,6 +539,369 @@ func UpdateSessionManagementPolicyData(cli sbi.ConsumerClient, ueId string, body
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.SmPolicyData)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Delete a usage monitoring resource
+// Description:
+// Path: /policy-data/ues/:ueId/sm-data/:usageMonId
+// Path Params: ueId, usageMonId
+type DeleteUsageMonitoringInformationParams struct {
+	UeId       string
+	UsageMonId string
+}
+
+func DeleteUsageMonitoringInformation(cli sbi.ConsumerClient, params DeleteUsageMonitoringInformationParams) (err error) {
+
+	if len(params.UsageMonId) == 0 {
+		err = fmt.Errorf("usageMonId is required")
+		return
+	}
+	if len(params.UeId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s/sm-data/%s", PATH_ROOT, params.UeId, params.UsageMonId)
+	request := sbi.NewRequest(path, http.MethodDelete, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 401, 403, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieves the sponsored connectivity information for a given sponsorId
+// Description:
+// Path: /policy-data/sponsor-connectivity-data/:sponsorId
+// Path Params: sponsorId
+func ReadSponsorConnectivityData(cli sbi.ConsumerClient, sponsorId string) (rsp *models.SponsorConnectivityData, err error) {
+
+	if len(sponsorId) == 0 {
+		err = fmt.Errorf("sponsorId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/sponsor-connectivity-data/%s", PATH_ROOT, sponsorId)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.SponsorConnectivityData)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 401, 403, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieves the BDT data collection
+// Description:
+// Path: /policy-data/bdt-data
+// Path Params:
+type ReadBdtDataParams struct {
+	SuppFeat  string
+	BdtRefIds []string
+}
+
+func ReadBdtData(cli sbi.ConsumerClient, params ReadBdtDataParams) (rsp *[]models.BdtData, err error) {
+
+	path := fmt.Sprintf("%s/policy-data/bdt-data", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	if len(params.SuppFeat) > 0 {
+		request.AddParam("supp-feat", params.SuppFeat)
+	}
+	if len(params.BdtRefIds) > 0 {
+		request.AddParam("bdt-ref-ids", models.ArrayOfStringToString(params.BdtRefIds))
+	}
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new([]models.BdtData)
+		err = response.DecodeBody(rsp)
+	case 400, 401, 403, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Modify the operator specific policy data of a UE
+// Description:
+// Path: /policy-data/ues/:ueId/operator-specific-data
+// Path Params: ueId
+func UpdateOperatorSpecificData(cli sbi.ConsumerClient, ueId string, body *[]models.PatchItem) (rsp *models.PatchResult, err error) {
+
+	if len(ueId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, ueId)
+	request := sbi.NewRequest(path, http.MethodPatch, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.PatchResult)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Modify a network Slice specific policy control data resource
+// Description:
+// Path: /policy-data/slice-control-data/:snssai
+// Path Params: snssai
+func UpdateSlicePolicyControlData(cli sbi.ConsumerClient, snssai *models.Snssai, body *models.SlicePolicyDataPatch) (rsp *models.SlicePolicyData, err error) {
+
+	if snssai == nil {
+		err = fmt.Errorf("snssai is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/slice-control-data/%s", PATH_ROOT, models.SnssaiToString(*snssai))
+	request := sbi.NewRequest(path, http.MethodPatch, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.SlicePolicyData)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieve the policy data for a subscriber
+// Description:
+// Path: /policy-data/ues/:ueId
+// Path Params: ueId
+type ReadPolicyDataParams struct {
+	UeId            string
+	SuppFeat        string
+	DataSubsetNames []string
+}
+
+func ReadPolicyData(cli sbi.ConsumerClient, params ReadPolicyDataParams) (rsp *models.PolicyDataForIndividualUe, err error) {
+
+	if len(params.UeId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s", PATH_ROOT, params.UeId)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	if len(params.SuppFeat) > 0 {
+		request.AddParam("supp-feat", params.SuppFeat)
+	}
+	if len(params.DataSubsetNames) > 0 {
+		request.AddParam("data-subset-names", models.ArrayOfStringToString(params.DataSubsetNames))
+	}
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.PolicyDataForIndividualUe)
+		err = response.DecodeBody(rsp)
+	case 400, 401, 403, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieves the session management policy data for a subscriber
+// Description:
+// Path: /policy-data/ues/:ueId/sm-data
+// Path Params: ueId
+type ReadSessionManagementPolicyDataParams struct {
+	Fields   []string
+	SuppFeat string
+	UeId     string
+	Snssai   *models.Snssai
+	Dnn      string
+}
+
+func ReadSessionManagementPolicyData(cli sbi.ConsumerClient, params ReadSessionManagementPolicyDataParams) (rsp *models.SmPolicyData, err error) {
+
+	if len(params.UeId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s/sm-data", PATH_ROOT, params.UeId)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	if len(params.Fields) > 0 {
+		request.AddParam("fields", models.ArrayOfStringToString(params.Fields))
+	}
+	if len(params.SuppFeat) > 0 {
+		request.AddParam("supp-feat", params.SuppFeat)
+	}
+	if params.Snssai != nil {
+		request.AddParam("snssai", models.SnssaiToString(*params.Snssai))
+	}
+	if len(params.Dnn) > 0 {
+		request.AddParam("dnn", params.Dnn)
+	}
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.SmPolicyData)
+		err = response.DecodeBody(rsp)
+	case 400, 401, 403, 404, 414, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Retrieve MBS Session Policy Control Data for an MBS Session.
+// Description:
+// Path: /policy-data/mbs-session-pol-data/:polSessionId
+// Path Params: polSessionId
+func GetMBSSessPolCtrlData(cli sbi.ConsumerClient, polSessionId *models.MbsSessPolDataId) (rsp *models.MbsSessPolCtrlData, err error) {
+
+	if polSessionId == nil {
+		err = fmt.Errorf("polSessionId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/mbs-session-pol-data/%s", PATH_ROOT, models.MbsSessPolDataIdToString(*polSessionId))
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.MbsSessPolCtrlData)
+		err = response.DecodeBody(rsp)
+	case 400, 401, 403, 404, 414, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Create or modify the UE policy set data for a subscriber
+// Description:
+// Path: /policy-data/ues/:ueId/ue-policy-set
+// Path Params: ueId
+func CreateOrReplaceUEPolicySet(cli sbi.ConsumerClient, ueId string, body *models.UePolicySet) (rsp *models.UePolicySet, err error) {
+
+	if len(ueId) == 0 {
+		err = fmt.Errorf("ueId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policy-data/ues/%s/ue-policy-set", PATH_ROOT, ueId)
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UePolicySet)
 		err = response.DecodeBody(rsp)
 	case 204:
 		return
@@ -414,45 +962,6 @@ func CreateUsageMonitoringResource(cli sbi.ConsumerClient, params CreateUsageMon
 	return
 }
 
-// Summary: Retrieves the BDT data collection
-// Description:
-// Path: /policy-data/bdt-data
-// Path Params:
-type ReadBdtDataParams struct {
-	BdtRefIds []string
-	SuppFeat  string
-}
-
-func ReadBdtData(cli sbi.ConsumerClient, params ReadBdtDataParams) (rsp *[]models.BdtData, err error) {
-
-	path := fmt.Sprintf("%s/policy-data/bdt-data", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.BdtRefIds) > 0 {
-		request.AddParam("bdt-ref-ids", models.ArrayOfStringToString(params.BdtRefIds))
-	}
-	if len(params.SuppFeat) > 0 {
-		request.AddParam("supp-feat", params.SuppFeat)
-	}
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new([]models.BdtData)
-		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
 // Summary: Deletes an BDT data resource associated with an BDT reference Id
 // Description:
 // Path: /policy-data/bdt-data/:bdtReferenceId
@@ -475,95 +984,6 @@ func DeleteIndividualBdtData(cli sbi.ConsumerClient, bdtReferenceId string) (err
 	case 204:
 		return
 	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Modify the UE policy set data for a subscriber
-// Description:
-// Path: /policy-data/ues/:ueId/ue-policy-set
-// Path Params: ueId
-func UpdateUEPolicySet(cli sbi.ConsumerClient, ueId string, body *models.UePolicySetPatch) (err error) {
-
-	if len(ueId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/ue-policy-set", PATH_ROOT, ueId)
-	request := sbi.NewRequest(path, http.MethodPatch, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Retrieves the session management policy data for a subscriber
-// Description:
-// Path: /policy-data/ues/:ueId/sm-data
-// Path Params: ueId
-type ReadSessionManagementPolicyDataParams struct {
-	Snssai   *models.Snssai
-	Dnn      string
-	Fields   []string
-	SuppFeat string
-	UeId     string
-}
-
-func ReadSessionManagementPolicyData(cli sbi.ConsumerClient, params ReadSessionManagementPolicyDataParams) (rsp *models.SmPolicyData, err error) {
-
-	if len(params.UeId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/sm-data", PATH_ROOT, params.UeId)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.Fields) > 0 {
-		request.AddParam("fields", models.ArrayOfStringToString(params.Fields))
-	}
-	if len(params.SuppFeat) > 0 {
-		request.AddParam("supp-feat", params.SuppFeat)
-	}
-	if params.Snssai != nil {
-		request.AddParam("snssai", models.SnssaiToString(*params.Snssai))
-	}
-	if len(params.Dnn) > 0 {
-		request.AddParam("dnn", params.Dnn)
-	}
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.SmPolicyData)
-		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 414, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -613,355 +1033,6 @@ func UpdateIndividualBdtData(cli sbi.ConsumerClient, bdtReferenceId string, body
 	return
 }
 
-// Summary: Delete the individual Policy Data subscription
-// Description:
-// Path: /policy-data/subs-to-notify/:subsId
-// Path Params: subsId
-func DeleteIndividualPolicyDataSubscription(cli sbi.ConsumerClient, subsId string) (err error) {
-
-	if len(subsId) == 0 {
-		err = fmt.Errorf("subsId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/subs-to-notify/%s", PATH_ROOT, subsId)
-	request := sbi.NewRequest(path, http.MethodDelete, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Retrieves a network Slice specific policy control data resource
-// Description:
-// Path: /policy-data/slice-control-data/:snssai
-// Path Params: snssai
-type ReadSlicePolicyControlDataParams struct {
-	Snssai   *models.Snssai
-	SuppFeat string
-}
-
-func ReadSlicePolicyControlData(cli sbi.ConsumerClient, params ReadSlicePolicyControlDataParams) (rsp *models.SlicePolicyData, err error) {
-
-	if params.Snssai == nil {
-		err = fmt.Errorf("snssai is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/slice-control-data/%s", PATH_ROOT, models.SnssaiToString(params.Snssai))
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.SuppFeat) > 0 {
-		request.AddParam("supp-feat", params.SuppFeat)
-	}
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.SlicePolicyData)
-		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Delete a usage monitoring resource
-// Description:
-// Path: /policy-data/ues/:ueId/sm-data/:usageMonId
-// Path Params: ueId, usageMonId
-type DeleteUsageMonitoringInformationParams struct {
-	UeId       string
-	UsageMonId string
-}
-
-func DeleteUsageMonitoringInformation(cli sbi.ConsumerClient, params DeleteUsageMonitoringInformationParams) (err error) {
-
-	if len(params.UeId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-	if len(params.UsageMonId) == 0 {
-		err = fmt.Errorf("usageMonId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/sm-data/%s", PATH_ROOT, params.UeId, params.UsageMonId)
-	request := sbi.NewRequest(path, http.MethodDelete, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Modify a subscription to receive notification of policy data changes
-// Description:
-// Path: /policy-data/subs-to-notify/:subsId
-// Path Params: subsId
-func ReplaceIndividualPolicyDataSubscription(cli sbi.ConsumerClient, subsId string, body *models.PolicyDataSubscription) (rsp *models.PolicyDataSubscription, err error) {
-
-	if len(subsId) == 0 {
-		err = fmt.Errorf("subsId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/subs-to-notify/%s", PATH_ROOT, subsId)
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.PolicyDataSubscription)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Create or modify the operator specific policy data of a UE
-// Description:
-// Path: /policy-data/ues/:ueId/operator-specific-data
-// Path Params: ueId
-func ReplaceOperatorSpecificData(cli sbi.ConsumerClient, ueId string, body *map[string]models.OperatorSpecificDataContainer) (rsp *map[string]models.OperatorSpecificDataContainer, err error) {
-
-	if len(ueId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, ueId)
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(map[string]models.OperatorSpecificDataContainer)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Modify the operator specific policy data of a UE
-// Description:
-// Path: /policy-data/ues/:ueId/operator-specific-data
-// Path Params: ueId
-func UpdateOperatorSpecificData(cli sbi.ConsumerClient, ueId string, body *[]models.PatchItem) (rsp *models.PatchResult, err error) {
-
-	if len(ueId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, ueId)
-	request := sbi.NewRequest(path, http.MethodPatch, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.PatchResult)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Retrieve the UE policy set data for an H-PLMN
-// Description:
-// Path: /policy-data/plmns/:plmnId/ue-policy-set
-// Path Params: plmnId
-func ReadPlmnUePolicySet(cli sbi.ConsumerClient, plmnId string) (rsp *models.UePolicySet, err error) {
-
-	if len(plmnId) == 0 {
-		err = fmt.Errorf("plmnId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/plmns/%s/ue-policy-set", PATH_ROOT, plmnId)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UePolicySet)
-		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 412, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Retrieve a usage monitoring resource
-// Description:
-// Path: /policy-data/ues/:ueId/sm-data/:usageMonId
-// Path Params: ueId, usageMonId
-type ReadUsageMonitoringInformationParams struct {
-	UeId       string
-	UsageMonId string
-	SuppFeat   string
-}
-
-func ReadUsageMonitoringInformation(cli sbi.ConsumerClient, params ReadUsageMonitoringInformationParams) (rsp *models.UsageMonData, err error) {
-
-	if len(params.UeId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-	if len(params.UsageMonId) == 0 {
-		err = fmt.Errorf("usageMonId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/sm-data/%s", PATH_ROOT, params.UeId, params.UsageMonId)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.SuppFeat) > 0 {
-		request.AddParam("supp-feat", params.SuppFeat)
-	}
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UsageMonData)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 401, 403, 404, 414, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Creates an BDT data resource associated with an BDT reference Id
-// Description:
-// Path: /policy-data/bdt-data/:bdtReferenceId
-// Path Params: bdtReferenceId
-func CreateIndividualBdtData(cli sbi.ConsumerClient, bdtReferenceId string, body *models.BdtData) (rsp *models.BdtData, err error) {
-
-	if len(bdtReferenceId) == 0 {
-		err = fmt.Errorf("bdtReferenceId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/bdt-data/%s", PATH_ROOT, bdtReferenceId)
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.BdtData)
-		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 411, 413, 414, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
 // Summary: Create a subscription to receive notification of policy data changes
 // Description:
 // Path: /policy-data/subs-to-notify
@@ -984,77 +1055,6 @@ func CreateIndividualPolicyDataSubscription(cli sbi.ConsumerClient, body *models
 	case 201:
 		rsp = new(models.PolicyDataSubscription)
 		err = response.DecodeBody(rsp)
-	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: When the feature OSDResource_Create_Delete is supported, delete OperatorSpecificData resource
-// Description:
-// Path: /policy-data/ues/:ueId/operator-specific-data
-// Path Params: ueId
-func DeleteOperatorSpecificData(cli sbi.ConsumerClient, ueId string) (err error) {
-
-	if len(ueId) == 0 {
-		err = fmt.Errorf("ueId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/ues/%s/operator-specific-data", PATH_ROOT, ueId)
-	request := sbi.NewRequest(path, http.MethodDelete, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Modify a network Slice specific policy control data resource
-// Description:
-// Path: /policy-data/slice-control-data/:snssai
-// Path Params: snssai
-func UpdateSlicePolicyControlData(cli sbi.ConsumerClient, snssai *models.Snssai, body *models.SlicePolicyDataPatch) (rsp *models.SlicePolicyData, err error) {
-
-	if snssai == nil {
-		err = fmt.Errorf("snssai is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policy-data/slice-control-data/%s", PATH_ROOT, models.SnssaiToString(snssai))
-	request := sbi.NewRequest(path, http.MethodPatch, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.SlicePolicyData)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
 	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {

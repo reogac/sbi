@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:30 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "DeleteSMPolicy",
+		Method:  http.MethodPost,
+		Path:    "/sm-policies/:smPolicyId/delete",
+		Handler: OnDeleteSMPolicy,
+	},
 	{
 		Label:   "CreateSMPolicy",
 		Method:  http.MethodPost,
@@ -29,12 +35,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPost,
 		Path:    "/sm-policies/:smPolicyId/update",
 		Handler: OnUpdateSMPolicy,
-	},
-	{
-		Label:   "DeleteSMPolicy",
-		Method:  http.MethodPost,
-		Path:    "/sm-policies/:smPolicyId/delete",
-		Handler: OnDeleteSMPolicy,
 	},
 }
 

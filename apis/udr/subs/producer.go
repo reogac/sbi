@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:33 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,44 +12,10 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnQueryNssaiAck(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryNssaiAckParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryNssaiAck(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryOperSpecData(ctx sbi.RequestContext, handler any) {
+func OnQueryAuthenticationStatus(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params QueryOperSpecDataParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+	var params QueryAuthenticationStatusParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -67,148 +33,11 @@ func OnQueryOperSpecData(ctx sbi.RequestContext, handler any) {
 		}
 	}
 
-	// call application handler
-	rsp := prod.HandleQueryOperSpecData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreateEeSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.EeSubscription)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateEeSubscriptions(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-}
-
-func OnRemoveMultipleSubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params RemoveMultipleSubscriptionDataSubscriptionsParams
-
-	// read 'implicit-unsubscribe-indication'
-	implicitUnsubscribeIndicationStr := ctx.Param("implicit-unsubscribe-indication")
-	if len(implicitUnsubscribeIndicationStr) > 0 {
-		var implicitUnsubscribeIndicationTmp bool
-		if implicitUnsubscribeIndicationTmp, err = models.BoolFromString(implicitUnsubscribeIndicationStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse implicit-unsubscribe-indication failed: %+v", err)))
-			return
-		}
-		params.ImplicitUnsubscribeIndication = &implicitUnsubscribeIndicationTmp
-	}
-
-	// read 'ue-id'
-	params.UeId = ctx.Param("ue-id")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ue-id is required"))
-		return
-	}
-
-	// read 'nf-instance-id'
-	params.NfInstanceId = ctx.Param("nf-instance-id")
-
-	// read 'delete-all-nfs'
-	deleteAllNfsStr := ctx.Param("delete-all-nfs")
-	if len(deleteAllNfsStr) > 0 {
-		var deleteAllNfsTmp bool
-		if deleteAllNfsTmp, err = models.BoolFromString(deleteAllNfsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse delete-all-nfs failed: %+v", err)))
-			return
-		}
-		params.DeleteAllNfs = &deleteAllNfsTmp
-	}
-
-	// call application handler
-	prod.HandleRemoveMultipleSubscriptionDataSubscriptions(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateAuthenticationStatus(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.AuthEvent)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prod.HandleCreateAuthenticationStatus(ueId, body)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQuerySmsData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QuerySmsDataParams
-
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
-		return
-	}
-
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
 	// call application handler
-	rsp := prod.HandleQuerySmsData(&params)
+	rsp := prod.HandleQueryAuthenticationStatus(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -218,77 +47,10 @@ func OnQuerySmsData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnQuerySubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'subsId'
-	var subsId string
-	subsId = ctx.Param("subsId")
-	if len(subsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQuerySubscriptionDataSubscriptions(subsId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryProvisionedData(ctx sbi.RequestContext, handler any) {
+func OnUpdatesdmsubscriptions(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params QueryProvisionedDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
-		return
-	}
-
-	// read 'dataset-names'
-	datasetNamesStr := ctx.Param("dataset-names")
-	if len(datasetNamesStr) > 0 {
-		if params.DatasetNames, err = models.ArrayOfStringFromString(datasetNamesStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse dataset-names failed: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryProvisionedData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnRemoveSmfSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveSmfSubscriptionsInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
+	var params UpdatesdmsubscriptionsParams
 
 	// read 'subsId'
 	params.SubsId = ctx.Param("subsId")
@@ -297,45 +59,6 @@ func OnRemoveSmfSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// call application handler
-	prod.HandleRemoveSmfSubscriptionsInfo(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnRemoveEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveEeGroupSubscriptionsParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveEeGroupSubscriptions(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params AmfContextNon3gppParams
-
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
 	if len(params.UeId) == 0 {
@@ -343,17 +66,54 @@ func OnAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
 	// decode request body
+	body := new(models.SdmSubscription)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleAmfContextNon3gpp(&params, body)
+	prob := prod.HandleUpdatesdmsubscriptions(&params, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnGetGroupIdentifiers(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params GetGroupIdentifiersParams
+
+	// read 'int-group-id'
+	params.IntGroupId = ctx.Param("int-group-id")
+
+	// read 'ue-id-ind'
+	ueIdIndStr := ctx.Param("ue-id-ind")
+	if len(ueIdIndStr) > 0 {
+		var ueIdIndTmp bool
+		if ueIdIndTmp, err = models.BoolFromString(ueIdIndStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ue-id-ind failed: %+v", err)))
+			return
+		}
+		params.UeIdInd = &ueIdIndTmp
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ext-group-id'
+	params.ExtGroupId = ctx.Param("ext-group-id")
+
+	// call application handler
+	rsp, prob := prod.HandleGetGroupIdentifiers(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -367,32 +127,29 @@ func OnAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// success
-	ctx.WriteResponse(204, nil)
-
 }
 
-func OnCreateSdmSubscriptions(ctx sbi.RequestContext, handler any) {
+func OnCreate5GVnGroup(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+	// read 'externalGroupId'
+	var externalGroupId string
+	externalGroupId = ctx.Param("externalGroupId")
+	if len(externalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
 		return
 	}
 
 	// decode request body
-	body := new(models.SdmSubscription)
+	body := new(models.FiveGVnGroupConfiguration)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp := prod.HandleCreateSdmSubscriptions(ueId, body)
+	rsp, prob := prod.HandleCreate5GVnGroup(externalGroupId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -400,27 +157,18 @@ func OnCreateSdmSubscriptions(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-}
-
-func OnQueryLcsBcaData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryLcsBcaDataParams
-
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
 		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
+}
 
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+func OnCreateCagUpdateAck(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateCagUpdateAckParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -429,14 +177,21 @@ func OnQueryLcsBcaData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// call application handler
-	rsp := prod.HandleQueryLcsBcaData(&params)
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
 
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+	// decode request body
+	body := new(models.CagAckData)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
+
+	// call application handler
+	prod.HandleCreateCagUpdateAck(&params, body)
+
+	// success
+	ctx.WriteResponse(204, nil)
 
 }
 
@@ -488,26 +243,27 @@ func OnModifyAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnDeleteIndividualAuthenticationStatus(ctx sbi.RequestContext, handler any) {
+func OnCreateIpSmGwContext(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params DeleteIndividualAuthenticationStatusParams
+	var err error
 
 	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
 
-	// read 'servingNetworkName'
-	params.ServingNetworkName = ctx.Param("servingNetworkName")
-	if len(params.ServingNetworkName) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingNetworkName is required"))
+	// decode request body
+	body := new(models.IpSmGwRegistration)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	prod.HandleDeleteIndividualAuthenticationStatus(&params)
+	prod.HandleCreateIpSmGwContext(ueId, body)
 
 	// success
 	ctx.WriteResponse(204, nil)
@@ -539,15 +295,242 @@ func OnQueryEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnDeletePPDataEntry(ctx sbi.RequestContext, handler any) {
+func OnGetIndividualSharedData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params DeletePPDataEntryParams
+	var params GetIndividualSharedDataParams
 
-	// read 'afInstanceId'
-	params.AfInstanceId = ctx.Param("afInstanceId")
-	if len(params.AfInstanceId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "afInstanceId is required"))
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'sharedDataId'
+	params.SharedDataId = ctx.Param("sharedDataId")
+	if len(params.SharedDataId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "sharedDataId is required"))
 		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGetIndividualSharedData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnQueryTraceData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryTraceDataParams
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
+		return
+	}
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// call application handler
+	rsp := prod.HandleQueryTraceData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnGetNiddAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleGetNiddAuthorizationInfo(ueId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryRoamingInformation(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryRoamingInformation(ueId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryPeiInformation(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryPeiInformation(ueId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnModify5GVnGroup(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params Modify5GVnGroupParams
+
+	// read 'externalGroupId'
+	params.ExternalGroupId = ctx.Param("externalGroupId")
+	if len(params.ExternalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModify5GVnGroup(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifyAuthenticationSubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifyAuthenticationSubscriptionParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifyAuthenticationSubscription(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryProvisionedData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryProvisionedDataParams
+
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
+		return
+	}
+
+	// read 'dataset-names'
+	datasetNamesStr := ctx.Param("dataset-names")
+	if len(datasetNamesStr) > 0 {
+		if params.DatasetNames, err = models.ArrayOfStringFromString(datasetNamesStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse dataset-names failed: %+v", err)))
+			return
+		}
 	}
 
 	// read 'ueId'
@@ -558,11 +541,85 @@ func OnDeletePPDataEntry(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	prob := prod.HandleDeletePPDataEntry(&params)
+	rsp := prod.HandleQueryProvisionedData(&params)
 
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQuerySmfRegList(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QuerySmfRegListParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQuerySmfRegList(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnDeleteSmsfContext3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleDeleteSmsfContext3gpp(ueId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateMessageWaitingData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.MessageWaitingData)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateMessageWaitingData(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
 		return
 	}
 
@@ -609,6 +666,165 @@ func OnModifyPpData(ctx sbi.RequestContext, handler any) {
 
 	// success
 	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifysubscriptionDataSubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifysubscriptionDataSubscriptionParams
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifysubscriptionDataSubscription(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifySmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifySmfGroupSubscriptionsParams
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifySmfGroupSubscriptions(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryAmfContext3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryAmfContext3gppParams
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryAmfContext3gpp(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryAmfContextNon3gppParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryAmfContextNon3gpp(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
 
 }
 
@@ -689,54 +905,19 @@ func OnModifyEeGroupSubscription(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnQueryEeGroupSubscription(ctx sbi.RequestContext, handler any) {
+func OnQuerySubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params QueryEeGroupSubscriptionParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
 
 	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
+	var subsId string
+	subsId = ctx.Param("subsId")
+	if len(subsId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
 		return
 	}
 
 	// call application handler
-	prod.HandleQueryEeGroupSubscription(&params)
-
-	// success
-	ctx.WriteResponse(200, nil)
-
-}
-
-func OnQuery5mbsData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params Query5mbsDataParams
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// call application handler
-	rsp := prod.HandleQuery5mbsData(&params)
+	rsp := prod.HandleQuerySubscriptionDataSubscriptions(subsId)
 
 	// check for success response
 	if rsp != nil {
@@ -746,34 +927,9 @@ func OnQuery5mbsData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnQueryAuthUPU(ctx sbi.RequestContext, handler any) {
+func OnQueryUserConsentData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params QueryAuthUPUParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryAuthUPU(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnGetppData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetppDataParams
+	var params QueryUserConsentDataParams
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
@@ -791,122 +947,11 @@ func OnGetppData(ctx sbi.RequestContext, handler any) {
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
-	// call application handler
-	rsp, prob := prod.HandleGetppData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnGetPPDataEntry(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetPPDataEntryParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'afInstanceId'
-	params.AfInstanceId = ctx.Param("afInstanceId")
-	if len(params.AfInstanceId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "afInstanceId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
+	// read 'ucPurpose'
+	params.UcPurpose = ctx.Param("ucPurpose")
 
 	// call application handler
-	rsp, prob := prod.HandleGetPPDataEntry(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnModifysdmSubscription(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params ModifysdmSubscriptionParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModifysdmSubscription(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGet5GVnGroupConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'externalGroupId'
-	var externalGroupId string
-	externalGroupId = ctx.Param("externalGroupId")
-	if len(externalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleGet5GVnGroupConfiguration(externalGroupId)
+	rsp := prod.HandleQueryUserConsentData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -921,6 +966,120 @@ func OnQueryLcsPrivacyData(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params QueryLcsPrivacyDataParams
 
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// call application handler
+	rsp := prod.HandleQueryLcsPrivacyData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryAuthSubsData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryAuthSubsDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryAuthSubsData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryAmData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryAmDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// call application handler
+	rsp := prod.HandleQueryAmData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryOperSpecData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryOperSpecDataParams
+
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
 	if len(params.UeId) == 0 {
@@ -947,7 +1106,7 @@ func OnQueryLcsPrivacyData(ctx sbi.RequestContext, handler any) {
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// call application handler
-	rsp := prod.HandleQueryLcsPrivacyData(&params)
+	rsp := prod.HandleQueryOperSpecData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -957,72 +1116,10 @@ func OnQueryLcsPrivacyData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+func OnQuerySmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params CreateServiceSpecificAuthorizationInfoParams
-
-	// read 'serviceType'
-	params.ServiceType = ctx.Param("serviceType")
-	if len(params.ServiceType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
-		return
-	}
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.ServiceSpecificAuthorizationInfo)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateServiceSpecificAuthorizationInfo(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryRoamingInformation(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryRoamingInformation(ueId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryAmfContextNon3gppParams
+	var params QuerySmsfContextNon3gppParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -1044,64 +1141,7 @@ func OnQueryAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// call application handler
-	rsp := prod.HandleQueryAmfContextNon3gpp(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnModifyIpSmGwContext(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleModifyIpSmGwContext(ueId, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryPPData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryPPDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryPPData(&params)
+	rsp := prod.HandleQuerySmsfContextNon3gpp(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -1159,83 +1199,9 @@ func OnModifyAmfSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateNIDDAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+func OnRemoveHssSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.NiddAuthorizationInfo)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateNIDDAuthorizationInfo(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateOperSpecData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateOperSpecDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleCreateOperSpecData(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGetHssSubscriptionInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetHssSubscriptionInfoParams
+	var params RemoveHssSubscriptionsInfoParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -1252,26 +1218,16 @@ func OnGetHssSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	rsp := prod.HandleGetHssSubscriptionInfo(&params)
+	prod.HandleRemoveHssSubscriptionsInfo(&params)
 
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
+	// success
+	ctx.WriteResponse(204, nil)
 
 }
 
-func OnGetAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+func OnGetHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params GetAmfGroupSubscriptionsParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
+	var params GetHssSDMSubscriptionInfoParams
 
 	// read 'subsId'
 	params.SubsId = ctx.Param("subsId")
@@ -1280,22 +1236,6 @@ func OnGetAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// call application handler
-	rsp := prod.HandleGetAmfGroupSubscriptions(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnAmfContext3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params AmfContext3gppParams
-
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
 	if len(params.UeId) == 0 {
@@ -1303,161 +1243,8 @@ func OnAmfContext3gpp(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
 	// call application handler
-	rsp, prob := prod.HandleAmfContext3gpp(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateSmsfContext3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.SmsfRegistration)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateSmsfContext3gpp(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryeeSubscription(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryeeSubscriptionParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleQueryeeSubscription(&params)
-
-	// success
-	ctx.WriteResponse(200, nil)
-
-}
-
-func OnModifysubscriptionDataSubscription(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params ModifysubscriptionDataSubscriptionParams
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModifysubscriptionDataSubscription(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryContextData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryContextDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'context-dataset-names'
-	contextDatasetNamesStr := ctx.Param("context-dataset-names")
-	if len(contextDatasetNamesStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "context-dataset-names is required"))
-		return
-	}
-
-	if params.ContextDatasetNames, err = models.ArrayOfStringFromString(contextDatasetNamesStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse context-dataset-names failed: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryContextData(&params)
+	rsp := prod.HandleGetHssSDMSubscriptionInfo(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -1500,38 +1287,38 @@ func OnUpdateRoamingInformation(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateAuthenticationSoR(ctx sbi.RequestContext, handler any) {
+func OnGetAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var err error
-	var params CreateAuthenticationSoRParams
+	var params GetAmfGroupSubscriptionsParams
 
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
 		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	body := new(models.SorData)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
 		return
 	}
 
 	// call application handler
-	prod.HandleCreateAuthenticationSoR(&params, body)
+	rsp := prod.HandleGetAmfGroupSubscriptions(&params)
 
-	// success
-	ctx.WriteResponse(204, nil)
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
 
 }
 
-func OnDeleteIpSmGwContext(ctx sbi.RequestContext, handler any) {
+func OnCreateAuthenticationStatus(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
+	var err error
 
 	// read 'ueId'
 	var ueId string
@@ -1541,18 +1328,25 @@ func OnDeleteIpSmGwContext(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
+	// decode request body
+	body := new(models.AuthEvent)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
 	// call application handler
-	prod.HandleDeleteIpSmGwContext(ueId)
+	prod.HandleCreateAuthenticationStatus(ueId, body)
 
 	// success
 	ctx.WriteResponse(204, nil)
 
 }
 
-func OnQueryMessageWaitingData(ctx sbi.RequestContext, handler any) {
+func OnQuerySmsfContext3gpp(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params QueryMessageWaitingDataParams
+	var params QuerySmsfContext3gppParams
 
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
@@ -1574,11 +1368,70 @@ func OnQueryMessageWaitingData(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	rsp := prod.HandleQueryMessageWaitingData(&params)
+	rsp := prod.HandleQuerySmsfContext3gpp(&params)
 
 	// check for success response
 	if rsp != nil {
 		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnGetHssSubscriptionInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params GetHssSubscriptionInfoParams
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleGetHssSubscriptionInfo(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnCreateEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueGroupId'
+	var ueGroupId string
+	ueGroupId = ctx.Param("ueGroupId")
+	if len(ueGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.EeSubscription)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateEeGroupSubscriptions(ueGroupId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
 		return
 	}
 
@@ -1609,696 +1462,10 @@ func OnQuerySubsToNotify(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnRemovesubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'subsId'
-	var subsId string
-	subsId = ctx.Param("subsId")
-	if len(subsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemovesubscriptionDataSubscriptions(subsId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnModify5GVnGroup(ctx sbi.RequestContext, handler any) {
+func OnGetIdentityData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params Modify5GVnGroupParams
-
-	// read 'externalGroupId'
-	params.ExternalGroupId = ctx.Param("externalGroupId")
-	if len(params.ExternalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModify5GVnGroup(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGetMulticastMbsGroupMemb(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'externalGroupId'
-	var externalGroupId string
-	externalGroupId = ctx.Param("externalGroupId")
-	if len(externalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGetMulticastMbsGroupMemb(externalGroupId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnDeleteOperSpecData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDeleteOperSpecData(ueId)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGetSharedData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params GetSharedDataParams
-
-	// read 'shared-data-ids'
-	sharedDataIdsStr := ctx.Param("shared-data-ids")
-	if len(sharedDataIdsStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "shared-data-ids is required"))
-		return
-	}
-
-	if params.SharedDataIds, err = models.ArrayOfStringFromString(sharedDataIdsStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse shared-data-ids failed: %+v", err)))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetSharedData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnQueryLcsMoData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryLcsMoDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// call application handler
-	rsp := prod.HandleQueryLcsMoData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQuery5GVnGroupInternal(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'internal-group-ids'
-	var internalGroupIds []string
-	internalGroupIdsStr := ctx.Param("internal-group-ids")
-	if len(internalGroupIdsStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "internal-group-ids is required"))
-		return
-	}
-
-	if internalGroupIds, err = models.ArrayOfStringFromString(internalGroupIdsStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse internal-group-ids failed: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQuery5GVnGroupInternal(internalGroupIds)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnRemoveAmfSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveAmfSubscriptionsInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveAmfSubscriptionsInfo(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnDeleteMessageWaitingData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleDeleteMessageWaitingData(ueId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnRemoveHssSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveHssSubscriptionsInfoParams
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveHssSubscriptionsInfo(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQuery5GVnGroup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'gpsis'
-	var gpsis []string
-	gpsisStr := ctx.Param("gpsis")
-	if len(gpsisStr) > 0 {
-		if gpsis, err = models.ArrayOfStringFromString(gpsisStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse gpsis failed: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp := prod.HandleQuery5GVnGroup(gpsis)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnGetNiddAuthorizationInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleGetNiddAuthorizationInfo(ueId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryIndividualAuthenticationStatus(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryIndividualAuthenticationStatusParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'servingNetworkName'
-	params.ServingNetworkName = ctx.Param("servingNetworkName")
-	if len(params.ServingNetworkName) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingNetworkName is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryIndividualAuthenticationStatus(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreateHSSSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateHSSSubscriptionsParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.HssSubscriptionInfo)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateHSSSubscriptions(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnUpdateEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params UpdateEeGroupSubscriptionsParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.EeSubscription)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleUpdateEeGroupSubscriptions(&params, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateSMFSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateSMFSubscriptionsParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.SmfSubscriptionInfo)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateSMFSubscriptions(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnModifySmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params ModifySmfGroupSubscriptionsParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModifySmfGroupSubscriptions(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateIndividualAuthenticationStatus(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateIndividualAuthenticationStatusParams
-
-	// read 'servingNetworkName'
-	params.ServingNetworkName = ctx.Param("servingNetworkName")
-	if len(params.ServingNetworkName) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingNetworkName is required"))
-		return
-	}
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.AuthEvent)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prod.HandleCreateIndividualAuthenticationStatus(&params, body)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQuerySmfRegList(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QuerySmfRegListParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQuerySmfRegList(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnDeleteSmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleDeleteSmsfContextNon3gpp(ueId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateHSSSDMSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateHSSSDMSubscriptionsParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.HssSubscriptionInfo)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prod.HandleCreateHSSSDMSubscriptions(&params, body)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryUeLocation(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryUeLocationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryUeLocation(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryV2xData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryV2xDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
+	var params GetIdentityDataParams
 
 	// read 'If-Modified-Since'
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
@@ -2310,359 +1477,24 @@ func OnQueryV2xData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryV2xData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
+	// read 'app-port-id'
+	appPortIdStr := ctx.Param("app-port-id")
+	if len(appPortIdStr) > 0 {
+		if params.AppPortId, err = models.AppPortIdFromString(appPortIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse app-port-id failed: %+v", err)))
+			return
+		}
 	}
-
-}
-
-func OnQueryAuthSubsData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryAuthSubsDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryAuthSubsData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQuerySmsMngData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QuerySmsMngDataParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
 
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
-		return
-	}
-
 	// call application handler
-	rsp := prod.HandleQuerySmsMngData(&params)
+	rsp, prob := prod.HandleGetIdentityData(&params)
 
 	// check for success response
 	if rsp != nil {
 		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryUeSubscribedData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryUeSubscribedDataParams
-
-	// read 'serving-plmn'
-	params.ServingPlmn = ctx.Param("serving-plmn")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'dataset-names'
-	datasetNamesStr := ctx.Param("dataset-names")
-	if len(datasetNamesStr) > 0 {
-		if params.DatasetNames, err = models.ArrayOfStringFromString(datasetNamesStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse dataset-names failed: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryUeSubscribedData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreateAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateAmfGroupSubscriptionsParams
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateAmfGroupSubscriptions(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateAmfContext3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.Amf3GppAccessRegistration)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateAmfContext3gpp(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.AmfNon3GppAccessRegistration)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateAmfContextNon3gpp(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryEEData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryEEDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryEEData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnModifyNiddAuthorizationInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params ModifyNiddAuthorizationInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModifyNiddAuthorizationInfo(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryAuthenticationStatus(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryAuthenticationStatusParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryAuthenticationStatus(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreate5GVnGroup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'externalGroupId'
-	var externalGroupId string
-	externalGroupId = ctx.Param("externalGroupId")
-	if len(externalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.FiveGVnGroupConfiguration)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleCreate5GVnGroup(externalGroupId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
 		return
 	}
 
@@ -2678,9 +1510,6 @@ func OnQueryPorseData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var params QueryPorseDataParams
 
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
 	if len(params.UeId) == 0 {
@@ -2694,131 +1523,11 @@ func OnQueryPorseData(ctx sbi.RequestContext, handler any) {
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
 
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
 	// call application handler
 	rsp := prod.HandleQueryPorseData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnGetSmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetSmfGroupSubscriptionsParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleGetSmfGroupSubscriptions(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnRemoveSmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveSmfGroupSubscriptionsParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveSmfGroupSubscriptions(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnCreateAMFSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateAMFSubscriptionsParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateAMFSubscriptions(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGetSmfSubscriptionInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetSmfSubscriptionInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleGetSmfSubscriptionInfo(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -2868,40 +1577,8 @@ func OnCreateSmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetMultiplePPDataEntries(ctx sbi.RequestContext, handler any) {
+func OnDeleteAuthenticationStatus(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params GetMultiplePPDataEntriesParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetMultiplePPDataEntries(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnModifyMessageWaitingData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
 
 	// read 'ueId'
 	var ueId string
@@ -2911,30 +1588,49 @@ func OnModifyMessageWaitingData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
 	// call application handler
-	prob := prod.HandleModifyMessageWaitingData(ueId, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
+	prod.HandleDeleteAuthenticationStatus(ueId)
 
 	// success
 	ctx.WriteResponse(204, nil)
 
 }
 
-func OnCreatePPDataEntry(ctx sbi.RequestContext, handler any) {
+func OnDeleteIpSmGwContext(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleDeleteIpSmGwContext(ueId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryMessageWaitingData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params CreatePPDataEntryParams
+	var params QueryMessageWaitingDataParams
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -2943,10 +1639,33 @@ func OnCreatePPDataEntry(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
+	// call application handler
+	rsp := prod.HandleQueryMessageWaitingData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnCreatePPDataEntry(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreatePPDataEntryParams
+
 	// read 'afInstanceId'
 	params.AfInstanceId = ctx.Param("afInstanceId")
 	if len(params.AfInstanceId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "afInstanceId is required"))
+		return
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
 
@@ -2963,6 +1682,713 @@ func OnCreatePPDataEntry(ctx sbi.RequestContext, handler any) {
 	// check for success response
 	if rsp != nil {
 		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnRemoveeeSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params RemoveeeSubscriptionsParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemoveeeSubscriptions(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryeeSubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryeeSubscriptionParams
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleQueryeeSubscription(&params)
+
+	// success
+	ctx.WriteResponse(200, nil)
+
+}
+
+func OnCreateServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateServiceSpecificAuthorizationInfoParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'serviceType'
+	params.ServiceType = ctx.Param("serviceType")
+	if len(params.ServiceType) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.ServiceSpecificAuthorizationInfo)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateServiceSpecificAuthorizationInfo(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryAuthSoR(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryAuthSoRParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryAuthSoR(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnDeleteOperSpecData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDeleteOperSpecData(ueId)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQuerySmsData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QuerySmsDataParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQuerySmsData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnDelete5GVnGroup(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'externalGroupId'
+	var externalGroupId string
+	externalGroupId = ctx.Param("externalGroupId")
+	if len(externalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleDelete5GVnGroup(externalGroupId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateSmsfContext3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.SmsfRegistration)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateSmsfContext3gpp(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateEeSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.EeSubscription)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateEeSubscriptions(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+}
+
+func OnCreateAMFSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateAMFSubscriptionsParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateAMFSubscriptions(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifysdmSubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifysdmSubscriptionParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifysdmSubscription(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnGetSSAuData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params GetSSAuDataParams
+
+	// read 'serviceType'
+	params.ServiceType = ctx.Param("serviceType")
+	if len(params.ServiceType) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
+		return
+	}
+
+	// read 'single-nssai'
+	singleNssaiStr := ctx.Param("single-nssai")
+	if len(singleNssaiStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "single-nssai is required"))
+		return
+	}
+
+	if params.SingleNssai, err = models.VarSnssaiFromString(singleNssaiStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)))
+		return
+	}
+
+	// read 'dnn'
+	params.Dnn = ctx.Param("dnn")
+	if len(params.Dnn) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "dnn is required"))
+		return
+	}
+
+	// read 'mtc-provider-information'
+	params.MtcProviderInformation = ctx.Param("mtc-provider-information")
+
+	// read 'af-id'
+	params.AfId = ctx.Param("af-id")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleGetSSAuData(&params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(200, nil)
+
+}
+
+func OnCreateAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateAmfGroupSubscriptionsParams
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateAmfGroupSubscriptions(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnRemoveSmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params RemoveSmfGroupSubscriptionsParams
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemoveSmfGroupSubscriptions(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnGet5GVnGroupConfiguration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'externalGroupId'
+	var externalGroupId string
+	externalGroupId = ctx.Param("externalGroupId")
+	if len(externalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleGet5GVnGroupConfiguration(externalGroupId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryCoverageRestrictionData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryCoverageRestrictionDataParams
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// call application handler
+	rsp := prod.HandleQueryCoverageRestrictionData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnCreateAuthenticationSoR(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateAuthenticationSoRParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	body := new(models.SorData)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prod.HandleCreateAuthenticationSoR(&params, body)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryEeGroupSubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryEeGroupSubscriptionParams
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleQueryEeGroupSubscription(&params)
+
+	// success
+	ctx.WriteResponse(200, nil)
+
+}
+
+func OnQueryContextData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryContextDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'context-dataset-names'
+	contextDatasetNamesStr := ctx.Param("context-dataset-names")
+	if len(contextDatasetNamesStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "context-dataset-names is required"))
+		return
+	}
+
+	if params.ContextDatasetNames, err = models.ArrayOfStringFromString(contextDatasetNamesStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse context-dataset-names failed: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryContextData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnGetppData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params GetppDataParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetppData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnModifyEesubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifyEesubscriptionParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifyEesubscription(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
 		return
 	}
 
@@ -3017,9 +2443,9 @@ func OnUpdateEesubscriptions(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnRemoveeeSubscriptions(ctx sbi.RequestContext, handler any) {
+func OnRemoveAmfSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params RemoveeeSubscriptionsParams
+	var params RemoveAmfSubscriptionsInfoParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -3036,605 +2462,7 @@ func OnRemoveeeSubscriptions(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	prod.HandleRemoveeeSubscriptions(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryPeiInformation(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryPeiInformation(ueId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQuery5GMbsGroupInternal(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'internal-group-ids'
-	var internalGroupIds []string
-	internalGroupIdsStr := ctx.Param("internal-group-ids")
-	if len(internalGroupIdsStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "internal-group-ids is required"))
-		return
-	}
-
-	if internalGroupIds, err = models.ArrayOfStringFromString(internalGroupIdsStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse internal-group-ids failed: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleQuery5GMbsGroupInternal(internalGroupIds)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnQueryAmData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryAmDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryAmData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryCoverageRestrictionData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryCoverageRestrictionDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryCoverageRestrictionData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnModify5GmbsGroup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params Modify5GmbsGroupParams
-
-	// read 'externalGroupId'
-	params.ExternalGroupId = ctx.Param("externalGroupId")
-	if len(params.ExternalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModify5GmbsGroup(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryeesubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryeesubscriptionsParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'event-types'
-	eventTypesStr := ctx.Param("event-types")
-	if len(eventTypesStr) > 0 {
-		if params.EventTypes, err = models.ArrayOfStringFromString(eventTypesStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse event-types failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'nf-identifiers'
-	nfIdentifiersStr := ctx.Param("nf-identifiers")
-	if len(nfIdentifiersStr) > 0 {
-		if params.NfIdentifiers, err = models.ArrayOfNfIdentifierFromString(nfIdentifiersStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse nf-identifiers failed: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryeesubscriptions(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQuerySmsfContext3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QuerySmsfContext3gppParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQuerySmsfContext3gpp(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnRemoveNiddAuthorizationInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveNiddAuthorizationInfo(ueId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnRemoveServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveServiceSpecificAuthorizationInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'serviceType'
-	params.ServiceType = ctx.Param("serviceType")
-	if len(params.ServiceType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveServiceSpecificAuthorizationInfo(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnDeleteSmfRegistration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params DeleteSmfRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'pduSessionId'
-	pduSessionIdStr := ctx.Param("pduSessionId")
-	if len(pduSessionIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"))
-		return
-	}
-
-	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prod.HandleDeleteSmfRegistration(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQuerysdmsubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QuerysdmsubscriptionsParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQuerysdmsubscriptions(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryTraceData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryTraceDataParams
-
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
-		return
-	}
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryTraceData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnRemoveAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params RemoveAmfGroupSubscriptionsParams
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleRemoveAmfGroupSubscriptions(&params)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryAuthSoR(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryAuthSoRParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryAuthSoR(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryCagAck(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryCagAckParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryCagAck(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQueryAmfContext3gpp(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryAmfContext3gppParams
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryAmfContext3gpp(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQuerySmfRegistration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QuerySmfRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'pduSessionId'
-	pduSessionIdStr := ctx.Param("pduSessionId")
-	if len(pduSessionIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"))
-		return
-	}
-
-	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQuerySmfRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnModifySmfSubscriptionInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params ModifySmfSubscriptionInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModifySmfSubscriptionInfo(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
+	prod.HandleRemoveAmfSubscriptionsInfo(&params)
 
 	// success
 	ctx.WriteResponse(204, nil)
@@ -3673,83 +2501,18 @@ func OnRemovesdmSubscriptions(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetGroupIdentifiers(ctx sbi.RequestContext, handler any) {
+func OnQueryLcsBcaData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var err error
-	var params GetGroupIdentifiersParams
-
-	// read 'ue-id-ind'
-	ueIdIndStr := ctx.Param("ue-id-ind")
-	if len(ueIdIndStr) > 0 {
-		var ueIdIndTmp bool
-		if ueIdIndTmp, err = models.BoolFromString(ueIdIndStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ue-id-ind failed: %+v", err)))
-			return
-		}
-		params.UeIdInd = &ueIdIndTmp
-	}
+	var params QueryLcsBcaDataParams
 
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
-	// read 'ext-group-id'
-	params.ExtGroupId = ctx.Param("ext-group-id")
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
 
-	// read 'int-group-id'
-	params.IntGroupId = ctx.Param("int-group-id")
-
-	// call application handler
-	rsp, prob := prod.HandleGetGroupIdentifiers(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnQuery5GVNGroupPPData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params Query5GVNGroupPPDataParams
-
-	// read 'ext-group-ids'
-	extGroupIdsStr := ctx.Param("ext-group-ids")
-	if len(extGroupIdsStr) > 0 {
-		if params.ExtGroupIds, err = models.ArrayOfStringFromString(extGroupIdsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ext-group-ids failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQuery5GVNGroupPPData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreateAuthenticationUPU(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateAuthenticationUPUParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -3758,37 +2521,15 @@ func OnCreateAuthenticationUPU(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// decode request body
-	body := new(models.UpuData)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
 		return
 	}
 
 	// call application handler
-	prod.HandleCreateAuthenticationUPU(&params, body)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQuery5GmbsGroup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'gpsis'
-	var gpsis []string
-	gpsisStr := ctx.Param("gpsis")
-	if len(gpsisStr) > 0 {
-		if gpsis, err = models.ArrayOfStringFromString(gpsisStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse gpsis failed: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleQuery5GmbsGroup(gpsis)
+	rsp := prod.HandleQueryLcsBcaData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -3796,18 +2537,40 @@ func OnQuery5GmbsGroup(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+}
+
+func OnQuery5GVnGroupInternal(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'internal-group-ids'
+	var internalGroupIds []string
+	internalGroupIdsStr := ctx.Param("internal-group-ids")
+	if len(internalGroupIdsStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "internal-group-ids is required"))
+		return
+	}
+
+	if internalGroupIds, err = models.ArrayOfStringFromString(internalGroupIdsStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse internal-group-ids failed: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQuery5GVnGroupInternal(internalGroupIds)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
 		return
 	}
 
 }
 
-func OnCreateOrUpdateNssaiAck(ctx sbi.RequestContext, handler any) {
+func OnAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params CreateOrUpdateNssaiAckParams
+	var params AmfContextNon3gppParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -3820,14 +2583,25 @@ func OnCreateOrUpdateNssaiAck(ctx sbi.RequestContext, handler any) {
 	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// decode request body
-	body := new(models.NssaiAckData)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	prod.HandleCreateOrUpdateNssaiAck(&params, body)
+	rsp, prob := prod.HandleAmfContextNon3gpp(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
 
 	// success
 	ctx.WriteResponse(204, nil)
@@ -3887,43 +2661,9 @@ func OnUpdateSmfContext(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateMessageWaitingData(ctx sbi.RequestContext, handler any) {
+func OnRemoveSmfSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.MessageWaitingData)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateMessageWaitingData(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnUpdatesdmsubscriptions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params UpdatesdmsubscriptionsParams
+	var params RemoveSmfSubscriptionsInfoParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -3939,40 +2679,34 @@ func OnUpdatesdmsubscriptions(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// decode request body
-	body := new(models.SdmSubscription)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
 	// call application handler
-	prob := prod.HandleUpdatesdmsubscriptions(&params, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
+	prod.HandleRemoveSmfSubscriptionsInfo(&params)
 
 	// success
 	ctx.WriteResponse(204, nil)
 
 }
 
-func OnGetOdbData(ctx sbi.RequestContext, handler any) {
+func OnGetSmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
+	var params GetSmfGroupSubscriptionsParams
 
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
 		return
 	}
 
 	// call application handler
-	rsp := prod.HandleGetOdbData(ueId)
+	rsp := prod.HandleGetSmfGroupSubscriptions(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -3982,27 +2716,39 @@ func OnGetOdbData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateOrUpdatePeiInformation(ctx sbi.RequestContext, handler any) {
+func OnCreateOrUpdateSmfRegistration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
+	var params CreateOrUpdateSmfRegistrationParams
+
+	// read 'pduSessionId'
+	pduSessionIdStr := ctx.Param("pduSessionId")
+	if len(pduSessionIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"))
+		return
+	}
+
+	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)))
+		return
+	}
 
 	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
 
 	// decode request body
-	body := new(models.PeiUpdateInfo)
+	body := new(models.SmfRegistration)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp := prod.HandleCreateOrUpdatePeiInformation(ueId, body)
+	rsp := prod.HandleCreateOrUpdateSmfRegistration(&params, body)
 
 	// check for success response
 	if rsp != nil {
@@ -4015,55 +2761,35 @@ func OnCreateOrUpdatePeiInformation(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnDeleteAuthenticationStatus(ctx sbi.RequestContext, handler any) {
+func OnQuerySmsMngData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
+	var params QuerySmsMngDataParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
 
-	// call application handler
-	prod.HandleDeleteAuthenticationStatus(ueId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnModifyEesubscription(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params ModifyEesubscriptionParams
-
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
 		return
 	}
 
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
 	// call application handler
-	rsp, prob := prod.HandleModifyEesubscription(&params, body)
+	rsp := prod.HandleQuerySmsMngData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -4071,18 +2797,34 @@ func OnModifyEesubscription(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+}
+
+func OnQueryGroupEEData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryGroupEEDataParams
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
 		return
 	}
 
-	// success
-	ctx.WriteResponse(204, nil)
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryGroupEEData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
 
 }
 
-func OnDelete5GmbsGroup(ctx sbi.RequestContext, handler any) {
+func OnGetMulticastMbsGroupMemb(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 
 	// read 'externalGroupId'
@@ -4094,7 +2836,42 @@ func OnDelete5GmbsGroup(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	prob := prod.HandleDelete5GmbsGroup(externalGroupId)
+	rsp, prob := prod.HandleGetMulticastMbsGroupMemb(externalGroupId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnModifyIpSmGwContext(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleModifyIpSmGwContext(ueId, body)
 
 	// check for problem
 	if prob != nil {
@@ -4107,39 +2884,9 @@ func OnDelete5GmbsGroup(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateCagUpdateAck(ctx sbi.RequestContext, handler any) {
+func OnGetSmfSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var err error
-	var params CreateCagUpdateAckParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	body := new(models.CagAckData)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prod.HandleCreateCagUpdateAck(&params, body)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGetHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetHssSDMSubscriptionInfoParams
+	var params GetSmfSubscriptionInfoParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -4156,7 +2903,7 @@ func OnGetHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	rsp := prod.HandleGetHssSDMSubscriptionInfo(&params)
+	rsp := prod.HandleGetSmfSubscriptionInfo(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -4166,40 +2913,31 @@ func OnGetHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnModifyHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
+func OnCreate5GmbsGroup(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params ModifyHssSDMSubscriptionInfoParams
 
-	// read 'subsId'
-	params.SubsId = ctx.Param("subsId")
-	if len(params.SubsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+	// read 'externalGroupId'
+	var externalGroupId string
+	externalGroupId = ctx.Param("externalGroupId")
+	if len(externalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
 		return
 	}
 
 	// decode request body
+	body := new(models.MulticastMbsGroupMemb)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleModifyHssSDMSubscriptionInfo(&params, body)
+	rsp, prob := prod.HandleCreate5GmbsGroup(externalGroupId, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(201, rsp)
 		return
 	}
 
@@ -4209,15 +2947,12 @@ func OnModifyHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// success
-	ctx.WriteResponse(204, nil)
-
 }
 
-func OnGetIdentityData(ctx sbi.RequestContext, handler any) {
+func OnQueryUeSubscribedData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params GetIdentityDataParams
+	var params QueryUeSubscribedDataParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -4226,14 +2961,550 @@ func OnGetIdentityData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'app-port-id'
-	appPortIdStr := ctx.Param("app-port-id")
-	if len(appPortIdStr) > 0 {
-		if params.AppPortId, err = models.AppPortIdFromString(appPortIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse app-port-id failed: %+v", err)))
+	// read 'dataset-names'
+	datasetNamesStr := ctx.Param("dataset-names")
+	if len(datasetNamesStr) > 0 {
+		if params.DatasetNames, err = models.ArrayOfStringFromString(datasetNamesStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse dataset-names failed: %+v", err)))
 			return
 		}
 	}
+
+	// read 'serving-plmn'
+	params.ServingPlmn = ctx.Param("serving-plmn")
+
+	// call application handler
+	rsp := prod.HandleQueryUeSubscribedData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQuerySmfRegistration(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QuerySmfRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'pduSessionId'
+	pduSessionIdStr := ctx.Param("pduSessionId")
+	if len(pduSessionIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"))
+		return
+	}
+
+	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQuerySmfRegistration(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryIpSmGwContext(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryIpSmGwContextParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryIpSmGwContext(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnGetPPDataEntry(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params GetPPDataEntryParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'afInstanceId'
+	params.AfInstanceId = ctx.Param("afInstanceId")
+	if len(params.AfInstanceId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "afInstanceId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetPPDataEntry(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnQuerysdmSubscription(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QuerysdmSubscriptionParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleQuerysdmSubscription(&params)
+
+	// success
+	ctx.WriteResponse(200, nil)
+
+}
+
+func OnRemovesubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'subsId'
+	var subsId string
+	subsId = ctx.Param("subsId")
+	if len(subsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemovesubscriptionDataSubscriptions(subsId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifyNiddAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifyNiddAuthorizationInfoParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifyNiddAuthorizationInfo(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQuery5mbsData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params Query5mbsDataParams
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// call application handler
+	rsp := prod.HandleQuery5mbsData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnRemoveAmfGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params RemoveAmfGroupSubscriptionsParams
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemoveAmfGroupSubscriptions(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateOrUpdateNssaiAck(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateOrUpdateNssaiAckParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	body := new(models.NssaiAckData)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prod.HandleCreateOrUpdateNssaiAck(&params, body)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnDeletePPDataEntry(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params DeletePPDataEntryParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'afInstanceId'
+	params.AfInstanceId = ctx.Param("afInstanceId")
+	if len(params.AfInstanceId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "afInstanceId is required"))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDeletePPDataEntry(&params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQuery5GMbsGroupPPData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params Query5GMbsGroupPPDataParams
+
+	// read 'ext-group-ids'
+	extGroupIdsStr := ctx.Param("ext-group-ids")
+	if len(extGroupIdsStr) > 0 {
+		if params.ExtGroupIds, err = models.ArrayOfStringFromString(extGroupIdsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ext-group-ids failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleQuery5GMbsGroupPPData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnRemoveServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params RemoveServiceSpecificAuthorizationInfoParams
+
+	// read 'serviceType'
+	params.ServiceType = ctx.Param("serviceType")
+	if len(params.ServiceType) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
+		return
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemoveServiceSpecificAuthorizationInfo(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryIndividualAuthenticationStatus(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryIndividualAuthenticationStatusParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'servingNetworkName'
+	params.ServingNetworkName = ctx.Param("servingNetworkName")
+	if len(params.ServingNetworkName) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingNetworkName is required"))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryIndividualAuthenticationStatus(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnUpdateAuthenticationSoR(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params UpdateAuthenticationSoRParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateAuthenticationSoR(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryAuthUPU(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryAuthUPUParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryAuthUPU(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQuerySmData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QuerySmDataParams
+
+	// read 'single-nssai'
+	singleNssaiStr := ctx.Param("single-nssai")
+	if len(singleNssaiStr) > 0 {
+		if params.SingleNssai, err = models.VarSnssaiFromString(singleNssaiStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'dnn'
+	params.Dnn = ctx.Param("dnn")
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
@@ -4241,8 +3512,54 @@ func OnGetIdentityData(ctx sbi.RequestContext, handler any) {
 	// read 'If-Modified-Since'
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'servingPlmnId'
+	params.ServingPlmnId = ctx.Param("servingPlmnId")
+	if len(params.ServingPlmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
+		return
+	}
+
 	// call application handler
-	rsp, prob := prod.HandleGetIdentityData(&params)
+	rsp := prod.HandleQuerySmData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnAmfContext3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params AmfContext3gppParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleAmfContext3gpp(&params, body)
 
 	// check for success response
 	if rsp != nil {
@@ -4253,6 +3570,318 @@ func OnGetIdentityData(ctx sbi.RequestContext, handler any) {
 	// check for problem
 	if prob != nil {
 		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryPPData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryPPDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryPPData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryEEData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryEEDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryEEData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnCreateNIDDAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.NiddAuthorizationInfo)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateNIDDAuthorizationInfo(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryNssaiAck(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryNssaiAckParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryNssaiAck(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnCreateAmfContextNon3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.AmfNon3GppAccessRegistration)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateAmfContextNon3gpp(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifyMessageWaitingData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleModifyMessageWaitingData(ueId, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifyHssSubscriptionInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifyHssSubscriptionInfoParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifyHssSubscriptionInfo(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQuerysdmsubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QuerysdmsubscriptionsParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQuerysdmsubscriptions(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQueryUeLocation(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryUeLocationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryUeLocation(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnQuery5GVNGroupPPData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params Query5GVNGroupPPDataParams
+
+	// read 'ext-group-ids'
+	extGroupIdsStr := ctx.Param("ext-group-ids")
+	if len(extGroupIdsStr) > 0 {
+		if params.ExtGroupIds, err = models.ArrayOfStringFromString(extGroupIdsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ext-group-ids failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQuery5GVNGroupPPData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
 		return
 	}
 
@@ -4306,61 +3935,27 @@ func OnModifyServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler an
 
 }
 
-func OnQueryUserConsentData(ctx sbi.RequestContext, handler any) {
+func OnCreateOrUpdatePeiInformation(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params QueryUserConsentDataParams
+	var err error
 
 	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ucPurpose'
-	params.UcPurpose = ctx.Param("ucPurpose")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// call application handler
-	rsp := prod.HandleQueryUserConsentData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreate5GmbsGroup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'externalGroupId'
-	var externalGroupId string
-	externalGroupId = ctx.Param("externalGroupId")
-	if len(externalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
 	// decode request body
-	body := new(models.MulticastMbsGroupMemb)
+	body := new(models.PeiUpdateInfo)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleCreate5GmbsGroup(externalGroupId, body)
+	rsp := prod.HandleCreateOrUpdatePeiInformation(ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -4368,43 +3963,15 @@ func OnCreate5GmbsGroup(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
+	// success
+	ctx.WriteResponse(204, nil)
 
 }
 
-func OnQueryGroupEEData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QueryGroupEEDataParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueGroupId'
-	params.UeGroupId = ctx.Param("ueGroupId")
-	if len(params.UeGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleQueryGroupEEData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnQuerySmfSelectData(ctx sbi.RequestContext, handler any) {
+func OnCreateIndividualAuthenticationStatus(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params QuerySmfSelectDataParams
+	var params CreateIndividualAuthenticationStatusParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -4413,81 +3980,52 @@ func OnQuerySmfSelectData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'servingPlmnId'
-	params.ServingPlmnId = ctx.Param("servingPlmnId")
-	if len(params.ServingPlmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingPlmnId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// call application handler
-	rsp := prod.HandleQuerySmfSelectData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreateOrUpdateSmfRegistration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params CreateOrUpdateSmfRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'pduSessionId'
-	pduSessionIdStr := ctx.Param("pduSessionId")
-	if len(pduSessionIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"))
-		return
-	}
-
-	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)))
+	// read 'servingNetworkName'
+	params.ServingNetworkName = ctx.Param("servingNetworkName")
+	if len(params.ServingNetworkName) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingNetworkName is required"))
 		return
 	}
 
 	// decode request body
-	body := new(models.SmfRegistration)
+	body := new(models.AuthEvent)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp := prod.HandleCreateOrUpdateSmfRegistration(&params, body)
+	prod.HandleCreateIndividualAuthenticationStatus(&params, body)
 
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateAuthenticationUPU(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateAuthenticationUPUParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	body := new(models.UpuData)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prod.HandleCreateAuthenticationUPU(&params, body)
 
 	// success
 	ctx.WriteResponse(204, nil)
@@ -4535,10 +4073,10 @@ func OnModifyOperSpecData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnQuerySmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
+func OnCreateSMFSubscriptions(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params QuerySmsfContextNon3gppParams
+	var params CreateSMFSubscriptionsParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -4547,20 +4085,134 @@ func OnQuerySmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
+	// decode request body
+	body := new(models.SmfSubscriptionInfo)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
 
 	// call application handler
-	rsp := prod.HandleQuerySmsfContextNon3gpp(&params)
+	rsp := prod.HandleCreateSMFSubscriptions(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateHSSSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateHSSSubscriptionsParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.HssSubscriptionInfo)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateHSSSubscriptions(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnUpdateEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params UpdateEeGroupSubscriptionsParams
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.EeSubscription)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleUpdateEeGroupSubscriptions(&params, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnGetServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params GetServiceSpecificAuthorizationInfoParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'serviceType'
+	params.ServiceType = ctx.Param("serviceType")
+	if len(params.ServiceType) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleGetServiceSpecificAuthorizationInfo(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -4570,10 +4222,36 @@ func OnQuerySmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnModifyHssSubscriptionInfo(ctx sbi.RequestContext, handler any) {
+func OnDeleteIndividualAuthenticationStatus(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params DeleteIndividualAuthenticationStatusParams
+
+	// read 'servingNetworkName'
+	params.ServingNetworkName = ctx.Param("servingNetworkName")
+	if len(params.ServingNetworkName) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "servingNetworkName is required"))
+		return
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleDeleteIndividualAuthenticationStatus(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifySmfSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params ModifyHssSubscriptionInfoParams
+	var params ModifySmfSubscriptionInfoParams
 
 	// read 'subsId'
 	params.SubsId = ctx.Param("subsId")
@@ -4599,7 +4277,450 @@ func OnModifyHssSubscriptionInfo(ctx sbi.RequestContext, handler any) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleModifyHssSubscriptionInfo(&params, body)
+	rsp, prob := prod.HandleModifySmfSubscriptionInfo(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQuery5GMbsGroupInternal(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'internal-group-ids'
+	var internalGroupIds []string
+	internalGroupIdsStr := ctx.Param("internal-group-ids")
+	if len(internalGroupIdsStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "internal-group-ids is required"))
+		return
+	}
+
+	if internalGroupIds, err = models.ArrayOfStringFromString(internalGroupIdsStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse internal-group-ids failed: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleQuery5GMbsGroupInternal(internalGroupIds)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnCreateOperSpecData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params CreateOperSpecDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleCreateOperSpecData(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnDeleteSmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleDeleteSmsfContextNon3gpp(ueId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnModifyHssSDMSubscriptionInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params ModifyHssSDMSubscriptionInfoParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifyHssSDMSubscriptionInfo(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryCagAck(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params QueryCagAckParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp := prod.HandleQueryCagAck(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnRemoveEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params RemoveEeGroupSubscriptionsParams
+
+	// read 'subsId'
+	params.SubsId = ctx.Param("subsId")
+	if len(params.SubsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'ueGroupId'
+	params.UeGroupId = ctx.Param("ueGroupId")
+	if len(params.UeGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemoveEeGroupSubscriptions(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnDelete5GmbsGroup(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'externalGroupId'
+	var externalGroupId string
+	externalGroupId = ctx.Param("externalGroupId")
+	if len(externalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDelete5GmbsGroup(externalGroupId)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnCreateSmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.SmsfRegistration)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateSmsfContextNon3gpp(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQueryeesubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params QueryeesubscriptionsParams
+
+	// read 'nf-identifiers'
+	nfIdentifiersStr := ctx.Param("nf-identifiers")
+	if len(nfIdentifiersStr) > 0 {
+		if params.NfIdentifiers, err = models.ArrayOfNfIdentifierFromString(nfIdentifiersStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse nf-identifiers failed: %+v", err)))
+			return
+		}
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'event-types'
+	eventTypesStr := ctx.Param("event-types")
+	if len(eventTypesStr) > 0 {
+		if params.EventTypes, err = models.ArrayOfStringFromString(eventTypesStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse event-types failed: %+v", err)))
+			return
+		}
+	}
+
+	// call application handler
+	rsp := prod.HandleQueryeesubscriptions(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnGetSharedData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params GetSharedDataParams
+
+	// read 'shared-data-ids'
+	sharedDataIdsStr := ctx.Param("shared-data-ids")
+	if len(sharedDataIdsStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "shared-data-ids is required"))
+		return
+	}
+
+	if params.SharedDataIds, err = models.ArrayOfStringFromString(sharedDataIdsStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse shared-data-ids failed: %+v", err)))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetSharedData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+func OnRemoveMultipleSubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params RemoveMultipleSubscriptionDataSubscriptionsParams
+
+	// read 'ue-id'
+	params.UeId = ctx.Param("ue-id")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ue-id is required"))
+		return
+	}
+
+	// read 'nf-instance-id'
+	params.NfInstanceId = ctx.Param("nf-instance-id")
+
+	// read 'delete-all-nfs'
+	deleteAllNfsStr := ctx.Param("delete-all-nfs")
+	if len(deleteAllNfsStr) > 0 {
+		var deleteAllNfsTmp bool
+		if deleteAllNfsTmp, err = models.BoolFromString(deleteAllNfsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse delete-all-nfs failed: %+v", err)))
+			return
+		}
+		params.DeleteAllNfs = &deleteAllNfsTmp
+	}
+
+	// read 'implicit-unsubscribe-indication'
+	implicitUnsubscribeIndicationStr := ctx.Param("implicit-unsubscribe-indication")
+	if len(implicitUnsubscribeIndicationStr) > 0 {
+		var implicitUnsubscribeIndicationTmp bool
+		if implicitUnsubscribeIndicationTmp, err = models.BoolFromString(implicitUnsubscribeIndicationStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse implicit-unsubscribe-indication failed: %+v", err)))
+			return
+		}
+		params.ImplicitUnsubscribeIndication = &implicitUnsubscribeIndicationTmp
+	}
+
+	// call application handler
+	prod.HandleRemoveMultipleSubscriptionDataSubscriptions(&params)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnQuery5GVnGroup(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'gpsis'
+	var gpsis []string
+	gpsisStr := ctx.Param("gpsis")
+	if len(gpsisStr) > 0 {
+		if gpsis, err = models.ArrayOfStringFromString(gpsisStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse gpsis failed: %+v", err)))
+			return
+		}
+	}
+
+	// call application handler
+	rsp := prod.HandleQuery5GVnGroup(gpsis)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnModify5GmbsGroup(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params Modify5GmbsGroupParams
+
+	// read 'externalGroupId'
+	params.ExternalGroupId = ctx.Param("externalGroupId")
+	if len(params.ExternalGroupId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModify5GmbsGroup(&params, body)
 
 	// check for success response
 	if rsp != nil {
@@ -4622,17 +4743,17 @@ func OnRemoveHssSDMSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var params RemoveHssSDMSubscriptionsInfoParams
 
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
 	// read 'subsId'
 	params.SubsId = ctx.Param("subsId")
 	if len(params.SubsId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"))
+		return
+	}
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
 		return
 	}
 
@@ -4644,13 +4765,10 @@ func OnRemoveHssSDMSubscriptionsInfo(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnUpdateAuthenticationSoR(ctx sbi.RequestContext, handler any) {
+func OnDeleteSmfRegistration(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params UpdateAuthenticationSoRParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
+	var params DeleteSmfRegistrationParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -4659,125 +4777,30 @@ func OnUpdateAuthenticationSoR(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	// read 'pduSessionId'
+	pduSessionIdStr := ctx.Param("pduSessionId")
+	if len(pduSessionIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"))
+		return
+	}
+
+	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleUpdateAuthenticationSoR(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
+	prod.HandleDeleteSmfRegistration(&params)
 
 	// success
 	ctx.WriteResponse(204, nil)
 
 }
 
-func OnCreateEeGroupSubscriptions(ctx sbi.RequestContext, handler any) {
+func OnQueryLcsMoData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-
-	// read 'ueGroupId'
-	var ueGroupId string
-	ueGroupId = ctx.Param("ueGroupId")
-	if len(ueGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueGroupId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.EeSubscription)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp := prod.HandleCreateEeGroupSubscriptions(ueGroupId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-}
-
-func OnGetIndividualSharedData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params GetIndividualSharedDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'sharedDataId'
-	params.SharedDataId = ctx.Param("sharedDataId")
-	if len(params.SharedDataId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "sharedDataId is required"))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGetIndividualSharedData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnDelete5GVnGroup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'externalGroupId'
-	var externalGroupId string
-	externalGroupId = ctx.Param("externalGroupId")
-	if len(externalGroupId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "externalGroupId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleDelete5GVnGroup(externalGroupId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnGetSSAuData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params GetSSAuDataParams
-
-	// read 'mtc-provider-information'
-	params.MtcProviderInformation = ctx.Param("mtc-provider-information")
-
-	// read 'af-id'
-	params.AfId = ctx.Param("af-id")
+	var params QueryLcsMoDataParams
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
@@ -4792,56 +4815,11 @@ func OnGetSSAuData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'serviceType'
-	params.ServiceType = ctx.Param("serviceType")
-	if len(params.ServiceType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
-		return
-	}
-
-	// read 'single-nssai'
-	singleNssaiStr := ctx.Param("single-nssai")
-	if len(singleNssaiStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "single-nssai is required"))
-		return
-	}
-
-	if params.SingleNssai, err = models.VarSnssaiFromString(singleNssaiStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)))
-		return
-	}
-
-	// read 'dnn'
-	params.Dnn = ctx.Param("dnn")
-	if len(params.Dnn) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "dnn is required"))
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleGetSSAuData(&params)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(200, nil)
-
-}
-
-func OnQuery5GMbsGroupPPData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params Query5GMbsGroupPPDataParams
-
-	// read 'ext-group-ids'
-	extGroupIdsStr := ctx.Param("ext-group-ids")
-	if len(extGroupIdsStr) > 0 {
-		if params.ExtGroupIds, err = models.ArrayOfStringFromString(extGroupIdsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ext-group-ids failed: %+v", err)))
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
 			return
 		}
 	}
@@ -4850,7 +4828,7 @@ func OnQuery5GMbsGroupPPData(ctx sbi.RequestContext, handler any) {
 	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// call application handler
-	rsp, prob := prod.HandleQuery5GMbsGroupPPData(&params)
+	rsp := prod.HandleQueryLcsMoData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -4858,21 +4836,12 @@ func OnQuery5GMbsGroupPPData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
 }
 
-func OnQuerySmData(ctx sbi.RequestContext, handler any) {
+func OnQuerySmfSelectData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params QuerySmDataParams
-
-	// read 'dnn'
-	params.Dnn = ctx.Param("dnn")
+	var params QuerySmfSelectDataParams
 
 	// read 'fields'
 	fieldsStr := ctx.Param("fields")
@@ -4906,17 +4875,8 @@ func OnQuerySmData(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
-	// read 'single-nssai'
-	singleNssaiStr := ctx.Param("single-nssai")
-	if len(singleNssaiStr) > 0 {
-		if params.SingleNssai, err = models.VarSnssaiFromString(singleNssaiStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)))
-			return
-		}
-	}
-
 	// call application handler
-	rsp := prod.HandleQuerySmData(&params)
+	rsp := prod.HandleQuerySmfSelectData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -4926,28 +4886,10 @@ func OnQuerySmData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnDeleteSmsfContext3gpp(ctx sbi.RequestContext, handler any) {
+func OnCreateHSSSDMSubscriptions(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// call application handler
-	prod.HandleDeleteSmsfContext3gpp(ueId)
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQuerysdmSubscription(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var params QuerysdmSubscriptionParams
+	var err error
+	var params CreateHSSSDMSubscriptionsParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -4963,11 +4905,90 @@ func OnQuerysdmSubscription(ctx sbi.RequestContext, handler any) {
 		return
 	}
 
+	// decode request body
+	body := new(models.HssSubscriptionInfo)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
 	// call application handler
-	prod.HandleQuerysdmSubscription(&params)
+	prod.HandleCreateHSSSDMSubscriptions(&params, body)
 
 	// success
-	ctx.WriteResponse(200, nil)
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnGetOdbData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleGetOdbData(ueId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+}
+
+func OnDeleteMessageWaitingData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleDeleteMessageWaitingData(ueId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
+func OnGetMultiplePPDataEntries(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var params GetMultiplePPDataEntriesParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGetMultiplePPDataEntries(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
 
 }
 
@@ -4993,9 +5014,9 @@ func OnSubscriptionDataSubscriptions(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+func OnQueryV2xData(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
-	var params GetServiceSpecificAuthorizationInfoParams
+	var params QueryV2xDataParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -5004,15 +5025,17 @@ func OnGetServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) 
 		return
 	}
 
-	// read 'serviceType'
-	params.ServiceType = ctx.Param("serviceType")
-	if len(params.ServiceType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "serviceType is required"))
-		return
-	}
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// call application handler
-	rsp := prod.HandleGetServiceSpecificAuthorizationInfo(&params)
+	rsp := prod.HandleQueryV2xData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -5022,29 +5045,22 @@ func OnGetServiceSpecificAuthorizationInfo(ctx sbi.RequestContext, handler any) 
 
 }
 
-func OnModifyAuthenticationSubscription(ctx sbi.RequestContext, handler any) {
+func OnQuery5GmbsGroup(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
-	var params ModifyAuthenticationSubscriptionParams
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
+	// read 'gpsis'
+	var gpsis []string
+	gpsisStr := ctx.Param("gpsis")
+	if len(gpsisStr) > 0 {
+		if gpsis, err = models.ArrayOfStringFromString(gpsisStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse gpsis failed: %+v", err)))
+			return
+		}
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleModifyAuthenticationSubscription(&params, body)
+	rsp, prob := prod.HandleQuery5GmbsGroup(gpsis)
 
 	// check for success response
 	if rsp != nil {
@@ -5057,71 +5073,6 @@ func OnModifyAuthenticationSubscription(ctx sbi.RequestContext, handler any) {
 		ctx.WriteResponse(prob.Status, prob)
 		return
 	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnQueryIpSmGwContext(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params QueryIpSmGwContextParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)))
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp := prod.HandleQueryIpSmGwContext(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-}
-
-func OnCreateIpSmGwContext(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.IpSmGwRegistration)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prod.HandleCreateIpSmGwContext(ueId, body)
-
-	// success
-	ctx.WriteResponse(204, nil)
 
 }
 
@@ -5186,7 +5137,7 @@ func OnGetNiddAuData(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnCreateSmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
+func OnCreateAmfContext3gpp(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
@@ -5199,18 +5150,18 @@ func OnCreateSmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 	}
 
 	// decode request body
-	body := new(models.SmsfRegistration)
+	body := new(models.Amf3GppAccessRegistration)
 	if err = ctx.DecodeRequest(body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
 		return
 	}
 
 	// call application handler
-	rsp := prod.HandleCreateSmsfContextNon3gpp(ueId, body)
+	rsp := prod.HandleCreateAmfContext3gpp(ueId, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(201, rsp)
 		return
 	}
 
@@ -5219,312 +5170,361 @@ func OnCreateSmsfContextNon3gpp(ctx sbi.RequestContext, handler any) {
 
 }
 
+func OnCreateSdmSubscriptions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// decode request body
+	body := new(models.SdmSubscription)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp := prod.HandleCreateSdmSubscriptions(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+}
+
+func OnRemoveNiddAuthorizationInfo(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		return
+	}
+
+	// call application handler
+	prod.HandleRemoveNiddAuthorizationInfo(ueId)
+
+	// success
+	ctx.WriteResponse(204, nil)
+
+}
+
 type Producer interface {
-	HandleQueryNssaiAck(*QueryNssaiAckParams) *models.NssaiAckData
+	HandleQueryAuthenticationStatus(*QueryAuthenticationStatusParams) *models.AuthEvent
 
-	HandleQueryOperSpecData(*QueryOperSpecDataParams) *map[string]models.OperatorSpecificDataContainer
+	HandleUpdatesdmsubscriptions(*UpdatesdmsubscriptionsParams, *models.SdmSubscription) *models.ProblemDetails
 
-	HandleCreateEeSubscriptions(string, *models.EeSubscription) *models.EeSubscription
+	HandleGetGroupIdentifiers(*GetGroupIdentifiersParams) (*models.GroupIdentifiers, *models.ProblemDetails)
 
-	HandleRemoveMultipleSubscriptionDataSubscriptions(*RemoveMultipleSubscriptionDataSubscriptionsParams)
+	HandleCreate5GVnGroup(string, *models.FiveGVnGroupConfiguration) (*models.FiveGVnGroupConfiguration, *models.ProblemDetails)
 
-	HandleCreateAuthenticationStatus(string, *models.AuthEvent)
-
-	HandleQuerySmsData(*QuerySmsDataParams) *models.SmsSubscriptionData
-
-	HandleQuerySubscriptionDataSubscriptions(string) *models.SubscriptionDataSubscriptions
-
-	HandleQueryProvisionedData(*QueryProvisionedDataParams) *models.ProvisionedDataSets
-
-	HandleRemoveSmfSubscriptionsInfo(*RemoveSmfSubscriptionsInfoParams)
-
-	HandleRemoveEeGroupSubscriptions(*RemoveEeGroupSubscriptionsParams)
-
-	HandleAmfContextNon3gpp(*AmfContextNon3gppParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleCreateSdmSubscriptions(string, *models.SdmSubscription) *models.SdmSubscription
-
-	HandleQueryLcsBcaData(*QueryLcsBcaDataParams) *models.LcsBroadcastAssistanceTypesData
+	HandleCreateCagUpdateAck(*CreateCagUpdateAckParams, *models.CagAckData)
 
 	HandleModifyAmfGroupSubscriptions(*ModifyAmfGroupSubscriptionsParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleDeleteIndividualAuthenticationStatus(*DeleteIndividualAuthenticationStatusParams)
+	HandleCreateIpSmGwContext(string, *models.IpSmGwRegistration)
 
 	HandleQueryEeGroupSubscriptions(*QueryEeGroupSubscriptionsParams) *[]models.EeSubscription
 
-	HandleDeletePPDataEntry(*DeletePPDataEntryParams) *models.ProblemDetails
+	HandleGetIndividualSharedData(*GetIndividualSharedDataParams) (*models.SharedData, *models.ProblemDetails)
+
+	HandleQueryTraceData(*QueryTraceDataParams) *models.TraceData
+
+	HandleGetNiddAuthorizationInfo(string) *models.NiddAuthorizationInfo
+
+	HandleQueryRoamingInformation(string) *models.RoamingInfoUpdate
+
+	HandleQueryPeiInformation(string) *models.PeiUpdateInfo
+
+	HandleModify5GVnGroup(*Modify5GVnGroupParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleModifyAuthenticationSubscription(*ModifyAuthenticationSubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleQueryProvisionedData(*QueryProvisionedDataParams) *models.ProvisionedDataSets
+
+	HandleQuerySmfRegList(*QuerySmfRegListParams) *[]models.SmfRegistration
+
+	HandleDeleteSmsfContext3gpp(string)
+
+	HandleCreateMessageWaitingData(string, *models.MessageWaitingData) *models.MessageWaitingData
 
 	HandleModifyPpData(*ModifyPpDataParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleModifysubscriptionDataSubscription(*ModifysubscriptionDataSubscriptionParams, *[]models.PatchItem) (*models.Schema, *models.ProblemDetails)
+
+	HandleModifySmfGroupSubscriptions(*ModifySmfGroupSubscriptionsParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleQueryAmfContext3gpp(*QueryAmfContext3gppParams) *models.Amf3GppAccessRegistration
+
+	HandleQueryAmfContextNon3gpp(*QueryAmfContextNon3gppParams) *models.AmfNon3GppAccessRegistration
 
 	HandleGetAmfSubscriptionInfo(*GetAmfSubscriptionInfoParams) *[]models.AmfSubscriptionInfo
 
 	HandleModifyEeGroupSubscription(*ModifyEeGroupSubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleQueryEeGroupSubscription(*QueryEeGroupSubscriptionParams)
+	HandleQuerySubscriptionDataSubscriptions(string) *models.SubscriptionDataSubscriptions
 
-	HandleQuery5mbsData(*Query5mbsDataParams) *models.MbsSubscriptionData
-
-	HandleQueryAuthUPU(*QueryAuthUPUParams) *models.UpuData
-
-	HandleGetppData(*GetppDataParams) (*models.PpData, *models.ProblemDetails)
-
-	HandleGetPPDataEntry(*GetPPDataEntryParams) (*models.PpDataEntry, *models.ProblemDetails)
-
-	HandleModifysdmSubscription(*ModifysdmSubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleGet5GVnGroupConfiguration(string) *models.FiveGVnGroupConfiguration
+	HandleQueryUserConsentData(*QueryUserConsentDataParams) *models.UcSubscriptionData
 
 	HandleQueryLcsPrivacyData(*QueryLcsPrivacyDataParams) *models.LcsPrivacyData
 
-	HandleCreateServiceSpecificAuthorizationInfo(*CreateServiceSpecificAuthorizationInfoParams, *models.ServiceSpecificAuthorizationInfo) *models.ServiceSpecificAuthorizationInfo
+	HandleQueryAuthSubsData(*QueryAuthSubsDataParams) *models.AuthenticationSubscription
 
-	HandleQueryRoamingInformation(string) *models.RoamingInfoUpdate
+	HandleQueryAmData(*QueryAmDataParams) *models.AccessAndMobilitySubscriptionData
 
-	HandleQueryAmfContextNon3gpp(*QueryAmfContextNon3gppParams) *models.AmfNon3GppAccessRegistration
+	HandleQueryOperSpecData(*QueryOperSpecDataParams) *map[string]models.OperatorSpecificDataContainer
 
-	HandleModifyIpSmGwContext(string, *[]models.PatchItem) *models.ProblemDetails
-
-	HandleQueryPPData(*QueryPPDataParams) *models.PpProfileData
+	HandleQuerySmsfContextNon3gpp(*QuerySmsfContextNon3gppParams) *models.SmsfRegistration
 
 	HandleModifyAmfSubscriptionInfo(*ModifyAmfSubscriptionInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleCreateNIDDAuthorizationInfo(string, *models.NiddAuthorizationInfo) *models.NiddAuthorizationInfo
+	HandleRemoveHssSubscriptionsInfo(*RemoveHssSubscriptionsInfoParams)
 
-	HandleCreateOperSpecData(*CreateOperSpecDataParams, *map[string]models.OperatorSpecificDataContainer) (*map[string]models.OperatorSpecificDataContainer, *models.ProblemDetails)
-
-	HandleGetHssSubscriptionInfo(*GetHssSubscriptionInfoParams) *models.SmfSubscriptionInfo
-
-	HandleGetAmfGroupSubscriptions(*GetAmfGroupSubscriptionsParams) *[]models.AmfSubscriptionInfo
-
-	HandleAmfContext3gpp(*AmfContext3gppParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleCreateSmsfContext3gpp(string, *models.SmsfRegistration) *models.SmsfRegistration
-
-	HandleQueryeeSubscription(*QueryeeSubscriptionParams)
-
-	HandleModifysubscriptionDataSubscription(*ModifysubscriptionDataSubscriptionParams, *[]models.PatchItem) (*models.Schema, *models.ProblemDetails)
-
-	HandleQueryContextData(*QueryContextDataParams) *models.ContextDataSets
+	HandleGetHssSDMSubscriptionInfo(*GetHssSDMSubscriptionInfoParams) *models.SmfSubscriptionInfo
 
 	HandleUpdateRoamingInformation(string, *models.RoamingInfoUpdate) *models.RoamingInfoUpdate
 
-	HandleCreateAuthenticationSoR(*CreateAuthenticationSoRParams, *models.SorData)
+	HandleGetAmfGroupSubscriptions(*GetAmfGroupSubscriptionsParams) *[]models.AmfSubscriptionInfo
+
+	HandleCreateAuthenticationStatus(string, *models.AuthEvent)
+
+	HandleQuerySmsfContext3gpp(*QuerySmsfContext3gppParams) *models.SmsfRegistration
+
+	HandleGetHssSubscriptionInfo(*GetHssSubscriptionInfoParams) *models.SmfSubscriptionInfo
+
+	HandleCreateEeGroupSubscriptions(string, *models.EeSubscription) *models.EeSubscription
+
+	HandleQuerySubsToNotify(*QuerySubsToNotifyParams) *[]models.SubscriptionDataSubscriptions
+
+	HandleGetIdentityData(*GetIdentityDataParams) (*models.IdentityData, *models.ProblemDetails)
+
+	HandleQueryPorseData(*QueryPorseDataParams) *models.ProseSubscriptionData
+
+	HandleCreateSmfGroupSubscriptions(*CreateSmfGroupSubscriptionsParams, *models.SmfSubscriptionInfo) *models.SmfSubscriptionInfo
+
+	HandleDeleteAuthenticationStatus(string)
 
 	HandleDeleteIpSmGwContext(string)
 
 	HandleQueryMessageWaitingData(*QueryMessageWaitingDataParams) *models.MessageWaitingData
 
-	HandleQuerySubsToNotify(*QuerySubsToNotifyParams) *[]models.SubscriptionDataSubscriptions
+	HandleCreatePPDataEntry(*CreatePPDataEntryParams, *models.PpDataEntry) (*models.PpDataEntry, *models.ProblemDetails)
 
-	HandleRemovesubscriptionDataSubscriptions(string)
+	HandleRemoveeeSubscriptions(*RemoveeeSubscriptionsParams)
 
-	HandleModify5GVnGroup(*Modify5GVnGroupParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+	HandleQueryeeSubscription(*QueryeeSubscriptionParams)
 
-	HandleGetMulticastMbsGroupMemb(string) (*models.MulticastMbsGroupMemb, *models.ProblemDetails)
+	HandleCreateServiceSpecificAuthorizationInfo(*CreateServiceSpecificAuthorizationInfoParams, *models.ServiceSpecificAuthorizationInfo) *models.ServiceSpecificAuthorizationInfo
+
+	HandleQueryAuthSoR(*QueryAuthSoRParams) *models.SorData
 
 	HandleDeleteOperSpecData(string) *models.ProblemDetails
 
-	HandleGetSharedData(*GetSharedDataParams) (*[]models.SharedData, *models.ProblemDetails)
+	HandleQuerySmsData(*QuerySmsDataParams) *models.SmsSubscriptionData
 
-	HandleQueryLcsMoData(*QueryLcsMoDataParams) *models.LcsMoData
+	HandleDelete5GVnGroup(string)
 
-	HandleQuery5GVnGroupInternal([]string) *map[string]models.FiveGVnGroupConfiguration
+	HandleCreateSmsfContext3gpp(string, *models.SmsfRegistration) *models.SmsfRegistration
+
+	HandleCreateEeSubscriptions(string, *models.EeSubscription) *models.EeSubscription
+
+	HandleCreateAMFSubscriptions(*CreateAMFSubscriptionsParams, *[]models.AmfSubscriptionInfo) *[]models.AmfSubscriptionInfo
+
+	HandleModifysdmSubscription(*ModifysdmSubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleGetSSAuData(*GetSSAuDataParams) *models.ProblemDetails
+
+	HandleCreateAmfGroupSubscriptions(*CreateAmfGroupSubscriptionsParams, *[]models.AmfSubscriptionInfo) *[]models.AmfSubscriptionInfo
+
+	HandleRemoveSmfGroupSubscriptions(*RemoveSmfGroupSubscriptionsParams)
+
+	HandleGet5GVnGroupConfiguration(string) *models.FiveGVnGroupConfiguration
+
+	HandleQueryCoverageRestrictionData(*QueryCoverageRestrictionDataParams) *models.EnhancedCoverageRestrictionData
+
+	HandleCreateAuthenticationSoR(*CreateAuthenticationSoRParams, *models.SorData)
+
+	HandleQueryEeGroupSubscription(*QueryEeGroupSubscriptionParams)
+
+	HandleQueryContextData(*QueryContextDataParams) *models.ContextDataSets
+
+	HandleGetppData(*GetppDataParams) (*models.PpData, *models.ProblemDetails)
+
+	HandleModifyEesubscription(*ModifyEesubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleUpdateEesubscriptions(*UpdateEesubscriptionsParams, *models.EeSubscription) *models.ProblemDetails
 
 	HandleRemoveAmfSubscriptionsInfo(*RemoveAmfSubscriptionsInfoParams)
 
-	HandleDeleteMessageWaitingData(string)
+	HandleRemovesdmSubscriptions(*RemovesdmSubscriptionsParams) *models.ProblemDetails
 
-	HandleRemoveHssSubscriptionsInfo(*RemoveHssSubscriptionsInfoParams)
+	HandleQueryLcsBcaData(*QueryLcsBcaDataParams) *models.LcsBroadcastAssistanceTypesData
 
-	HandleQuery5GVnGroup([]string) *map[string]models.FiveGVnGroupConfiguration
+	HandleQuery5GVnGroupInternal([]string) *map[string]models.FiveGVnGroupConfiguration
 
-	HandleGetNiddAuthorizationInfo(string) *models.NiddAuthorizationInfo
+	HandleAmfContextNon3gpp(*AmfContextNon3gppParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleUpdateSmfContext(*UpdateSmfContextParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleRemoveSmfSubscriptionsInfo(*RemoveSmfSubscriptionsInfoParams)
+
+	HandleGetSmfGroupSubscriptions(*GetSmfGroupSubscriptionsParams) *models.SmfSubscriptionInfo
+
+	HandleCreateOrUpdateSmfRegistration(*CreateOrUpdateSmfRegistrationParams, *models.SmfRegistration) *models.SmfRegistration
+
+	HandleQuerySmsMngData(*QuerySmsMngDataParams) *models.SmsManagementSubscriptionData
+
+	HandleQueryGroupEEData(*QueryGroupEEDataParams) *models.EeGroupProfileData
+
+	HandleGetMulticastMbsGroupMemb(string) (*models.MulticastMbsGroupMemb, *models.ProblemDetails)
+
+	HandleModifyIpSmGwContext(string, *[]models.PatchItem) *models.ProblemDetails
+
+	HandleGetSmfSubscriptionInfo(*GetSmfSubscriptionInfoParams) *models.SmfSubscriptionInfo
+
+	HandleCreate5GmbsGroup(string, *models.MulticastMbsGroupMemb) (*models.MulticastMbsGroupMemb, *models.ProblemDetails)
+
+	HandleQueryUeSubscribedData(*QueryUeSubscribedDataParams) *models.UeSubscribedDataSets
+
+	HandleQuerySmfRegistration(*QuerySmfRegistrationParams) *models.SmfRegistration
+
+	HandleQueryIpSmGwContext(*QueryIpSmGwContextParams) *models.IpSmGwRegistration
+
+	HandleGetPPDataEntry(*GetPPDataEntryParams) (*models.PpDataEntry, *models.ProblemDetails)
+
+	HandleQuerysdmSubscription(*QuerysdmSubscriptionParams)
+
+	HandleRemovesubscriptionDataSubscriptions(string)
+
+	HandleModifyNiddAuthorizationInfo(*ModifyNiddAuthorizationInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleQuery5mbsData(*Query5mbsDataParams) *models.MbsSubscriptionData
+
+	HandleRemoveAmfGroupSubscriptions(*RemoveAmfGroupSubscriptionsParams)
+
+	HandleCreateOrUpdateNssaiAck(*CreateOrUpdateNssaiAckParams, *models.NssaiAckData)
+
+	HandleDeletePPDataEntry(*DeletePPDataEntryParams) *models.ProblemDetails
+
+	HandleQuery5GMbsGroupPPData(*Query5GMbsGroupPPDataParams) (*models.Pp5gMbsGroupProfileData, *models.ProblemDetails)
+
+	HandleRemoveServiceSpecificAuthorizationInfo(*RemoveServiceSpecificAuthorizationInfoParams)
 
 	HandleQueryIndividualAuthenticationStatus(*QueryIndividualAuthenticationStatusParams) *models.AuthEvent
+
+	HandleUpdateAuthenticationSoR(*UpdateAuthenticationSoRParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleQueryAuthUPU(*QueryAuthUPUParams) *models.UpuData
+
+	HandleQuerySmData(*QuerySmDataParams) *models.SmSubsData
+
+	HandleAmfContext3gpp(*AmfContext3gppParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleQueryPPData(*QueryPPDataParams) *models.PpProfileData
+
+	HandleQueryEEData(*QueryEEDataParams) *models.EeProfileData
+
+	HandleCreateNIDDAuthorizationInfo(string, *models.NiddAuthorizationInfo) *models.NiddAuthorizationInfo
+
+	HandleQueryNssaiAck(*QueryNssaiAckParams) *models.NssaiAckData
+
+	HandleCreateAmfContextNon3gpp(string, *models.AmfNon3GppAccessRegistration) *models.Amf3GppAccessRegistration
+
+	HandleModifyMessageWaitingData(string, *[]models.PatchItem) *models.ProblemDetails
+
+	HandleModifyHssSubscriptionInfo(*ModifyHssSubscriptionInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleQuerysdmsubscriptions(*QuerysdmsubscriptionsParams) *[]models.SdmSubscription
+
+	HandleQueryUeLocation(*QueryUeLocationParams) *models.LocationInfo
+
+	HandleQuery5GVNGroupPPData(*Query5GVNGroupPPDataParams) *models.Pp5gVnGroupProfileData
+
+	HandleModifyServiceSpecificAuthorizationInfo(*ModifyServiceSpecificAuthorizationInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleCreateOrUpdatePeiInformation(string, *models.PeiUpdateInfo) *models.PeiUpdateInfo
+
+	HandleCreateIndividualAuthenticationStatus(*CreateIndividualAuthenticationStatusParams, *models.AuthEvent)
+
+	HandleCreateAuthenticationUPU(*CreateAuthenticationUPUParams, *models.UpuData)
+
+	HandleModifyOperSpecData(*ModifyOperSpecDataParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+
+	HandleCreateSMFSubscriptions(*CreateSMFSubscriptionsParams, *models.SmfSubscriptionInfo) *models.SmfSubscriptionInfo
 
 	HandleCreateHSSSubscriptions(*CreateHSSSubscriptionsParams, *models.HssSubscriptionInfo) *models.HssSubscriptionInfo
 
 	HandleUpdateEeGroupSubscriptions(*UpdateEeGroupSubscriptionsParams, *models.EeSubscription) *models.ProblemDetails
 
-	HandleCreateSMFSubscriptions(*CreateSMFSubscriptionsParams, *models.SmfSubscriptionInfo) *models.SmfSubscriptionInfo
+	HandleGetServiceSpecificAuthorizationInfo(*GetServiceSpecificAuthorizationInfoParams) *models.ServiceSpecificAuthorizationInfo
 
-	HandleModifySmfGroupSubscriptions(*ModifySmfGroupSubscriptionsParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleCreateIndividualAuthenticationStatus(*CreateIndividualAuthenticationStatusParams, *models.AuthEvent)
-
-	HandleQuerySmfRegList(*QuerySmfRegListParams) *[]models.SmfRegistration
-
-	HandleDeleteSmsfContextNon3gpp(string)
-
-	HandleCreateHSSSDMSubscriptions(*CreateHSSSDMSubscriptionsParams, *models.HssSubscriptionInfo)
-
-	HandleQueryUeLocation(*QueryUeLocationParams) *models.LocationInfo
-
-	HandleQueryV2xData(*QueryV2xDataParams) *models.V2xSubscriptionData
-
-	HandleQueryAuthSubsData(*QueryAuthSubsDataParams) *models.AuthenticationSubscription
-
-	HandleQuerySmsMngData(*QuerySmsMngDataParams) *models.SmsManagementSubscriptionData
-
-	HandleQueryUeSubscribedData(*QueryUeSubscribedDataParams) *models.UeSubscribedDataSets
-
-	HandleCreateAmfGroupSubscriptions(*CreateAmfGroupSubscriptionsParams, *[]models.AmfSubscriptionInfo) *[]models.AmfSubscriptionInfo
-
-	HandleCreateAmfContext3gpp(string, *models.Amf3GppAccessRegistration) *models.Amf3GppAccessRegistration
-
-	HandleCreateAmfContextNon3gpp(string, *models.AmfNon3GppAccessRegistration) *models.Amf3GppAccessRegistration
-
-	HandleQueryEEData(*QueryEEDataParams) *models.EeProfileData
-
-	HandleModifyNiddAuthorizationInfo(*ModifyNiddAuthorizationInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleQueryAuthenticationStatus(*QueryAuthenticationStatusParams) *models.AuthEvent
-
-	HandleCreate5GVnGroup(string, *models.FiveGVnGroupConfiguration) (*models.FiveGVnGroupConfiguration, *models.ProblemDetails)
-
-	HandleQueryPorseData(*QueryPorseDataParams) *models.ProseSubscriptionData
-
-	HandleGetSmfGroupSubscriptions(*GetSmfGroupSubscriptionsParams) *models.SmfSubscriptionInfo
-
-	HandleRemoveSmfGroupSubscriptions(*RemoveSmfGroupSubscriptionsParams)
-
-	HandleCreateAMFSubscriptions(*CreateAMFSubscriptionsParams, *[]models.AmfSubscriptionInfo) *[]models.AmfSubscriptionInfo
-
-	HandleGetSmfSubscriptionInfo(*GetSmfSubscriptionInfoParams) *models.SmfSubscriptionInfo
-
-	HandleCreateSmfGroupSubscriptions(*CreateSmfGroupSubscriptionsParams, *models.SmfSubscriptionInfo) *models.SmfSubscriptionInfo
-
-	HandleGetMultiplePPDataEntries(*GetMultiplePPDataEntriesParams) (*models.PpDataEntryList, *models.ProblemDetails)
-
-	HandleModifyMessageWaitingData(string, *[]models.PatchItem) *models.ProblemDetails
-
-	HandleCreatePPDataEntry(*CreatePPDataEntryParams, *models.PpDataEntry) (*models.PpDataEntry, *models.ProblemDetails)
-
-	HandleUpdateEesubscriptions(*UpdateEesubscriptionsParams, *models.EeSubscription) *models.ProblemDetails
-
-	HandleRemoveeeSubscriptions(*RemoveeeSubscriptionsParams)
-
-	HandleQueryPeiInformation(string) *models.PeiUpdateInfo
-
-	HandleQuery5GMbsGroupInternal([]string) (*map[string]models.MulticastMbsGroupMemb, *models.ProblemDetails)
-
-	HandleQueryAmData(*QueryAmDataParams) *models.AccessAndMobilitySubscriptionData
-
-	HandleQueryCoverageRestrictionData(*QueryCoverageRestrictionDataParams) *models.EnhancedCoverageRestrictionData
-
-	HandleModify5GmbsGroup(*Modify5GmbsGroupParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleQueryeesubscriptions(*QueryeesubscriptionsParams) *[]models.EeSubscriptionExt
-
-	HandleQuerySmsfContext3gpp(*QuerySmsfContext3gppParams) *models.SmsfRegistration
-
-	HandleRemoveNiddAuthorizationInfo(string)
-
-	HandleRemoveServiceSpecificAuthorizationInfo(*RemoveServiceSpecificAuthorizationInfoParams)
-
-	HandleDeleteSmfRegistration(*DeleteSmfRegistrationParams)
-
-	HandleQuerysdmsubscriptions(*QuerysdmsubscriptionsParams) *[]models.SdmSubscription
-
-	HandleQueryTraceData(*QueryTraceDataParams) *models.TraceData
-
-	HandleRemoveAmfGroupSubscriptions(*RemoveAmfGroupSubscriptionsParams)
-
-	HandleQueryAuthSoR(*QueryAuthSoRParams) *models.SorData
-
-	HandleQueryCagAck(*QueryCagAckParams) *models.CagAckData
-
-	HandleQueryAmfContext3gpp(*QueryAmfContext3gppParams) *models.Amf3GppAccessRegistration
-
-	HandleQuerySmfRegistration(*QuerySmfRegistrationParams) *models.SmfRegistration
+	HandleDeleteIndividualAuthenticationStatus(*DeleteIndividualAuthenticationStatusParams)
 
 	HandleModifySmfSubscriptionInfo(*ModifySmfSubscriptionInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleRemovesdmSubscriptions(*RemovesdmSubscriptionsParams) *models.ProblemDetails
+	HandleQuery5GMbsGroupInternal([]string) (*map[string]models.MulticastMbsGroupMemb, *models.ProblemDetails)
 
-	HandleGetGroupIdentifiers(*GetGroupIdentifiersParams) (*models.GroupIdentifiers, *models.ProblemDetails)
+	HandleCreateOperSpecData(*CreateOperSpecDataParams, *map[string]models.OperatorSpecificDataContainer) (*map[string]models.OperatorSpecificDataContainer, *models.ProblemDetails)
 
-	HandleQuery5GVNGroupPPData(*Query5GVNGroupPPDataParams) *models.Pp5gVnGroupProfileData
-
-	HandleCreateAuthenticationUPU(*CreateAuthenticationUPUParams, *models.UpuData)
-
-	HandleQuery5GmbsGroup([]string) (*map[string]models.MulticastMbsGroupMemb, *models.ProblemDetails)
-
-	HandleCreateOrUpdateNssaiAck(*CreateOrUpdateNssaiAckParams, *models.NssaiAckData)
-
-	HandleUpdateSmfContext(*UpdateSmfContextParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleCreateMessageWaitingData(string, *models.MessageWaitingData) *models.MessageWaitingData
-
-	HandleUpdatesdmsubscriptions(*UpdatesdmsubscriptionsParams, *models.SdmSubscription) *models.ProblemDetails
-
-	HandleGetOdbData(string) *models.OdbData
-
-	HandleCreateOrUpdatePeiInformation(string, *models.PeiUpdateInfo) *models.PeiUpdateInfo
-
-	HandleDeleteAuthenticationStatus(string)
-
-	HandleModifyEesubscription(*ModifyEesubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleDelete5GmbsGroup(string) *models.ProblemDetails
-
-	HandleCreateCagUpdateAck(*CreateCagUpdateAckParams, *models.CagAckData)
-
-	HandleGetHssSDMSubscriptionInfo(*GetHssSDMSubscriptionInfoParams) *models.SmfSubscriptionInfo
+	HandleDeleteSmsfContextNon3gpp(string)
 
 	HandleModifyHssSDMSubscriptionInfo(*ModifyHssSDMSubscriptionInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleGetIdentityData(*GetIdentityDataParams) (*models.IdentityData, *models.ProblemDetails)
+	HandleQueryCagAck(*QueryCagAckParams) *models.CagAckData
 
-	HandleModifyServiceSpecificAuthorizationInfo(*ModifyServiceSpecificAuthorizationInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+	HandleRemoveEeGroupSubscriptions(*RemoveEeGroupSubscriptionsParams)
 
-	HandleQueryUserConsentData(*QueryUserConsentDataParams) *models.UcSubscriptionData
+	HandleDelete5GmbsGroup(string) *models.ProblemDetails
 
-	HandleCreate5GmbsGroup(string, *models.MulticastMbsGroupMemb) (*models.MulticastMbsGroupMemb, *models.ProblemDetails)
+	HandleCreateSmsfContextNon3gpp(string, *models.SmsfRegistration) *models.SmsfRegistration
 
-	HandleQueryGroupEEData(*QueryGroupEEDataParams) *models.EeGroupProfileData
+	HandleQueryeesubscriptions(*QueryeesubscriptionsParams) *[]models.EeSubscriptionExt
 
-	HandleQuerySmfSelectData(*QuerySmfSelectDataParams) *models.SmfSelectionSubscriptionData
+	HandleGetSharedData(*GetSharedDataParams) (*[]models.SharedData, *models.ProblemDetails)
 
-	HandleCreateOrUpdateSmfRegistration(*CreateOrUpdateSmfRegistrationParams, *models.SmfRegistration) *models.SmfRegistration
+	HandleRemoveMultipleSubscriptionDataSubscriptions(*RemoveMultipleSubscriptionDataSubscriptionsParams)
 
-	HandleModifyOperSpecData(*ModifyOperSpecDataParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+	HandleQuery5GVnGroup([]string) *map[string]models.FiveGVnGroupConfiguration
 
-	HandleQuerySmsfContextNon3gpp(*QuerySmsfContextNon3gppParams) *models.SmsfRegistration
-
-	HandleModifyHssSubscriptionInfo(*ModifyHssSubscriptionInfoParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+	HandleModify5GmbsGroup(*Modify5GmbsGroupParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
 	HandleRemoveHssSDMSubscriptionsInfo(*RemoveHssSDMSubscriptionsInfoParams)
 
-	HandleUpdateAuthenticationSoR(*UpdateAuthenticationSoRParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
+	HandleDeleteSmfRegistration(*DeleteSmfRegistrationParams)
 
-	HandleCreateEeGroupSubscriptions(string, *models.EeSubscription) *models.EeSubscription
+	HandleQueryLcsMoData(*QueryLcsMoDataParams) *models.LcsMoData
 
-	HandleGetIndividualSharedData(*GetIndividualSharedDataParams) (*models.SharedData, *models.ProblemDetails)
+	HandleQuerySmfSelectData(*QuerySmfSelectDataParams) *models.SmfSelectionSubscriptionData
 
-	HandleDelete5GVnGroup(string)
+	HandleCreateHSSSDMSubscriptions(*CreateHSSSDMSubscriptionsParams, *models.HssSubscriptionInfo)
 
-	HandleGetSSAuData(*GetSSAuDataParams) *models.ProblemDetails
+	HandleGetOdbData(string) *models.OdbData
 
-	HandleQuery5GMbsGroupPPData(*Query5GMbsGroupPPDataParams) (*models.Pp5gMbsGroupProfileData, *models.ProblemDetails)
+	HandleDeleteMessageWaitingData(string)
 
-	HandleQuerySmData(*QuerySmDataParams) *models.SmSubsData
-
-	HandleDeleteSmsfContext3gpp(string)
-
-	HandleQuerysdmSubscription(*QuerysdmSubscriptionParams)
+	HandleGetMultiplePPDataEntries(*GetMultiplePPDataEntriesParams) (*models.PpDataEntryList, *models.ProblemDetails)
 
 	HandleSubscriptionDataSubscriptions(*models.SubscriptionDataSubscriptions) *models.SubscriptionDataSubscriptions
 
-	HandleGetServiceSpecificAuthorizationInfo(*GetServiceSpecificAuthorizationInfoParams) *models.ServiceSpecificAuthorizationInfo
+	HandleQueryV2xData(*QueryV2xDataParams) *models.V2xSubscriptionData
 
-	HandleModifyAuthenticationSubscription(*ModifyAuthenticationSubscriptionParams, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleQueryIpSmGwContext(*QueryIpSmGwContextParams) *models.IpSmGwRegistration
-
-	HandleCreateIpSmGwContext(string, *models.IpSmGwRegistration)
+	HandleQuery5GmbsGroup([]string) (*map[string]models.MulticastMbsGroupMemb, *models.ProblemDetails)
 
 	HandleGetNiddAuData(*GetNiddAuDataParams) *models.ProblemDetails
 
-	HandleCreateSmsfContextNon3gpp(string, *models.SmsfRegistration) *models.SmsfRegistration
+	HandleCreateAmfContext3gpp(string, *models.Amf3GppAccessRegistration) *models.Amf3GppAccessRegistration
+
+	HandleCreateSdmSubscriptions(string, *models.SdmSubscription) *models.SdmSubscription
+
+	HandleRemoveNiddAuthorizationInfo(string)
 }

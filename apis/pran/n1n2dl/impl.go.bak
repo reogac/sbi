@@ -4,6 +4,10 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pran/n1n2dl"
 )
+func (p *Producer) HandleN2SmInfoDownlink(ueId int64,body *models.N2SmInfoDownlinkTransport)(prob *models.ProblemDetails){
+	return
+}
+
 func (p *Producer) HandleSessionResourceSetup(ueId int64,body *models.SessionResourceSetupRequest)(rsp *models.SessionResourceSetupResponse,prob *models.ProblemDetails){
 	return
 }
@@ -13,10 +17,6 @@ func (p *Producer) HandleSessionResourceModify(ueId int64,body *models.SessionRe
 }
 
 func (p *Producer) HandleSessionResourceRelease(ueId int64,body *models.SessionResourceReleaseRequest)(rsp *models.SessionResourceReleaseResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleN2SmInfoDownlink(ueId int64,body *models.N2SmInfoDownlinkTransport)(prob *models.ProblemDetails){
 	return
 }
 */

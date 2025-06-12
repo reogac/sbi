@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:29 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -19,16 +19,16 @@ const (
 
 // Summary:
 // Description:
-// Path: /prose-authentications/:authCtxId/prose-auth
-// Path Params: authCtxId
-func ProseAuth(cli sbi.ConsumerClient, authCtxId string, body *models.ProSeEapSession) (rsp *models.ProseAuthResponse, err error) {
+// Path: /ue-authentications
+// Path Params:
+func UeAuthenticationsPost(cli sbi.ConsumerClient, body *models.AuthenticationInfo) (rsp *models.UEAuthenticationCtx, err error) {
 
-	if len(authCtxId) == 0 {
-		err = fmt.Errorf("authCtxId is required")
+	if body == nil {
+		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/prose-authentications/%s/prose-auth", PATH_ROOT, authCtxId)
+	path := fmt.Sprintf("%s/ue-authentications", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -36,10 +36,10 @@ func ProseAuth(cli sbi.ConsumerClient, authCtxId string, body *models.ProSeEapSe
 	}
 
 	switch response.GetCode() {
-	case 200:
-		rsp = new(models.ProseAuthResponse)
+	case 201:
+		rsp = new(models.UEAuthenticationCtx)
 		err = response.DecodeBody(rsp)
-	case 400, 500:
+	case 400, 403, 404, 500, 501:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -115,51 +115,18 @@ func UeAuthentications5gAkaConfirmationPut(cli sbi.ConsumerClient, authCtxId str
 	return
 }
 
-// Summary:
-// Description:
-// Path: /ue-authentications/:authCtxId/eap-session
-// Path Params: authCtxId
-func EapAuthMethod(cli sbi.ConsumerClient, authCtxId string, body *models.EapSession) (rsp *models.EapSession, err error) {
-
-	if len(authCtxId) == 0 {
-		err = fmt.Errorf("authCtxId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/ue-authentications/%s/eap-session", PATH_ROOT, authCtxId)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.EapSession)
-		err = response.DecodeBody(rsp)
-	case 400, 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
 // Summary: Deletes the authentication result in the UDM
 // Description:
-// Path: /ue-authentications/:authCtxId/eap-session
+// Path: /ue-authentications/:authCtxId/5g-aka-confirmation
 // Path Params: authCtxId
-func DeleteEapAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (err error) {
+func Delete5gAkaAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (err error) {
 
 	if len(authCtxId) == 0 {
 		err = fmt.Errorf("authCtxId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/ue-authentications/%s/eap-session", PATH_ROOT, authCtxId)
+	path := fmt.Sprintf("%s/ue-authentications/%s/5g-aka-confirmation", PATH_ROOT, authCtxId)
 	request := sbi.NewRequest(path, http.MethodDelete, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -170,6 +137,39 @@ func DeleteEapAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (er
 	case 204:
 		return
 	case 400, 404, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /prose-authentications
+// Path Params:
+func ProseAuthenticationsPost(cli sbi.ConsumerClient, body *models.ProSeAuthenticationInfo) (rsp *models.ProSeAuthenticationCtx, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/prose-authentications", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.ProSeAuthenticationCtx)
+		err = response.DecodeBody(rsp)
+	case 400, 403, 404, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -212,51 +212,18 @@ func DeleteProSeAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (
 	return
 }
 
-// Summary:
-// Description:
-// Path: /ue-authentications
-// Path Params:
-func UeAuthenticationsPost(cli sbi.ConsumerClient, body *models.AuthenticationInfo) (rsp *models.UEAuthenticationCtx, err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/ue-authentications", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.UEAuthenticationCtx)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 500, 501:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
 // Summary: Deletes the authentication result in the UDM
 // Description:
-// Path: /ue-authentications/:authCtxId/5g-aka-confirmation
+// Path: /ue-authentications/:authCtxId/eap-session
 // Path Params: authCtxId
-func Delete5gAkaAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (err error) {
+func DeleteEapAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (err error) {
 
 	if len(authCtxId) == 0 {
 		err = fmt.Errorf("authCtxId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/ue-authentications/%s/5g-aka-confirmation", PATH_ROOT, authCtxId)
+	path := fmt.Sprintf("%s/ue-authentications/%s/eap-session", PATH_ROOT, authCtxId)
 	request := sbi.NewRequest(path, http.MethodDelete, nil)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -267,6 +234,39 @@ func Delete5gAkaAuthenticationResult(cli sbi.ConsumerClient, authCtxId string) (
 	case 204:
 		return
 	case 400, 404, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /ue-authentications/:authCtxId/eap-session
+// Path Params: authCtxId
+func EapAuthMethod(cli sbi.ConsumerClient, authCtxId string, body *models.EapSession) (rsp *models.EapSession, err error) {
+
+	if len(authCtxId) == 0 {
+		err = fmt.Errorf("authCtxId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/ue-authentications/%s/eap-session", PATH_ROOT, authCtxId)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.EapSession)
+		err = response.DecodeBody(rsp)
+	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -312,16 +312,16 @@ func RgAuthenticationsPost(cli sbi.ConsumerClient, body *models.RgAuthentication
 
 // Summary:
 // Description:
-// Path: /prose-authentications
-// Path Params:
-func ProseAuthenticationsPost(cli sbi.ConsumerClient, body *models.ProSeAuthenticationInfo) (rsp *models.ProSeAuthenticationCtx, err error) {
+// Path: /prose-authentications/:authCtxId/prose-auth
+// Path Params: authCtxId
+func ProseAuth(cli sbi.ConsumerClient, authCtxId string, body *models.ProSeEapSession) (rsp *models.ProseAuthResponse, err error) {
 
-	if body == nil {
-		err = fmt.Errorf("body is required")
+	if len(authCtxId) == 0 {
+		err = fmt.Errorf("authCtxId is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/prose-authentications", PATH_ROOT)
+	path := fmt.Sprintf("%s/prose-authentications/%s/prose-auth", PATH_ROOT, authCtxId)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -329,10 +329,10 @@ func ProseAuthenticationsPost(cli sbi.ConsumerClient, body *models.ProSeAuthenti
 	}
 
 	switch response.GetCode() {
-	case 201:
-		rsp = new(models.ProSeAuthenticationCtx)
+	case 200:
+		rsp = new(models.ProseAuthResponse)
 		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 500:
+	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

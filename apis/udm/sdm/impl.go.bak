@@ -4,43 +4,11 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udm/sdm"
 )
-func (p *Producer) HandleModifySharedDataSubs(params *sdm.ModifySharedDataSubsParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
+func (p *Producer) HandleGetAmData(params *sdm.GetAmDataParams)(rsp *models.AccessAndMobilitySubscriptionData,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleGetSmsMngtData(params *sdm.GetSmsMngtDataParams)(rsp *models.SmsManagementSubscriptionData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetMbsData(params *sdm.GetMbsDataParams)(rsp *models.MbsSubscriptionData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleSNSSAIsAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCAGAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleSubscribeToSharedData(body *models.SdmSubscription)(rsp *models.SdmSubscription,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetEcrData(params *sdm.GetEcrDataParams)(rsp *models.EnhancedCoverageRestrictionData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetLcsPrivacyData(params *sdm.GetLcsPrivacyDataParams)(rsp *models.LcsPrivacyData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetLcsBcaData(params *sdm.GetLcsBcaDataParams)(rsp *models.LcsBroadcastAssistanceTypesData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModify(params *sdm.ModifyParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
+func (p *Producer) HandleGetUeCtxInSmsfData(params *sdm.GetUeCtxInSmsfDataParams)(rsp *models.UeContextInSmsfData,prob *models.ProblemDetails){
 	return
 }
 
@@ -48,7 +16,15 @@ func (p *Producer) HandleUnsubscribeForSharedData(subscriptionId string)(prob *m
 	return
 }
 
-func (p *Producer) HandleGetUeCtxInAmfData(params *sdm.GetUeCtxInAmfDataParams)(rsp *models.UeContextInAmfData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetDataSets(params *sdm.GetDataSetsParams)(rsp *models.SubscriptionDataSets,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetSmsData(params *sdm.GetSmsDataParams)(rsp *models.SmsSubscriptionData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleSorAckInfo(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
 	return
 }
 
@@ -56,7 +32,51 @@ func (p *Producer) HandleUpuAck(supi string,body *models.AcknowledgeInfo)(prob *
 	return
 }
 
-func (p *Producer) HandleGetSharedData(params *sdm.GetSharedDataParams)(rsp *[]models.SharedData,prob *models.ProblemDetails){
+func (p *Producer) HandleSNSSAIsAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpdateSORInfo(supi string,body *models.SorUpdateInfo)(rsp *models.SorInfo,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModifySharedDataSubs(params *sdm.ModifySharedDataSubsParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetIndividualSharedData(params *sdm.GetIndividualSharedDataParams)(rsp *models.SharedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetUeCtxInSmfData(params *sdm.GetUeCtxInSmfDataParams)(rsp *models.UeContextInSmfData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetMultipleIdentifiers(params *sdm.GetMultipleIdentifiersParams)(rsp *map[string]models.SupiInfo,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetLcsPrivacyData(params *sdm.GetLcsPrivacyDataParams)(rsp *models.LcsPrivacyData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetProseData(params *sdm.GetProseDataParams)(rsp *models.ProseSubscriptionData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetUeCtxInAmfData(params *sdm.GetUeCtxInAmfDataParams)(rsp *models.UeContextInAmfData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetV2xData(params *sdm.GetV2xDataParams)(rsp *models.V2xSubscriptionData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetMbsData(params *sdm.GetMbsDataParams)(rsp *models.MbsSubscriptionData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetSupiOrGpsi(params *sdm.GetSupiOrGpsiParams)(rsp *models.IdTranslationResult,prob *models.ProblemDetails){
 	return
 }
 
@@ -68,7 +88,31 @@ func (p *Producer) HandleGetLcsMoData(params *sdm.GetLcsMoDataParams)(rsp *model
 	return
 }
 
-func (p *Producer) HandleGetV2xData(params *sdm.GetV2xDataParams)(rsp *models.V2xSubscriptionData,prob *models.ProblemDetails){
+func (p *Producer) HandleModify(params *sdm.ModifyParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetTraceConfigData(params *sdm.GetTraceConfigDataParams)(rsp *models.TraceDataResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetSmfSelData(params *sdm.GetSmfSelDataParams)(rsp *models.SmfSelectionSubscriptionData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUnsubscribe(params *sdm.UnsubscribeParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetSharedData(params *sdm.GetSharedDataParams)(rsp *[]models.SharedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetEcrData(params *sdm.GetEcrDataParams)(rsp *models.EnhancedCoverageRestrictionData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetLcsBcaData(params *sdm.GetLcsBcaDataParams)(rsp *models.LcsBroadcastAssistanceTypesData,prob *models.ProblemDetails){
 	return
 }
 
@@ -80,39 +124,7 @@ func (p *Producer) HandleSubscribe(ueId string,body *models.SdmSubscription)(rsp
 	return
 }
 
-func (p *Producer) HandleSorAckInfo(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetIndividualSharedData(params *sdm.GetIndividualSharedDataParams)(rsp *models.SharedData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSmfSelData(params *sdm.GetSmfSelDataParams)(rsp *models.SmfSelectionSubscriptionData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetProseData(params *sdm.GetProseDataParams)(rsp *models.ProseSubscriptionData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUnsubscribe(params *sdm.UnsubscribeParams)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSupiOrGpsi(params *sdm.GetSupiOrGpsiParams)(rsp *models.IdTranslationResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetUeCtxInSmfData(params *sdm.GetUeCtxInSmfDataParams)(rsp *models.UeContextInSmfData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetTraceConfigData(params *sdm.GetTraceConfigDataParams)(rsp *models.TraceDataResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateSORInfo(supi string,body *models.SorUpdateInfo)(rsp *models.SorInfo,prob *models.ProblemDetails){
+func (p *Producer) HandleCAGAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
 	return
 }
 
@@ -120,27 +132,15 @@ func (p *Producer) HandleGetGroupIdentifiers(params *sdm.GetGroupIdentifiersPara
 	return
 }
 
-func (p *Producer) HandleGetDataSets(params *sdm.GetDataSetsParams)(rsp *models.SubscriptionDataSets,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSmsMngtData(params *sdm.GetSmsMngtDataParams)(rsp *models.SmsManagementSubscriptionData,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleGetUeCtxInSmsfData(params *sdm.GetUeCtxInSmsfDataParams)(rsp *models.UeContextInSmsfData,prob *models.ProblemDetails){
+func (p *Producer) HandleSubscribeToSharedData(body *models.SdmSubscription)(rsp *models.SdmSubscription,prob *models.ProblemDetails){
 	return
 }
 
 func (p *Producer) HandleGetSmData(params *sdm.GetSmDataParams)(rsp *models.SmSubsData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSmsData(params *sdm.GetSmsDataParams)(rsp *models.SmsSubscriptionData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetMultipleIdentifiers(params *sdm.GetMultipleIdentifiersParams)(rsp *map[string]models.SupiInfo,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetAmData(params *sdm.GetAmDataParams)(rsp *models.AccessAndMobilitySubscriptionData,prob *models.ProblemDetails){
 	return
 }
 */

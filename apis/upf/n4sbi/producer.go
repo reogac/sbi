@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:35 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:36 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,47 +12,6 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
-
-func OnSessionModification(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'seid'
-	var seid int64
-	seidStr := ctx.Param("seid")
-	if len(seidStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "seid is required"))
-		return
-	}
-
-	if seid, err = models.Int64FromString(seidStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse seid failed: %+v", err)))
-		return
-	}
-
-	// decode request body
-	body := new(message.PFCPSessionModificationRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleSessionModification(seid, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
 
 func OnSessionDeletion(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -197,9 +156,48 @@ func OnSessionEstablishment(ctx sbi.RequestContext, handler any) {
 
 }
 
-type Producer interface {
-	HandleSessionModification(int64, *message.PFCPSessionModificationRequest) (*message.PFCPSessionModificationResponse, *models.ProblemDetails)
+func OnSessionModification(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
 
+	// read 'seid'
+	var seid int64
+	seidStr := ctx.Param("seid")
+	if len(seidStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "seid is required"))
+		return
+	}
+
+	if seid, err = models.Int64FromString(seidStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse seid failed: %+v", err)))
+		return
+	}
+
+	// decode request body
+	body := new(message.PFCPSessionModificationRequest)
+	if err = ctx.DecodeRequest(body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleSessionModification(seid, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob)
+		return
+	}
+
+}
+
+type Producer interface {
 	HandleSessionDeletion(int64, *message.PFCPSessionDeletionRequest) (*message.PFCPSessionDeletionResponse, *models.ProblemDetails)
 
 	HandleAssociationRequest(*models.EndpointInfo, *message.PFCPAssociationSetupRequest) (*message.PFCPAssociationSetupResponse, *models.ProblemDetails)
@@ -207,4 +205,6 @@ type Producer interface {
 	HandleDisassociationRequest(string) *models.ProblemDetails
 
 	HandleSessionEstablishment(string, *message.PFCPSessionEstablishmentRequest) (*message.PFCPSessionEstablishmentResponse, *models.ProblemDetails)
+
+	HandleSessionModification(int64, *message.PFCPSessionModificationRequest) (*message.PFCPSessionModificationResponse, *models.ProblemDetails)
 }

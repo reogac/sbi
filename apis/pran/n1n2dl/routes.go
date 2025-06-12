@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Sat Dec  7 16:57:21 KST 2024 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jun 12 16:32:22 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "N2SmInfoDownlink",
+		Method:  http.MethodPut,
+		Path:    "/n2/:ueId",
+		Handler: OnN2SmInfoDownlink,
+	},
 	{
 		Label:   "SessionResourceSetup",
 		Method:  http.MethodPost,
@@ -29,12 +35,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPut,
 		Path:    "/sess/release/:ueId",
 		Handler: OnSessionResourceRelease,
-	},
-	{
-		Label:   "N2SmInfoDownlink",
-		Method:  http.MethodPut,
-		Path:    "/n2/:ueId",
-		Handler: OnN2SmInfoDownlink,
 	},
 }
 

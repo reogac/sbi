@@ -4,10 +4,6 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udm/ueauth"
 )
-func (p *Producer) HandleGenerateAv(params *ueauth.GenerateAvParams,body *models.HssAuthenticationInfoRequest)(rsp *models.HssAuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandleDeleteAuth(params *ueauth.DeleteAuthParams,body *models.AuthEvent)(prob *models.ProblemDetails){
 	return
 }
@@ -29,6 +25,10 @@ func (p *Producer) HandleGetRgAuthData(params *ueauth.GetRgAuthDataParams)(rsp *
 }
 
 func (p *Producer) HandleConfirmAuth(supi string,body *models.AuthEvent)(rsp *models.AuthEvent,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGenerateAv(params *ueauth.GenerateAvParams,body *models.HssAuthenticationInfoRequest)(rsp *models.HssAuthenticationInfoResult,prob *models.ProblemDetails){
 	return
 }
 */
