@@ -1,8 +1,6 @@
 package sbi
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -11,13 +9,11 @@ import (
 
 func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http.Request, err error) {
 	var body io.Reader
+	var bodyLength int64
 	if sbiRequest.body != nil {
-		var bodyBytes []byte
-		if bodyBytes, err = json.Marshal(sbiRequest.body); err != nil {
+		if bodyLength, body, err = Encode(sbiRequest.body); err != nil {
 			err = fmt.Errorf("Serialize request body failed: %+v", err)
 			return
-		} else {
-			body = bytes.NewBuffer(bodyBytes)
 		}
 	}
 
@@ -38,6 +34,7 @@ func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http
 		err = fmt.Errorf("Build http request failed: %+v", err)
 		return
 	}
+	httpRequest.ContentLength = bodyLength
 	if len(sbiRequest.headerParams) > 0 {
 		headers := http.Header{}
 		for h, v := range sbiRequest.headerParams {
@@ -48,9 +45,6 @@ func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http
 	return
 }
 
-func (sbiResponse *Response) DecodeBody(body any) (err error) {
-	if err = json.Unmarshal(sbiResponse.bodyBytes, body); err != nil {
-		err = fmt.Errorf("Decode response body failed: %+v", err)
-	}
-	return
+func (sbiResponse *Response) DecodeBody(body SbiIE) (err error) {
+	return Decode(sbiResponse.contentLength, sbiResponse.body, body)
 }

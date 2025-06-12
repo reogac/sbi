@@ -1,13 +1,14 @@
 package sbi
 
 import (
+	"io"
 	"net/url"
 )
 
 type Request struct {
 	path         string
 	method       string
-	body         interface{}
+	body         SbiIE
 	headerParams map[string]string
 	queryParams  url.Values
 }
@@ -37,17 +38,20 @@ func (r *Request) AddHeader(k, v string) {
 	r.headerParams[k] = v
 }
 
-func NewReceivedResponse(code int, status string, bodyBytes []byte, headers map[string]string) *Response {
+func NewReceivedResponse(code int, status string, contentLength int64, body io.Reader, headers map[string]string) *Response {
 	return &Response{
-		code:      code,
-		status:    status,
-		bodyBytes: bodyBytes,
-		headers:   headers,
+		code:          code,
+		status:        status,
+		body:          body,
+		contentLength: contentLength,
+		headers:       headers,
 	}
 }
 
 type Response struct {
-	bodyBytes []byte
+	contentLength int64
+	body          io.Reader
+	bodyBytes     []byte
 
 	headers map[string]string
 	status  string

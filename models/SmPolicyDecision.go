@@ -23,7 +23,7 @@ type SmPolicyDecision struct {
 	ReflectiveQoSTimer    *int                            `json:"reflectiveQoSTimer,omitempty"`
 	OfflineChOnly         *bool                           `json:"offlineChOnly,omitempty"`
 	PolicyCtrlReqTriggers []string                        `json:"policyCtrlReqTriggers,omitempty"`
-	QosDecs               map[string]QosData              `json:"qosDecs,omitempty"`
+	QosDecs               map[string]*QosData             `json:"qosDecs,omitempty"`
 	RevalidationTime      string                          `json:"revalidationTime,omitempty"`
 	PcscfRestIndication   *bool                           `json:"pcscfRestIndication,omitempty"`
 	UmDecs                map[string]*UsageMonitoringData `json:"umDecs,omitempty"`
