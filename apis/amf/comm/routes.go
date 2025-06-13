@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:15 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:13 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,28 +13,16 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
-		Label:   "UEContextTransfer",
+		Label:   "RegistrationStatusUpdate",
 		Method:  http.MethodPost,
-		Path:    "/ue-contexts/:ueContextId/transfer",
-		Handler: OnUEContextTransfer,
+		Path:    "/ue-contexts/:ueContextId/transfer-update",
+		Handler: OnRegistrationStatusUpdate,
 	},
 	{
-		Label:   "NonUeN2InfoSubscribe",
-		Method:  http.MethodPost,
-		Path:    "/non-ue-n2-messages/subscriptions",
-		Handler: OnNonUeN2InfoSubscribe,
-	},
-	{
-		Label:   "EBIAssignment",
-		Method:  http.MethodPost,
-		Path:    "/ue-contexts/:ueContextId/assign-ebi",
-		Handler: OnEBIAssignment,
-	},
-	{
-		Label:   "AMFStatusChangeSubscribeModfy",
-		Method:  http.MethodPut,
-		Path:    "/subscriptions/:subscriptionId",
-		Handler: OnAMFStatusChangeSubscribeModfy,
+		Label:   "N1N2MessageUnSubscribe",
+		Method:  http.MethodDelete,
+		Path:    "/ue-contexts/:ueContextId/n1-n2-messages/subscriptions/:subscriptionId",
+		Handler: OnN1N2MessageUnSubscribe,
 	},
 	{
 		Label:   "AMFStatusChangeSubscribe",
@@ -43,16 +31,46 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnAMFStatusChangeSubscribe,
 	},
 	{
-		Label:   "RegistrationStatusUpdate",
-		Method:  http.MethodPost,
-		Path:    "/ue-contexts/:ueContextId/transfer-update",
-		Handler: OnRegistrationStatusUpdate,
+		Label:   "AMFStatusChangeUnSubscribe",
+		Method:  http.MethodDelete,
+		Path:    "/subscriptions/:subscriptionId",
+		Handler: OnAMFStatusChangeUnSubscribe,
 	},
 	{
-		Label:   "CancelRelocateUEContext",
+		Label:   "CreateUEContext",
+		Method:  http.MethodPut,
+		Path:    "/ue-contexts/:ueContextId",
+		Handler: OnCreateUEContext,
+	},
+	{
+		Label:   "EBIAssignment",
 		Method:  http.MethodPost,
-		Path:    "/ue-contexts/:ueContextId/cancel-relocate",
-		Handler: OnCancelRelocateUEContext,
+		Path:    "/ue-contexts/:ueContextId/assign-ebi",
+		Handler: OnEBIAssignment,
+	},
+	{
+		Label:   "UEContextTransfer",
+		Method:  http.MethodPost,
+		Path:    "/ue-contexts/:ueContextId/transfer",
+		Handler: OnUEContextTransfer,
+	},
+	{
+		Label:   "NonUeN2MessageTransfer",
+		Method:  http.MethodPost,
+		Path:    "/non-ue-n2-messages/transfer",
+		Handler: OnNonUeN2MessageTransfer,
+	},
+	{
+		Label:   "NonUeN2InfoSubscribe",
+		Method:  http.MethodPost,
+		Path:    "/non-ue-n2-messages/subscriptions",
+		Handler: OnNonUeN2InfoSubscribe,
+	},
+	{
+		Label:   "AMFStatusChangeSubscribeModfy",
+		Method:  http.MethodPut,
+		Path:    "/subscriptions/:subscriptionId",
+		Handler: OnAMFStatusChangeSubscribeModfy,
 	},
 	{
 		Label:   "N1N2MessageSubscribe",
@@ -67,40 +85,22 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnNonUeN2InfoUnSubscribe,
 	},
 	{
-		Label:   "CreateUEContext",
-		Method:  http.MethodPut,
-		Path:    "/ue-contexts/:ueContextId",
-		Handler: OnCreateUEContext,
-	},
-	{
 		Label:   "RelocateUEContext",
 		Method:  http.MethodPost,
 		Path:    "/ue-contexts/:ueContextId/relocate",
 		Handler: OnRelocateUEContext,
 	},
 	{
+		Label:   "CancelRelocateUEContext",
+		Method:  http.MethodPost,
+		Path:    "/ue-contexts/:ueContextId/cancel-relocate",
+		Handler: OnCancelRelocateUEContext,
+	},
+	{
 		Label:   "N1N2MessageTransfer",
 		Method:  http.MethodPost,
 		Path:    "/ue-contexts/:ueContextId/n1-n2-messages",
 		Handler: OnN1N2MessageTransfer,
-	},
-	{
-		Label:   "N1N2MessageUnSubscribe",
-		Method:  http.MethodDelete,
-		Path:    "/ue-contexts/:ueContextId/n1-n2-messages/subscriptions/:subscriptionId",
-		Handler: OnN1N2MessageUnSubscribe,
-	},
-	{
-		Label:   "NonUeN2MessageTransfer",
-		Method:  http.MethodPost,
-		Path:    "/non-ue-n2-messages/transfer",
-		Handler: OnNonUeN2MessageTransfer,
-	},
-	{
-		Label:   "AMFStatusChangeUnSubscribe",
-		Method:  http.MethodDelete,
-		Path:    "/subscriptions/:subscriptionId",
-		Handler: OnAMFStatusChangeUnSubscribe,
 	},
 	{
 		Label:   "ReleaseUEContext",

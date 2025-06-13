@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:12 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:10 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -35,6 +35,8 @@ func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingRes
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.PingResponse)
@@ -67,6 +69,8 @@ func Forward(cli sbi.ConsumerClient, body *models.PingFwRequest) (rsp *models.Pi
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 201:

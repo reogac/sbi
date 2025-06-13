@@ -1,94 +1,10 @@
-/*package yourpkg
+/*package your pkg
 
 import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udr/policy"
 )
-func (p *Producer) HandleCreateIndividualBdtData(bdtReferenceId string,body *models.BdtData)(rsp *models.BdtData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteOperatorSpecificData(ueId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadSlicePolicyControlData(params *policy.ReadSlicePolicyControlDataParams)(rsp *models.SlicePolicyData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateUEPolicySet(ueId string,body *models.UePolicySetPatch)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadUsageMonitoringInformation(params *policy.ReadUsageMonitoringInformationParams)(rsp *models.UsageMonData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadPlmnUePolicySet(plmnId string)(rsp *models.UePolicySet,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadUEPolicySet(params *policy.ReadUEPolicySetParams)(rsp *models.UePolicySet,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadIndividualBdtData(params *policy.ReadIndividualBdtDataParams)(rsp *models.BdtData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReplaceOperatorSpecificData(ueId string,body *map[string]models.OperatorSpecificDataContainer)(rsp *map[string]models.OperatorSpecificDataContainer,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadSponsorConnectivityData(sponsorId string)(rsp *models.SponsorConnectivityData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadBdtData(params *policy.ReadBdtDataParams)(rsp *[]models.BdtData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteIndividualPolicyDataSubscription(subsId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadAccessAndMobilityPolicyData(ueId string)(rsp *models.AmPolicyData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateSessionManagementPolicyData(ueId string,body *models.SmPolicyDataPatch)(rsp *models.SmPolicyData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteUsageMonitoringInformation(params *policy.DeleteUsageMonitoringInformationParams)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateOperatorSpecificData(ueId string,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateSlicePolicyControlData(snssai *models.Snssai,body *models.SlicePolicyDataPatch)(rsp *models.SlicePolicyData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadPolicyData(params *policy.ReadPolicyDataParams)(rsp *models.PolicyDataForIndividualUe,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleReadSessionManagementPolicyData(params *policy.ReadSessionManagementPolicyDataParams)(rsp *models.SmPolicyData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetMBSSessPolCtrlData(polSessionId *models.MbsSessPolDataId)(rsp *models.MbsSessPolCtrlData,prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandleUpdateIndividualBdtData(bdtReferenceId string,body *models.BdtDataPatch)(rsp *models.BdtData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCreateIndividualPolicyDataSubscription(body *models.PolicyDataSubscription)(rsp *models.PolicyDataSubscription,prob *models.ProblemDetails){
 	return
 }
 
@@ -96,7 +12,15 @@ func (p *Producer) HandleCreateOrReplaceUEPolicySet(ueId string,body *models.UeP
 	return
 }
 
-func (p *Producer) HandleCreateUsageMonitoringResource(params *policy.CreateUsageMonitoringResourceParams,body *models.UsageMonData)(rsp *models.UsageMonData,prob *models.ProblemDetails){
+func (p *Producer) HandleReadSessionManagementPolicyData(params *policy.ReadSessionManagementPolicyDataParams)(rsp *models.SmPolicyData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadUsageMonitoringInformation(params *policy.ReadUsageMonitoringInformationParams)(rsp *models.UsageMonData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateIndividualBdtData(bdtReferenceId string,body *models.BdtData)(rsp *models.BdtData,prob *models.ProblemDetails){
 	return
 }
 
@@ -104,11 +28,87 @@ func (p *Producer) HandleDeleteIndividualBdtData(bdtReferenceId string)(prob *mo
 	return
 }
 
-func (p *Producer) HandleReplaceIndividualPolicyDataSubscription(subsId string,body *models.PolicyDataSubscription)(rsp *models.PolicyDataSubscription,prob *models.ProblemDetails){
+func (p *Producer) HandleUpdateSessionManagementPolicyData(ueId string,body *models.SmPolicyDataPatch)(rsp *models.SmPolicyData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteIndividualPolicyDataSubscription(subsId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadPolicyData(params *policy.ReadPolicyDataParams)(rsp *models.PolicyDataForIndividualUe,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadBdtData(params *policy.ReadBdtDataParams)(rsp *[]models.BdtData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpdateOperatorSpecificData(ueId string,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetMBSSessPolCtrlData(polSessionId *models.MbsSessPolDataId)(rsp *models.MbsSessPolCtrlData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpdateUEPolicySet(ueId string,body *models.UePolicySetPatch)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadIndividualBdtData(params *policy.ReadIndividualBdtDataParams)(rsp *models.BdtData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateIndividualPolicyDataSubscription(body *models.PolicyDataSubscription)(rsp *models.PolicyDataSubscription,prob *models.ProblemDetails){
 	return
 }
 
 func (p *Producer) HandleReadOperatorSpecificData(params *policy.ReadOperatorSpecificDataParams)(rsp *map[string]models.OperatorSpecificDataContainer,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadPlmnUePolicySet(plmnId string)(rsp *models.UePolicySet,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadSlicePolicyControlData(params *policy.ReadSlicePolicyControlDataParams)(rsp *models.SlicePolicyData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpdateSlicePolicyControlData(snssai *models.Snssai,body *models.SlicePolicyDataPatch)(rsp *models.SlicePolicyData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteUsageMonitoringInformation(params *policy.DeleteUsageMonitoringInformationParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReplaceOperatorSpecificData(ueId string,body *map[string]models.OperatorSpecificDataContainer)(rsp *map[string]models.OperatorSpecificDataContainer,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteOperatorSpecificData(ueId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadAccessAndMobilityPolicyData(ueId string)(rsp *models.AmPolicyData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadUEPolicySet(params *policy.ReadUEPolicySetParams)(rsp *models.UePolicySet,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateUsageMonitoringResource(params *policy.CreateUsageMonitoringResourceParams,body *models.UsageMonData)(rsp *models.UsageMonData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReadSponsorConnectivityData(sponsorId string)(rsp *models.SponsorConnectivityData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReplaceIndividualPolicyDataSubscription(subsId string,body *models.PolicyDataSubscription)(rsp *models.PolicyDataSubscription,prob *models.ProblemDetails){
 	return
 }
 */

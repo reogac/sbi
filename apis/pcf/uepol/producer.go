@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:34 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,9 +17,10 @@ func OnCreateIndividualUEPolicyAssociation(ctx sbi.RequestContext, handler any) 
 	var err error
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.PolicyAssociationRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -28,13 +29,13 @@ func OnCreateIndividualUEPolicyAssociation(ctx sbi.RequestContext, handler any) 
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -47,7 +48,7 @@ func OnReadIndividualUEPolicyAssociation(ctx sbi.RequestContext, handler any) {
 	var polAssoId string
 	polAssoId = ctx.Param("polAssoId")
 	if len(polAssoId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"), nil)
 		return
 	}
 
@@ -56,13 +57,13 @@ func OnReadIndividualUEPolicyAssociation(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -75,7 +76,7 @@ func OnDeleteIndividualUEPolicyAssociation(ctx sbi.RequestContext, handler any) 
 	var polAssoId string
 	polAssoId = ctx.Param("polAssoId")
 	if len(polAssoId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"), nil)
 		return
 	}
 
@@ -84,12 +85,12 @@ func OnDeleteIndividualUEPolicyAssociation(ctx sbi.RequestContext, handler any) 
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(204, nil)
+	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -101,14 +102,15 @@ func OnReportObservedEventTriggersForIndividualUEPolicyAssociation(ctx sbi.Reque
 	var polAssoId string
 	polAssoId = ctx.Param("polAssoId")
 	if len(polAssoId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.PolicyAssociationUpdateRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -117,13 +119,13 @@ func OnReportObservedEventTriggersForIndividualUEPolicyAssociation(ctx sbi.Reque
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 

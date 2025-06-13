@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -10,78 +10,52 @@ import (
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
+	"io"
 )
 
-func OnRetrievePduSession(ctx sbi.RequestContext, handler any) {
+func OnPostSmContexts(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
-	// read 'pduSessionRef'
-	var pduSessionRef string
-	pduSessionRef = ctx.Param("pduSessionRef")
-	if len(pduSessionRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"))
+	// read 'callback'
+	var callback *models.EndpointInfo
+	callbackStr := ctx.Header("callback")
+	if len(callbackStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"), nil)
+		return
+	}
+
+	if callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
-	body := new(models.RetrieveData)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	contentLength, content := ctx.RequestBody()
+	body := new(models.PostSmContextsRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleRetrievePduSession(pduSessionRef, body)
+	rsp, ersp, prob := prod.HandlePostSmContexts(callback, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for defined error
+	if ersp != nil {
+		ctx.WriteResponse(models.StatusFromPostSmContextsErrorResponse(ersp), ersp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnRetrieveSmContext(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'smContextRef'
-	var smContextRef string
-	smContextRef = ctx.Param("smContextRef")
-	if len(smContextRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"))
-		return
-	}
-
-	// decode request body
-	var body *models.SmContextRetrieveData
-	if ctx.HasRequestBody() {
-		body = new(models.SmContextRetrieveData)
-		if err = ctx.DecodeRequest(body); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleRetrieveSmContext(smContextRef, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -95,14 +69,15 @@ func OnUpdateSmContext(ctx sbi.RequestContext, handler any) {
 	var smContextRef string
 	smContextRef = ctx.Param("smContextRef")
 	if len(smContextRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.UpdateSmContextRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -111,225 +86,24 @@ func OnUpdateSmContext(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for defined error
 	if ersp != nil {
-		ctx.WriteResponse(models.StatusFromUpdateSmContextErrorResponse(ersp), ersp)
+		ctx.WriteResponse(models.StatusFromUpdateSmContextErrorResponse(ersp), ersp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnUpdatePduSession(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'pduSessionRef'
-	var pduSessionRef string
-	pduSessionRef = ctx.Param("pduSessionRef")
-	if len(pduSessionRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.UpdatePduSessionRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, ersp, prob := prod.HandleUpdatePduSession(pduSessionRef, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for defined error
-	if ersp != nil {
-		ctx.WriteResponse(models.StatusFromUpdatePduSessionErrorResponse(ersp), ersp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnPostPduSessions(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// decode request body
-	body := new(models.PostPduSessionsRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, ersp, prob := prod.HandlePostPduSessions(body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for defined error
-	if ersp != nil {
-		ctx.WriteResponse(models.StatusFromPostPduSessionsErrorResponse(ersp), ersp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnReleasePduSession(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'pduSessionRef'
-	var pduSessionRef string
-	pduSessionRef = ctx.Param("pduSessionRef")
-	if len(pduSessionRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"))
-		return
-	}
-
-	// decode request body
-	var body *models.ReleasePduSessionRequest
-	if ctx.HasRequestBody() {
-		body = new(models.ReleasePduSessionRequest)
-		if err = ctx.DecodeRequest(body); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleReleasePduSession(pduSessionRef, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnTransferMoData(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'pduSessionRef'
-	var pduSessionRef string
-	pduSessionRef = ctx.Param("pduSessionRef")
-	if len(pduSessionRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.TransferMoDataRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleTransferMoData(pduSessionRef, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
-func OnPostSmContexts(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'callback'
-	var callback *models.EndpointInfo
-	callbackStr := ctx.Header("callback")
-	if len(callbackStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"))
-		return
-	}
-
-	if callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)))
-		return
-	}
-
-	// decode request body
-	body := new(models.PostSmContextsRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, ersp, prob := prod.HandlePostSmContexts(callback, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for defined error
-	if ersp != nil {
-		ctx.WriteResponse(models.StatusFromPostSmContextsErrorResponse(ersp), ersp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
+	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -341,37 +115,189 @@ func OnReleaseSmContext(ctx sbi.RequestContext, handler any) {
 	var smContextRef string
 	smContextRef = ctx.Param("smContextRef")
 	if len(smContextRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	var body *models.ReleaseSmContextRequest
-	if ctx.HasRequestBody() {
-		body = new(models.ReleaseSmContextRequest)
-		if err = ctx.DecodeRequest(body); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-			return
-		}
+	body = new(models.ReleaseSmContextRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
 	}
-
 	// call application handler
 	rsp, prob := prod.HandleReleaseSmContext(smContextRef, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(204, nil)
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReleasePduSession(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'pduSessionRef'
+	var pduSessionRef string
+	pduSessionRef = ctx.Param("pduSessionRef")
+	if len(pduSessionRef) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.ReleasePduSessionRequest
+	body = new(models.ReleasePduSessionRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	rsp, prob := prod.HandleReleasePduSession(pduSessionRef, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnRetrievePduSession(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'pduSessionRef'
+	var pduSessionRef string
+	pduSessionRef = ctx.Param("pduSessionRef")
+	if len(pduSessionRef) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.RetrieveData)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleRetrievePduSession(pduSessionRef, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnTransferMoData(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'pduSessionRef'
+	var pduSessionRef string
+	pduSessionRef = ctx.Param("pduSessionRef")
+	if len(pduSessionRef) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.TransferMoDataRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleTransferMoData(pduSessionRef, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnRetrieveSmContext(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'smContextRef'
+	var smContextRef string
+	smContextRef = ctx.Param("smContextRef")
+	if len(smContextRef) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.SmContextRetrieveData
+	body = new(models.SmContextRetrieveData)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	rsp, prob := prod.HandleRetrieveSmContext(smContextRef, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
 
 }
 
@@ -383,14 +309,15 @@ func OnSendMoData(ctx sbi.RequestContext, handler any) {
 	var smContextRef string
 	smContextRef = ctx.Param("smContextRef")
 	if len(smContextRef) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smContextRef is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.SendMoDataRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -399,39 +326,120 @@ func OnSendMoData(ctx sbi.RequestContext, handler any) {
 
 	// check for defined error
 	if ersp != nil {
-		ctx.WriteResponse(models.StatusFromExtProblemDetails(ersp), ersp)
+		ctx.WriteResponse(models.StatusFromExtProblemDetails(ersp), ersp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(204, nil)
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnPostPduSessions(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.PostPduSessionsRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, ersp, prob := prod.HandlePostPduSessions(body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for defined error
+	if ersp != nil {
+		ctx.WriteResponse(models.StatusFromPostPduSessionsErrorResponse(ersp), ersp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnUpdatePduSession(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'pduSessionRef'
+	var pduSessionRef string
+	pduSessionRef = ctx.Param("pduSessionRef")
+	if len(pduSessionRef) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionRef is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.UpdatePduSessionRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, ersp, prob := prod.HandleUpdatePduSession(pduSessionRef, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for defined error
+	if ersp != nil {
+		ctx.WriteResponse(models.StatusFromUpdatePduSessionErrorResponse(ersp), ersp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
 
 }
 
 type Producer interface {
-	HandleRetrievePduSession(string, *models.RetrieveData) (*models.RetrievedData, *models.ProblemDetails)
-
-	HandleRetrieveSmContext(string, *models.SmContextRetrieveData) (*models.SmContextRetrievedData, *models.ProblemDetails)
+	HandlePostSmContexts(*models.EndpointInfo, *models.PostSmContextsRequest) (*models.PostSmContextsResponse, *models.PostSmContextsErrorResponse, *models.ProblemDetails)
 
 	HandleUpdateSmContext(string, *models.UpdateSmContextRequest) (*models.UpdateSmContextResponse, *models.UpdateSmContextErrorResponse, *models.ProblemDetails)
 
-	HandleUpdatePduSession(string, *models.UpdatePduSessionRequest) (*models.UpdatePduSessionResponse, *models.UpdatePduSessionErrorResponse, *models.ProblemDetails)
-
-	HandlePostPduSessions(*models.PostPduSessionsRequest) (*models.PostPduSessionsResponse, *models.PostPduSessionsErrorResponse, *models.ProblemDetails)
+	HandleReleaseSmContext(string, *models.ReleaseSmContextRequest) (*models.SmContextReleasedData, *models.ProblemDetails)
 
 	HandleReleasePduSession(string, *models.ReleasePduSessionRequest) (*models.ReleasePduSessionResponse, *models.ProblemDetails)
 
+	HandleRetrievePduSession(string, *models.RetrieveData) (*models.RetrievedData, *models.ProblemDetails)
+
 	HandleTransferMoData(string, *models.TransferMoDataRequest) *models.ProblemDetails
 
-	HandlePostSmContexts(*models.EndpointInfo, *models.PostSmContextsRequest) (*models.PostSmContextsResponse, *models.PostSmContextsErrorResponse, *models.ProblemDetails)
-
-	HandleReleaseSmContext(string, *models.ReleaseSmContextRequest) (*models.SmContextReleasedData, *models.ProblemDetails)
+	HandleRetrieveSmContext(string, *models.SmContextRetrieveData) (*models.SmContextRetrievedData, *models.ProblemDetails)
 
 	HandleSendMoData(string, *models.SendMoDataRequest) (*models.ExtProblemDetails, *models.ProblemDetails)
+
+	HandlePostPduSessions(*models.PostPduSessionsRequest) (*models.PostPduSessionsResponse, *models.PostPduSessionsErrorResponse, *models.ProblemDetails)
+
+	HandleUpdatePduSession(string, *models.UpdatePduSessionRequest) (*models.UpdatePduSessionResponse, *models.UpdatePduSessionErrorResponse, *models.ProblemDetails)
 }

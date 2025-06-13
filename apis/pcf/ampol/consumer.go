@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -35,6 +35,8 @@ func CreateIndividualAMPolicyAssociation(cli sbi.ConsumerClient, body *models.Po
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.PolicyAssociation)
@@ -68,6 +70,8 @@ func ReadIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId string)
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.PolicyAssociation)
@@ -100,6 +104,8 @@ func DeleteIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId strin
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 204:
@@ -137,6 +143,8 @@ func ReportObservedEventTriggersForIndividualAMPolicyAssociation(cli sbi.Consume
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 200:

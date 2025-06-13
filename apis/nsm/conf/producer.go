@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:12 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -20,13 +20,13 @@ func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -40,13 +40,13 @@ func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -60,13 +60,13 @@ func OnGetNssfConfiguration(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -77,22 +77,22 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params GetSessionManagementConfigurationParams
 
+	// read 'uuid'
+	params.Uuid = ctx.Param("uuid")
+	if len(params.Uuid) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
+		return
+	}
+
 	// read 'slice'
 	sliceStr := ctx.Param("slice")
 	if len(sliceStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "slice is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "slice is required"), nil)
 		return
 	}
 
 	if params.Slice, err = models.SnssaiFromString(sliceStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse slice failed: %+v", err)))
-		return
-	}
-
-	// read 'uuid'
-	params.Uuid = ctx.Param("uuid")
-	if len(params.Uuid) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse slice failed: %+v", err)), nil)
 		return
 	}
 
@@ -101,13 +101,13 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -118,9 +118,10 @@ func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 	var err error
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.UserPlaneConfigurationRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -129,13 +130,13 @@ func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 

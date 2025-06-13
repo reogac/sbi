@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:12 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -30,6 +30,8 @@ func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, 
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UdrConfiguration)
@@ -57,6 +59,8 @@ func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, 
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 200:
@@ -86,6 +90,8 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.NssfConfiguration)
@@ -106,18 +112,18 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 // Path: /smf-config/:uuid/:slice
 // Path Params: uuid, slice
 type GetSessionManagementConfigurationParams struct {
-	Slice *models.Snssai
 	Uuid  string
+	Slice *models.Snssai
 }
 
 func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSessionManagementConfigurationParams) (rsp *models.SessionManagementConfiguration, err error) {
 
-	if params.Slice == nil {
-		err = fmt.Errorf("slice is required")
-		return
-	}
 	if len(params.Uuid) == 0 {
 		err = fmt.Errorf("uuid is required")
+		return
+	}
+	if params.Slice == nil {
+		err = fmt.Errorf("slice is required")
 		return
 	}
 
@@ -127,6 +133,8 @@ func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSession
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 201:
@@ -160,6 +168,8 @@ func GetUserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneCon
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 200:

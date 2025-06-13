@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:23 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:21 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -10,98 +10,8 @@ import (
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
+	"io"
 )
-
-func OnUeContextModify(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId int64
-	ueIdStr := ctx.Param("ueId")
-	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
-		return
-	}
-
-	// decode request body
-	var body *models.UeContextModifyRequest
-	if ctx.HasRequestBody() {
-		body = new(models.UeContextModifyRequest)
-		if err = ctx.DecodeRequest(body); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-			return
-		}
-	}
-
-	// call application handler
-	rsp, ersp, prob := prod.HandleUeContextModify(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for defined error
-	if ersp != nil {
-		ctx.WriteResponse(400, ersp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
-func OnUeContextRelease(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId int64
-	ueIdStr := ctx.Param("ueId")
-	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
-		return
-	}
-
-	// decode request body
-	body := new(models.UeContextReleaseCommand)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUeContextRelease(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
 
 func OnUeContextSetup(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -111,43 +21,43 @@ func OnUeContextSetup(ctx sbi.RequestContext, handler any) {
 	var ueId int64
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	var body *models.UeContextSetupRequest
-	if ctx.HasRequestBody() {
-		body = new(models.UeContextSetupRequest)
-		if err = ctx.DecodeRequest(body); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-			return
-		}
+	body = new(models.UeContextSetupRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
 	}
-
 	// call application handler
 	rsp, ersp, prob := prod.HandleUeContextSetup(ueId, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for defined error
 	if ersp != nil {
-		ctx.WriteResponse(400, ersp)
+		ctx.WriteResponse(400, ersp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -161,19 +71,20 @@ func OnUpdateAmfUeContextInfo(ctx sbi.RequestContext, handler any) {
 	var ueId int64
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.AmfUeContextInfo)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -182,21 +93,113 @@ func OnUpdateAmfUeContextInfo(ctx sbi.RequestContext, handler any) {
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(201, nil)
+	ctx.WriteResponse(201, nil, nil)
+
+}
+
+func OnUeContextModify(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId int64
+	ueIdStr := ctx.Param("ueId")
+	if len(ueIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.UeContextModifyRequest
+	body = new(models.UeContextModifyRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	rsp, ersp, prob := prod.HandleUeContextModify(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for defined error
+	if ersp != nil {
+		ctx.WriteResponse(400, ersp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnUeContextRelease(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId int64
+	ueIdStr := ctx.Param("ueId")
+	if len(ueIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.UeContextReleaseCommand)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUeContextRelease(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
 
 }
 
 type Producer interface {
-	HandleUeContextModify(int64, *models.UeContextModifyRequest) (*models.UeContextModifyResponse, *models.UeContextModifyFailure, *models.ProblemDetails)
-
-	HandleUeContextRelease(int64, *models.UeContextReleaseCommand) (*models.UeContextReleaseComplete, *models.ProblemDetails)
-
 	HandleUeContextSetup(int64, *models.UeContextSetupRequest) (*models.UeContextSetupResponse, *models.UeContextSetupFailure, *models.ProblemDetails)
 
 	HandleUpdateAmfUeContextInfo(int64, *models.AmfUeContextInfo) *models.ProblemDetails
+
+	HandleUeContextModify(int64, *models.UeContextModifyRequest) (*models.UeContextModifyResponse, *models.UeContextModifyFailure, *models.ProblemDetails)
+
+	HandleUeContextRelease(int64, *models.UeContextReleaseCommand) (*models.UeContextReleaseComplete, *models.ProblemDetails)
 }

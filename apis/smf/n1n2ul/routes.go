@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:21 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:19 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,16 +13,16 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
-		Label:   "SessionResourceModifyIndication",
-		Method:  http.MethodPut,
-		Path:    "/res-modify/:smCtxRef",
-		Handler: OnSessionResourceModifyIndication,
-	},
-	{
 		Label:   "SessionResourceNotify",
 		Method:  http.MethodPost,
 		Path:    "/res-notify/:smCtxRef",
 		Handler: OnSessionResourceNotify,
+	},
+	{
+		Label:   "SessionResourceModifyIndication",
+		Method:  http.MethodPut,
+		Path:    "/res-modify/:smCtxRef",
+		Handler: OnSessionResourceModifyIndication,
 	},
 }
 

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,9 +17,10 @@ func OnDeconceal(ctx sbi.RequestContext, handler any) {
 	var err error
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.DeconcealReqData)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -28,13 +29,13 @@ func OnDeconceal(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 

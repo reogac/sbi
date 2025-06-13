@@ -1,30 +1,30 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:15 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:13 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AmfEvent struct {
+	IdleStatusInd          *bool                   `json:"idleStatusInd,omitempty"`
 	AreaList               []AmfEventArea          `json:"areaList,omitempty"`
-	MaxResponseTime        *int                    `json:"maxResponseTime,omitempty"`
-	MinInterval            *int                    `json:"minInterval,omitempty"`
-	Type                   AmfEventType            `json:"type"`
 	TrafficDescriptorList  []TrafficDescriptor     `json:"trafficDescriptorList,omitempty"`
-	ReachabilityFilter     ReachabilityFilter      `json:"reachabilityFilter,omitempty"`
+	ReportUeReachable      *bool                   `json:"reportUeReachable,omitempty"`
 	MaxReports             *int                    `json:"maxReports,omitempty"`
+	PresenceInfoList       map[string]PresenceInfo `json:"presenceInfoList,omitempty"`
+	NextReport             string                  `json:"nextReport,omitempty"`
+	RefId                  *int                    `json:"refId,omitempty"`
+	UdmDetectInd           *bool                   `json:"udmDetectInd,omitempty"`
+	MinInterval            *int                    `json:"minInterval,omitempty"`
+	DispersionArea         *DispersionArea         `json:"dispersionArea,omitempty"`
+	Type                   AmfEventType            `json:"type"`
+	ImmediateFlag          *bool                   `json:"immediateFlag,omitempty"`
+	MaxResponseTime        *int                    `json:"maxResponseTime,omitempty"`
+	UeInAreaFilter         *UeInAreaFilter         `json:"ueInAreaFilter,omitempty"`
+	LocationFilterList     []string                `json:"locationFilterList,omitempty"`
+	ReachabilityFilter     ReachabilityFilter      `json:"reachabilityFilter,omitempty"`
 	TargetArea             *TargetArea             `json:"targetArea,omitempty"`
 	SnssaiFilter           []ExtSnssai             `json:"snssaiFilter,omitempty"`
-	ImmediateFlag          *bool                   `json:"immediateFlag,omitempty"`
-	RefId                  *int                    `json:"refId,omitempty"`
-	ReportUeReachable      *bool                   `json:"reportUeReachable,omitempty"`
-	UeInAreaFilter         *UeInAreaFilter         `json:"ueInAreaFilter,omitempty"`
-	NextReport             string                  `json:"nextReport,omitempty"`
-	IdleStatusInd          *bool                   `json:"idleStatusInd,omitempty"`
 	NextPeriodicReportTime string                  `json:"nextPeriodicReportTime,omitempty"`
-	LocationFilterList     []string                `json:"locationFilterList,omitempty"`
-	PresenceInfoList       map[string]PresenceInfo `json:"presenceInfoList,omitempty"`
-	DispersionArea         *DispersionArea         `json:"dispersionArea,omitempty"`
-	UdmDetectInd           *bool                   `json:"udmDetectInd,omitempty"`
 }

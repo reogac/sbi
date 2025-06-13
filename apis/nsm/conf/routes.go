@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:12 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "GetUserPlaneConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/upf-config",
+		Handler: OnGetUserPlaneConfiguration,
+	},
 	{
 		Label:   "GetUdrConfiguration",
 		Method:  http.MethodGet,
@@ -35,12 +41,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPost,
 		Path:    "/smf-config/:uuid/:slice",
 		Handler: OnGetSessionManagementConfiguration,
-	},
-	{
-		Label:   "GetUserPlaneConfiguration",
-		Method:  http.MethodGet,
-		Path:    "/upf-config",
-		Handler: OnGetUserPlaneConfiguration,
 	},
 }
 

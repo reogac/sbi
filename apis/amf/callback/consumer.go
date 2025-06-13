@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:19 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:17 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -44,6 +44,8 @@ func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyP
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		return
@@ -79,6 +81,8 @@ func RanInfoUpdate(cli sbi.ConsumerClient, ranId string, body *models.RanInfoUpd
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 201:

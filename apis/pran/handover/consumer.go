@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:23 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -39,6 +39,8 @@ func HandoverRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, body
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 201:

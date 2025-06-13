@@ -1,22 +1,22 @@
-/*package yourpkg
+/*package your pkg
 
 import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pran/uectx"
 )
-func (p *Producer) HandleUeContextModify(ueId int64,body *models.UeContextModifyRequest)(rsp *models.UeContextModifyResponse,ersp *models.UeContextModifyFailure,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUeContextRelease(ueId int64,body *models.UeContextReleaseCommand)(rsp *models.UeContextReleaseComplete,prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandleUeContextSetup(ueId int64,body *models.UeContextSetupRequest)(rsp *models.UeContextSetupResponse,ersp *models.UeContextSetupFailure,prob *models.ProblemDetails){
 	return
 }
 
 func (p *Producer) HandleUpdateAmfUeContextInfo(ueId int64,body *models.AmfUeContextInfo)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUeContextModify(ueId int64,body *models.UeContextModifyRequest)(rsp *models.UeContextModifyResponse,ersp *models.UeContextModifyFailure,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUeContextRelease(ueId int64,body *models.UeContextReleaseCommand)(rsp *models.UeContextReleaseComplete,prob *models.ProblemDetails){
 	return
 }
 */

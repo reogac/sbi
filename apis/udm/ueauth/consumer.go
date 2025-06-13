@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,51 +16,6 @@ import (
 const (
 	PATH_ROOT string = "nudm-ueau/v1"
 )
-
-// Summary: Deletes the authentication result in the UDM
-// Description:
-// Path: /:supi/auth-events/:authEventId
-// Path Params: supi, authEventId
-type DeleteAuthParams struct {
-	Supi        string
-	AuthEventId string
-}
-
-func DeleteAuth(cli sbi.ConsumerClient, params DeleteAuthParams, body *models.AuthEvent) (err error) {
-
-	if len(params.Supi) == 0 {
-		err = fmt.Errorf("supi is required")
-		return
-	}
-	if len(params.AuthEventId) == 0 {
-		err = fmt.Errorf("authEventId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/%s/auth-events/%s", PATH_ROOT, params.Supi, params.AuthEventId)
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 404, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary: Generate authentication data for the UE in GBA domain
 // Description:
@@ -83,6 +38,8 @@ func GenerateGbaAv(cli sbi.ConsumerClient, supi string, body *models.GbaAuthenti
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 200:
@@ -121,6 +78,8 @@ func GenerateProseAV(cli sbi.ConsumerClient, supiOrSuci string, body *models.Pro
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.ProSeAuthenticationInfoResult)
@@ -158,6 +117,8 @@ func GenerateAuthData(cli sbi.ConsumerClient, supiOrSuci string, body *models.Au
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.AuthenticationInfoResult)
@@ -178,12 +139,12 @@ func GenerateAuthData(cli sbi.ConsumerClient, supiOrSuci string, body *models.Au
 // Path: /or/:supiOrSuci/security-information-rg
 // Path Params: supiOrSuci
 type GetRgAuthDataParams struct {
+	PlmnId            *models.PlmnId
+	IfNoneMatch       string
 	IfModifiedSince   string
 	SupiOrSuci        string
 	AuthenticatedInd  bool
 	SupportedFeatures string
-	PlmnId            *models.PlmnId
-	IfNoneMatch       string
 }
 
 func GetRgAuthData(cli sbi.ConsumerClient, params GetRgAuthDataParams) (rsp *models.RgAuthCtx, err error) {
@@ -195,6 +156,7 @@ func GetRgAuthData(cli sbi.ConsumerClient, params GetRgAuthDataParams) (rsp *mod
 
 	path := fmt.Sprintf("%s/or/%s/security-information-rg", PATH_ROOT, params.SupiOrSuci)
 	request := sbi.NewRequest(path, http.MethodGet, nil)
+	request.AddParam("authenticated-ind", models.BoolToString(params.AuthenticatedInd))
 	if len(params.SupportedFeatures) > 0 {
 		request.AddParam("supported-features", params.SupportedFeatures)
 	}
@@ -207,11 +169,12 @@ func GetRgAuthData(cli sbi.ConsumerClient, params GetRgAuthDataParams) (rsp *mod
 	if len(params.IfModifiedSince) > 0 {
 		request.AddHeader("If-Modified-Since", params.IfModifiedSince)
 	}
-	request.AddParam("authenticated-ind", models.BoolToString(params.AuthenticatedInd))
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 200:
@@ -250,6 +213,8 @@ func ConfirmAuth(cli sbi.ConsumerClient, supi string, body *models.AuthEvent) (r
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.AuthEvent)
@@ -270,8 +235,8 @@ func ConfirmAuth(cli sbi.ConsumerClient, supi string, body *models.AuthEvent) (r
 // Path: /:supi/hss-security-information/:hssAuthType/generate-av
 // Path Params: supi, hssAuthType
 type GenerateAvParams struct {
-	HssAuthType string
 	Supi        string
+	HssAuthType string
 }
 
 func GenerateAv(cli sbi.ConsumerClient, params GenerateAvParams, body *models.HssAuthenticationInfoRequest) (rsp *models.HssAuthenticationInfoResult, err error) {
@@ -296,11 +261,60 @@ func GenerateAv(cli sbi.ConsumerClient, params GenerateAvParams, body *models.Hs
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.HssAuthenticationInfoResult)
 		err = response.DecodeBody(rsp)
 	case 400, 403, 404, 500, 501, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Deletes the authentication result in the UDM
+// Description:
+// Path: /:supi/auth-events/:authEventId
+// Path Params: supi, authEventId
+type DeleteAuthParams struct {
+	Supi        string
+	AuthEventId string
+}
+
+func DeleteAuth(cli sbi.ConsumerClient, params DeleteAuthParams, body *models.AuthEvent) (err error) {
+
+	if len(params.Supi) == 0 {
+		err = fmt.Errorf("supi is required")
+		return
+	}
+	if len(params.AuthEventId) == 0 {
+		err = fmt.Errorf("authEventId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/%s/auth-events/%s", PATH_ROOT, params.Supi, params.AuthEventId)
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 404, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -19,6 +19,54 @@ const (
 
 // Summary:
 // Description:
+// Path: /pathswitch/:ueId
+// Path Params: ueId
+type PathSwitchParams struct {
+	Callback *models.EndpointInfo
+	UeId     int64
+}
+
+func PathSwitch(cli sbi.ConsumerClient, params PathSwitchParams, body *models.PathSwitchRequest) (rsp *models.PathSwitchAcknowledge, ersp *models.PathSwitchFailure, err error) {
+
+	if params.Callback == nil {
+		err = fmt.Errorf("callback is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pathswitch/%s", PATH_ROOT, models.Int64ToString(params.UeId))
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	request.AddHeader("callback", models.EndpointInfoToString(*params.Callback))
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.PathSwitchAcknowledge)
+		err = response.DecodeBody(rsp)
+	case 400:
+		ersp = new(models.PathSwitchFailure)
+		err = response.DecodeBody(ersp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
 // Path: /require/:ueId
 // Path Params: ueId
 func HandoverRequired(cli sbi.ConsumerClient, ueId int64, body *models.HandoverRequired) (rsp *models.HandoverCommand, ersp *models.HandoverPreparationFailure, err error) {
@@ -34,6 +82,8 @@ func HandoverRequired(cli sbi.ConsumerClient, ueId int64, body *models.HandoverR
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 201:
@@ -71,6 +121,8 @@ func HandoverNotify(cli sbi.ConsumerClient, ueId int64, body *models.HandoverNot
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		return
@@ -103,57 +155,13 @@ func HandoverCancel(cli sbi.ConsumerClient, ueId int64, body *models.HandoverCan
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.HandoverCancelAcknowledge)
 		err = response.DecodeBody(rsp)
 	case 400, 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /pathswitch/:ueId
-// Path Params: ueId
-type PathSwitchParams struct {
-	Callback *models.EndpointInfo
-	UeId     int64
-}
-
-func PathSwitch(cli sbi.ConsumerClient, params PathSwitchParams, body *models.PathSwitchRequest) (rsp *models.PathSwitchAcknowledge, ersp *models.PathSwitchFailure, err error) {
-
-	if params.Callback == nil {
-		err = fmt.Errorf("callback is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pathswitch/%s", PATH_ROOT, models.Int64ToString(params.UeId))
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	request.AddHeader("callback", models.EndpointInfoToString(*params.Callback))
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.PathSwitchAcknowledge)
-		err = response.DecodeBody(rsp)
-	case 400:
-		ersp = new(models.PathSwitchFailure)
-		err = response.DecodeBody(ersp)
-	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

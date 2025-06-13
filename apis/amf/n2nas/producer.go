@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -20,19 +20,20 @@ func OnInitialUeMessage(ctx sbi.RequestContext, handler any) {
 	var callback *models.EndpointInfo
 	callbackStr := ctx.Header("callback")
 	if len(callbackStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"), nil)
 		return
 	}
 
 	if callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.InitialUeMessage)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -41,13 +42,13 @@ func OnInitialUeMessage(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -61,19 +62,20 @@ func OnNasUl(ctx sbi.RequestContext, handler any) {
 	var ueId int64
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.NasUplinkTransport)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -82,12 +84,12 @@ func OnNasUl(ctx sbi.RequestContext, handler any) {
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(201, nil)
+	ctx.WriteResponse(201, nil, nil)
 
 }
 
@@ -99,19 +101,20 @@ func OnNasErr(ctx sbi.RequestContext, handler any) {
 	var ueId int64
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.UplinkNasError)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -120,12 +123,12 @@ func OnNasErr(ctx sbi.RequestContext, handler any) {
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(201, nil)
+	ctx.WriteResponse(201, nil, nil)
 
 }
 

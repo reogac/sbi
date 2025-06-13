@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:36 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:34 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,47 +13,6 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnSessionDeletion(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'seid'
-	var seid int64
-	seidStr := ctx.Param("seid")
-	if len(seidStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "seid is required"))
-		return
-	}
-
-	if seid, err = models.Int64FromString(seidStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse seid failed: %+v", err)))
-		return
-	}
-
-	// decode request body
-	body := new(message.PFCPSessionDeletionRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleSessionDeletion(seid, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
 func OnAssociationRequest(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
@@ -62,19 +21,20 @@ func OnAssociationRequest(ctx sbi.RequestContext, handler any) {
 	var callback *models.EndpointInfo
 	callbackStr := ctx.Header("callback")
 	if len(callbackStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"), nil)
 		return
 	}
 
 	if callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(message.PFCPAssociationSetupRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -83,13 +43,13 @@ func OnAssociationRequest(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -102,7 +62,7 @@ func OnDisassociationRequest(ctx sbi.RequestContext, handler any) {
 	var smfId string
 	smfId = ctx.Param("smfId")
 	if len(smfId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smfId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smfId is required"), nil)
 		return
 	}
 
@@ -111,12 +71,12 @@ func OnDisassociationRequest(ctx sbi.RequestContext, handler any) {
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(201, nil)
+	ctx.WriteResponse(201, nil, nil)
 
 }
 
@@ -128,14 +88,15 @@ func OnSessionEstablishment(ctx sbi.RequestContext, handler any) {
 	var smfId string
 	smfId = ctx.Param("smfId")
 	if len(smfId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smfId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "smfId is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(message.PFCPSessionEstablishmentRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -144,13 +105,13 @@ func OnSessionEstablishment(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -164,19 +125,20 @@ func OnSessionModification(ctx sbi.RequestContext, handler any) {
 	var seid int64
 	seidStr := ctx.Param("seid")
 	if len(seidStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "seid is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "seid is required"), nil)
 		return
 	}
 
 	if seid, err = models.Int64FromString(seidStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse seid failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse seid failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(message.PFCPSessionModificationRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -185,21 +147,61 @@ func OnSessionModification(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnSessionDeletion(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'seid'
+	var seid int64
+	seidStr := ctx.Param("seid")
+	if len(seidStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "seid is required"), nil)
+		return
+	}
+
+	if seid, err = models.Int64FromString(seidStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse seid failed: %+v", err)), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(message.PFCPSessionDeletionRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleSessionDeletion(seid, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 }
 
 type Producer interface {
-	HandleSessionDeletion(int64, *message.PFCPSessionDeletionRequest) (*message.PFCPSessionDeletionResponse, *models.ProblemDetails)
-
 	HandleAssociationRequest(*models.EndpointInfo, *message.PFCPAssociationSetupRequest) (*message.PFCPAssociationSetupResponse, *models.ProblemDetails)
 
 	HandleDisassociationRequest(string) *models.ProblemDetails
@@ -207,4 +209,6 @@ type Producer interface {
 	HandleSessionEstablishment(string, *message.PFCPSessionEstablishmentRequest) (*message.PFCPSessionEstablishmentResponse, *models.ProblemDetails)
 
 	HandleSessionModification(int64, *message.PFCPSessionModificationRequest) (*message.PFCPSessionModificationResponse, *models.ProblemDetails)
+
+	HandleSessionDeletion(int64, *message.PFCPSessionDeletionRequest) (*message.PFCPSessionDeletionResponse, *models.ProblemDetails)
 }

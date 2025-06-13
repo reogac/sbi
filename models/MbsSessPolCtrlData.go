@@ -1,15 +1,15 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type MbsSessPolCtrlData struct {
+	MaxMbsSessionAmbr string `json:"maxMbsSessionAmbr,omitempty"`
 	MaxGbr            string `json:"maxGbr,omitempty"`
 	SuppFeat          string `json:"suppFeat,omitempty"`
 	FiveQis           []int  `json:"5qis,omitempty"`
 	MaxMbsArpLevel    *int   `json:"maxMbsArpLevel,omitempty"`
-	MaxMbsSessionAmbr string `json:"maxMbsSessionAmbr,omitempty"`
 }

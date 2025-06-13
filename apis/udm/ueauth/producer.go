@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,46 +12,6 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnDeleteAuth(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-	var params DeleteAuthParams
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"))
-		return
-	}
-
-	// read 'authEventId'
-	params.AuthEventId = ctx.Param("authEventId")
-	if len(params.AuthEventId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authEventId is required"))
-		return
-	}
-
-	// decode request body
-	body := new(models.AuthEvent)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDeleteAuth(&params, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil)
-
-}
-
 func OnGenerateGbaAv(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
@@ -60,14 +20,15 @@ func OnGenerateGbaAv(ctx sbi.RequestContext, handler any) {
 	var supi string
 	supi = ctx.Param("supi")
 	if len(supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.GbaAuthenticationInfoRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -76,13 +37,13 @@ func OnGenerateGbaAv(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -96,14 +57,15 @@ func OnGenerateProseAV(ctx sbi.RequestContext, handler any) {
 	var supiOrSuci string
 	supiOrSuci = ctx.Param("supiOrSuci")
 	if len(supiOrSuci) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.ProSeAuthenticationInfoRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -112,13 +74,13 @@ func OnGenerateProseAV(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -132,14 +94,15 @@ func OnGenerateAuthData(ctx sbi.RequestContext, handler any) {
 	var supiOrSuci string
 	supiOrSuci = ctx.Param("supiOrSuci")
 	if len(supiOrSuci) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.AuthenticationInfoRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -148,13 +111,13 @@ func OnGenerateAuthData(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -165,6 +128,18 @@ func OnGetRgAuthData(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params GetRgAuthDataParams
 
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
 
@@ -174,32 +149,20 @@ func OnGetRgAuthData(ctx sbi.RequestContext, handler any) {
 	// read 'supiOrSuci'
 	params.SupiOrSuci = ctx.Param("supiOrSuci")
 	if len(params.SupiOrSuci) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"), nil)
 		return
 	}
 
 	// read 'authenticated-ind'
 	authenticatedIndStr := ctx.Param("authenticated-ind")
 	if len(authenticatedIndStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authenticated-ind is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authenticated-ind is required"), nil)
 		return
 	}
 
 	if params.AuthenticatedInd, err = models.BoolFromString(authenticatedIndStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse authenticated-ind failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse authenticated-ind failed: %+v", err)), nil)
 		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)))
-			return
-		}
 	}
 
 	// call application handler
@@ -207,13 +170,13 @@ func OnGetRgAuthData(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -227,14 +190,15 @@ func OnConfirmAuth(ctx sbi.RequestContext, handler any) {
 	var supi string
 	supi = ctx.Param("supi")
 	if len(supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.AuthEvent)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -243,13 +207,13 @@ func OnConfirmAuth(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -260,24 +224,25 @@ func OnGenerateAv(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params GenerateAvParams
 
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"))
-		return
-	}
-
 	// read 'hssAuthType'
 	params.HssAuthType = ctx.Param("hssAuthType")
 	if len(params.HssAuthType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "hssAuthType is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "hssAuthType is required"), nil)
+		return
+	}
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.HssAuthenticationInfoRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -286,21 +251,60 @@ func OnGenerateAv(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp)
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 }
 
-type Producer interface {
-	HandleDeleteAuth(*DeleteAuthParams, *models.AuthEvent) *models.ProblemDetails
+func OnDeleteAuth(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+	var params DeleteAuthParams
 
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'authEventId'
+	params.AuthEventId = ctx.Param("authEventId")
+	if len(params.AuthEventId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authEventId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.AuthEvent)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDeleteAuth(&params, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+type Producer interface {
 	HandleGenerateGbaAv(string, *models.GbaAuthenticationInfoRequest) (*models.GbaAuthenticationInfoResult, *models.ProblemDetails)
 
 	HandleGenerateProseAV(string, *models.ProSeAuthenticationInfoRequest) (*models.ProSeAuthenticationInfoResult, *models.ProblemDetails)
@@ -312,4 +316,6 @@ type Producer interface {
 	HandleConfirmAuth(string, *models.AuthEvent) (*models.AuthEvent, *models.ProblemDetails)
 
 	HandleGenerateAv(*GenerateAvParams, *models.HssAuthenticationInfoRequest) (*models.HssAuthenticationInfoResult, *models.ProblemDetails)
+
+	HandleDeleteAuth(*DeleteAuthParams, *models.AuthEvent) *models.ProblemDetails
 }

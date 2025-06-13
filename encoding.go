@@ -9,7 +9,7 @@ import (
 
 type SbiIE interface{} //any SBI data models
 
-//for now we use JSON
+// for now we use JSON
 func Encode(ie SbiIE) (int64, io.Reader, error) {
 	if buf, err := json.Marshal(ie); err != nil {
 		return -1, nil, err

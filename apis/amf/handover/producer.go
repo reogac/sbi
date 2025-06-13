@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,53 +12,6 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnHandoverRequired(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// read 'ueId'
-	var ueId int64
-	ueIdStr := ctx.Param("ueId")
-	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
-		return
-	}
-
-	// decode request body
-	body := new(models.HandoverRequired)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
-		return
-	}
-
-	// call application handler
-	rsp, ersp, prob := prod.HandleHandoverRequired(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
-		return
-	}
-
-	// check for defined error
-	if ersp != nil {
-		ctx.WriteResponse(400, ersp)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
-		return
-	}
-
-}
-
 func OnHandoverNotify(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
@@ -67,19 +20,20 @@ func OnHandoverNotify(ctx sbi.RequestContext, handler any) {
 	var ueId int64
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.HandoverNotify)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -88,12 +42,12 @@ func OnHandoverNotify(ctx sbi.RequestContext, handler any) {
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 	// success
-	ctx.WriteResponse(201, nil)
+	ctx.WriteResponse(201, nil, nil)
 
 }
 
@@ -105,19 +59,20 @@ func OnHandoverCancel(ctx sbi.RequestContext, handler any) {
 	var ueId int64
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.HandoverCancel)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -126,13 +81,13 @@ func OnHandoverCancel(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
@@ -143,34 +98,35 @@ func OnPathSwitch(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params PathSwitchParams
 
-	// read 'ueId'
-	ueIdStr := ctx.Param("ueId")
-	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"))
-		return
-	}
-
-	if params.UeId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)))
-		return
-	}
-
 	// read 'callback'
 	callbackStr := ctx.Header("callback")
 	if len(callbackStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"), nil)
 		return
 	}
 
 	if params.Callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)))
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'ueId'
+	ueIdStr := ctx.Param("ueId")
+	if len(ueIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	if params.UeId, err = models.Int64FromString(ueIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
 		return
 	}
 
 	// decode request body
+	contentLength, content := ctx.RequestBody()
 	body := new(models.PathSwitchRequest)
-	if err = ctx.DecodeRequest(body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)))
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
@@ -179,30 +135,78 @@ func OnPathSwitch(ctx sbi.RequestContext, handler any) {
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
 	// check for defined error
 	if ersp != nil {
-		ctx.WriteResponse(400, ersp)
+		ctx.WriteResponse(400, ersp, nil)
 		return
 	}
 
 	// check for problem
 	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob)
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnHandoverRequired(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// read 'ueId'
+	var ueId int64
+	ueIdStr := ctx.Param("ueId")
+	if len(ueIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.HandoverRequired)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, ersp, prob := prod.HandleHandoverRequired(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for defined error
+	if ersp != nil {
+		ctx.WriteResponse(400, ersp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
 
 }
 
 type Producer interface {
-	HandleHandoverRequired(int64, *models.HandoverRequired) (*models.HandoverCommand, *models.HandoverPreparationFailure, *models.ProblemDetails)
-
 	HandleHandoverNotify(int64, *models.HandoverNotify) *models.ProblemDetails
 
 	HandleHandoverCancel(int64, *models.HandoverCancel) (*models.HandoverCancelAcknowledge, *models.ProblemDetails)
 
 	HandlePathSwitch(*PathSwitchParams, *models.PathSwitchRequest) (*models.PathSwitchAcknowledge, *models.PathSwitchFailure, *models.ProblemDetails)
+
+	HandleHandoverRequired(int64, *models.HandoverRequired) (*models.HandoverCommand, *models.HandoverPreparationFailure, *models.ProblemDetails)
 }

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,12 +12,6 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
-	{
-		Label:   "GenerateGbaAv",
-		Method:  http.MethodPost,
-		Path:    "/:supi/gba-security-information/generate-av",
-		Handler: OnGenerateGbaAv,
-	},
 	{
 		Label:   "GenerateProseAV",
 		Method:  http.MethodPost,
@@ -53,6 +47,12 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPut,
 		Path:    "/:supi/auth-events/:authEventId",
 		Handler: OnDeleteAuth,
+	},
+	{
+		Label:   "GenerateGbaAv",
+		Method:  http.MethodPost,
+		Path:    "/:supi/gba-security-information/generate-av",
+		Handler: OnGenerateGbaAv,
 	},
 }
 

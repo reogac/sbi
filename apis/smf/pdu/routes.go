@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,24 @@ import (
 )
 
 var _routes = []sbi.SbiRoute{
+	{
+		Label:   "SendMoData",
+		Method:  http.MethodPost,
+		Path:    "/sm-contexts/:smContextRef/send-mo-data",
+		Handler: OnSendMoData,
+	},
+	{
+		Label:   "PostPduSessions",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions",
+		Handler: OnPostPduSessions,
+	},
+	{
+		Label:   "UpdatePduSession",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions/:pduSessionRef/modify",
+		Handler: OnUpdatePduSession,
+	},
 	{
 		Label:   "RetrieveSmContext",
 		Method:  http.MethodPost,
@@ -25,22 +43,22 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnUpdateSmContext,
 	},
 	{
-		Label:   "UpdatePduSession",
+		Label:   "ReleaseSmContext",
 		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/modify",
-		Handler: OnUpdatePduSession,
-	},
-	{
-		Label:   "RetrievePduSession",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/retrieve",
-		Handler: OnRetrievePduSession,
+		Path:    "/sm-contexts/:smContextRef/release",
+		Handler: OnReleaseSmContext,
 	},
 	{
 		Label:   "ReleasePduSession",
 		Method:  http.MethodPost,
 		Path:    "/pdu-sessions/:pduSessionRef/release",
 		Handler: OnReleasePduSession,
+	},
+	{
+		Label:   "RetrievePduSession",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions/:pduSessionRef/retrieve",
+		Handler: OnRetrievePduSession,
 	},
 	{
 		Label:   "TransferMoData",
@@ -53,24 +71,6 @@ var _routes = []sbi.SbiRoute{
 		Method:  http.MethodPost,
 		Path:    "/sm-contexts",
 		Handler: OnPostSmContexts,
-	},
-	{
-		Label:   "ReleaseSmContext",
-		Method:  http.MethodPost,
-		Path:    "/sm-contexts/:smContextRef/release",
-		Handler: OnReleaseSmContext,
-	},
-	{
-		Label:   "SendMoData",
-		Method:  http.MethodPost,
-		Path:    "/sm-contexts/:smContextRef/send-mo-data",
-		Handler: OnSendMoData,
-	},
-	{
-		Label:   "PostPduSessions",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions",
-		Handler: OnPostPduSessions,
 	},
 }
 

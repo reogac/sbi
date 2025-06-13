@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:36 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:34 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,76 +17,6 @@ import (
 const (
 	PATH_ROOT string = "upf-n4/v1"
 )
-
-// Summary:
-// Description:
-// Path: /associate
-// Path Params:
-func AssociationRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *message.PFCPAssociationSetupRequest) (rsp *message.PFCPAssociationSetupResponse, err error) {
-
-	if callback == nil {
-		err = fmt.Errorf("callback is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/associate", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	request.AddHeader("callback", models.EndpointInfoToString(*callback))
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(message.PFCPAssociationSetupResponse)
-		err = response.DecodeBody(rsp)
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /disassociate/:smfId
-// Path Params: smfId
-func DisassociationRequest(cli sbi.ConsumerClient, smfId string) (err error) {
-
-	if len(smfId) == 0 {
-		err = fmt.Errorf("smfId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/disassociate/%s", PATH_ROOT, smfId)
-	request := sbi.NewRequest(path, http.MethodPut, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	switch response.GetCode() {
-	case 201:
-		return
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -109,6 +39,8 @@ func SessionEstablishment(cli sbi.ConsumerClient, smfId string, body *message.PF
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 201:
@@ -143,6 +75,8 @@ func SessionModification(cli sbi.ConsumerClient, seid int64, body *message.PFCPS
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(message.PFCPSessionModificationResponse)
@@ -176,10 +110,86 @@ func SessionDeletion(cli sbi.ConsumerClient, seid int64, body *message.PFCPSessi
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(message.PFCPSessionDeletionResponse)
 		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /associate
+// Path Params:
+func AssociationRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *message.PFCPAssociationSetupRequest) (rsp *message.PFCPAssociationSetupResponse, err error) {
+
+	if callback == nil {
+		err = fmt.Errorf("callback is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/associate", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	request.AddHeader("callback", models.EndpointInfoToString(*callback))
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(message.PFCPAssociationSetupResponse)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /disassociate/:smfId
+// Path Params: smfId
+func DisassociationRequest(cli sbi.ConsumerClient, smfId string) (err error) {
+
+	if len(smfId) == 0 {
+		err = fmt.Errorf("smfId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/disassociate/%s", PATH_ROOT, smfId)
+	request := sbi.NewRequest(path, http.MethodPut, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		return
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {

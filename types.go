@@ -38,36 +38,32 @@ func (r *Request) AddHeader(k, v string) {
 	r.headerParams[k] = v
 }
 
-func NewReceivedResponse(code int, status string, contentLength int64, body io.Reader, headers map[string]string) *Response {
-	return &Response{
-		code:          code,
-		status:        status,
-		body:          body,
-		contentLength: contentLength,
-		headers:       headers,
-	}
-}
-
 type Response struct {
 	contentLength int64
-	body          io.Reader
-	bodyBytes     []byte
-
-	headers map[string]string
-	status  string
-	code    int
+	body          io.ReadCloser
+	headers       map[string]string
+	status        string
+	code          int
 }
 
-func (resp *Response) GetCode() int {
-	return resp.code
+func (rsp *Response) GetCode() int {
+	return rsp.code
 }
 
-func (resp *Response) GetStatus() string {
-	return resp.status
+func (rsp *Response) GetStatus() string {
+	return rsp.status
 }
 
-func (resp *Response) GetHeaders() map[string]string {
-	return resp.headers
+func (rsp *Response) GetHeaders() map[string]string {
+	return rsp.headers
+}
+
+func (rsp *Response) DecodeBody(ie SbiIE) (err error) {
+	return Decode(rsp.contentLength, rsp.body, ie)
+}
+
+func (rsp *Response) CloseBody() {
+	rsp.body.Close()
 }
 
 // Abstraction of a consumer client
@@ -82,9 +78,8 @@ type ConsumerClient interface {
 // to complete the whole procedure of handling a request.
 
 type RequestContext interface {
-	HasRequestBody() bool
-	DecodeRequest(body interface{}) error //decode the request to get embeded body
-	Param(string) string                  // get a parameter from the request (application handler need it)
-	Header(string) string                 // get a header parameter from the request (application handler need it)
-	WriteResponse(int, any)
+	RequestBody() (int64, io.Reader)
+	Param(string) string  // get a parameter from the request (application handler need it)
+	Header(string) string // get a header parameter from the request (application handler need it)
+	WriteResponse(int, SbiIE, map[string]string)
 }

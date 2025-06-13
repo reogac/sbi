@@ -44,7 +44,16 @@ func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http
 	}
 	return
 }
-
-func (sbiResponse *Response) DecodeBody(body SbiIE) (err error) {
-	return Decode(sbiResponse.contentLength, sbiResponse.body, body)
+func CreateResponse(httpRsp *http.Response) *Response {
+	rsp := &Response{
+		code:          httpRsp.StatusCode,
+		status:        httpRsp.Status,
+		contentLength: httpRsp.ContentLength,
+		body:          httpRsp.Body,
+		headers:       make(map[string]string),
+	}
+	for k, v := range httpRsp.Header {
+		rsp.headers[k] = v[0] //take the fist item only
+	}
+	return rsp
 }

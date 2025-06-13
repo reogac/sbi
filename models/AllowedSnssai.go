@@ -1,13 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:23 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AllowedSnssai struct {
+	AllowedSnssai      Snssai           `json:"allowedSnssai"`
 	NsiInformationList []NsiInformation `json:"nsiInformationList,omitempty"`
 	MappedHomeSnssai   *Snssai          `json:"mappedHomeSnssai,omitempty"`
-	AllowedSnssai      Snssai           `json:"allowedSnssai"`
 }

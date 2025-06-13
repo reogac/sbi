@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -35,6 +35,8 @@ func CreateSMPolicy(cli sbi.ConsumerClient, body *models.SmPolicyContextData) (r
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.SmPolicyDecision)
@@ -67,6 +69,8 @@ func GetSMPolicy(cli sbi.ConsumerClient, smPolicyId string) (rsp *models.SmPolic
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 200:
@@ -105,6 +109,8 @@ func UpdateSMPolicy(cli sbi.ConsumerClient, smPolicyId string, body *models.SmPo
 		return
 	}
 
+	defer response.CloseBody()
+
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.SmPolicyDecision)
@@ -141,6 +147,8 @@ func DeleteSMPolicy(cli sbi.ConsumerClient, smPolicyId string, body *models.SmPo
 	if response, err = cli.Send(request); err != nil {
 		return
 	}
+
+	defer response.CloseBody()
 
 	switch response.GetCode() {
 	case 204:

@@ -1,13 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jun 12 16:32:13 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:28:11 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AmfRegistrationRequest struct {
-	PlmnId PlmnId `json:"plmnId"`
 	Uuid   string `json:"uuid"`
 	AmfSet string `json:"amfSet"`
+	PlmnId PlmnId `json:"plmnId"`
 }
