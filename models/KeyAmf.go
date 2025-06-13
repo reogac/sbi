@@ -1,12 +1,12 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:13 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type KeyAmf struct {
-	KeyType KeyAmfType `json:"keyType"`
 	KeyVal  string     `json:"keyVal"`
+	KeyType KeyAmfType `json:"keyType"`
 }

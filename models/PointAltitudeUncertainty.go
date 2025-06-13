@@ -1,17 +1,17 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type PointAltitudeUncertainty struct {
-	VConfidence         *int                    `json:"vConfidence,omitempty"`
-	Shape               SupportedGADShapes      `json:"shape"`
 	Point               GeographicalCoordinates `json:"point"`
 	Altitude            float64                 `json:"altitude"`
 	UncertaintyEllipse  UncertaintyEllipse      `json:"uncertaintyEllipse"`
 	UncertaintyAltitude float64                 `json:"uncertaintyAltitude"`
 	Confidence          int                     `json:"confidence"`
+	VConfidence         *int                    `json:"vConfidence,omitempty"`
+	Shape               SupportedGADShapes      `json:"shape"`
 }

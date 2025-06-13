@@ -4,399 +4,7 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udr/subs"
 )
-func (p *Producer) HandleQuerySmsfContext3gpp(params *subs.QuerySmsfContext3gppParams)(rsp *models.SmsfRegistration){
-	return
-}
-
-func (p *Producer) HandleQueryeeSubscription(params *subs.QueryeeSubscriptionParams)(){
-	return
-}
-
-func (p *Producer) HandleGetSmfSubscriptionInfo(params *subs.GetSmfSubscriptionInfoParams)(rsp *models.SmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleQueryCagAck(params *subs.QueryCagAckParams)(rsp *models.CagAckData){
-	return
-}
-
-func (p *Producer) HandleQueryAmfContext3gpp(params *subs.QueryAmfContext3gppParams)(rsp *models.Amf3GppAccessRegistration){
-	return
-}
-
-func (p *Producer) HandleGetMultiplePPDataEntries(params *subs.GetMultiplePPDataEntriesParams)(rsp *models.PpDataEntryList,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleSubscriptionDataSubscriptions(body *models.SubscriptionDataSubscriptions)(rsp *models.SubscriptionDataSubscriptions){
-	return
-}
-
-func (p *Producer) HandleModifySmfGroupSubscriptions(params *subs.ModifySmfGroupSubscriptionsParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryNssaiAck(params *subs.QueryNssaiAckParams)(rsp *models.NssaiAckData){
-	return
-}
-
-func (p *Producer) HandleCreateEeGroupSubscriptions(ueGroupId string,body *models.EeSubscription)(rsp *models.EeSubscription){
-	return
-}
-
-func (p *Producer) HandleGetNiddAuthorizationInfo(ueId string)(rsp *models.NiddAuthorizationInfo){
-	return
-}
-
-func (p *Producer) HandleCreateOrUpdatePeiInformation(ueId string,body *models.PeiUpdateInfo)(rsp *models.PeiUpdateInfo){
-	return
-}
-
-func (p *Producer) HandleAmfContextNon3gpp(params *subs.AmfContextNon3gppParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCreateHSSSDMSubscriptions(params *subs.CreateHSSSDMSubscriptionsParams,body *models.HssSubscriptionInfo)(){
-	return
-}
-
-func (p *Producer) HandleDelete5GVnGroup(externalGroupId string)(){
-	return
-}
-
-func (p *Producer) HandleCreateNIDDAuthorizationInfo(ueId string,body *models.NiddAuthorizationInfo)(rsp *models.NiddAuthorizationInfo){
-	return
-}
-
-func (p *Producer) HandleQueryAuthUPU(params *subs.QueryAuthUPUParams)(rsp *models.UpuData){
-	return
-}
-
-func (p *Producer) HandleCreateSmsfContextNon3gpp(ueId string,body *models.SmsfRegistration)(rsp *models.SmsfRegistration){
-	return
-}
-
-func (p *Producer) HandleQuerySubscriptionDataSubscriptions(subsId string)(rsp *models.SubscriptionDataSubscriptions){
-	return
-}
-
-func (p *Producer) HandleCreate5GmbsGroup(externalGroupId string,body *models.MulticastMbsGroupMemb)(rsp *models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQuerySubsToNotify(params *subs.QuerySubsToNotifyParams)(rsp *[]models.SubscriptionDataSubscriptions){
-	return
-}
-
-func (p *Producer) HandleQueryAmData(params *subs.QueryAmDataParams)(rsp *models.AccessAndMobilitySubscriptionData){
-	return
-}
-
-func (p *Producer) HandleQuerySmData(params *subs.QuerySmDataParams)(rsp *models.SmSubsData){
-	return
-}
-
-func (p *Producer) HandleCreateOrUpdateSmfRegistration(params *subs.CreateOrUpdateSmfRegistrationParams,body *models.SmfRegistration)(rsp *models.SmfRegistration){
-	return
-}
-
-func (p *Producer) HandleCreateOperSpecData(params *subs.CreateOperSpecDataParams,body *map[string]models.OperatorSpecificDataContainer)(rsp *map[string]models.OperatorSpecificDataContainer,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifyEesubscription(params *subs.ModifyEesubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetAmfSubscriptionInfo(params *subs.GetAmfSubscriptionInfoParams)(rsp *[]models.AmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleGetHssSubscriptionInfo(params *subs.GetHssSubscriptionInfoParams)(rsp *models.SmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleQueryPPData(params *subs.QueryPPDataParams)(rsp *models.PpProfileData){
-	return
-}
-
-func (p *Producer) HandleQuery5GMbsGroupInternal(internalGroupIds []string)(rsp *map[string]models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryProvisionedData(params *subs.QueryProvisionedDataParams)(rsp *models.ProvisionedDataSets){
-	return
-}
-
-func (p *Producer) HandleQueryAmfContextNon3gpp(params *subs.QueryAmfContextNon3gppParams)(rsp *models.AmfNon3GppAccessRegistration){
-	return
-}
-
-func (p *Producer) HandleCreateSMFSubscriptions(params *subs.CreateSMFSubscriptionsParams,body *models.SmfSubscriptionInfo)(rsp *models.SmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleUpdateRoamingInformation(ueId string,body *models.RoamingInfoUpdate)(rsp *models.RoamingInfoUpdate){
-	return
-}
-
-func (p *Producer) HandleQuery5GMbsGroupPPData(params *subs.Query5GMbsGroupPPDataParams)(rsp *models.Pp5gMbsGroupProfileData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryMessageWaitingData(params *subs.QueryMessageWaitingDataParams)(rsp *models.MessageWaitingData){
-	return
-}
-
-func (p *Producer) HandleGetGroupIdentifiers(params *subs.GetGroupIdentifiersParams)(rsp *models.GroupIdentifiers,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCreateAmfGroupSubscriptions(params *subs.CreateAmfGroupSubscriptionsParams,body *[]models.AmfSubscriptionInfo)(rsp *[]models.AmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleCreateOrUpdateNssaiAck(params *subs.CreateOrUpdateNssaiAckParams,body *models.NssaiAckData)(){
-	return
-}
-
-func (p *Producer) HandleQueryGroupEEData(params *subs.QueryGroupEEDataParams)(rsp *models.EeGroupProfileData){
-	return
-}
-
-func (p *Producer) HandleQuerysdmSubscription(params *subs.QuerysdmSubscriptionParams)(){
-	return
-}
-
-func (p *Producer) HandleQueryContextData(params *subs.QueryContextDataParams)(rsp *models.ContextDataSets){
-	return
-}
-
-func (p *Producer) HandleQuery5GVnGroup(gpsis []string)(rsp *map[string]models.FiveGVnGroupConfiguration){
-	return
-}
-
-func (p *Producer) HandleQueryLcsBcaData(params *subs.QueryLcsBcaDataParams)(rsp *models.LcsBroadcastAssistanceTypesData){
-	return
-}
-
-func (p *Producer) HandleQueryPeiInformation(ueId string)(rsp *models.PeiUpdateInfo){
-	return
-}
-
-func (p *Producer) HandleRemoveEeGroupSubscriptions(params *subs.RemoveEeGroupSubscriptionsParams)(){
-	return
-}
-
-func (p *Producer) HandleQueryAuthSoR(params *subs.QueryAuthSoRParams)(rsp *models.SorData){
-	return
-}
-
-func (p *Producer) HandleDeleteSmfRegistration(params *subs.DeleteSmfRegistrationParams)(){
-	return
-}
-
-func (p *Producer) HandleQueryOperSpecData(params *subs.QueryOperSpecDataParams)(rsp *map[string]models.OperatorSpecificDataContainer){
-	return
-}
-
-func (p *Producer) HandleDeleteSmsfContextNon3gpp(ueId string)(){
-	return
-}
-
-func (p *Producer) HandleDeleteIpSmGwContext(ueId string)(){
-	return
-}
-
-func (p *Producer) HandleQuerySmsData(params *subs.QuerySmsDataParams)(rsp *models.SmsSubscriptionData){
-	return
-}
-
-func (p *Producer) HandleCreatePPDataEntry(params *subs.CreatePPDataEntryParams,body *models.PpDataEntry)(rsp *models.PpDataEntry,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCreate5GVnGroup(externalGroupId string,body *models.FiveGVnGroupConfiguration)(rsp *models.FiveGVnGroupConfiguration,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQuerySmfRegistration(params *subs.QuerySmfRegistrationParams)(rsp *models.SmfRegistration){
-	return
-}
-
-func (p *Producer) HandleModifyIpSmGwContext(ueId string,body *[]models.PatchItem)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifyMessageWaitingData(ueId string,body *[]models.PatchItem)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRemoveAmfSubscriptionsInfo(params *subs.RemoveAmfSubscriptionsInfoParams)(){
-	return
-}
-
-func (p *Producer) HandleCreateSdmSubscriptions(ueId string,body *models.SdmSubscription)(rsp *models.SdmSubscription){
-	return
-}
-
-func (p *Producer) HandleQueryTraceData(params *subs.QueryTraceDataParams)(rsp *models.TraceData){
-	return
-}
-
-func (p *Producer) HandleCreateAuthenticationStatus(ueId string,body *models.AuthEvent)(){
-	return
-}
-
-func (p *Producer) HandleQueryLcsMoData(params *subs.QueryLcsMoDataParams)(rsp *models.LcsMoData){
-	return
-}
-
-func (p *Producer) HandleCreateEeSubscriptions(ueId string,body *models.EeSubscription)(rsp *models.EeSubscription){
-	return
-}
-
-func (p *Producer) HandleQuery5mbsData(params *subs.Query5mbsDataParams)(rsp *models.MbsSubscriptionData){
-	return
-}
-
-func (p *Producer) HandleDeleteSmsfContext3gpp(ueId string)(){
-	return
-}
-
-func (p *Producer) HandleGetppData(params *subs.GetppDataParams)(rsp *models.PpData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRemoveHssSubscriptionsInfo(params *subs.RemoveHssSubscriptionsInfoParams)(){
-	return
-}
-
-func (p *Producer) HandleQueryCoverageRestrictionData(params *subs.QueryCoverageRestrictionDataParams)(rsp *models.EnhancedCoverageRestrictionData){
-	return
-}
-
-func (p *Producer) HandleModifyAuthenticationSubscription(params *subs.ModifyAuthenticationSubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryIndividualAuthenticationStatus(params *subs.QueryIndividualAuthenticationStatusParams)(rsp *models.AuthEvent){
-	return
-}
-
-func (p *Producer) HandleModifyAmfSubscriptionInfo(params *subs.ModifyAmfSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifyOperSpecData(params *subs.ModifyOperSpecDataParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteMessageWaitingData(ueId string)(){
-	return
-}
-
-func (p *Producer) HandleGetNiddAuData(params *subs.GetNiddAuDataParams)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryUeSubscribedData(params *subs.QueryUeSubscribedDataParams)(rsp *models.UeSubscribedDataSets){
-	return
-}
-
-func (p *Producer) HandleGetAmfGroupSubscriptions(params *subs.GetAmfGroupSubscriptionsParams)(rsp *[]models.AmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleCreateAuthenticationSoR(params *subs.CreateAuthenticationSoRParams,body *models.SorData)(){
-	return
-}
-
-func (p *Producer) HandleCreateAuthenticationUPU(params *subs.CreateAuthenticationUPUParams,body *models.UpuData)(){
-	return
-}
-
-func (p *Producer) HandleGetPPDataEntry(params *subs.GetPPDataEntryParams)(rsp *models.PpDataEntry,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeletePPDataEntry(params *subs.DeletePPDataEntryParams)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifyHssSubscriptionInfo(params *subs.ModifyHssSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateEeGroupSubscriptions(params *subs.UpdateEeGroupSubscriptionsParams,body *models.EeSubscription)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSSAuData(params *subs.GetSSAuDataParams)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateSmfContext(params *subs.UpdateSmfContextParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSharedData(params *subs.GetSharedDataParams)(rsp *[]models.SharedData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifyNiddAuthorizationInfo(params *subs.ModifyNiddAuthorizationInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifyAmfGroupSubscriptions(params *subs.ModifyAmfGroupSubscriptionsParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCreateSmfGroupSubscriptions(params *subs.CreateSmfGroupSubscriptionsParams,body *models.SmfSubscriptionInfo)(rsp *models.SmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleDeleteAuthenticationStatus(ueId string)(){
-	return
-}
-
-func (p *Producer) HandleUpdateAuthenticationSoR(params *subs.UpdateAuthenticationSoRParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQuerySmfSelectData(params *subs.QuerySmfSelectDataParams)(rsp *models.SmfSelectionSubscriptionData){
-	return
-}
-
-func (p *Producer) HandleAmfContext3gpp(params *subs.AmfContext3gppParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryV2xData(params *subs.QueryV2xDataParams)(rsp *models.V2xSubscriptionData){
-	return
-}
-
-func (p *Producer) HandleQuery5GVnGroupInternal(internalGroupIds []string)(rsp *map[string]models.FiveGVnGroupConfiguration){
-	return
-}
-
-func (p *Producer) HandleGetServiceSpecificAuthorizationInfo(params *subs.GetServiceSpecificAuthorizationInfoParams)(rsp *models.ServiceSpecificAuthorizationInfo){
-	return
-}
-
-func (p *Producer) HandleModifyPpData(params *subs.ModifyPpDataParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRemoveServiceSpecificAuthorizationInfo(params *subs.RemoveServiceSpecificAuthorizationInfoParams)(){
-	return
-}
-
-func (p *Producer) HandleRemoveAmfGroupSubscriptions(params *subs.RemoveAmfGroupSubscriptionsParams)(){
-	return
-}
-
-func (p *Producer) HandleGetMulticastMbsGroupMemb(externalGroupId string)(rsp *models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
+func (p *Producer) HandleQuery5GVNGroupPPData(params *subs.Query5GVNGroupPPDataParams)(rsp *models.Pp5gVnGroupProfileData){
 	return
 }
 
@@ -404,19 +12,19 @@ func (p *Producer) HandleDeleteIndividualAuthenticationStatus(params *subs.Delet
 	return
 }
 
-func (p *Producer) HandleQueryeesubscriptions(params *subs.QueryeesubscriptionsParams)(rsp *[]models.EeSubscriptionExt){
+func (p *Producer) HandleQueryAmfContext3gpp(params *subs.QueryAmfContext3gppParams)(rsp *models.Amf3GppAccessRegistration){
 	return
 }
 
-func (p *Producer) HandleModify5GmbsGroup(params *subs.Modify5GmbsGroupParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+func (p *Producer) HandleQueryMessageWaitingData(params *subs.QueryMessageWaitingDataParams)(rsp *models.MessageWaitingData){
 	return
 }
 
-func (p *Producer) HandleQueryAuthenticationStatus(params *subs.QueryAuthenticationStatusParams)(rsp *models.AuthEvent){
+func (p *Producer) HandleQuery5GVnGroupInternal(internalGroupIds []string)(rsp *map[string]models.FiveGVnGroupConfiguration){
 	return
 }
 
-func (p *Producer) HandleCreateAmfContext3gpp(ueId string,body *models.Amf3GppAccessRegistration)(rsp *models.Amf3GppAccessRegistration){
+func (p *Producer) HandleModifyHssSubscriptionInfo(params *subs.ModifyHssSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
 	return
 }
 
@@ -424,55 +32,35 @@ func (p *Producer) HandleQueryEeGroupSubscription(params *subs.QueryEeGroupSubsc
 	return
 }
 
-func (p *Producer) HandleModifyHssSDMSubscriptionInfo(params *subs.ModifyHssSDMSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+func (p *Producer) HandleRemoveSmfGroupSubscriptions(params *subs.RemoveSmfGroupSubscriptionsParams)(){
 	return
 }
 
-func (p *Producer) HandleModify5GVnGroup(params *subs.Modify5GVnGroupParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+func (p *Producer) HandleQueryAuthenticationStatus(params *subs.QueryAuthenticationStatusParams)(rsp *models.AuthEvent){
 	return
 }
 
-func (p *Producer) HandleQueryLcsPrivacyData(params *subs.QueryLcsPrivacyDataParams)(rsp *models.LcsPrivacyData){
+func (p *Producer) HandleQuerySmfSelectData(params *subs.QuerySmfSelectDataParams)(rsp *models.SmfSelectionSubscriptionData){
 	return
 }
 
-func (p *Producer) HandleGetSmfGroupSubscriptions(params *subs.GetSmfGroupSubscriptionsParams)(rsp *models.SmfSubscriptionInfo){
+func (p *Producer) HandleQuerySmsfContext3gpp(params *subs.QuerySmsfContext3gppParams)(rsp *models.SmsfRegistration){
 	return
 }
 
-func (p *Producer) HandleUpdateEesubscriptions(params *subs.UpdateEesubscriptionsParams,body *models.EeSubscription)(prob *models.ProblemDetails){
+func (p *Producer) HandleCreateEeSubscriptions(ueId string,body *models.EeSubscription)(rsp *models.EeSubscription){
 	return
 }
 
-func (p *Producer) HandleQuerysdmsubscriptions(params *subs.QuerysdmsubscriptionsParams)(rsp *[]models.SdmSubscription){
+func (p *Producer) HandleRemoveHssSubscriptionsInfo(params *subs.RemoveHssSubscriptionsInfoParams)(){
 	return
 }
 
-func (p *Producer) HandleRemovesubscriptionDataSubscriptions(subsId string)(){
+func (p *Producer) HandleGetGroupIdentifiers(params *subs.GetGroupIdentifiersParams)(rsp *models.GroupIdentifiers,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleRemoveNiddAuthorizationInfo(ueId string)(){
-	return
-}
-
-func (p *Producer) HandleQueryAuthSubsData(params *subs.QueryAuthSubsDataParams)(rsp *models.AuthenticationSubscription){
-	return
-}
-
-func (p *Producer) HandleQuerySmsMngData(params *subs.QuerySmsMngDataParams)(rsp *models.SmsManagementSubscriptionData){
-	return
-}
-
-func (p *Producer) HandleCreateAMFSubscriptions(params *subs.CreateAMFSubscriptionsParams,body *[]models.AmfSubscriptionInfo)(rsp *[]models.AmfSubscriptionInfo){
-	return
-}
-
-func (p *Producer) HandleUpdatesdmsubscriptions(params *subs.UpdatesdmsubscriptionsParams,body *models.SdmSubscription)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleQueryPorseData(params *subs.QueryPorseDataParams)(rsp *models.ProseSubscriptionData){
+func (p *Producer) HandleUpdateRoamingInformation(ueId string,body *models.RoamingInfoUpdate)(rsp *models.RoamingInfoUpdate){
 	return
 }
 
@@ -480,23 +68,15 @@ func (p *Producer) HandleDelete5GmbsGroup(externalGroupId string)(prob *models.P
 	return
 }
 
-func (p *Producer) HandleGetIdentityData(params *subs.GetIdentityDataParams)(rsp *models.IdentityData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCreateIpSmGwContext(ueId string,body *models.IpSmGwRegistration)(){
-	return
-}
-
 func (p *Producer) HandleCreateMessageWaitingData(ueId string,body *models.MessageWaitingData)(rsp *models.MessageWaitingData){
 	return
 }
 
-func (p *Producer) HandleModifySmfSubscriptionInfo(params *subs.ModifySmfSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSmfSubscriptionInfo(params *subs.GetSmfSubscriptionInfoParams)(rsp *models.SmfSubscriptionInfo){
 	return
 }
 
-func (p *Producer) HandleModifyEeGroupSubscription(params *subs.ModifyEeGroupSubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+func (p *Producer) HandleQueryGroupEEData(params *subs.QueryGroupEEDataParams)(rsp *models.EeGroupProfileData){
 	return
 }
 
@@ -504,27 +84,11 @@ func (p *Producer) HandleGetHssSDMSubscriptionInfo(params *subs.GetHssSDMSubscri
 	return
 }
 
-func (p *Producer) HandleGetIndividualSharedData(params *subs.GetIndividualSharedDataParams)(rsp *models.SharedData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifysubscriptionDataSubscription(params *subs.ModifysubscriptionDataSubscriptionParams,body *[]models.PatchItem)(rsp *models.Schema,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRemoveSmfGroupSubscriptions(params *subs.RemoveSmfGroupSubscriptionsParams)(){
-	return
-}
-
-func (p *Producer) HandleQueryUeLocation(params *subs.QueryUeLocationParams)(rsp *models.LocationInfo){
-	return
-}
-
 func (p *Producer) HandleCreateCagUpdateAck(params *subs.CreateCagUpdateAckParams,body *models.CagAckData)(){
 	return
 }
 
-func (p *Producer) HandleCreateAmfContextNon3gpp(ueId string,body *models.AmfNon3GppAccessRegistration)(rsp *models.Amf3GppAccessRegistration){
+func (p *Producer) HandleQueryAmfContextNon3gpp(params *subs.QueryAmfContextNon3gppParams)(rsp *models.AmfNon3GppAccessRegistration){
 	return
 }
 
@@ -532,35 +96,7 @@ func (p *Producer) HandleQuerySmfRegList(params *subs.QuerySmfRegListParams)(rsp
 	return
 }
 
-func (p *Producer) HandleDeleteOperSpecData(ueId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifysdmSubscription(params *subs.ModifysdmSubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRemoveHssSDMSubscriptionsInfo(params *subs.RemoveHssSDMSubscriptionsInfoParams)(){
-	return
-}
-
-func (p *Producer) HandleRemoveMultipleSubscriptionDataSubscriptions(params *subs.RemoveMultipleSubscriptionDataSubscriptionsParams)(){
-	return
-}
-
-func (p *Producer) HandleQueryUserConsentData(params *subs.QueryUserConsentDataParams)(rsp *models.UcSubscriptionData){
-	return
-}
-
-func (p *Producer) HandleCreateSmsfContext3gpp(ueId string,body *models.SmsfRegistration)(rsp *models.SmsfRegistration){
-	return
-}
-
-func (p *Producer) HandleQueryEeGroupSubscriptions(params *subs.QueryEeGroupSubscriptionsParams)(rsp *[]models.EeSubscription){
-	return
-}
-
-func (p *Producer) HandleRemovesdmSubscriptions(params *subs.RemovesdmSubscriptionsParams)(prob *models.ProblemDetails){
+func (p *Producer) HandleModifyIpSmGwContext(ueId string,body *[]models.PatchItem)(prob *models.ProblemDetails){
 	return
 }
 
@@ -568,23 +104,87 @@ func (p *Producer) HandleGetOdbData(ueId string)(rsp *models.OdbData){
 	return
 }
 
+func (p *Producer) HandleGetNiddAuthorizationInfo(ueId string)(rsp *models.NiddAuthorizationInfo){
+	return
+}
+
 func (p *Producer) HandleCreateServiceSpecificAuthorizationInfo(params *subs.CreateServiceSpecificAuthorizationInfoParams,body *models.ServiceSpecificAuthorizationInfo)(rsp *models.ServiceSpecificAuthorizationInfo){
 	return
 }
 
-func (p *Producer) HandleModifyServiceSpecificAuthorizationInfo(params *subs.ModifyServiceSpecificAuthorizationInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+func (p *Producer) HandleQueryAuthUPU(params *subs.QueryAuthUPUParams)(rsp *models.UpuData){
 	return
 }
 
-func (p *Producer) HandleQueryRoamingInformation(ueId string)(rsp *models.RoamingInfoUpdate){
+func (p *Producer) HandleAmfContext3gpp(params *subs.AmfContext3gppParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleGet5GVnGroupConfiguration(externalGroupId string)(rsp *models.FiveGVnGroupConfiguration){
+func (p *Producer) HandleRemovesubscriptionDataSubscriptions(subsId string)(){
 	return
 }
 
-func (p *Producer) HandleCreateIndividualAuthenticationStatus(params *subs.CreateIndividualAuthenticationStatusParams,body *models.AuthEvent)(){
+func (p *Producer) HandleQueryPorseData(params *subs.QueryPorseDataParams)(rsp *models.ProseSubscriptionData){
+	return
+}
+
+func (p *Producer) HandleCreateOrUpdatePeiInformation(ueId string,body *models.PeiUpdateInfo)(rsp *models.PeiUpdateInfo){
+	return
+}
+
+func (p *Producer) HandleGetMulticastMbsGroupMemb(externalGroupId string)(rsp *models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryAuthSoR(params *subs.QueryAuthSoRParams)(rsp *models.SorData){
+	return
+}
+
+func (p *Producer) HandleDeleteOperSpecData(ueId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleRemoveEeGroupSubscriptions(params *subs.RemoveEeGroupSubscriptionsParams)(){
+	return
+}
+
+func (p *Producer) HandleQueryContextData(params *subs.QueryContextDataParams)(rsp *models.ContextDataSets){
+	return
+}
+
+func (p *Producer) HandleQuerySmfRegistration(params *subs.QuerySmfRegistrationParams)(rsp *models.SmfRegistration){
+	return
+}
+
+func (p *Producer) HandleGetAmfSubscriptionInfo(params *subs.GetAmfSubscriptionInfoParams)(rsp *[]models.AmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleCreateHSSSDMSubscriptions(params *subs.CreateHSSSDMSubscriptionsParams,body *models.HssSubscriptionInfo)(){
+	return
+}
+
+func (p *Producer) HandleModifySmfGroupSubscriptions(params *subs.ModifySmfGroupSubscriptionsParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryAuthSubsData(params *subs.QueryAuthSubsDataParams)(rsp *models.AuthenticationSubscription){
+	return
+}
+
+func (p *Producer) HandleModifyAuthenticationSubscription(params *subs.ModifyAuthenticationSubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryNssaiAck(params *subs.QueryNssaiAckParams)(rsp *models.NssaiAckData){
+	return
+}
+
+func (p *Producer) HandleGetMultiplePPDataEntries(params *subs.GetMultiplePPDataEntriesParams)(rsp *models.PpDataEntryList,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteSmfRegistration(params *subs.DeleteSmfRegistrationParams)(){
 	return
 }
 
@@ -592,7 +192,35 @@ func (p *Producer) HandleQuerySmsfContextNon3gpp(params *subs.QuerySmsfContextNo
 	return
 }
 
-func (p *Producer) HandleQueryIpSmGwContext(params *subs.QueryIpSmGwContextParams)(rsp *models.IpSmGwRegistration){
+func (p *Producer) HandleModifyEesubscription(params *subs.ModifyEesubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateEeGroupSubscriptions(ueGroupId string,body *models.EeSubscription)(rsp *models.EeSubscription){
+	return
+}
+
+func (p *Producer) HandleModifysdmSubscription(params *subs.ModifysdmSubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModifysubscriptionDataSubscription(params *subs.ModifysubscriptionDataSubscriptionParams,body *[]models.PatchItem)(rsp *models.Schema,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetIdentityData(params *subs.GetIdentityDataParams)(rsp *models.IdentityData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryIndividualAuthenticationStatus(params *subs.QueryIndividualAuthenticationStatusParams)(rsp *models.AuthEvent){
+	return
+}
+
+func (p *Producer) HandleDeleteMessageWaitingData(ueId string)(){
+	return
+}
+
+func (p *Producer) HandleGetPPDataEntry(params *subs.GetPPDataEntryParams)(rsp *models.PpDataEntry,prob *models.ProblemDetails){
 	return
 }
 
@@ -600,11 +228,19 @@ func (p *Producer) HandleRemoveeeSubscriptions(params *subs.RemoveeeSubscription
 	return
 }
 
-func (p *Producer) HandleRemoveSmfSubscriptionsInfo(params *subs.RemoveSmfSubscriptionsInfoParams)(){
+func (p *Producer) HandleCreateOrUpdateNssaiAck(params *subs.CreateOrUpdateNssaiAckParams,body *models.NssaiAckData)(){
 	return
 }
 
-func (p *Producer) HandleCreateHSSSubscriptions(params *subs.CreateHSSSubscriptionsParams,body *models.HssSubscriptionInfo)(rsp *models.HssSubscriptionInfo){
+func (p *Producer) HandleQueryCagAck(params *subs.QueryCagAckParams)(rsp *models.CagAckData){
+	return
+}
+
+func (p *Producer) HandleModifyAmfSubscriptionInfo(params *subs.ModifyAmfSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModifySmfSubscriptionInfo(params *subs.ModifySmfSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
 	return
 }
 
@@ -612,11 +248,375 @@ func (p *Producer) HandleQueryEEData(params *subs.QueryEEDataParams)(rsp *models
 	return
 }
 
-func (p *Producer) HandleQuery5GVNGroupPPData(params *subs.Query5GVNGroupPPDataParams)(rsp *models.Pp5gVnGroupProfileData){
+func (p *Producer) HandleGet5GVnGroupConfiguration(externalGroupId string)(rsp *models.FiveGVnGroupConfiguration){
+	return
+}
+
+func (p *Producer) HandleQueryLcsBcaData(params *subs.QueryLcsBcaDataParams)(rsp *models.LcsBroadcastAssistanceTypesData){
+	return
+}
+
+func (p *Producer) HandleQuery5mbsData(params *subs.Query5mbsDataParams)(rsp *models.MbsSubscriptionData){
+	return
+}
+
+func (p *Producer) HandleModifyMessageWaitingData(ueId string,body *[]models.PatchItem)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreatePPDataEntry(params *subs.CreatePPDataEntryParams,body *models.PpDataEntry)(rsp *models.PpDataEntry,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryeeSubscription(params *subs.QueryeeSubscriptionParams)(){
+	return
+}
+
+func (p *Producer) HandleQueryEeGroupSubscriptions(params *subs.QueryEeGroupSubscriptionsParams)(rsp *[]models.EeSubscription){
+	return
+}
+
+func (p *Producer) HandleQueryUserConsentData(params *subs.QueryUserConsentDataParams)(rsp *models.UcSubscriptionData){
+	return
+}
+
+func (p *Producer) HandleQuery5GMbsGroupPPData(params *subs.Query5GMbsGroupPPDataParams)(rsp *models.Pp5gMbsGroupProfileData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQuerySmData(params *subs.QuerySmDataParams)(rsp *models.SmSubsData){
+	return
+}
+
+func (p *Producer) HandleUpdateSmfContext(params *subs.UpdateSmfContextParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModifyServiceSpecificAuthorizationInfo(params *subs.ModifyServiceSpecificAuthorizationInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreate5GmbsGroup(externalGroupId string,body *models.MulticastMbsGroupMemb)(rsp *models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteSmsfContextNon3gpp(ueId string)(){
+	return
+}
+
+func (p *Producer) HandleCreateIpSmGwContext(ueId string,body *models.IpSmGwRegistration)(){
+	return
+}
+
+func (p *Producer) HandleModifyEeGroupSubscription(params *subs.ModifyEeGroupSubscriptionParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDelete5GVnGroup(externalGroupId string)(){
+	return
+}
+
+func (p *Producer) HandleCreateOrUpdateSmfRegistration(params *subs.CreateOrUpdateSmfRegistrationParams,body *models.SmfRegistration)(rsp *models.SmfRegistration){
+	return
+}
+
+func (p *Producer) HandleModifyOperSpecData(params *subs.ModifyOperSpecDataParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQuerySmsData(params *subs.QuerySmsDataParams)(rsp *models.SmsSubscriptionData){
+	return
+}
+
+func (p *Producer) HandleRemovesdmSubscriptions(params *subs.RemovesdmSubscriptionsParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetIndividualSharedData(params *subs.GetIndividualSharedDataParams)(rsp *models.SharedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreate5GVnGroup(externalGroupId string,body *models.FiveGVnGroupConfiguration)(rsp *models.FiveGVnGroupConfiguration,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryLcsMoData(params *subs.QueryLcsMoDataParams)(rsp *models.LcsMoData){
+	return
+}
+
+func (p *Producer) HandleGetSSAuData(params *subs.GetSSAuDataParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateOperSpecData(params *subs.CreateOperSpecDataParams,body *map[string]models.OperatorSpecificDataContainer)(rsp *map[string]models.OperatorSpecificDataContainer,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModifyPpData(params *subs.ModifyPpDataParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateAMFSubscriptions(params *subs.CreateAMFSubscriptionsParams,body *[]models.AmfSubscriptionInfo)(rsp *[]models.AmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleRemoveSmfSubscriptionsInfo(params *subs.RemoveSmfSubscriptionsInfoParams)(){
+	return
+}
+
+func (p *Producer) HandleRemoveAmfGroupSubscriptions(params *subs.RemoveAmfGroupSubscriptionsParams)(){
+	return
+}
+
+func (p *Producer) HandleDeleteAuthenticationStatus(ueId string)(){
+	return
+}
+
+func (p *Producer) HandleDeleteSmsfContext3gpp(ueId string)(){
+	return
+}
+
+func (p *Producer) HandleUpdatesdmsubscriptions(params *subs.UpdatesdmsubscriptionsParams,body *models.SdmSubscription)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryV2xData(params *subs.QueryV2xDataParams)(rsp *models.V2xSubscriptionData){
+	return
+}
+
+func (p *Producer) HandleQueryPeiInformation(ueId string)(rsp *models.PeiUpdateInfo){
 	return
 }
 
 func (p *Producer) HandleQuery5GmbsGroup(gpsis []string)(rsp *map[string]models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleAmfContextNon3gpp(params *subs.AmfContextNon3gppParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryPPData(params *subs.QueryPPDataParams)(rsp *models.PpProfileData){
+	return
+}
+
+func (p *Producer) HandleRemoveAmfSubscriptionsInfo(params *subs.RemoveAmfSubscriptionsInfoParams)(){
+	return
+}
+
+func (p *Producer) HandleUpdateEeGroupSubscriptions(params *subs.UpdateEeGroupSubscriptionsParams,body *models.EeSubscription)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateIndividualAuthenticationStatus(params *subs.CreateIndividualAuthenticationStatusParams,body *models.AuthEvent)(){
+	return
+}
+
+func (p *Producer) HandleSubscriptionDataSubscriptions(body *models.SubscriptionDataSubscriptions)(rsp *models.SubscriptionDataSubscriptions){
+	return
+}
+
+func (p *Producer) HandleCreateAmfContext3gpp(ueId string,body *models.Amf3GppAccessRegistration)(rsp *models.Amf3GppAccessRegistration){
+	return
+}
+
+func (p *Producer) HandleQueryProvisionedData(params *subs.QueryProvisionedDataParams)(rsp *models.ProvisionedDataSets){
+	return
+}
+
+func (p *Producer) HandleQueryAmData(params *subs.QueryAmDataParams)(rsp *models.AccessAndMobilitySubscriptionData){
+	return
+}
+
+func (p *Producer) HandleRemoveHssSDMSubscriptionsInfo(params *subs.RemoveHssSDMSubscriptionsInfoParams)(){
+	return
+}
+
+func (p *Producer) HandleQueryIpSmGwContext(params *subs.QueryIpSmGwContextParams)(rsp *models.IpSmGwRegistration){
+	return
+}
+
+func (p *Producer) HandleModifyHssSDMSubscriptionInfo(params *subs.ModifyHssSDMSubscriptionInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleRemoveServiceSpecificAuthorizationInfo(params *subs.RemoveServiceSpecificAuthorizationInfoParams)(){
+	return
+}
+
+func (p *Producer) HandleQueryRoamingInformation(ueId string)(rsp *models.RoamingInfoUpdate){
+	return
+}
+
+func (p *Producer) HandleCreateSmsfContext3gpp(ueId string,body *models.SmsfRegistration)(rsp *models.SmsfRegistration){
+	return
+}
+
+func (p *Producer) HandleQuerySmsMngData(params *subs.QuerySmsMngDataParams)(rsp *models.SmsManagementSubscriptionData){
+	return
+}
+
+func (p *Producer) HandleQuerysdmsubscriptions(params *subs.QuerysdmsubscriptionsParams)(rsp *[]models.SdmSubscription){
+	return
+}
+
+func (p *Producer) HandleCreateAuthenticationUPU(params *subs.CreateAuthenticationUPUParams,body *models.UpuData)(){
+	return
+}
+
+func (p *Producer) HandleGetNiddAuData(params *subs.GetNiddAuDataParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleRemoveNiddAuthorizationInfo(ueId string)(){
+	return
+}
+
+func (p *Producer) HandleQueryeesubscriptions(params *subs.QueryeesubscriptionsParams)(rsp *[]models.EeSubscriptionExt){
+	return
+}
+
+func (p *Producer) HandleUpdateEesubscriptions(params *subs.UpdateEesubscriptionsParams,body *models.EeSubscription)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQuerysdmSubscription(params *subs.QuerysdmSubscriptionParams)(){
+	return
+}
+
+func (p *Producer) HandleModifyAmfGroupSubscriptions(params *subs.ModifyAmfGroupSubscriptionsParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateAuthenticationStatus(ueId string,body *models.AuthEvent)(){
+	return
+}
+
+func (p *Producer) HandleQueryOperSpecData(params *subs.QueryOperSpecDataParams)(rsp *map[string]models.OperatorSpecificDataContainer){
+	return
+}
+
+func (p *Producer) HandleQueryCoverageRestrictionData(params *subs.QueryCoverageRestrictionDataParams)(rsp *models.EnhancedCoverageRestrictionData){
+	return
+}
+
+func (p *Producer) HandleModifyNiddAuthorizationInfo(params *subs.ModifyNiddAuthorizationInfoParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetAmfGroupSubscriptions(params *subs.GetAmfGroupSubscriptionsParams)(rsp *[]models.AmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleGetSmfGroupSubscriptions(params *subs.GetSmfGroupSubscriptionsParams)(rsp *models.SmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleCreateAmfContextNon3gpp(ueId string,body *models.AmfNon3GppAccessRegistration)(rsp *models.Amf3GppAccessRegistration){
+	return
+}
+
+func (p *Producer) HandleDeleteIpSmGwContext(ueId string)(){
+	return
+}
+
+func (p *Producer) HandleQuerySubsToNotify(params *subs.QuerySubsToNotifyParams)(rsp *[]models.SubscriptionDataSubscriptions){
+	return
+}
+
+func (p *Producer) HandleCreateNIDDAuthorizationInfo(ueId string,body *models.NiddAuthorizationInfo)(rsp *models.NiddAuthorizationInfo){
+	return
+}
+
+func (p *Producer) HandleCreateHSSSubscriptions(params *subs.CreateHSSSubscriptionsParams,body *models.HssSubscriptionInfo)(rsp *models.HssSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleGetSharedData(params *subs.GetSharedDataParams)(rsp *[]models.SharedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQueryTraceData(params *subs.QueryTraceDataParams)(rsp *models.TraceData){
+	return
+}
+
+func (p *Producer) HandleCreateSmfGroupSubscriptions(params *subs.CreateSmfGroupSubscriptionsParams,body *models.SmfSubscriptionInfo)(rsp *models.SmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleCreateAuthenticationSoR(params *subs.CreateAuthenticationSoRParams,body *models.SorData)(){
+	return
+}
+
+func (p *Producer) HandleCreateSmsfContextNon3gpp(ueId string,body *models.SmsfRegistration)(rsp *models.SmsfRegistration){
+	return
+}
+
+func (p *Producer) HandleCreateSMFSubscriptions(params *subs.CreateSMFSubscriptionsParams,body *models.SmfSubscriptionInfo)(rsp *models.SmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleGetHssSubscriptionInfo(params *subs.GetHssSubscriptionInfoParams)(rsp *models.SmfSubscriptionInfo){
+	return
+}
+
+func (p *Producer) HandleQueryUeLocation(params *subs.QueryUeLocationParams)(rsp *models.LocationInfo){
+	return
+}
+
+func (p *Producer) HandleQueryUeSubscribedData(params *subs.QueryUeSubscribedDataParams)(rsp *models.UeSubscribedDataSets){
+	return
+}
+
+func (p *Producer) HandleGetServiceSpecificAuthorizationInfo(params *subs.GetServiceSpecificAuthorizationInfoParams)(rsp *models.ServiceSpecificAuthorizationInfo){
+	return
+}
+
+func (p *Producer) HandleModify5GmbsGroup(params *subs.Modify5GmbsGroupParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeletePPDataEntry(params *subs.DeletePPDataEntryParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleRemoveMultipleSubscriptionDataSubscriptions(params *subs.RemoveMultipleSubscriptionDataSubscriptionsParams)(){
+	return
+}
+
+func (p *Producer) HandleQuerySubscriptionDataSubscriptions(subsId string)(rsp *models.SubscriptionDataSubscriptions){
+	return
+}
+
+func (p *Producer) HandleModify5GVnGroup(params *subs.Modify5GVnGroupParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleQuery5GMbsGroupInternal(internalGroupIds []string)(rsp *map[string]models.MulticastMbsGroupMemb,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetppData(params *subs.GetppDataParams)(rsp *models.PpData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateSdmSubscriptions(ueId string,body *models.SdmSubscription)(rsp *models.SdmSubscription){
+	return
+}
+
+func (p *Producer) HandleQuery5GVnGroup(gpsis []string)(rsp *map[string]models.FiveGVnGroupConfiguration){
+	return
+}
+
+func (p *Producer) HandleQueryLcsPrivacyData(params *subs.QueryLcsPrivacyDataParams)(rsp *models.LcsPrivacyData){
+	return
+}
+
+func (p *Producer) HandleUpdateAuthenticationSoR(params *subs.UpdateAuthenticationSoRParams,body *[]models.PatchItem)(rsp *models.PatchResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleCreateAmfGroupSubscriptions(params *subs.CreateAmfGroupSubscriptionsParams,body *[]models.AmfSubscriptionInfo)(rsp *[]models.AmfSubscriptionInfo){
 	return
 }
 */

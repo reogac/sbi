@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:17 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,13 +17,6 @@ func OnSmContextStatusNotify(ctx sbi.RequestContext, handler any) {
 	var err error
 	var params SmContextStatusNotifyParams
 
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
 	// read 'sessionId'
 	sessionIdStr := ctx.Param("sessionId")
 	if len(sessionIdStr) == 0 {
@@ -33,6 +26,13 @@ func OnSmContextStatusNotify(ctx sbi.RequestContext, handler any) {
 
 	if params.SessionId, err = models.Int16FromString(sessionIdStr); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse sessionId failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 

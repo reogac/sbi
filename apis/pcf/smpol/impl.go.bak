@@ -4,6 +4,10 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pcf/smpol"
 )
+func (p *Producer) HandleDeleteSMPolicy(smPolicyId string,body *models.SmPolicyDeleteData)(prob *models.ProblemDetails){
+	return
+}
+
 func (p *Producer) HandleCreateSMPolicy(body *models.SmPolicyContextData)(rsp *models.SmPolicyDecision,prob *models.ProblemDetails){
 	return
 }
@@ -13,10 +17,6 @@ func (p *Producer) HandleGetSMPolicy(smPolicyId string)(rsp *models.SmPolicyCont
 }
 
 func (p *Producer) HandleUpdateSMPolicy(smPolicyId string,body *models.SmPolicyUpdateContextData)(rsp *models.SmPolicyDecision,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteSMPolicy(smPolicyId string,body *models.SmPolicyDeleteData)(prob *models.ProblemDetails){
 	return
 }
 */

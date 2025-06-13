@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:52 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,88 +13,10 @@ import (
 
 var _routes = []sbi.SbiRoute{
 	{
-		Label:   "UpdateSessionManagementPolicyData",
-		Method:  http.MethodPatch,
+		Label:   "ReadSessionManagementPolicyData",
+		Method:  http.MethodGet,
 		Path:    "/policy-data/ues/:ueId/sm-data",
-		Handler: OnUpdateSessionManagementPolicyData,
-	},
-	{
-		Label:   "DeleteIndividualPolicyDataSubscription",
-		Method:  http.MethodDelete,
-		Path:    "/policy-data/subs-to-notify/:subsId",
-		Handler: OnDeleteIndividualPolicyDataSubscription,
-	},
-	{
-		Label:   "ReadPolicyData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/ues/:ueId",
-		Handler: OnReadPolicyData,
-	},
-	{
-		Label:   "ReadBdtData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/bdt-data",
-		Handler: OnReadBdtData,
-	},
-	{
-		Label:   "UpdateOperatorSpecificData",
-		Method:  http.MethodPatch,
-		Path:    "/policy-data/ues/:ueId/operator-specific-data",
-		Handler: OnUpdateOperatorSpecificData,
-	},
-	{
-		Label:   "GetMBSSessPolCtrlData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/mbs-session-pol-data/:polSessionId",
-		Handler: OnGetMBSSessPolCtrlData,
-	},
-	{
-		Label:   "UpdateUEPolicySet",
-		Method:  http.MethodPatch,
-		Path:    "/policy-data/ues/:ueId/ue-policy-set",
-		Handler: OnUpdateUEPolicySet,
-	},
-	{
-		Label:   "ReadIndividualBdtData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/bdt-data/:bdtReferenceId",
-		Handler: OnReadIndividualBdtData,
-	},
-	{
-		Label:   "CreateIndividualPolicyDataSubscription",
-		Method:  http.MethodPost,
-		Path:    "/policy-data/subs-to-notify",
-		Handler: OnCreateIndividualPolicyDataSubscription,
-	},
-	{
-		Label:   "ReadOperatorSpecificData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/ues/:ueId/operator-specific-data",
-		Handler: OnReadOperatorSpecificData,
-	},
-	{
-		Label:   "ReadPlmnUePolicySet",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/plmns/:plmnId/ue-policy-set",
-		Handler: OnReadPlmnUePolicySet,
-	},
-	{
-		Label:   "ReadSlicePolicyControlData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/slice-control-data/:snssai",
-		Handler: OnReadSlicePolicyControlData,
-	},
-	{
-		Label:   "UpdateSlicePolicyControlData",
-		Method:  http.MethodPatch,
-		Path:    "/policy-data/slice-control-data/:snssai",
-		Handler: OnUpdateSlicePolicyControlData,
-	},
-	{
-		Label:   "DeleteUsageMonitoringInformation",
-		Method:  http.MethodDelete,
-		Path:    "/policy-data/ues/:ueId/sm-data/:usageMonId",
-		Handler: OnDeleteUsageMonitoringInformation,
+		Handler: OnReadSessionManagementPolicyData,
 	},
 	{
 		Label:   "ReplaceOperatorSpecificData",
@@ -103,64 +25,16 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnReplaceOperatorSpecificData,
 	},
 	{
-		Label:   "DeleteOperatorSpecificData",
-		Method:  http.MethodDelete,
-		Path:    "/policy-data/ues/:ueId/operator-specific-data",
-		Handler: OnDeleteOperatorSpecificData,
-	},
-	{
-		Label:   "ReadAccessAndMobilityPolicyData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/ues/:ueId/am-data",
-		Handler: OnReadAccessAndMobilityPolicyData,
-	},
-	{
-		Label:   "ReadUEPolicySet",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/ues/:ueId/ue-policy-set",
-		Handler: OnReadUEPolicySet,
-	},
-	{
-		Label:   "CreateUsageMonitoringResource",
-		Method:  http.MethodPut,
-		Path:    "/policy-data/ues/:ueId/sm-data/:usageMonId",
-		Handler: OnCreateUsageMonitoringResource,
-	},
-	{
-		Label:   "ReadSponsorConnectivityData",
-		Method:  http.MethodGet,
-		Path:    "/policy-data/sponsor-connectivity-data/:sponsorId",
-		Handler: OnReadSponsorConnectivityData,
-	},
-	{
-		Label:   "ReplaceIndividualPolicyDataSubscription",
-		Method:  http.MethodPut,
-		Path:    "/policy-data/subs-to-notify/:subsId",
-		Handler: OnReplaceIndividualPolicyDataSubscription,
-	},
-	{
-		Label:   "DeleteIndividualBdtData",
-		Method:  http.MethodDelete,
-		Path:    "/policy-data/bdt-data/:bdtReferenceId",
-		Handler: OnDeleteIndividualBdtData,
-	},
-	{
-		Label:   "UpdateIndividualBdtData",
+		Label:   "UpdateOperatorSpecificData",
 		Method:  http.MethodPatch,
-		Path:    "/policy-data/bdt-data/:bdtReferenceId",
-		Handler: OnUpdateIndividualBdtData,
+		Path:    "/policy-data/ues/:ueId/operator-specific-data",
+		Handler: OnUpdateOperatorSpecificData,
 	},
 	{
-		Label:   "CreateOrReplaceUEPolicySet",
-		Method:  http.MethodPut,
-		Path:    "/policy-data/ues/:ueId/ue-policy-set",
-		Handler: OnCreateOrReplaceUEPolicySet,
-	},
-	{
-		Label:   "ReadSessionManagementPolicyData",
+		Label:   "ReadPlmnUePolicySet",
 		Method:  http.MethodGet,
-		Path:    "/policy-data/ues/:ueId/sm-data",
-		Handler: OnReadSessionManagementPolicyData,
+		Path:    "/policy-data/plmns/:plmnId/ue-policy-set",
+		Handler: OnReadPlmnUePolicySet,
 	},
 	{
 		Label:   "ReadUsageMonitoringInformation",
@@ -169,10 +43,136 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnReadUsageMonitoringInformation,
 	},
 	{
+		Label:   "CreateOrReplaceUEPolicySet",
+		Method:  http.MethodPut,
+		Path:    "/policy-data/ues/:ueId/ue-policy-set",
+		Handler: OnCreateOrReplaceUEPolicySet,
+	},
+	{
+		Label:   "CreateUsageMonitoringResource",
+		Method:  http.MethodPut,
+		Path:    "/policy-data/ues/:ueId/sm-data/:usageMonId",
+		Handler: OnCreateUsageMonitoringResource,
+	},
+	{
+		Label:   "UpdateIndividualBdtData",
+		Method:  http.MethodPatch,
+		Path:    "/policy-data/bdt-data/:bdtReferenceId",
+		Handler: OnUpdateIndividualBdtData,
+	},
+	{
+		Label:   "ReadOperatorSpecificData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/ues/:ueId/operator-specific-data",
+		Handler: OnReadOperatorSpecificData,
+	},
+	{
+		Label:   "ReadUEPolicySet",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/ues/:ueId/ue-policy-set",
+		Handler: OnReadUEPolicySet,
+	},
+	{
+		Label:   "UpdateSessionManagementPolicyData",
+		Method:  http.MethodPatch,
+		Path:    "/policy-data/ues/:ueId/sm-data",
+		Handler: OnUpdateSessionManagementPolicyData,
+	},
+	{
+		Label:   "ReplaceIndividualPolicyDataSubscription",
+		Method:  http.MethodPut,
+		Path:    "/policy-data/subs-to-notify/:subsId",
+		Handler: OnReplaceIndividualPolicyDataSubscription,
+	},
+	{
+		Label:   "DeleteIndividualPolicyDataSubscription",
+		Method:  http.MethodDelete,
+		Path:    "/policy-data/subs-to-notify/:subsId",
+		Handler: OnDeleteIndividualPolicyDataSubscription,
+	},
+	{
+		Label:   "UpdateUEPolicySet",
+		Method:  http.MethodPatch,
+		Path:    "/policy-data/ues/:ueId/ue-policy-set",
+		Handler: OnUpdateUEPolicySet,
+	},
+	{
+		Label:   "ReadSponsorConnectivityData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/sponsor-connectivity-data/:sponsorId",
+		Handler: OnReadSponsorConnectivityData,
+	},
+	{
+		Label:   "ReadBdtData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/bdt-data",
+		Handler: OnReadBdtData,
+	},
+	{
 		Label:   "CreateIndividualBdtData",
 		Method:  http.MethodPut,
 		Path:    "/policy-data/bdt-data/:bdtReferenceId",
 		Handler: OnCreateIndividualBdtData,
+	},
+	{
+		Label:   "DeleteOperatorSpecificData",
+		Method:  http.MethodDelete,
+		Path:    "/policy-data/ues/:ueId/operator-specific-data",
+		Handler: OnDeleteOperatorSpecificData,
+	},
+	{
+		Label:   "UpdateSlicePolicyControlData",
+		Method:  http.MethodPatch,
+		Path:    "/policy-data/slice-control-data/:snssai",
+		Handler: OnUpdateSlicePolicyControlData,
+	},
+	{
+		Label:   "ReadAccessAndMobilityPolicyData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/ues/:ueId/am-data",
+		Handler: OnReadAccessAndMobilityPolicyData,
+	},
+	{
+		Label:   "ReadIndividualBdtData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/bdt-data/:bdtReferenceId",
+		Handler: OnReadIndividualBdtData,
+	},
+	{
+		Label:   "DeleteUsageMonitoringInformation",
+		Method:  http.MethodDelete,
+		Path:    "/policy-data/ues/:ueId/sm-data/:usageMonId",
+		Handler: OnDeleteUsageMonitoringInformation,
+	},
+	{
+		Label:   "DeleteIndividualBdtData",
+		Method:  http.MethodDelete,
+		Path:    "/policy-data/bdt-data/:bdtReferenceId",
+		Handler: OnDeleteIndividualBdtData,
+	},
+	{
+		Label:   "CreateIndividualPolicyDataSubscription",
+		Method:  http.MethodPost,
+		Path:    "/policy-data/subs-to-notify",
+		Handler: OnCreateIndividualPolicyDataSubscription,
+	},
+	{
+		Label:   "ReadSlicePolicyControlData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/slice-control-data/:snssai",
+		Handler: OnReadSlicePolicyControlData,
+	},
+	{
+		Label:   "GetMBSSessPolCtrlData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/mbs-session-pol-data/:polSessionId",
+		Handler: OnGetMBSSessPolCtrlData,
+	},
+	{
+		Label:   "ReadPolicyData",
+		Method:  http.MethodGet,
+		Path:    "/policy-data/ues/:ueId",
+		Handler: OnReadPolicyData,
 	},
 }
 

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:36 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -104,18 +104,18 @@ func UpdateSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.U
 	return
 }
 
-// Summary: Release SM Context
+// Summary: Create
 // Description:
-// Path: /sm-contexts/:smContextRef/release
-// Path Params: smContextRef
-func ReleaseSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.ReleaseSmContextRequest) (rsp *models.SmContextReleasedData, err error) {
+// Path: /pdu-sessions
+// Path Params:
+func PostPduSessions(cli sbi.ConsumerClient, body *models.PostPduSessionsRequest) (rsp *models.PostPduSessionsResponse, ersp *models.PostPduSessionsErrorResponse, err error) {
 
-	if len(smContextRef) == 0 {
-		err = fmt.Errorf("smContextRef is required")
+	if body == nil {
+		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/sm-contexts/%s/release", PATH_ROOT, smContextRef)
+	path := fmt.Sprintf("%s/pdu-sessions", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -125,49 +125,13 @@ func ReleaseSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.
 	defer response.CloseBody()
 
 	switch response.GetCode() {
-	case 200:
-		rsp = new(models.SmContextReleasedData)
+	case 201:
+		rsp = new(models.PostPduSessionsResponse)
 		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Release
-// Description:
-// Path: /pdu-sessions/:pduSessionRef/release
-// Path Params: pduSessionRef
-func ReleasePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.ReleasePduSessionRequest) (rsp *models.ReleasePduSessionResponse, err error) {
-
-	if len(pduSessionRef) == 0 {
-		err = fmt.Errorf("pduSessionRef is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pdu-sessions/%s/release", PATH_ROOT, pduSessionRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.ReleasePduSessionResponse)
-		err = response.DecodeBody(rsp)
-	case 204:
-		return
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
+	case 400, 403, 404, 500, 503:
+		ersp = new(models.PostPduSessionsErrorResponse)
+		err = response.DecodeBody(ersp)
+	case 411, 413, 415, 429:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -290,6 +254,43 @@ func RetrieveSmContext(cli sbi.ConsumerClient, smContextRef string, body *models
 	return
 }
 
+// Summary: Release SM Context
+// Description:
+// Path: /sm-contexts/:smContextRef/release
+// Path Params: smContextRef
+func ReleaseSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.ReleaseSmContextRequest) (rsp *models.SmContextReleasedData, err error) {
+
+	if len(smContextRef) == 0 {
+		err = fmt.Errorf("smContextRef is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/sm-contexts/%s/release", PATH_ROOT, smContextRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.SmContextReleasedData)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
 // Summary: Send MO Data
 // Description:
 // Path: /sm-contexts/:smContextRef/send-mo-data
@@ -321,44 +322,6 @@ func SendMoData(cli sbi.ConsumerClient, smContextRef string, body *models.SendMo
 		ersp = new(models.ExtProblemDetails)
 		err = response.DecodeBody(ersp)
 	case 411:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Create
-// Description:
-// Path: /pdu-sessions
-// Path Params:
-func PostPduSessions(cli sbi.ConsumerClient, body *models.PostPduSessionsRequest) (rsp *models.PostPduSessionsResponse, ersp *models.PostPduSessionsErrorResponse, err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pdu-sessions", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.PostPduSessionsResponse)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 500, 503:
-		ersp = new(models.PostPduSessionsErrorResponse)
-		err = response.DecodeBody(ersp)
-	case 411, 413, 415, 429:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -403,6 +366,43 @@ func UpdatePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models
 		ersp = new(models.UpdatePduSessionErrorResponse)
 		err = response.DecodeBody(ersp)
 	case 411, 413, 415, 429:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Release
+// Description:
+// Path: /pdu-sessions/:pduSessionRef/release
+// Path Params: pduSessionRef
+func ReleasePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.ReleasePduSessionRequest) (rsp *models.ReleasePduSessionResponse, err error) {
+
+	if len(pduSessionRef) == 0 {
+		err = fmt.Errorf("pduSessionRef is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pdu-sessions/%s/release", PATH_ROOT, pduSessionRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.ReleasePduSessionResponse)
+		err = response.DecodeBody(rsp)
+	case 204:
+		return
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

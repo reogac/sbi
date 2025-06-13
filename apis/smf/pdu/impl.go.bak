@@ -4,23 +4,19 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/smf/pdu"
 )
-func (p *Producer) HandlePostSmContexts(callback *models.EndpointInfo,body *models.PostSmContextsRequest)(rsp *models.PostSmContextsResponse,ersp *models.PostSmContextsErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateSmContext(smContextRef string,body *models.UpdateSmContextRequest)(rsp *models.UpdateSmContextResponse,ersp *models.UpdateSmContextErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandleReleaseSmContext(smContextRef string,body *models.ReleaseSmContextRequest)(rsp *models.SmContextReleasedData,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.ReleasePduSessionRequest)(rsp *models.ReleasePduSessionResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleSendMoData(smContextRef string,body *models.SendMoDataRequest)(ersp *models.ExtProblemDetails,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.RetrieveData)(rsp *models.RetrievedData,prob *models.ProblemDetails){
+func (p *Producer) HandleUpdatePduSession(pduSessionRef string,body *models.UpdatePduSessionRequest)(rsp *models.UpdatePduSessionResponse,ersp *models.UpdatePduSessionErrorResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.ReleasePduSessionRequest)(rsp *models.ReleasePduSessionResponse,prob *models.ProblemDetails){
 	return
 }
 
@@ -32,7 +28,7 @@ func (p *Producer) HandleRetrieveSmContext(smContextRef string,body *models.SmCo
 	return
 }
 
-func (p *Producer) HandleSendMoData(smContextRef string,body *models.SendMoDataRequest)(ersp *models.ExtProblemDetails,prob *models.ProblemDetails){
+func (p *Producer) HandleUpdateSmContext(smContextRef string,body *models.UpdateSmContextRequest)(rsp *models.UpdateSmContextResponse,ersp *models.UpdateSmContextErrorResponse,prob *models.ProblemDetails){
 	return
 }
 
@@ -40,7 +36,11 @@ func (p *Producer) HandlePostPduSessions(body *models.PostPduSessionsRequest)(rs
 	return
 }
 
-func (p *Producer) HandleUpdatePduSession(pduSessionRef string,body *models.UpdatePduSessionRequest)(rsp *models.UpdatePduSessionResponse,ersp *models.UpdatePduSessionErrorResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.RetrieveData)(rsp *models.RetrievedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandlePostSmContexts(callback *models.EndpointInfo,body *models.PostSmContextsRequest)(rsp *models.PostSmContextsResponse,ersp *models.PostSmContextsErrorResponse,prob *models.ProblemDetails){
 	return
 }
 */

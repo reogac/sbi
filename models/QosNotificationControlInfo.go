@@ -1,14 +1,14 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:48 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type QosNotificationControlInfo struct {
-	AltQosParamId string       `json:"altQosParamId,omitempty"`
 	RefPccRuleIds []string     `json:"refPccRuleIds"`
 	NotifType     QosNotifType `json:"notifType"`
 	ContVer       *int         `json:"contVer,omitempty"`
+	AltQosParamId string       `json:"altQosParamId,omitempty"`
 }

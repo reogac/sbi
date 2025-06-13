@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:47 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,35 @@ import (
 	"github.com/reogac/sbi/models"
 	"io"
 )
+
+func OnUeAuthenticationsPost(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+	var err error
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.AuthenticationInfo)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUeAuthenticationsPost(body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
 
 func OnUeAuthenticationsDeregisterPost(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
@@ -39,20 +68,45 @@ func OnUeAuthenticationsDeregisterPost(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnProseAuthenticationsPost(ctx sbi.RequestContext, handler any) {
+func OnDelete5gAkaAuthenticationResult(ctx sbi.RequestContext, handler any) {
+	prod := handler.(Producer)
+
+	// read 'authCtxId'
+	var authCtxId string
+	authCtxId = ctx.Param("authCtxId")
+	if len(authCtxId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authCtxId is required"), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDelete5gAkaAuthenticationResult(authCtxId)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnRgAuthenticationsPost(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.ProSeAuthenticationInfo)
+	body := new(models.RgAuthenticationInfo)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleProseAuthenticationsPost(body)
+	rsp, prob := prod.HandleRgAuthenticationsPost(body)
 
 	// check for success response
 	if rsp != nil {
@@ -132,35 +186,6 @@ func OnDeleteProSeAuthenticationResult(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnUeAuthenticationsPost(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.AuthenticationInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUeAuthenticationsPost(body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
 func OnUeAuthentications5gAkaConfirmationPut(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
@@ -197,31 +222,6 @@ func OnUeAuthentications5gAkaConfirmationPut(ctx sbi.RequestContext, handler any
 		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
-
-}
-
-func OnDelete5gAkaAuthenticationResult(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-
-	// read 'authCtxId'
-	var authCtxId string
-	authCtxId = ctx.Param("authCtxId")
-	if len(authCtxId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authCtxId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDelete5gAkaAuthenticationResult(authCtxId)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -289,20 +289,20 @@ func OnDeleteEapAuthenticationResult(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnRgAuthenticationsPost(ctx sbi.RequestContext, handler any) {
+func OnProseAuthenticationsPost(ctx sbi.RequestContext, handler any) {
 	prod := handler.(Producer)
 	var err error
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.RgAuthenticationInfo)
+	body := new(models.ProSeAuthenticationInfo)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleRgAuthenticationsPost(body)
+	rsp, prob := prod.HandleProseAuthenticationsPost(body)
 
 	// check for success response
 	if rsp != nil {
@@ -319,23 +319,23 @@ func OnRgAuthenticationsPost(ctx sbi.RequestContext, handler any) {
 }
 
 type Producer interface {
+	HandleUeAuthenticationsPost(*models.AuthenticationInfo) (*models.UEAuthenticationCtx, *models.ProblemDetails)
+
 	HandleUeAuthenticationsDeregisterPost(*models.DeregistrationInfo) *models.ProblemDetails
 
-	HandleProseAuthenticationsPost(*models.ProSeAuthenticationInfo) (*models.ProSeAuthenticationCtx, *models.ProblemDetails)
+	HandleDelete5gAkaAuthenticationResult(string) *models.ProblemDetails
+
+	HandleRgAuthenticationsPost(*models.RgAuthenticationInfo) (*models.RgAuthCtx, *models.ProblemDetails)
 
 	HandleProseAuth(string, *models.ProSeEapSession) (*models.ProseAuthResponse, *models.ProblemDetails)
 
 	HandleDeleteProSeAuthenticationResult(string) *models.ProblemDetails
 
-	HandleUeAuthenticationsPost(*models.AuthenticationInfo) (*models.UEAuthenticationCtx, *models.ProblemDetails)
-
 	HandleUeAuthentications5gAkaConfirmationPut(string, *models.ConfirmationData) (*models.ConfirmationDataResponse, *models.ProblemDetails)
-
-	HandleDelete5gAkaAuthenticationResult(string) *models.ProblemDetails
 
 	HandleEapAuthMethod(string, *models.EapSession) (*models.EapSession, *models.ProblemDetails)
 
 	HandleDeleteEapAuthenticationResult(string) *models.ProblemDetails
 
-	HandleRgAuthenticationsPost(*models.RgAuthenticationInfo) (*models.RgAuthCtx, *models.ProblemDetails)
+	HandleProseAuthenticationsPost(*models.ProSeAuthenticationInfo) (*models.ProSeAuthenticationCtx, *models.ProblemDetails)
 }

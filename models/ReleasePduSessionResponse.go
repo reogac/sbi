@@ -1,14 +1,14 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:36 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ReleasePduSessionResponse struct {
-	BinaryDataN4InformationExt2 []byte        `json:"binaryDataN4InformationExt2,omitempty"`
-	JsonData                    *ReleasedData `json:"jsonData,omitempty"`
 	BinaryDataN4Information     []byte        `json:"binaryDataN4Information,omitempty"`
 	BinaryDataN4InformationExt1 []byte        `json:"binaryDataN4InformationExt1,omitempty"`
+	BinaryDataN4InformationExt2 []byte        `json:"binaryDataN4InformationExt2,omitempty"`
+	JsonData                    *ReleasedData `json:"jsonData,omitempty"`
 }

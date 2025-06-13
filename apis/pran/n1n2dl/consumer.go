@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:28:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 11:41:38 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,36 +16,6 @@ import (
 const (
 	PATH_ROOT string = "pran-n1n2/v1"
 )
-
-// Summary:
-// Description:
-// Path: /sess/modify/:ueId
-// Path Params: ueId
-func SessionResourceModify(cli sbi.ConsumerClient, ueId int64, body *models.SessionResourceModifyRequest) (rsp *models.SessionResourceModifyResponse, err error) {
-
-	path := fmt.Sprintf("%s/sess/modify/%s", PATH_ROOT, models.Int64ToString(ueId))
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.SessionResourceModifyResponse)
-		err = response.DecodeBody(rsp)
-	case 400, 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -139,6 +109,36 @@ func SessionResourceSetup(cli sbi.ConsumerClient, ueId int64, body *models.Sessi
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.SessionResourceSetupResponse)
+		err = response.DecodeBody(rsp)
+	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /sess/modify/:ueId
+// Path Params: ueId
+func SessionResourceModify(cli sbi.ConsumerClient, ueId int64, body *models.SessionResourceModifyRequest) (rsp *models.SessionResourceModifyResponse, err error) {
+
+	path := fmt.Sprintf("%s/sess/modify/%s", PATH_ROOT, models.Int64ToString(ueId))
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.SessionResourceModifyResponse)
 		err = response.DecodeBody(rsp)
 	case 400, 500:
 		prob := new(models.ProblemDetails)
