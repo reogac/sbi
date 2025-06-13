@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:09 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,8 +12,7 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnGetUdrConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
 	rsp, prob := prod.HandleGetUdrConfiguration()
@@ -32,8 +31,7 @@ func OnGetUdrConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnGetUdmConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
 	rsp, prob := prod.HandleGetUdmConfiguration()
@@ -52,8 +50,7 @@ func OnGetUdmConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetNssfConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnGetNssfConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
 	rsp, prob := prod.HandleGetNssfConfiguration()
@@ -72,17 +69,9 @@ func OnGetNssfConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params GetSessionManagementConfigurationParams
-
-	// read 'uuid'
-	params.Uuid = ctx.Param("uuid")
-	if len(params.Uuid) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
-		return
-	}
 
 	// read 'slice'
 	sliceStr := ctx.Param("slice")
@@ -93,6 +82,13 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 
 	if params.Slice, err = models.SnssaiFromString(sliceStr); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse slice failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'uuid'
+	params.Uuid = ctx.Param("uuid")
+	if len(params.Uuid) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
 		return
 	}
 
@@ -113,8 +109,7 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// decode request body

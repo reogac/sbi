@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,7 +11,13 @@ import (
 	"net/http"
 )
 
-var _routes = []sbi.SbiRoute{
+var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "UpdateAmfUeContextInfo",
+		Method:  http.MethodPut,
+		Path:    "/amfinfo/:ueId",
+		Handler: OnUpdateAmfUeContextInfo,
+	},
 	{
 		Label:   "UeContextModify",
 		Method:  http.MethodPut,
@@ -30,18 +36,8 @@ var _routes = []sbi.SbiRoute{
 		Path:    "/uectx/setup/:ueId",
 		Handler: OnUeContextSetup,
 	},
-	{
-		Label:   "UpdateAmfUeContextInfo",
-		Method:  http.MethodPut,
-		Path:    "/amfinfo/:ueId",
-		Handler: OnUpdateAmfUeContextInfo,
-	},
 }
 
-func Service(p Producer) sbi.SbiService {
-	return sbi.SbiService{
-		Group:   PATH_ROOT,
-		Routes:  _routes,
-		Handler: p,
-	}
+func Routes() []sbi.Route[Producer] {
+	return _routes
 }

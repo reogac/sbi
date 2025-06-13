@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:47 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,36 +11,12 @@ import (
 	"net/http"
 )
 
-var _routes = []sbi.SbiRoute{
+var _routes = []sbi.Route[Producer]{
 	{
-		Label:   "UeAuthenticationsDeregisterPost",
-		Method:  http.MethodPost,
-		Path:    "/ue-authentications/deregister",
-		Handler: OnUeAuthenticationsDeregisterPost,
-	},
-	{
-		Label:   "Delete5gAkaAuthenticationResult",
-		Method:  http.MethodDelete,
+		Label:   "UeAuthentications5gAkaConfirmationPut",
+		Method:  http.MethodPut,
 		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
-		Handler: OnDelete5gAkaAuthenticationResult,
-	},
-	{
-		Label:   "RgAuthenticationsPost",
-		Method:  http.MethodPost,
-		Path:    "/rg-authentications",
-		Handler: OnRgAuthenticationsPost,
-	},
-	{
-		Label:   "UeAuthenticationsPost",
-		Method:  http.MethodPost,
-		Path:    "/ue-authentications",
-		Handler: OnUeAuthenticationsPost,
-	},
-	{
-		Label:   "EapAuthMethod",
-		Method:  http.MethodPost,
-		Path:    "/ue-authentications/:authCtxId/eap-session",
-		Handler: OnEapAuthMethod,
+		Handler: OnUeAuthentications5gAkaConfirmationPut,
 	},
 	{
 		Label:   "DeleteEapAuthenticationResult",
@@ -49,10 +25,10 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnDeleteEapAuthenticationResult,
 	},
 	{
-		Label:   "ProseAuthenticationsPost",
+		Label:   "RgAuthenticationsPost",
 		Method:  http.MethodPost,
-		Path:    "/prose-authentications",
-		Handler: OnProseAuthenticationsPost,
+		Path:    "/rg-authentications",
+		Handler: OnRgAuthenticationsPost,
 	},
 	{
 		Label:   "ProseAuth",
@@ -67,17 +43,37 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnDeleteProSeAuthenticationResult,
 	},
 	{
-		Label:   "UeAuthentications5gAkaConfirmationPut",
-		Method:  http.MethodPut,
+		Label:   "UeAuthenticationsPost",
+		Method:  http.MethodPost,
+		Path:    "/ue-authentications",
+		Handler: OnUeAuthenticationsPost,
+	},
+	{
+		Label:   "UeAuthenticationsDeregisterPost",
+		Method:  http.MethodPost,
+		Path:    "/ue-authentications/deregister",
+		Handler: OnUeAuthenticationsDeregisterPost,
+	},
+	{
+		Label:   "Delete5gAkaAuthenticationResult",
+		Method:  http.MethodDelete,
 		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
-		Handler: OnUeAuthentications5gAkaConfirmationPut,
+		Handler: OnDelete5gAkaAuthenticationResult,
+	},
+	{
+		Label:   "EapAuthMethod",
+		Method:  http.MethodPost,
+		Path:    "/ue-authentications/:authCtxId/eap-session",
+		Handler: OnEapAuthMethod,
+	},
+	{
+		Label:   "ProseAuthenticationsPost",
+		Method:  http.MethodPost,
+		Path:    "/prose-authentications",
+		Handler: OnProseAuthenticationsPost,
 	},
 }
 
-func Service(p Producer) sbi.SbiService {
-	return sbi.SbiService{
-		Group:   PATH_ROOT,
-		Routes:  _routes,
-		Handler: p,
-	}
+func Routes() []sbi.Route[Producer] {
+	return _routes
 }

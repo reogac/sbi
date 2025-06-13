@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:07 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,8 +12,7 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnPing(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnPing(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// decode request body
@@ -41,8 +40,7 @@ func OnPing(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnForward(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnForward(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// decode request body

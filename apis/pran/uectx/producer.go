@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,8 +13,7 @@ import (
 	"io"
 )
 
-func OnUpdateAmfUeContextInfo(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnUpdateAmfUeContextInfo(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -52,8 +51,7 @@ func OnUpdateAmfUeContextInfo(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnUeContextModify(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnUeContextModify(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -102,8 +100,7 @@ func OnUeContextModify(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnUeContextRelease(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnUeContextRelease(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -144,8 +141,7 @@ func OnUeContextRelease(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnUeContextSetup(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnUeContextSetup(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'

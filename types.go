@@ -83,3 +83,10 @@ type RequestContext interface {
 	Header(string) string // get a header parameter from the request (application handler need it)
 	WriteResponse(int, SbiIE, map[string]string)
 }
+
+type Route[T any] struct {
+	Label   string
+	Method  string
+	Path    string
+	Handler func(RequestContext, T)
+}

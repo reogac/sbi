@@ -1,15 +1,15 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:48 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:26 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type QosMonitoringReport struct {
+	RtDelays      []int    `json:"rtDelays,omitempty"`
+	Pdmf          *bool    `json:"pdmf,omitempty"`
 	RefPccRuleIds []string `json:"refPccRuleIds"`
 	UlDelays      []int    `json:"ulDelays,omitempty"`
 	DlDelays      []int    `json:"dlDelays,omitempty"`
-	RtDelays      []int    `json:"rtDelays,omitempty"`
-	Pdmf          *bool    `json:"pdmf,omitempty"`
 }

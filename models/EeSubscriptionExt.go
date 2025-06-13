@@ -1,29 +1,29 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type EeSubscriptionExt struct {
-	Gpsi                       string                             `json:"gpsi,omitempty"`
-	DataRestorationCallbackUri string                             `json:"dataRestorationCallbackUri,omitempty"`
-	ReportingOptions           *ReportingOptions                  `json:"reportingOptions,omitempty"`
-	ScefDiamHost               string                             `json:"scefDiamHost,omitempty"`
-	SupportedFeatures          string                             `json:"supportedFeatures,omitempty"`
-	SecondCallbackRef          string                             `json:"secondCallbackRef,omitempty"`
-	SubscriptionId             string                             `json:"subscriptionId,omitempty"`
 	IncludeGpsiList            []string                           `json:"includeGpsiList,omitempty"`
-	EpcAppliedInd              *bool                              `json:"epcAppliedInd,omitempty"`
+	Gpsi                       string                             `json:"gpsi,omitempty"`
 	ContextInfo                *ContextInfo                       `json:"contextInfo,omitempty"`
-	AmfSubscriptionInfoList    []AmfSubscriptionInfo              `json:"amfSubscriptionInfoList,omitempty"`
-	HssSubscriptionInfo        *HssSubscriptionInfo               `json:"hssSubscriptionInfo,omitempty"`
-	CallbackReference          string                             `json:"callbackReference"`
-	ExcludeGpsiList            []string                           `json:"excludeGpsiList,omitempty"`
 	NotifyCorrelationId        string                             `json:"notifyCorrelationId,omitempty"`
 	UdrRestartInd              *bool                              `json:"udrRestartInd,omitempty"`
+	EpcAppliedInd              *bool                              `json:"epcAppliedInd,omitempty"`
+	AmfSubscriptionInfoList    []AmfSubscriptionInfo              `json:"amfSubscriptionInfoList,omitempty"`
+	SupportedFeatures          string                             `json:"supportedFeatures,omitempty"`
+	ScefDiamHost               string                             `json:"scefDiamHost,omitempty"`
+	SecondCallbackRef          string                             `json:"secondCallbackRef,omitempty"`
 	ScefDiamRealm              string                             `json:"scefDiamRealm,omitempty"`
 	SmfSubscriptionInfo        *SmfSubscriptionInfo               `json:"smfSubscriptionInfo,omitempty"`
+	HssSubscriptionInfo        *HssSubscriptionInfo               `json:"hssSubscriptionInfo,omitempty"`
+	CallbackReference          string                             `json:"callbackReference"`
+	DataRestorationCallbackUri string                             `json:"dataRestorationCallbackUri,omitempty"`
 	MonitoringConfigurations   map[string]MonitoringConfiguration `json:"monitoringConfigurations"`
+	ReportingOptions           *ReportingOptions                  `json:"reportingOptions,omitempty"`
+	ExcludeGpsiList            []string                           `json:"excludeGpsiList,omitempty"`
+	SubscriptionId             string                             `json:"subscriptionId,omitempty"`
 }

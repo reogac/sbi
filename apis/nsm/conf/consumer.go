@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:09 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,6 +16,66 @@ import (
 const (
 	PATH_ROOT string = "nsm-conf/v1"
 )
+
+// Summary:
+// Description:
+// Path: /udm-config
+// Path Params:
+func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/udm-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UdmConfiguration)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /nssf-config
+// Path Params:
+func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/nssf-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.NssfConfiguration)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
 
 // Summary:
 // Description:
@@ -114,66 +174,6 @@ func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, 
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UdrConfiguration)
-		err = response.DecodeBody(rsp)
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /udm-config
-// Path Params:
-func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/udm-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UdmConfiguration)
-		err = response.DecodeBody(rsp)
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /nssf-config
-// Path Params:
-func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/nssf-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.NssfConfiguration)
 		err = response.DecodeBody(rsp)
 	case 500:
 		prob := new(models.ProblemDetails)

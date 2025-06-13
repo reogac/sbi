@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,10 +12,16 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnSmContextStatusNotify(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnSmContextStatusNotify(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params SmContextStatusNotifyParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
 
 	// read 'sessionId'
 	sessionIdStr := ctx.Param("sessionId")
@@ -26,13 +32,6 @@ func OnSmContextStatusNotify(ctx sbi.RequestContext, handler any) {
 
 	if params.SessionId, err = models.Int16FromString(sessionIdStr); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse sessionId failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
@@ -58,8 +57,7 @@ func OnSmContextStatusNotify(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnRanInfoUpdate(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnRanInfoUpdate(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ranId'

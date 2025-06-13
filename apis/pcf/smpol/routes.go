@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:48 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:26 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,13 +11,7 @@ import (
 	"net/http"
 )
 
-var _routes = []sbi.SbiRoute{
-	{
-		Label:   "DeleteSMPolicy",
-		Method:  http.MethodPost,
-		Path:    "/sm-policies/:smPolicyId/delete",
-		Handler: OnDeleteSMPolicy,
-	},
+var _routes = []sbi.Route[Producer]{
 	{
 		Label:   "CreateSMPolicy",
 		Method:  http.MethodPost,
@@ -36,12 +30,14 @@ var _routes = []sbi.SbiRoute{
 		Path:    "/sm-policies/:smPolicyId/update",
 		Handler: OnUpdateSMPolicy,
 	},
+	{
+		Label:   "DeleteSMPolicy",
+		Method:  http.MethodPost,
+		Path:    "/sm-policies/:smPolicyId/delete",
+		Handler: OnDeleteSMPolicy,
+	},
 }
 
-func Service(p Producer) sbi.SbiService {
-	return sbi.SbiService{
-		Group:   PATH_ROOT,
-		Routes:  _routes,
-		Handler: p,
-	}
+func Routes() []sbi.Route[Producer] {
+	return _routes
 }

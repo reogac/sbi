@@ -4,11 +4,11 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pran/subs"
 )
-func (p *Producer) HandleSendPaging(body *models.PagingMessage)(prob *models.ProblemDetails){
+func (p *Producer) HandleAmfSubscribe(callback *models.EndpointInfo,body *models.AmfSubscribeRequest)(rsp *models.AmfSubscribeResponse,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleAmfSubscribe(callback *models.EndpointInfo,body *models.AmfSubscribeRequest)(rsp *models.AmfSubscribeResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleSendPaging(body *models.PagingMessage)(prob *models.ProblemDetails){
 	return
 }
 */

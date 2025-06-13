@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,8 +12,7 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnSessionResourceNotify(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnSessionResourceNotify(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'smCtxRef'
@@ -46,8 +45,7 @@ func OnSessionResourceNotify(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnSessionResourceModifyIndication(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnSessionResourceModifyIndication(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'smCtxRef'

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:23 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,54 +11,18 @@ import (
 	"net/http"
 )
 
-var _routes = []sbi.SbiRoute{
+var _routes = []sbi.Route[Producer]{
 	{
-		Label:   "GetRegistrations",
+		Label:   "RetrieveSmfRegistration",
 		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations",
-		Handler: OnGetRegistrations,
-	},
-	{
-		Label:   "UpdateNon3GppRegistration",
-		Method:  http.MethodPatch,
-		Path:    "/:ueId/registrations/amf-non-3gpp-access",
-		Handler: OnUpdateNon3GppRegistration,
-	},
-	{
-		Label:   "GetSmfRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/smf-registrations",
-		Handler: OnGetSmfRegistration,
-	},
-	{
-		Label:   "TriggerPCSCFRestoration",
-		Method:  http.MethodPost,
-		Path:    "/restore-pcscf",
-		Handler: OnTriggerPCSCFRestoration,
-	},
-	{
-		Label:   "UpdateNwdafRegistration",
-		Method:  http.MethodPatch,
-		Path:    "/:ueId/registrations/nwdaf-registrations/:nwdafRegistrationId",
-		Handler: OnUpdateNwdafRegistration,
-	},
-	{
-		Label:   "Get3GppRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/amf-3gpp-access",
-		Handler: OnGet3GppRegistration,
-	},
-	{
-		Label:   "PeiUpdate",
-		Method:  http.MethodPost,
-		Path:    "/:ueId/registrations/amf-3gpp-access/pei-update",
-		Handler: OnPeiUpdate,
-	},
-	{
-		Label:   "SmfDeregistration",
-		Method:  http.MethodDelete,
 		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
-		Handler: OnSmfDeregistration,
+		Handler: OnRetrieveSmfRegistration,
+	},
+	{
+		Label:   "Get3GppSmsfRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/smsf-3gpp-access",
+		Handler: OnGet3GppSmsfRegistration,
 	},
 	{
 		Label:   "Registration",
@@ -67,40 +31,10 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnRegistration,
 	},
 	{
-		Label:   "Non3GppSmsfRegistration",
-		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
-		Handler: OnNon3GppSmsfRegistration,
-	},
-	{
-		Label:   "UpdateRoamingInformation",
-		Method:  http.MethodPost,
-		Path:    "/:ueId/registrations/amf-3gpp-access/roaming-info-update",
-		Handler: OnUpdateRoamingInformation,
-	},
-	{
-		Label:   "RetrieveSmfRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
-		Handler: OnRetrieveSmfRegistration,
-	},
-	{
-		Label:   "ThreeGppSmsfRegistration",
-		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/smsf-3gpp-access",
-		Handler: OnThreeGppSmsfRegistration,
-	},
-	{
-		Label:   "GetIpSmGwRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/ip-sm-gw",
-		Handler: OnGetIpSmGwRegistration,
-	},
-	{
-		Label:   "GetNwdafRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/nwdaf-registrations",
-		Handler: OnGetNwdafRegistration,
+		Label:   "UpdateNwdafRegistration",
+		Method:  http.MethodPatch,
+		Path:    "/:ueId/registrations/nwdaf-registrations/:nwdafRegistrationId",
+		Handler: OnUpdateNwdafRegistration,
 	},
 	{
 		Label:   "NwdafRegistration",
@@ -115,10 +49,28 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnUpdate3GppRegistration,
 	},
 	{
-		Label:   "DeregAMF",
+		Label:   "UpdateRoamingInformation",
 		Method:  http.MethodPost,
-		Path:    "/:ueId/registrations/amf-3gpp-access/dereg-amf",
-		Handler: OnDeregAMF,
+		Path:    "/:ueId/registrations/amf-3gpp-access/roaming-info-update",
+		Handler: OnUpdateRoamingInformation,
+	},
+	{
+		Label:   "UpdateNon3GppRegistration",
+		Method:  http.MethodPatch,
+		Path:    "/:ueId/registrations/amf-non-3gpp-access",
+		Handler: OnUpdateNon3GppRegistration,
+	},
+	{
+		Label:   "GetRegistrations",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations",
+		Handler: OnGetRegistrations,
+	},
+	{
+		Label:   "GetIpSmGwRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/ip-sm-gw",
+		Handler: OnGetIpSmGwRegistration,
 	},
 	{
 		Label:   "IpSmGwRegistration",
@@ -127,22 +79,22 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnIpSmGwRegistration,
 	},
 	{
-		Label:   "SendRoutingInfoSm",
+		Label:   "TriggerPCSCFRestoration",
 		Method:  http.MethodPost,
-		Path:    "/:ueId/registrations/send-routing-info-sm",
-		Handler: OnSendRoutingInfoSm,
+		Path:    "/restore-pcscf",
+		Handler: OnTriggerPCSCFRestoration,
 	},
 	{
-		Label:   "ThreeGppRegistration",
+		Label:   "ThreeGppSmsfRegistration",
 		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/amf-3gpp-access",
-		Handler: OnThreeGppRegistration,
+		Path:    "/:ueId/registrations/smsf-3gpp-access",
+		Handler: OnThreeGppSmsfRegistration,
 	},
 	{
-		Label:   "ThreeGppSmsfDeregistration",
-		Method:  http.MethodDelete,
-		Path:    "/:ueId/registrations/smsf-3gpp-access",
-		Handler: OnThreeGppSmsfDeregistration,
+		Label:   "Non3GppSmsfRegistration",
+		Method:  http.MethodPut,
+		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
+		Handler: OnNon3GppSmsfRegistration,
 	},
 	{
 		Label:   "Non3GppSmsfDeregistration",
@@ -151,10 +103,46 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnNon3GppSmsfDeregistration,
 	},
 	{
+		Label:   "ThreeGppRegistration",
+		Method:  http.MethodPut,
+		Path:    "/:ueId/registrations/amf-3gpp-access",
+		Handler: OnThreeGppRegistration,
+	},
+	{
+		Label:   "GetSmfRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/smf-registrations",
+		Handler: OnGetSmfRegistration,
+	},
+	{
+		Label:   "GetNwdafRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/nwdaf-registrations",
+		Handler: OnGetNwdafRegistration,
+	},
+	{
 		Label:   "IpSmGwDeregistration",
 		Method:  http.MethodDelete,
 		Path:    "/:ueId/registrations/ip-sm-gw",
 		Handler: OnIpSmGwDeregistration,
+	},
+	{
+		Label:   "SendRoutingInfoSm",
+		Method:  http.MethodPost,
+		Path:    "/:ueId/registrations/send-routing-info-sm",
+		Handler: OnSendRoutingInfoSm,
+	},
+	{
+		Label:   "PeiUpdate",
+		Method:  http.MethodPost,
+		Path:    "/:ueId/registrations/amf-3gpp-access/pei-update",
+		Handler: OnPeiUpdate,
+	},
+	{
+		Label:   "ThreeGppSmsfDeregistration",
+		Method:  http.MethodDelete,
+		Path:    "/:ueId/registrations/smsf-3gpp-access",
+		Handler: OnThreeGppSmsfDeregistration,
 	},
 	{
 		Label:   "NwdafDeregistration",
@@ -163,22 +151,22 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnNwdafDeregistration,
 	},
 	{
-		Label:   "GetNon3GppRegistration",
+		Label:   "Get3GppRegistration",
 		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/amf-non-3gpp-access",
-		Handler: OnGetNon3GppRegistration,
+		Path:    "/:ueId/registrations/amf-3gpp-access",
+		Handler: OnGet3GppRegistration,
+	},
+	{
+		Label:   "SmfDeregistration",
+		Method:  http.MethodDelete,
+		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
+		Handler: OnSmfDeregistration,
 	},
 	{
 		Label:   "UpdateSmfRegistration",
 		Method:  http.MethodPatch,
 		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
 		Handler: OnUpdateSmfRegistration,
-	},
-	{
-		Label:   "Get3GppSmsfRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/smsf-3gpp-access",
-		Handler: OnGet3GppSmsfRegistration,
 	},
 	{
 		Label:   "GetNon3GppSmsfRegistration",
@@ -193,6 +181,18 @@ var _routes = []sbi.SbiRoute{
 		Handler: OnGetLocationInfo,
 	},
 	{
+		Label:   "DeregAMF",
+		Method:  http.MethodPost,
+		Path:    "/:ueId/registrations/amf-3gpp-access/dereg-amf",
+		Handler: OnDeregAMF,
+	},
+	{
+		Label:   "GetNon3GppRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/amf-non-3gpp-access",
+		Handler: OnGetNon3GppRegistration,
+	},
+	{
 		Label:   "Non3GppRegistration",
 		Method:  http.MethodPut,
 		Path:    "/:ueId/registrations/amf-non-3gpp-access",
@@ -200,10 +200,6 @@ var _routes = []sbi.SbiRoute{
 	},
 }
 
-func Service(p Producer) sbi.SbiService {
-	return sbi.SbiService{
-		Group:   PATH_ROOT,
-		Routes:  _routes,
-		Handler: p,
-	}
+func Routes() []sbi.Route[Producer] {
+	return _routes
 }

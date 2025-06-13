@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:11 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,8 +12,7 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnHandoverRequired(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnHandoverRequired(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -60,8 +59,7 @@ func OnHandoverRequired(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnHandoverNotify(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnHandoverNotify(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -99,8 +97,7 @@ func OnHandoverNotify(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnHandoverCancel(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnHandoverCancel(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -141,8 +138,7 @@ func OnHandoverCancel(ctx sbi.RequestContext, handler any) {
 
 }
 
-func OnPathSwitch(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnPathSwitch(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params PathSwitchParams
 

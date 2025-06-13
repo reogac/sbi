@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:16 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,25 +11,21 @@ import (
 	"net/http"
 )
 
-var _routes = []sbi.SbiRoute{
-	{
-		Label:   "SessionResourceNotify",
-		Method:  http.MethodPost,
-		Path:    "/res-notify/:smCtxRef",
-		Handler: OnSessionResourceNotify,
-	},
+var _routes = []sbi.Route[Producer]{
 	{
 		Label:   "SessionResourceModifyIndication",
 		Method:  http.MethodPut,
 		Path:    "/res-modify/:smCtxRef",
 		Handler: OnSessionResourceModifyIndication,
 	},
+	{
+		Label:   "SessionResourceNotify",
+		Method:  http.MethodPost,
+		Path:    "/res-notify/:smCtxRef",
+		Handler: OnSessionResourceNotify,
+	},
 }
 
-func Service(p Producer) sbi.SbiService {
-	return sbi.SbiService{
-		Group:   PATH_ROOT,
-		Routes:  _routes,
-		Handler: p,
-	}
+func Routes() []sbi.Route[Producer] {
+	return _routes
 }

@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type TraceData struct {
+	NeTypeList                string     `json:"neTypeList"`
 	EventList                 string     `json:"eventList"`
 	CollectionEntityIpv4Addr  string     `json:"collectionEntityIpv4Addr,omitempty"`
 	CollectionEntityIpv6Addr  string     `json:"collectionEntityIpv6Addr,omitempty"`
@@ -14,5 +15,4 @@ type TraceData struct {
 	InterfaceList             string     `json:"interfaceList,omitempty"`
 	TraceRef                  string     `json:"traceRef"`
 	TraceDepth                TraceDepth `json:"traceDepth"`
-	NeTypeList                string     `json:"neTypeList"`
 }

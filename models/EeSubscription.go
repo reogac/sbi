@@ -1,26 +1,26 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type EeSubscription struct {
-	SubscriptionId             string                             `json:"subscriptionId,omitempty"`
-	NotifyCorrelationId        string                             `json:"notifyCorrelationId,omitempty"`
-	UdrRestartInd              *bool                              `json:"udrRestartInd,omitempty"`
+	MonitoringConfigurations   map[string]MonitoringConfiguration `json:"monitoringConfigurations"`
 	ReportingOptions           *ReportingOptions                  `json:"reportingOptions,omitempty"`
 	ScefDiamHost               string                             `json:"scefDiamHost,omitempty"`
-	ScefDiamRealm              string                             `json:"scefDiamRealm,omitempty"`
-	ContextInfo                *ContextInfo                       `json:"contextInfo,omitempty"`
-	MonitoringConfigurations   map[string]MonitoringConfiguration `json:"monitoringConfigurations"`
-	SupportedFeatures          string                             `json:"supportedFeatures,omitempty"`
-	EpcAppliedInd              *bool                              `json:"epcAppliedInd,omitempty"`
+	SecondCallbackRef          string                             `json:"secondCallbackRef,omitempty"`
 	IncludeGpsiList            []string                           `json:"includeGpsiList,omitempty"`
-	CallbackReference          string                             `json:"callbackReference"`
+	SubscriptionId             string                             `json:"subscriptionId,omitempty"`
+	ContextInfo                *ContextInfo                       `json:"contextInfo,omitempty"`
+	EpcAppliedInd              *bool                              `json:"epcAppliedInd,omitempty"`
+	ScefDiamRealm              string                             `json:"scefDiamRealm,omitempty"`
+	NotifyCorrelationId        string                             `json:"notifyCorrelationId,omitempty"`
 	Gpsi                       string                             `json:"gpsi,omitempty"`
 	ExcludeGpsiList            []string                           `json:"excludeGpsiList,omitempty"`
+	UdrRestartInd              *bool                              `json:"udrRestartInd,omitempty"`
+	CallbackReference          string                             `json:"callbackReference"`
+	SupportedFeatures          string                             `json:"supportedFeatures,omitempty"`
 	DataRestorationCallbackUri string                             `json:"dataRestorationCallbackUri,omitempty"`
-	SecondCallbackRef          string                             `json:"secondCallbackRef,omitempty"`
 }

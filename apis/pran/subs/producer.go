@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 11:41:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jun 13 13:39:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,34 +12,7 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnSendPaging(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
-	var err error
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.PagingMessage)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleSendPaging(body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(201, nil, nil)
-
-}
-
-func OnAmfSubscribe(ctx sbi.RequestContext, handler any) {
-	prod := handler.(Producer)
+func OnAmfSubscribe(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'callback'
@@ -80,8 +53,33 @@ func OnAmfSubscribe(ctx sbi.RequestContext, handler any) {
 
 }
 
-type Producer interface {
-	HandleSendPaging(*models.PagingMessage) *models.ProblemDetails
+func OnSendPaging(ctx sbi.RequestContext, prod Producer) {
+	var err error
 
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.PagingMessage)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleSendPaging(body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(201, nil, nil)
+
+}
+
+type Producer interface {
 	HandleAmfSubscribe(*models.EndpointInfo, *models.AmfSubscribeRequest) (*models.AmfSubscribeResponse, *models.ProblemDetails)
+
+	HandleSendPaging(*models.PagingMessage) *models.ProblemDetails
 }
