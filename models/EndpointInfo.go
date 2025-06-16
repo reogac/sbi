@@ -9,5 +9,7 @@ package models
 type EndpointInfo struct {
 	Uuid   string `json:"uuid"`
 	SbiUri string `json:"sbiUri"`
+	Name   string `json:"name"`
 	GwUri  string `json:"gwUri,omitempty"`
+	GwName string `json:"gwName"`
 }
