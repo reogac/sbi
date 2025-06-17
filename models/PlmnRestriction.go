@@ -1,16 +1,16 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:36:02 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type PlmnRestriction struct {
-	RatRestrictions             []string                `json:"ratRestrictions,omitempty"`
-	ForbiddenAreas              []Area                  `json:"forbiddenAreas,omitempty"`
-	ServiceAreaRestriction      *ServiceAreaRestriction `json:"serviceAreaRestriction,omitempty"`
 	CoreNetworkTypeRestrictions []string                `json:"coreNetworkTypeRestrictions,omitempty"`
 	PrimaryRatRestrictions      []string                `json:"primaryRatRestrictions,omitempty"`
 	SecondaryRatRestrictions    []string                `json:"secondaryRatRestrictions,omitempty"`
+	RatRestrictions             []string                `json:"ratRestrictions,omitempty"`
+	ForbiddenAreas              []Area                  `json:"forbiddenAreas,omitempty"`
+	ServiceAreaRestriction      *ServiceAreaRestriction `json:"serviceAreaRestriction,omitempty"`
 }

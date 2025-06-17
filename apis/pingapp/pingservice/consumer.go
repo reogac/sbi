@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:07 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -19,16 +19,16 @@ const (
 
 // Summary:
 // Description:
-// Path: /ping
+// Path: /forward
 // Path Params:
-func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingResponse, err error) {
+func Forward(cli sbi.ConsumerClient, body *models.PingFwRequest) (rsp *models.PingResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/ping", PATH_ROOT)
+	path := fmt.Sprintf("%s/forward", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -54,16 +54,16 @@ func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingRes
 
 // Summary:
 // Description:
-// Path: /forward
+// Path: /ping
 // Path Params:
-func Forward(cli sbi.ConsumerClient, body *models.PingFwRequest) (rsp *models.PingResponse, err error) {
+func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/forward", PATH_ROOT)
+	path := fmt.Sprintf("%s/ping", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {

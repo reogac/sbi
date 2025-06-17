@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "UeContextSetup",
+		Method:  http.MethodPost,
+		Path:    "/uectx/setup/:ueId",
+		Handler: OnUeContextSetup,
+	},
 	{
 		Label:   "UpdateAmfUeContextInfo",
 		Method:  http.MethodPut,
@@ -29,12 +35,6 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPut,
 		Path:    "/uectx/release/:ueId",
 		Handler: OnUeContextRelease,
-	},
-	{
-		Label:   "UeContextSetup",
-		Method:  http.MethodPost,
-		Path:    "/uectx/setup/:ueId",
-		Handler: OnUeContextSetup,
 	},
 }
 

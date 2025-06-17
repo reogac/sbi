@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:36:03 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,12 +12,312 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
-func OnReadPolicyData(ctx sbi.RequestContext, prod Producer) {
+func OnReplaceOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
 	var err error
-	var params ReadPolicyDataParams
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleReplaceOperatorSpecificData(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnUpdateOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateOperatorSpecificData(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadSlicePolicyControlData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ReadSlicePolicyControlDataParams
+
+	// read 'snssai'
+	snssaiStr := ctx.Param("snssai")
+	if len(snssaiStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "snssai is required"), nil)
+		return
+	}
+
+	if params.Snssai, err = models.SnssaiFromString(snssaiStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse snssai failed: %+v", err)), nil)
+		return
+	}
 
 	// read 'supp-feat'
 	params.SuppFeat = ctx.Param("supp-feat")
+
+	// call application handler
+	rsp, prob := prod.HandleReadSlicePolicyControlData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnReadSessionManagementPolicyData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ReadSessionManagementPolicyDataParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'snssai'
+	snssaiStr := ctx.Param("snssai")
+	if len(snssaiStr) > 0 {
+		if params.Snssai, err = models.SnssaiFromString(snssaiStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse snssai failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'dnn'
+	params.Dnn = ctx.Param("dnn")
+
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
+
+	// call application handler
+	rsp, prob := prod.HandleReadSessionManagementPolicyData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnReadSponsorConnectivityData(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'sponsorId'
+	var sponsorId string
+	sponsorId = ctx.Param("sponsorId")
+	if len(sponsorId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "sponsorId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleReadSponsorConnectivityData(sponsorId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadPlmnUePolicySet(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'plmnId'
+	var plmnId string
+	plmnId = ctx.Param("plmnId")
+	if len(plmnId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "plmnId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleReadPlmnUePolicySet(plmnId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnReadIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
+	var params ReadIndividualBdtDataParams
+
+	// read 'bdtReferenceId'
+	params.BdtReferenceId = ctx.Param("bdtReferenceId")
+	if len(params.BdtReferenceId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
+		return
+	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
+
+	// call application handler
+	rsp, prob := prod.HandleReadIndividualBdtData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnCreateIndividualPolicyDataSubscription(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.PolicyDataSubscription)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleCreateIndividualPolicyDataSubscription(body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnDeleteIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'bdtReferenceId'
+	var bdtReferenceId string
+	bdtReferenceId = ctx.Param("bdtReferenceId")
+	if len(bdtReferenceId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDeleteIndividualBdtData(bdtReferenceId)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadPolicyData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ReadPolicyDataParams
 
 	// read 'data-subset-names'
 	dataSubsetNamesStr := ctx.Param("data-subset-names")
@@ -34,6 +334,9 @@ func OnReadPolicyData(ctx sbi.RequestContext, prod Producer) {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
 
 	// call application handler
 	rsp, prob := prod.HandleReadPolicyData(&params)
@@ -52,8 +355,38 @@ func OnReadPolicyData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnCreateOrReplaceUEPolicySet(ctx sbi.RequestContext, prod Producer) {
-	var err error
+func OnDeleteUsageMonitoringInformation(ctx sbi.RequestContext, prod Producer) {
+	var params DeleteUsageMonitoringInformationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'usageMonId'
+	params.UsageMonId = ctx.Param("usageMonId")
+	if len(params.UsageMonId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "usageMonId is required"), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDeleteUsageMonitoringInformation(&params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnDeleteOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
 
 	// read 'ueId'
 	var ueId string
@@ -63,22 +396,8 @@ func OnCreateOrReplaceUEPolicySet(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.UePolicySet)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
 	// call application handler
-	rsp, prob := prod.HandleCreateOrReplaceUEPolicySet(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
+	prob := prod.HandleDeleteOperatorSpecificData(ueId)
 
 	// check for problem
 	if prob != nil {
@@ -124,16 +443,47 @@ func OnUpdateUEPolicySet(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnCreateUsageMonitoringResource(ctx sbi.RequestContext, prod Producer) {
+func OnUpdateSessionManagementPolicyData(ctx sbi.RequestContext, prod Producer) {
 	var err error
-	var params CreateUsageMonitoringResourceParams
 
-	// read 'usageMonId'
-	params.UsageMonId = ctx.Param("usageMonId")
-	if len(params.UsageMonId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "usageMonId is required"), nil)
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.SmPolicyDataPatch)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateSessionManagementPolicyData(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadUsageMonitoringInformation(ctx sbi.RequestContext, prod Producer) {
+	var params ReadUsageMonitoringInformationParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -142,16 +492,186 @@ func OnCreateUsageMonitoringResource(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
+	// read 'usageMonId'
+	params.UsageMonId = ctx.Param("usageMonId")
+	if len(params.UsageMonId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "usageMonId is required"), nil)
+		return
+	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
+
+	// call application handler
+	rsp, prob := prod.HandleReadUsageMonitoringInformation(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadBdtData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ReadBdtDataParams
+
+	// read 'bdt-ref-ids'
+	bdtRefIdsStr := ctx.Param("bdt-ref-ids")
+	if len(bdtRefIdsStr) > 0 {
+		if params.BdtRefIds, err = models.ArrayOfStringFromString(bdtRefIdsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse bdt-ref-ids failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
+
+	// call application handler
+	rsp, prob := prod.HandleReadBdtData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnUpdateIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'bdtReferenceId'
+	var bdtReferenceId string
+	bdtReferenceId = ctx.Param("bdtReferenceId")
+	if len(bdtReferenceId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
+		return
+	}
+
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.UsageMonData)
+	body := new(models.BdtDataPatch)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleCreateUsageMonitoringResource(&params, body)
+	rsp, prob := prod.HandleUpdateIndividualBdtData(bdtReferenceId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadAccessAndMobilityPolicyData(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleReadAccessAndMobilityPolicyData(ueId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnReadUEPolicySet(ctx sbi.RequestContext, prod Producer) {
+	var params ReadUEPolicySetParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
+
+	// call application handler
+	rsp, prob := prod.HandleReadUEPolicySet(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnCreateIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'bdtReferenceId'
+	var bdtReferenceId string
+	bdtReferenceId = ctx.Param("bdtReferenceId")
+	if len(bdtReferenceId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.BdtData)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleCreateIndividualBdtData(bdtReferenceId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -167,18 +687,18 @@ func OnCreateUsageMonitoringResource(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnDeleteIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
+func OnDeleteIndividualPolicyDataSubscription(ctx sbi.RequestContext, prod Producer) {
 
-	// read 'bdtReferenceId'
-	var bdtReferenceId string
-	bdtReferenceId = ctx.Param("bdtReferenceId")
-	if len(bdtReferenceId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
+	// read 'subsId'
+	var subsId string
+	subsId = ctx.Param("subsId")
+	if len(subsId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"), nil)
 		return
 	}
 
 	// call application handler
-	prob := prod.HandleDeleteIndividualBdtData(bdtReferenceId)
+	prob := prod.HandleDeleteIndividualPolicyDataSubscription(subsId)
 
 	// check for problem
 	if prob != nil {
@@ -191,27 +711,43 @@ func OnDeleteIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnDeleteOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
+func OnReadOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ReadOperatorSpecificDataParams
 
 	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
+	// read 'fields'
+	fieldsStr := ctx.Param("fields")
+	if len(fieldsStr) > 0 {
+		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'supp-feat'
+	params.SuppFeat = ctx.Param("supp-feat")
+
 	// call application handler
-	prob := prod.HandleDeleteOperatorSpecificData(ueId)
+	rsp, prob := prod.HandleReadOperatorSpecificData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
 
 	// check for problem
 	if prob != nil {
 		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -292,7 +828,8 @@ func OnGetMBSSessPolCtrlData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnReadAccessAndMobilityPolicyData(ctx sbi.RequestContext, prod Producer) {
+func OnCreateOrReplaceUEPolicySet(ctx sbi.RequestContext, prod Producer) {
+	var err error
 
 	// read 'ueId'
 	var ueId string
@@ -302,96 +839,16 @@ func OnReadAccessAndMobilityPolicyData(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
-	// call application handler
-	rsp, prob := prod.HandleReadAccessAndMobilityPolicyData(ueId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnReadSessionManagementPolicyData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params ReadSessionManagementPolicyDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'snssai'
-	snssaiStr := ctx.Param("snssai")
-	if len(snssaiStr) > 0 {
-		if params.Snssai, err = models.SnssaiFromString(snssaiStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse snssai failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'dnn'
-	params.Dnn = ctx.Param("dnn")
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
-
-	// call application handler
-	rsp, prob := prod.HandleReadSessionManagementPolicyData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnUpdateIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'bdtReferenceId'
-	var bdtReferenceId string
-	bdtReferenceId = ctx.Param("bdtReferenceId")
-	if len(bdtReferenceId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
-		return
-	}
-
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.BdtDataPatch)
+	body := new(models.UePolicySet)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleUpdateIndividualBdtData(bdtReferenceId, body)
+	rsp, prob := prod.HandleCreateOrReplaceUEPolicySet(ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -410,71 +867,9 @@ func OnUpdateIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnReadPlmnUePolicySet(ctx sbi.RequestContext, prod Producer) {
-
-	// read 'plmnId'
-	var plmnId string
-	plmnId = ctx.Param("plmnId")
-	if len(plmnId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "plmnId is required"), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleReadPlmnUePolicySet(plmnId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnReadSlicePolicyControlData(ctx sbi.RequestContext, prod Producer) {
+func OnCreateUsageMonitoringResource(ctx sbi.RequestContext, prod Producer) {
 	var err error
-	var params ReadSlicePolicyControlDataParams
-
-	// read 'snssai'
-	snssaiStr := ctx.Param("snssai")
-	if len(snssaiStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "snssai is required"), nil)
-		return
-	}
-
-	if params.Snssai, err = models.SnssaiFromString(snssaiStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse snssai failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
-
-	// call application handler
-	rsp, prob := prod.HandleReadSlicePolicyControlData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnReadUEPolicySet(ctx sbi.RequestContext, prod Producer) {
-	var params ReadUEPolicySetParams
+	var params CreateUsageMonitoringResourceParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -483,15 +878,27 @@ func OnReadUEPolicySet(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
+	// read 'usageMonId'
+	params.UsageMonId = ctx.Param("usageMonId")
+	if len(params.UsageMonId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "usageMonId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.UsageMonData)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
 
 	// call application handler
-	rsp, prob := prod.HandleReadUEPolicySet(&params)
+	rsp, prob := prod.HandleCreateUsageMonitoringResource(&params, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
+		ctx.WriteResponse(201, rsp, nil)
 		return
 	}
 
@@ -542,465 +949,58 @@ func OnReplaceIndividualPolicyDataSubscription(ctx sbi.RequestContext, prod Prod
 
 }
 
-func OnUpdateSessionManagementPolicyData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.SmPolicyDataPatch)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdateSessionManagementPolicyData(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnReadBdtData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params ReadBdtDataParams
-
-	// read 'bdt-ref-ids'
-	bdtRefIdsStr := ctx.Param("bdt-ref-ids")
-	if len(bdtRefIdsStr) > 0 {
-		if params.BdtRefIds, err = models.ArrayOfStringFromString(bdtRefIdsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse bdt-ref-ids failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
-
-	// call application handler
-	rsp, prob := prod.HandleReadBdtData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnCreateIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'bdtReferenceId'
-	var bdtReferenceId string
-	bdtReferenceId = ctx.Param("bdtReferenceId")
-	if len(bdtReferenceId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.BdtData)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleCreateIndividualBdtData(bdtReferenceId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnReadSponsorConnectivityData(ctx sbi.RequestContext, prod Producer) {
-
-	// read 'sponsorId'
-	var sponsorId string
-	sponsorId = ctx.Param("sponsorId")
-	if len(sponsorId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "sponsorId is required"), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleReadSponsorConnectivityData(sponsorId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnReadOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params ReadOperatorSpecificDataParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'fields'
-	fieldsStr := ctx.Param("fields")
-	if len(fieldsStr) > 0 {
-		if params.Fields, err = models.ArrayOfStringFromString(fieldsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse fields failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
-
-	// call application handler
-	rsp, prob := prod.HandleReadOperatorSpecificData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnDeleteUsageMonitoringInformation(ctx sbi.RequestContext, prod Producer) {
-	var params DeleteUsageMonitoringInformationParams
-
-	// read 'usageMonId'
-	params.UsageMonId = ctx.Param("usageMonId")
-	if len(params.UsageMonId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "usageMonId is required"), nil)
-		return
-	}
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDeleteUsageMonitoringInformation(&params)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnCreateIndividualPolicyDataSubscription(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.PolicyDataSubscription)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleCreateIndividualPolicyDataSubscription(body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnUpdateOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdateOperatorSpecificData(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnReadUsageMonitoringInformation(ctx sbi.RequestContext, prod Producer) {
-	var params ReadUsageMonitoringInformationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'usageMonId'
-	params.UsageMonId = ctx.Param("usageMonId")
-	if len(params.UsageMonId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "usageMonId is required"), nil)
-		return
-	}
-
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
-
-	// call application handler
-	rsp, prob := prod.HandleReadUsageMonitoringInformation(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnReadIndividualBdtData(ctx sbi.RequestContext, prod Producer) {
-	var params ReadIndividualBdtDataParams
-
-	// read 'supp-feat'
-	params.SuppFeat = ctx.Param("supp-feat")
-
-	// read 'bdtReferenceId'
-	params.BdtReferenceId = ctx.Param("bdtReferenceId")
-	if len(params.BdtReferenceId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "bdtReferenceId is required"), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleReadIndividualBdtData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnDeleteIndividualPolicyDataSubscription(ctx sbi.RequestContext, prod Producer) {
-
-	// read 'subsId'
-	var subsId string
-	subsId = ctx.Param("subsId")
-	if len(subsId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subsId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDeleteIndividualPolicyDataSubscription(subsId)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnReplaceOperatorSpecificData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleReplaceOperatorSpecificData(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
 type Producer interface {
-	HandleReadPolicyData(*ReadPolicyDataParams) (*models.PolicyDataForIndividualUe, *models.ProblemDetails)
+	HandleReplaceOperatorSpecificData(string, *map[string]models.OperatorSpecificDataContainer) (*map[string]models.OperatorSpecificDataContainer, *models.ProblemDetails)
 
-	HandleCreateOrReplaceUEPolicySet(string, *models.UePolicySet) (*models.UePolicySet, *models.ProblemDetails)
+	HandleUpdateOperatorSpecificData(string, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleUpdateUEPolicySet(string, *models.UePolicySetPatch) *models.ProblemDetails
+	HandleReadSlicePolicyControlData(*ReadSlicePolicyControlDataParams) (*models.SlicePolicyData, *models.ProblemDetails)
 
-	HandleCreateUsageMonitoringResource(*CreateUsageMonitoringResourceParams, *models.UsageMonData) (*models.UsageMonData, *models.ProblemDetails)
+	HandleReadSessionManagementPolicyData(*ReadSessionManagementPolicyDataParams) (*models.SmPolicyData, *models.ProblemDetails)
+
+	HandleReadSponsorConnectivityData(string) (*models.SponsorConnectivityData, *models.ProblemDetails)
+
+	HandleReadPlmnUePolicySet(string) (*models.UePolicySet, *models.ProblemDetails)
+
+	HandleReadIndividualBdtData(*ReadIndividualBdtDataParams) (*models.BdtData, *models.ProblemDetails)
+
+	HandleCreateIndividualPolicyDataSubscription(*models.PolicyDataSubscription) (*models.PolicyDataSubscription, *models.ProblemDetails)
 
 	HandleDeleteIndividualBdtData(string) *models.ProblemDetails
 
+	HandleReadPolicyData(*ReadPolicyDataParams) (*models.PolicyDataForIndividualUe, *models.ProblemDetails)
+
+	HandleDeleteUsageMonitoringInformation(*DeleteUsageMonitoringInformationParams) *models.ProblemDetails
+
 	HandleDeleteOperatorSpecificData(string) *models.ProblemDetails
+
+	HandleUpdateUEPolicySet(string, *models.UePolicySetPatch) *models.ProblemDetails
+
+	HandleUpdateSessionManagementPolicyData(string, *models.SmPolicyDataPatch) (*models.SmPolicyData, *models.ProblemDetails)
+
+	HandleReadUsageMonitoringInformation(*ReadUsageMonitoringInformationParams) (*models.UsageMonData, *models.ProblemDetails)
+
+	HandleReadBdtData(*ReadBdtDataParams) (*[]models.BdtData, *models.ProblemDetails)
+
+	HandleUpdateIndividualBdtData(string, *models.BdtDataPatch) (*models.BdtData, *models.ProblemDetails)
+
+	HandleReadAccessAndMobilityPolicyData(string) (*models.AmPolicyData, *models.ProblemDetails)
+
+	HandleReadUEPolicySet(*ReadUEPolicySetParams) (*models.UePolicySet, *models.ProblemDetails)
+
+	HandleCreateIndividualBdtData(string, *models.BdtData) (*models.BdtData, *models.ProblemDetails)
+
+	HandleDeleteIndividualPolicyDataSubscription(string) *models.ProblemDetails
+
+	HandleReadOperatorSpecificData(*ReadOperatorSpecificDataParams) (*map[string]models.OperatorSpecificDataContainer, *models.ProblemDetails)
 
 	HandleUpdateSlicePolicyControlData(*models.Snssai, *models.SlicePolicyDataPatch) (*models.SlicePolicyData, *models.ProblemDetails)
 
 	HandleGetMBSSessPolCtrlData(*models.MbsSessPolDataId) (*models.MbsSessPolCtrlData, *models.ProblemDetails)
 
-	HandleReadAccessAndMobilityPolicyData(string) (*models.AmPolicyData, *models.ProblemDetails)
+	HandleCreateOrReplaceUEPolicySet(string, *models.UePolicySet) (*models.UePolicySet, *models.ProblemDetails)
 
-	HandleReadSessionManagementPolicyData(*ReadSessionManagementPolicyDataParams) (*models.SmPolicyData, *models.ProblemDetails)
-
-	HandleUpdateIndividualBdtData(string, *models.BdtDataPatch) (*models.BdtData, *models.ProblemDetails)
-
-	HandleReadPlmnUePolicySet(string) (*models.UePolicySet, *models.ProblemDetails)
-
-	HandleReadSlicePolicyControlData(*ReadSlicePolicyControlDataParams) (*models.SlicePolicyData, *models.ProblemDetails)
-
-	HandleReadUEPolicySet(*ReadUEPolicySetParams) (*models.UePolicySet, *models.ProblemDetails)
+	HandleCreateUsageMonitoringResource(*CreateUsageMonitoringResourceParams, *models.UsageMonData) (*models.UsageMonData, *models.ProblemDetails)
 
 	HandleReplaceIndividualPolicyDataSubscription(string, *models.PolicyDataSubscription) (*models.PolicyDataSubscription, *models.ProblemDetails)
-
-	HandleUpdateSessionManagementPolicyData(string, *models.SmPolicyDataPatch) (*models.SmPolicyData, *models.ProblemDetails)
-
-	HandleReadBdtData(*ReadBdtDataParams) (*[]models.BdtData, *models.ProblemDetails)
-
-	HandleCreateIndividualBdtData(string, *models.BdtData) (*models.BdtData, *models.ProblemDetails)
-
-	HandleReadSponsorConnectivityData(string) (*models.SponsorConnectivityData, *models.ProblemDetails)
-
-	HandleReadOperatorSpecificData(*ReadOperatorSpecificDataParams) (*map[string]models.OperatorSpecificDataContainer, *models.ProblemDetails)
-
-	HandleDeleteUsageMonitoringInformation(*DeleteUsageMonitoringInformationParams) *models.ProblemDetails
-
-	HandleCreateIndividualPolicyDataSubscription(*models.PolicyDataSubscription) (*models.PolicyDataSubscription, *models.ProblemDetails)
-
-	HandleUpdateOperatorSpecificData(string, *[]models.PatchItem) (*models.PatchResult, *models.ProblemDetails)
-
-	HandleReadUsageMonitoringInformation(*ReadUsageMonitoringInformationParams) (*models.UsageMonData, *models.ProblemDetails)
-
-	HandleReadIndividualBdtData(*ReadIndividualBdtDataParams) (*models.BdtData, *models.ProblemDetails)
-
-	HandleDeleteIndividualPolicyDataSubscription(string) *models.ProblemDetails
-
-	HandleReplaceOperatorSpecificData(string, *map[string]models.OperatorSpecificDataContainer) (*map[string]models.OperatorSpecificDataContainer, *models.ProblemDetails)
 }

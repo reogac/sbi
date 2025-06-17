@@ -1,37 +1,37 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:36:02 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AmfNon3GppAccessRegistration struct {
-	ResetIds                    []string        `json:"resetIds,omitempty"`
-	SorSnpnSiSupported          *bool           `json:"sorSnpnSiSupported,omitempty"`
-	ReRegistrationRequired      *bool           `json:"reRegistrationRequired,omitempty"`
-	AdminDeregSubWithdrawn      *bool           `json:"adminDeregSubWithdrawn,omitempty"`
-	DisasterRoamingInd          *bool           `json:"disasterRoamingInd,omitempty"`
-	LastSynchronizationTime     string          `json:"lastSynchronizationTime,omitempty"`
-	RatType                     RatType         `json:"ratType"`
-	UrrpIndicator               *bool           `json:"urrpIndicator,omitempty"`
-	ContextInfo                 *ContextInfo    `json:"contextInfo,omitempty"`
-	Supi                        string          `json:"supi,omitempty"`
-	AmfInstanceId               string          `json:"amfInstanceId"`
-	PurgeFlag                   *bool           `json:"purgeFlag,omitempty"`
-	AmfServiceNameDereg         ServiceName     `json:"amfServiceNameDereg,omitempty"`
-	VgmlcAddress                *VgmlcAddress   `json:"vgmlcAddress,omitempty"`
-	DataRestorationCallbackUri  string          `json:"dataRestorationCallbackUri,omitempty"`
-	SupportedFeatures           string          `json:"supportedFeatures,omitempty"`
-	ImsVoPs                     ImsVoPs         `json:"imsVoPs"`
-	PcscfRestorationCallbackUri string          `json:"pcscfRestorationCallbackUri,omitempty"`
-	NoEeSubscriptionInd         *bool           `json:"noEeSubscriptionInd,omitempty"`
 	Pei                         string          `json:"pei,omitempty"`
-	UdrRestartInd               *bool           `json:"udrRestartInd,omitempty"`
-	Guami                       Guami           `json:"guami"`
-	AmfEeSubscriptionId         string          `json:"amfEeSubscriptionId,omitempty"`
-	RegistrationTime            string          `json:"registrationTime,omitempty"`
-	DeregCallbackUri            string          `json:"deregCallbackUri"`
+	AmfServiceNameDereg         ServiceName     `json:"amfServiceNameDereg,omitempty"`
 	AmfServiceNamePcscfRest     ServiceName     `json:"amfServiceNamePcscfRest,omitempty"`
+	Guami                       Guami           `json:"guami"`
 	BackupAmfInfo               []BackupAmfInfo `json:"backupAmfInfo,omitempty"`
+	ContextInfo                 *ContextInfo    `json:"contextInfo,omitempty"`
+	DataRestorationCallbackUri  string          `json:"dataRestorationCallbackUri,omitempty"`
+	AmfInstanceId               string          `json:"amfInstanceId"`
+	ImsVoPs                     ImsVoPs         `json:"imsVoPs"`
+	VgmlcAddress                *VgmlcAddress   `json:"vgmlcAddress,omitempty"`
+	AdminDeregSubWithdrawn      *bool           `json:"adminDeregSubWithdrawn,omitempty"`
+	PurgeFlag                   *bool           `json:"purgeFlag,omitempty"`
+	UrrpIndicator               *bool           `json:"urrpIndicator,omitempty"`
+	ResetIds                    []string        `json:"resetIds,omitempty"`
+	DisasterRoamingInd          *bool           `json:"disasterRoamingInd,omitempty"`
+	RatType                     RatType         `json:"ratType"`
+	RegistrationTime            string          `json:"registrationTime,omitempty"`
+	Supi                        string          `json:"supi,omitempty"`
+	DeregCallbackUri            string          `json:"deregCallbackUri"`
+	NoEeSubscriptionInd         *bool           `json:"noEeSubscriptionInd,omitempty"`
+	LastSynchronizationTime     string          `json:"lastSynchronizationTime,omitempty"`
+	SupportedFeatures           string          `json:"supportedFeatures,omitempty"`
+	AmfEeSubscriptionId         string          `json:"amfEeSubscriptionId,omitempty"`
+	ReRegistrationRequired      *bool           `json:"reRegistrationRequired,omitempty"`
+	SorSnpnSiSupported          *bool           `json:"sorSnpnSiSupported,omitempty"`
+	PcscfRestorationCallbackUri string          `json:"pcscfRestorationCallbackUri,omitempty"`
+	UdrRestartInd               *bool           `json:"udrRestartInd,omitempty"`
 }

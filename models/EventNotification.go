@@ -1,32 +1,32 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:10 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:41 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type EventNotification struct {
-	Start              string                         `json:"start,omitempty"`
-	SliceLoadLevelInfo *SliceLoadLevelInformation     `json:"sliceLoadLevelInfo,omitempty"`
-	QosSustainInfos    []QosSustainabilityInfo        `json:"qosSustainInfos,omitempty"`
-	SmccExps           []SmcceInfo                    `json:"smccExps,omitempty"`
-	Event              NwdafEvent                     `json:"event"`
-	TimeStampGen       string                         `json:"timeStampGen,omitempty"`
-	AnaMetaInfo        *AnalyticsMetadataInfo         `json:"anaMetaInfo,omitempty"`
-	UserDataCongInfos  []UserDataCongestionInfo       `json:"userDataCongInfos,omitempty"`
-	NwPerfs            []NetworkPerfInfo              `json:"nwPerfs,omitempty"`
-	DnPerfInfos        []DnPerfInfo                   `json:"dnPerfInfos,omitempty"`
-	FailNotifyCode     NwdafFailureCode               `json:"failNotifyCode,omitempty"`
-	RvWaitTime         *int                           `json:"rvWaitTime,omitempty"`
-	NsiLoadLevelInfos  []NsiLoadLevelInfo             `json:"nsiLoadLevelInfos,omitempty"`
-	SvcExps            []ServiceExperienceInfo        `json:"svcExps,omitempty"`
-	DisperInfos        []DispersionInfo               `json:"disperInfos,omitempty"`
-	Expiry             string                         `json:"expiry,omitempty"`
-	NfLoadLevelInfos   []NfLoadLevelInformation       `json:"nfLoadLevelInfos,omitempty"`
-	UeComms            []UeCommunication              `json:"ueComms,omitempty"`
-	UeMobs             []UeMobility                   `json:"ueMobs,omitempty"`
 	AbnorBehavrs       []AbnormalBehaviour            `json:"abnorBehavrs,omitempty"`
 	RedTransInfos      []RedundantTransmissionExpInfo `json:"redTransInfos,omitempty"`
+	Event              NwdafEvent                     `json:"event"`
+	RvWaitTime         *int                           `json:"rvWaitTime,omitempty"`
+	UeMobs             []UeMobility                   `json:"ueMobs,omitempty"`
+	NsiLoadLevelInfos  []NsiLoadLevelInfo             `json:"nsiLoadLevelInfos,omitempty"`
+	UeComms            []UeCommunication              `json:"ueComms,omitempty"`
+	UserDataCongInfos  []UserDataCongestionInfo       `json:"userDataCongInfos,omitempty"`
 	WlanInfos          []WlanPerformanceInfo          `json:"wlanInfos,omitempty"`
+	Start              string                         `json:"start,omitempty"`
+	Expiry             string                         `json:"expiry,omitempty"`
+	TimeStampGen       string                         `json:"timeStampGen,omitempty"`
+	QosSustainInfos    []QosSustainabilityInfo        `json:"qosSustainInfos,omitempty"`
+	NwPerfs            []NetworkPerfInfo              `json:"nwPerfs,omitempty"`
+	DisperInfos        []DispersionInfo               `json:"disperInfos,omitempty"`
+	FailNotifyCode     NwdafFailureCode               `json:"failNotifyCode,omitempty"`
+	AnaMetaInfo        *AnalyticsMetadataInfo         `json:"anaMetaInfo,omitempty"`
+	SvcExps            []ServiceExperienceInfo        `json:"svcExps,omitempty"`
+	SmccExps           []SmcceInfo                    `json:"smccExps,omitempty"`
+	NfLoadLevelInfos   []NfLoadLevelInformation       `json:"nfLoadLevelInfos,omitempty"`
+	SliceLoadLevelInfo *SliceLoadLevelInformation     `json:"sliceLoadLevelInfo,omitempty"`
+	DnPerfInfos        []DnPerfInfo                   `json:"dnPerfInfos,omitempty"`
 }

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:15 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,16 +13,40 @@ import (
 
 var _routes = []sbi.Route[Producer]{
 	{
+		Label:   "PostSmContexts",
+		Method:  http.MethodPost,
+		Path:    "/sm-contexts",
+		Handler: OnPostSmContexts,
+	},
+	{
+		Label:   "PostPduSessions",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions",
+		Handler: OnPostPduSessions,
+	},
+	{
+		Label:   "RetrievePduSession",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions/:pduSessionRef/retrieve",
+		Handler: OnRetrievePduSession,
+	},
+	{
 		Label:   "TransferMoData",
 		Method:  http.MethodPost,
 		Path:    "/pdu-sessions/:pduSessionRef/transfer-mo-data",
 		Handler: OnTransferMoData,
 	},
 	{
-		Label:   "PostSmContexts",
+		Label:   "UpdatePduSession",
 		Method:  http.MethodPost,
-		Path:    "/sm-contexts",
-		Handler: OnPostSmContexts,
+		Path:    "/pdu-sessions/:pduSessionRef/modify",
+		Handler: OnUpdatePduSession,
+	},
+	{
+		Label:   "ReleasePduSession",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions/:pduSessionRef/release",
+		Handler: OnReleasePduSession,
 	},
 	{
 		Label:   "RetrieveSmContext",
@@ -43,34 +67,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnReleaseSmContext,
 	},
 	{
-		Label:   "PostPduSessions",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions",
-		Handler: OnPostPduSessions,
-	},
-	{
-		Label:   "UpdatePduSession",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/modify",
-		Handler: OnUpdatePduSession,
-	},
-	{
-		Label:   "RetrievePduSession",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/retrieve",
-		Handler: OnRetrievePduSession,
-	},
-	{
 		Label:   "SendMoData",
 		Method:  http.MethodPost,
 		Path:    "/sm-contexts/:smContextRef/send-mo-data",
 		Handler: OnSendMoData,
-	},
-	{
-		Label:   "ReleasePduSession",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/release",
-		Handler: OnReleasePduSession,
 	},
 }
 

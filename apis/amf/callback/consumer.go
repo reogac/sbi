@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -22,8 +22,8 @@ const (
 // Path: /smctx/:supi/:sessionId
 // Path Params: supi, sessionId
 type SmContextStatusNotifyParams struct {
-	SessionId int16
 	Supi      string
+	SessionId int16
 }
 
 func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyParams, body *models.SmContextStatusNotification) (err error) {

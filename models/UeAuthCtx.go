@@ -1,19 +1,19 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:13 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type UeAuthCtx struct {
-	AuthType   AuthType                           `json:"authType,omitempty"`
-	EapSuccess bool                               `json:"eapSuccess"`
-	PlmnId     PlmnId                             `json:"plmnId"`
-	Eap        []byte                             `json:"eap,omitempty"`
 	NgKsi      NgKsi                              `json:"ngKsi"`
+	Rand       []byte                             `json:"rand,omitempty"`
+	Eap        []byte                             `json:"eap,omitempty"`
+	AuthType   AuthType                           `json:"authType,omitempty"`
+	PlmnId     PlmnId                             `json:"plmnId"`
+	EapSuccess bool                               `json:"eapSuccess"`
 	AmData     *AccessAndMobilitySubscriptionData `json:"amData,omitempty"`
 	Supi       string                             `json:"supi"`
 	Kamf       []byte                             `json:"kamf,omitempty"`
-	Rand       []byte                             `json:"rand,omitempty"`
 }

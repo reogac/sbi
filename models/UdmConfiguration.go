@@ -1,12 +1,12 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:09 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type UdmConfiguration struct {
-	SuciProfiles []SuciProfile    `json:"suciProfiles"`
 	Udr          UdrConfiguration `json:"udr"`
+	SuciProfiles []SuciProfile    `json:"suciProfiles"`
 }

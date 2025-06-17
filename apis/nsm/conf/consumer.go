@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:09 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,6 +16,36 @@ import (
 const (
 	PATH_ROOT string = "nsm-conf/v1"
 )
+
+// Summary:
+// Description:
+// Path: /udr-config
+// Path Params:
+func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/udr-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UdrConfiguration)
+		err = response.DecodeBody(rsp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
 
 // Summary:
 // Description:
@@ -144,36 +174,6 @@ func GetUserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneCon
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UserPlaneConfigurationResponse)
-		err = response.DecodeBody(rsp)
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /udr-config
-// Path Params:
-func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/udr-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UdrConfiguration)
 		err = response.DecodeBody(rsp)
 	case 500:
 		prob := new(models.ProblemDetails)

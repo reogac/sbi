@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:22 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:54 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,64 +11,6 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
-
-func OnGetRgAuthData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetRgAuthDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supiOrSuci'
-	params.SupiOrSuci = ctx.Param("supiOrSuci")
-	if len(params.SupiOrSuci) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"), nil)
-		return
-	}
-
-	// read 'authenticated-ind'
-	authenticatedIndStr := ctx.Param("authenticated-ind")
-	if len(authenticatedIndStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authenticated-ind is required"), nil)
-		return
-	}
-
-	if params.AuthenticatedInd, err = models.BoolFromString(authenticatedIndStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse authenticated-ind failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGetRgAuthData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
 
 func OnConfirmAuth(ctx sbi.RequestContext, prod Producer) {
 	var err error
@@ -153,17 +95,17 @@ func OnDeleteAuth(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params DeleteAuthParams
 
-	// read 'authEventId'
-	params.AuthEventId = ctx.Param("authEventId")
-	if len(params.AuthEventId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authEventId is required"), nil)
-		return
-	}
-
 	// read 'supi'
 	params.Supi = ctx.Param("supi")
 	if len(params.Supi) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'authEventId'
+	params.AuthEventId = ctx.Param("authEventId")
+	if len(params.AuthEventId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authEventId is required"), nil)
 		return
 	}
 
@@ -297,9 +239,65 @@ func OnGenerateAuthData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-type Producer interface {
-	HandleGetRgAuthData(*GetRgAuthDataParams) (*models.RgAuthCtx, *models.ProblemDetails)
+func OnGetRgAuthData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetRgAuthDataParams
 
+	// read 'supiOrSuci'
+	params.SupiOrSuci = ctx.Param("supiOrSuci")
+	if len(params.SupiOrSuci) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supiOrSuci is required"), nil)
+		return
+	}
+
+	// read 'authenticated-ind'
+	authenticatedIndStr := ctx.Param("authenticated-ind")
+	if len(authenticatedIndStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authenticated-ind is required"), nil)
+		return
+	}
+
+	if params.AuthenticatedInd, err = models.BoolFromString(authenticatedIndStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse authenticated-ind failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// call application handler
+	rsp, prob := prod.HandleGetRgAuthData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+type Producer interface {
 	HandleConfirmAuth(string, *models.AuthEvent) (*models.AuthEvent, *models.ProblemDetails)
 
 	HandleGenerateAv(*GenerateAvParams, *models.HssAuthenticationInfoRequest) (*models.HssAuthenticationInfoResult, *models.ProblemDetails)
@@ -311,4 +309,6 @@ type Producer interface {
 	HandleGenerateProseAV(string, *models.ProSeAuthenticationInfoRequest) (*models.ProSeAuthenticationInfoResult, *models.ProblemDetails)
 
 	HandleGenerateAuthData(string, *models.AuthenticationInfoRequest) (*models.AuthenticationInfoResult, *models.ProblemDetails)
+
+	HandleGetRgAuthData(*GetRgAuthDataParams) (*models.RgAuthCtx, *models.ProblemDetails)
 }

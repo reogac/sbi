@@ -1,29 +1,29 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:36:04 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AccessTokenReq struct {
-	RequesterSnssaiList  []Snssai    `json:"requesterSnssaiList,omitempty"`
-	RequesterSnpnList    []PlmnIdNid `json:"requesterSnpnList,omitempty"`
-	TargetNfSetId        string      `json:"targetNfSetId,omitempty"`
+	RequesterPlmnList    []PlmnId    `json:"requesterPlmnList,omitempty"`
+	TargetNsiList        []string    `json:"targetNsiList,omitempty"`
 	GrantType            GrantType   `json:"grant_type"`
 	NfType               NFType      `json:"nfType,omitempty"`
-	TargetNfType         NFType      `json:"targetNfType,omitempty"`
-	Scope                string      `json:"scope"`
-	RequesterPlmnList    []PlmnId    `json:"requesterPlmnList,omitempty"`
-	NfInstanceId         string      `json:"nfInstanceId"`
-	RequesterPlmn        *PlmnId     `json:"requesterPlmn,omitempty"`
+	RequesterSnssaiList  []Snssai    `json:"requesterSnssaiList,omitempty"`
 	RequesterFqdn        string      `json:"requesterFqdn,omitempty"`
-	TargetNsiList        []string    `json:"targetNsiList,omitempty"`
+	RequesterSnpnList    []PlmnIdNid `json:"requesterSnpnList,omitempty"`
+	TargetSnpn           *PlmnIdNid  `json:"targetSnpn,omitempty"`
 	TargetNfServiceSetId string      `json:"targetNfServiceSetId,omitempty"`
-	SourceNfInstanceId   string      `json:"sourceNfInstanceId,omitempty"`
+	HnrfAccessTokenUri   string      `json:"hnrfAccessTokenUri,omitempty"`
+	NfInstanceId         string      `json:"nfInstanceId"`
 	TargetNfInstanceId   string      `json:"targetNfInstanceId,omitempty"`
 	TargetPlmn           *PlmnId     `json:"targetPlmn,omitempty"`
-	TargetSnpn           *PlmnIdNid  `json:"targetSnpn,omitempty"`
 	TargetSnssaiList     []Snssai    `json:"targetSnssaiList,omitempty"`
-	HnrfAccessTokenUri   string      `json:"hnrfAccessTokenUri,omitempty"`
+	TargetNfType         NFType      `json:"targetNfType,omitempty"`
+	RequesterPlmn        *PlmnId     `json:"requesterPlmn,omitempty"`
+	SourceNfInstanceId   string      `json:"sourceNfInstanceId,omitempty"`
+	Scope                string      `json:"scope"`
+	TargetNfSetId        string      `json:"targetNfSetId,omitempty"`
 }

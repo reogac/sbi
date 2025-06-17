@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:09 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -73,6 +73,13 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, prod Producer) 
 	var err error
 	var params GetSessionManagementConfigurationParams
 
+	// read 'uuid'
+	params.Uuid = ctx.Param("uuid")
+	if len(params.Uuid) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
+		return
+	}
+
 	// read 'slice'
 	sliceStr := ctx.Param("slice")
 	if len(sliceStr) == 0 {
@@ -82,13 +89,6 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, prod Producer) 
 
 	if params.Slice, err = models.SnssaiFromString(sliceStr); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse slice failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'uuid'
-	params.Uuid = ctx.Param("uuid")
-	if len(params.Uuid) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
 		return
 	}
 

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,73 +16,6 @@ import (
 const (
 	PATH_ROOT string = "pran-uectx/v1"
 )
-
-// Summary:
-// Description:
-// Path: /amfinfo/:ueId
-// Path Params: ueId
-func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ueId int64, body *models.AmfUeContextInfo) (err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/amfinfo/%s", PATH_ROOT, models.Int64ToString(ueId))
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		return
-	case 400, 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /uectx/modify/:ueId
-// Path Params: ueId
-func UeContextModify(cli sbi.ConsumerClient, ueId int64, body *models.UeContextModifyRequest) (rsp *models.UeContextModifyResponse, ersp *models.UeContextModifyFailure, err error) {
-
-	path := fmt.Sprintf("%s/uectx/modify/%s", PATH_ROOT, models.Int64ToString(ueId))
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.UeContextModifyResponse)
-		err = response.DecodeBody(rsp)
-	case 400:
-		ersp = new(models.UeContextModifyFailure)
-		err = response.DecodeBody(ersp)
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -140,6 +73,73 @@ func UeContextSetup(cli sbi.ConsumerClient, ueId int64, body *models.UeContextSe
 		err = response.DecodeBody(rsp)
 	case 400:
 		ersp = new(models.UeContextSetupFailure)
+		err = response.DecodeBody(ersp)
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /amfinfo/:ueId
+// Path Params: ueId
+func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ueId int64, body *models.AmfUeContextInfo) (err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/amfinfo/%s", PATH_ROOT, models.Int64ToString(ueId))
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		return
+	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /uectx/modify/:ueId
+// Path Params: ueId
+func UeContextModify(cli sbi.ConsumerClient, ueId int64, body *models.UeContextModifyRequest) (rsp *models.UeContextModifyResponse, ersp *models.UeContextModifyFailure, err error) {
+
+	path := fmt.Sprintf("%s/uectx/modify/%s", PATH_ROOT, models.Int64ToString(ueId))
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.UeContextModifyResponse)
+		err = response.DecodeBody(rsp)
+	case 400:
+		ersp = new(models.UeContextModifyFailure)
 		err = response.DecodeBody(ersp)
 	case 500:
 		prob := new(models.ProblemDetails)

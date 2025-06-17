@@ -1,20 +1,20 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:15 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type Dynamic5Qi struct {
+	PacketDelayBudget     int             `json:"packetDelayBudget"`
+	PacketErrRate         string          `json:"packetErrRate"`
+	AverWindow            *int            `json:"averWindow,omitempty"`
+	CnPacketDelayBudgetUl *int            `json:"cnPacketDelayBudgetUl,omitempty"`
+	ExtPacketDelBudget    *int            `json:"extPacketDelBudget,omitempty"`
+	CnPacketDelayBudgetDl *int            `json:"cnPacketDelayBudgetDl,omitempty"`
 	ResourceType          QosResourceType `json:"resourceType"`
 	PriorityLevel         int             `json:"priorityLevel"`
-	PacketErrRate         string          `json:"packetErrRate"`
-	ExtPacketDelBudget    *int            `json:"extPacketDelBudget,omitempty"`
-	CnPacketDelayBudgetUl *int            `json:"cnPacketDelayBudgetUl,omitempty"`
-	PacketDelayBudget     int             `json:"packetDelayBudget"`
-	AverWindow            *int            `json:"averWindow,omitempty"`
 	MaxDataBurstVol       *int            `json:"maxDataBurstVol,omitempty"`
 	ExtMaxDataBurstVol    *int            `json:"extMaxDataBurstVol,omitempty"`
-	CnPacketDelayBudgetDl *int            `json:"cnPacketDelayBudgetDl,omitempty"`
 }

@@ -117,15 +117,23 @@ components:
         uuid:
           type: string
           description: An unique identity
-        sbiUri:
+        sbiUrl:
           type: string
           description: SBI transport address
-        gwUri:
+        name:
           type: string
-          description: Gateway Uri
+          description: Server name for mTLS verification
+        gwUrl:
+          type: string
+          description: Gateway Url
+        gwName:
+          type: string
+          description: Gateway name for mTLS verification
+
       required:
         - uuid
-        - sbiUri
+        - sbiUrl
+        - gwUrl
 
     RanUeId:
       description: Identification of UeContext at gnB

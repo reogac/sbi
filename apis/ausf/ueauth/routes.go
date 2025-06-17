@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:35:57 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,10 +13,10 @@ import (
 
 var _routes = []sbi.Route[Producer]{
 	{
-		Label:   "UeAuthentications5gAkaConfirmationPut",
-		Method:  http.MethodPut,
-		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
-		Handler: OnUeAuthentications5gAkaConfirmationPut,
+		Label:   "ProseAuthenticationsPost",
+		Method:  http.MethodPost,
+		Path:    "/prose-authentications",
+		Handler: OnProseAuthenticationsPost,
 	},
 	{
 		Label:   "DeleteEapAuthenticationResult",
@@ -37,12 +37,6 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnProseAuth,
 	},
 	{
-		Label:   "DeleteProSeAuthenticationResult",
-		Method:  http.MethodDelete,
-		Path:    "/prose-authentications/:authCtxId/prose-auth",
-		Handler: OnDeleteProSeAuthenticationResult,
-	},
-	{
 		Label:   "UeAuthenticationsPost",
 		Method:  http.MethodPost,
 		Path:    "/ue-authentications",
@@ -53,6 +47,12 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPost,
 		Path:    "/ue-authentications/deregister",
 		Handler: OnUeAuthenticationsDeregisterPost,
+	},
+	{
+		Label:   "UeAuthentications5gAkaConfirmationPut",
+		Method:  http.MethodPut,
+		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
+		Handler: OnUeAuthentications5gAkaConfirmationPut,
 	},
 	{
 		Label:   "Delete5gAkaAuthenticationResult",
@@ -67,10 +67,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnEapAuthMethod,
 	},
 	{
-		Label:   "ProseAuthenticationsPost",
-		Method:  http.MethodPost,
-		Path:    "/prose-authentications",
-		Handler: OnProseAuthenticationsPost,
+		Label:   "DeleteProSeAuthenticationResult",
+		Method:  http.MethodDelete,
+		Path:    "/prose-authentications/:authCtxId/prose-auth",
+		Handler: OnDeleteProSeAuthenticationResult,
 	},
 }
 

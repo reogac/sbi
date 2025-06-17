@@ -4,6 +4,14 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/ausf/ueauth"
 )
+func (p *Producer) HandleProseAuthenticationsPost(body *models.ProSeAuthenticationInfo)(rsp *models.ProSeAuthenticationCtx,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteEapAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
+	return
+}
+
 func (p *Producer) HandleRgAuthenticationsPost(body *models.RgAuthenticationInfo)(rsp *models.RgAuthCtx,prob *models.ProblemDetails){
 	return
 }
@@ -12,15 +20,15 @@ func (p *Producer) HandleProseAuth(authCtxId string,body *models.ProSeEapSession
 	return
 }
 
-func (p *Producer) HandleDeleteProSeAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
+func (p *Producer) HandleUeAuthenticationsPost(body *models.AuthenticationInfo)(rsp *models.UEAuthenticationCtx,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUeAuthenticationsDeregisterPost(body *models.DeregistrationInfo)(prob *models.ProblemDetails){
 	return
 }
 
 func (p *Producer) HandleUeAuthentications5gAkaConfirmationPut(authCtxId string,body *models.ConfirmationData)(rsp *models.ConfirmationDataResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteEapAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
 	return
 }
 
@@ -32,15 +40,7 @@ func (p *Producer) HandleEapAuthMethod(authCtxId string,body *models.EapSession)
 	return
 }
 
-func (p *Producer) HandleProseAuthenticationsPost(body *models.ProSeAuthenticationInfo)(rsp *models.ProSeAuthenticationCtx,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUeAuthenticationsPost(body *models.AuthenticationInfo)(rsp *models.UEAuthenticationCtx,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUeAuthenticationsDeregisterPost(body *models.DeregistrationInfo)(prob *models.ProblemDetails){
+func (p *Producer) HandleDeleteProSeAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
 	return
 }
 */

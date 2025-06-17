@@ -1,24 +1,24 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jun 13 13:39:29 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jun 17 13:36:02 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SmsfRegistration struct {
-	SmsfSetId                  string                      `json:"smsfSetId,omitempty"`
-	SmsfDiameterAddress        *NetworkNodeDiameterAddress `json:"smsfDiameterAddress,omitempty"`
-	ResetIds                   []string                    `json:"resetIds,omitempty"`
-	SmsfMAPAddress             string                      `json:"smsfMAPAddress,omitempty"`
 	ContextInfo                *ContextInfo                `json:"contextInfo,omitempty"`
-	SmsfSbiSupInd              *bool                       `json:"smsfSbiSupInd,omitempty"`
-	UdrRestartInd              *bool                       `json:"udrRestartInd,omitempty"`
-	LastSynchronizationTime    string                      `json:"lastSynchronizationTime,omitempty"`
+	RegistrationTime           string                      `json:"registrationTime,omitempty"`
+	SmsfSetId                  string                      `json:"smsfSetId,omitempty"`
 	SupportedFeatures          string                      `json:"supportedFeatures,omitempty"`
 	PlmnId                     PlmnId                      `json:"plmnId"`
-	DataRestorationCallbackUri string                      `json:"dataRestorationCallbackUri,omitempty"`
-	UeMemoryAvailableInd       *UeMemoryAvailableInd       `json:"ueMemoryAvailableInd,omitempty"`
+	SmsfMAPAddress             string                      `json:"smsfMAPAddress,omitempty"`
 	SmsfInstanceId             string                      `json:"smsfInstanceId"`
-	RegistrationTime           string                      `json:"registrationTime,omitempty"`
+	ResetIds                   []string                    `json:"resetIds,omitempty"`
+	SmsfSbiSupInd              *bool                       `json:"smsfSbiSupInd,omitempty"`
+	LastSynchronizationTime    string                      `json:"lastSynchronizationTime,omitempty"`
+	SmsfDiameterAddress        *NetworkNodeDiameterAddress `json:"smsfDiameterAddress,omitempty"`
+	DataRestorationCallbackUri string                      `json:"dataRestorationCallbackUri,omitempty"`
+	UdrRestartInd              *bool                       `json:"udrRestartInd,omitempty"`
+	UeMemoryAvailableInd       *UeMemoryAvailableInd       `json:"ueMemoryAvailableInd,omitempty"`
 }
