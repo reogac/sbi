@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:41 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -48,6 +48,8 @@ func ReleaseUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.U
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -55,11 +57,12 @@ func ReleaseUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.U
 	return
 }
 
-// Summary: Namf_Communication EBI Assignment service Operation
+// Summary: Namf_Communication RelocateUEContext service Operation
 // Description:
-// Path: /ue-contexts/:ueContextId/assign-ebi
+// Path: /ue-contexts/:ueContextId/relocate
 // Path Params: ueContextId
-func EBIAssignment(cli sbi.ConsumerClient, ueContextId string, body *models.AssignEbiData) (rsp *models.AssignedEbiData, ersp *models.AssignEbiError, err error) {
+// Response headers: Location
+func RelocateUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.RelocateUEContextRequest) (headers map[string]string, rsp *models.UeContextRelocatedData, err error) {
 
 	if len(ueContextId) == 0 {
 		err = fmt.Errorf("ueContextId is required")
@@ -70,7 +73,47 @@ func EBIAssignment(cli sbi.ConsumerClient, ueContextId string, body *models.Assi
 		return
 	}
 
-	path := fmt.Sprintf("%s/ue-contexts/%s/assign-ebi", PATH_ROOT, ueContextId)
+	path := fmt.Sprintf("%s/ue-contexts/%s/relocate", PATH_ROOT, ueContextId)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		headers = response.GetHeaders()
+		rsp = new(models.UeContextRelocatedData)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UeContextRelocatedData: %+v", err)
+		}
+	case 400, 403, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Namf_Communication Non UE N2 Message Transfer service Operation
+// Description:
+// Path: /non-ue-n2-messages/transfer
+// Path Params:
+func NonUeN2MessageTransfer(cli sbi.ConsumerClient, body *models.NonUeN2MessageTransferRequest) (rsp *models.N2InformationTransferRspData, ersp *models.N2InformationTransferError, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/non-ue-n2-messages/transfer", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -81,15 +124,114 @@ func EBIAssignment(cli sbi.ConsumerClient, ueContextId string, body *models.Assi
 
 	switch response.GetCode() {
 	case 200:
-		rsp = new(models.AssignedEbiData)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 409, 500:
-		ersp = new(models.AssignEbiError)
-		err = response.DecodeBody(ersp)
+		rsp = new(models.N2InformationTransferRspData)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode N2InformationTransferRspData: %+v", err)
+		}
+	case 400, 403, 404, 500, 503:
+		ersp = new(models.N2InformationTransferError)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode N2InformationTransferError: %+v", err)
+		}
+	case 411, 413, 415, 429:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Namf_Communication CreateUEContext service Operation
+// Description:
+// Path: /ue-contexts/:ueContextId
+// Path Params: ueContextId
+// Response headers: Location, 3gpp-Sbi-Producer-Id
+func CreateUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.CreateUEContextRequest) (headers map[string]string, rsp *models.CreateUEContextResponse, ersp *models.UeContextCreateError, err error) {
+
+	if len(ueContextId) == 0 {
+		err = fmt.Errorf("ueContextId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/ue-contexts/%s", PATH_ROOT, ueContextId)
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		headers = response.GetHeaders()
+		rsp = new(models.CreateUEContextResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode CreateUEContextResponse: %+v", err)
+		}
+	case 400, 403, 500:
+		ersp = new(models.UeContextCreateError)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode UeContextCreateError: %+v", err)
+		}
 	case 411, 413, 415, 429, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Namf_Communication UEContextTransfer service Operation
+// Description:
+// Path: /ue-contexts/:ueContextId/transfer
+// Path Params: ueContextId
+func UEContextTransfer(cli sbi.ConsumerClient, ueContextId string, body *models.UEContextTransferRequest) (rsp *models.UEContextTransferResponse, err error) {
+
+	if len(ueContextId) == 0 {
+		err = fmt.Errorf("ueContextId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/ue-contexts/%s/transfer", PATH_ROOT, ueContextId)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UEContextTransferResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UEContextTransferResponse: %+v", err)
+		}
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -124,121 +266,20 @@ func N1N2MessageTransfer(cli sbi.ConsumerClient, ueContextId string, body *model
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.N1N2MessageTransferRspData)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode N1N2MessageTransferRspData: %+v", err)
+		}
 	case 409, 504:
 		ersp = new(models.N1N2MessageTransferError)
-		err = response.DecodeBody(ersp)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode N1N2MessageTransferError: %+v", err)
+		}
 	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Namf_Communication Non UE N2 Message Transfer service Operation
-// Description:
-// Path: /non-ue-n2-messages/transfer
-// Path Params:
-func NonUeN2MessageTransfer(cli sbi.ConsumerClient, body *models.NonUeN2MessageTransferRequest) (rsp *models.N2InformationTransferRspData, ersp *models.N2InformationTransferError, err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/non-ue-n2-messages/transfer", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.N2InformationTransferRspData)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 500, 503:
-		ersp = new(models.N2InformationTransferError)
-		err = response.DecodeBody(ersp)
-	case 411, 413, 415, 429:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Namf_Communication Non UE N2 Info Subscribe service Operation
-// Description:
-// Path: /non-ue-n2-messages/subscriptions
-// Path Params:
-func NonUeN2InfoSubscribe(cli sbi.ConsumerClient, body *models.NonUeN2InfoSubscriptionCreateData) (rsp *models.NonUeN2InfoSubscriptionCreatedData, err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/non-ue-n2-messages/subscriptions", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.NonUeN2InfoSubscriptionCreatedData)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Namf_Communication Non UE N2 Info UnSubscribe service Operation
-// Description:
-// Path: /non-ue-n2-messages/subscriptions/:n2NotifySubscriptionId
-// Path Params: n2NotifySubscriptionId
-func NonUeN2InfoUnSubscribe(cli sbi.ConsumerClient, n2NotifySubscriptionId string) (err error) {
-
-	if len(n2NotifySubscriptionId) == 0 {
-		err = fmt.Errorf("n2NotifySubscriptionId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/non-ue-n2-messages/subscriptions/%s", PATH_ROOT, n2NotifySubscriptionId)
-	request := sbi.NewRequest(path, http.MethodDelete, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -250,7 +291,8 @@ func NonUeN2InfoUnSubscribe(cli sbi.ConsumerClient, n2NotifySubscriptionId strin
 // Description:
 // Path: /subscriptions
 // Path Params:
-func AMFStatusChangeSubscribe(cli sbi.ConsumerClient, body *models.SubscriptionData) (rsp *models.SubscriptionData, err error) {
+// Response headers: Location
+func AMFStatusChangeSubscribe(cli sbi.ConsumerClient, body *models.SubscriptionData) (headers map[string]string, rsp *models.SubscriptionData, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -268,12 +310,17 @@ func AMFStatusChangeSubscribe(cli sbi.ConsumerClient, body *models.SubscriptionD
 
 	switch response.GetCode() {
 	case 201:
+		headers = response.GetHeaders()
 		rsp = new(models.SubscriptionData)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SubscriptionData: %+v", err)
+		}
 	case 400, 403, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -281,11 +328,11 @@ func AMFStatusChangeSubscribe(cli sbi.ConsumerClient, body *models.SubscriptionD
 	return
 }
 
-// Summary: Namf_Communication CreateUEContext service Operation
+// Summary: Namf_Communication EBI Assignment service Operation
 // Description:
-// Path: /ue-contexts/:ueContextId
+// Path: /ue-contexts/:ueContextId/assign-ebi
 // Path Params: ueContextId
-func CreateUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.CreateUEContextRequest) (rsp *models.CreateUEContextResponse, ersp *models.UeContextCreateError, err error) {
+func EBIAssignment(cli sbi.ConsumerClient, ueContextId string, body *models.AssignEbiData) (rsp *models.AssignedEbiData, ersp *models.AssignEbiError, err error) {
 
 	if len(ueContextId) == 0 {
 		err = fmt.Errorf("ueContextId is required")
@@ -296,49 +343,7 @@ func CreateUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.Cr
 		return
 	}
 
-	path := fmt.Sprintf("%s/ue-contexts/%s", PATH_ROOT, ueContextId)
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.CreateUEContextResponse)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 500:
-		ersp = new(models.UeContextCreateError)
-		err = response.DecodeBody(ersp)
-	case 411, 413, 415, 429, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Namf_Communication RelocateUEContext service Operation
-// Description:
-// Path: /ue-contexts/:ueContextId/relocate
-// Path Params: ueContextId
-func RelocateUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.RelocateUEContextRequest) (rsp *models.UeContextRelocatedData, err error) {
-
-	if len(ueContextId) == 0 {
-		err = fmt.Errorf("ueContextId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/ue-contexts/%s/relocate", PATH_ROOT, ueContextId)
+	path := fmt.Sprintf("%s/ue-contexts/%s/assign-ebi", PATH_ROOT, ueContextId)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -348,13 +353,65 @@ func RelocateUEContext(cli sbi.ConsumerClient, ueContextId string, body *models.
 	defer response.CloseBody()
 
 	switch response.GetCode() {
-	case 201:
-		rsp = new(models.UeContextRelocatedData)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 411, 413, 415, 429, 500, 503:
+	case 200:
+		rsp = new(models.AssignedEbiData)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode AssignedEbiData: %+v", err)
+		}
+	case 400, 403, 409, 500:
+		ersp = new(models.AssignEbiError)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode AssignEbiError: %+v", err)
+		}
+	case 411, 413, 415, 429, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Namf_Communication RegistrationStatusUpdate service Operation
+// Description:
+// Path: /ue-contexts/:ueContextId/transfer-update
+// Path Params: ueContextId
+func RegistrationStatusUpdate(cli sbi.ConsumerClient, ueContextId string, body *models.UeRegStatusUpdateReqData) (rsp *models.UeRegStatusUpdateRspData, err error) {
+
+	if len(ueContextId) == 0 {
+		err = fmt.Errorf("ueContextId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/ue-contexts/%s/transfer-update", PATH_ROOT, ueContextId)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UeRegStatusUpdateRspData)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UeRegStatusUpdateRspData: %+v", err)
+		}
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -393,6 +450,8 @@ func CancelRelocateUEContext(cli sbi.ConsumerClient, ueContextId string, body *m
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -427,6 +486,8 @@ func AMFStatusChangeUnSubscribe(cli sbi.ConsumerClient, subscriptionId string) (
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -461,91 +522,17 @@ func AMFStatusChangeSubscribeModfy(cli sbi.ConsumerClient, subscriptionId string
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.SubscriptionData)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SubscriptionData: %+v", err)
+		}
 	case 204:
 		return
 	case 400, 403, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Namf_Communication UEContextTransfer service Operation
-// Description:
-// Path: /ue-contexts/:ueContextId/transfer
-// Path Params: ueContextId
-func UEContextTransfer(cli sbi.ConsumerClient, ueContextId string, body *models.UEContextTransferRequest) (rsp *models.UEContextTransferResponse, err error) {
-
-	if len(ueContextId) == 0 {
-		err = fmt.Errorf("ueContextId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/ue-contexts/%s/transfer", PATH_ROOT, ueContextId)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UEContextTransferResponse)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Namf_Communication RegistrationStatusUpdate service Operation
-// Description:
-// Path: /ue-contexts/:ueContextId/transfer-update
-// Path Params: ueContextId
-func RegistrationStatusUpdate(cli sbi.ConsumerClient, ueContextId string, body *models.UeRegStatusUpdateReqData) (rsp *models.UeRegStatusUpdateRspData, err error) {
-
-	if len(ueContextId) == 0 {
-		err = fmt.Errorf("ueContextId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/ue-contexts/%s/transfer-update", PATH_ROOT, ueContextId)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UeRegStatusUpdateRspData)
-		err = response.DecodeBody(rsp)
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -557,7 +544,8 @@ func RegistrationStatusUpdate(cli sbi.ConsumerClient, ueContextId string, body *
 // Description:
 // Path: /ue-contexts/:ueContextId/n1-n2-messages/subscriptions
 // Path Params: ueContextId
-func N1N2MessageSubscribe(cli sbi.ConsumerClient, ueContextId string, body *models.UeN1N2InfoSubscriptionCreateData) (rsp *models.UeN1N2InfoSubscriptionCreatedData, err error) {
+// Response headers: Location
+func N1N2MessageSubscribe(cli sbi.ConsumerClient, ueContextId string, body *models.UeN1N2InfoSubscriptionCreateData) (headers map[string]string, rsp *models.UeN1N2InfoSubscriptionCreatedData, err error) {
 
 	if len(ueContextId) == 0 {
 		err = fmt.Errorf("ueContextId is required")
@@ -579,12 +567,17 @@ func N1N2MessageSubscribe(cli sbi.ConsumerClient, ueContextId string, body *mode
 
 	switch response.GetCode() {
 	case 201:
+		headers = response.GetHeaders()
 		rsp = new(models.UeN1N2InfoSubscriptionCreatedData)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UeN1N2InfoSubscriptionCreatedData: %+v", err)
+		}
 	case 400, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -628,6 +621,85 @@ func N1N2MessageUnSubscribe(cli sbi.ConsumerClient, params N1N2MessageUnSubscrib
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Namf_Communication Non UE N2 Info Subscribe service Operation
+// Description:
+// Path: /non-ue-n2-messages/subscriptions
+// Path Params:
+// Response headers: Location
+func NonUeN2InfoSubscribe(cli sbi.ConsumerClient, body *models.NonUeN2InfoSubscriptionCreateData) (headers map[string]string, rsp *models.NonUeN2InfoSubscriptionCreatedData, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/non-ue-n2-messages/subscriptions", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		headers = response.GetHeaders()
+		rsp = new(models.NonUeN2InfoSubscriptionCreatedData)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode NonUeN2InfoSubscriptionCreatedData: %+v", err)
+		}
+	case 400, 403, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Namf_Communication Non UE N2 Info UnSubscribe service Operation
+// Description:
+// Path: /non-ue-n2-messages/subscriptions/:n2NotifySubscriptionId
+// Path Params: n2NotifySubscriptionId
+func NonUeN2InfoUnSubscribe(cli sbi.ConsumerClient, n2NotifySubscriptionId string) (err error) {
+
+	if len(n2NotifySubscriptionId) == 0 {
+		err = fmt.Errorf("n2NotifySubscriptionId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/non-ue-n2-messages/subscriptions/%s", PATH_ROOT, n2NotifySubscriptionId)
+	request := sbi.NewRequest(path, http.MethodDelete, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

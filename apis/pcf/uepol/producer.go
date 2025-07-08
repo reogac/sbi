@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:36:01 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -24,11 +24,11 @@ func OnCreateIndividualUEPolicyAssociation(ctx sbi.RequestContext, prod Producer
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleCreateIndividualUEPolicyAssociation(body)
+	headers, rsp, prob := prod.HandleCreateIndividualUEPolicyAssociation(body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
+		ctx.WriteResponse(201, rsp, headers)
 		return
 	}
 
@@ -128,7 +128,7 @@ func OnReportObservedEventTriggersForIndividualUEPolicyAssociation(ctx sbi.Reque
 }
 
 type Producer interface {
-	HandleCreateIndividualUEPolicyAssociation(*models.PolicyAssociationRequest) (*models.PolicyAssociation, *models.ProblemDetails)
+	HandleCreateIndividualUEPolicyAssociation(*models.PolicyAssociationRequest) (map[string]string, *models.PolicyAssociation, *models.ProblemDetails)
 
 	HandleReadIndividualUEPolicyAssociation(string) (*models.PolicyAssociation, *models.ProblemDetails)
 

@@ -4,7 +4,12 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udm/ueauth"
 )
-func (p *Producer) HandleConfirmAuth(supi string,body *models.AuthEvent)(rsp *models.AuthEvent,prob *models.ProblemDetails){
+func (p *Producer) HandleGetRgAuthData(params *ueauth.GetRgAuthDataParams)(rsp *models.RgAuthCtx,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleConfirmAuth(supi string,body *models.AuthEvent)(headers map[string]string,rsp *models.AuthEvent,prob *models.ProblemDetails){
+// headers: Location
 	return
 }
 
@@ -25,10 +30,6 @@ func (p *Producer) HandleGenerateProseAV(supiOrSuci string,body *models.ProSeAut
 }
 
 func (p *Producer) HandleGenerateAuthData(supiOrSuci string,body *models.AuthenticationInfoRequest)(rsp *models.AuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetRgAuthData(params *ueauth.GetRgAuthDataParams)(rsp *models.RgAuthCtx,prob *models.ProblemDetails){
 	return
 }
 */

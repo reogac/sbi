@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -53,6 +53,8 @@ func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyP
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -91,6 +93,8 @@ func RanInfoUpdate(cli sbi.ConsumerClient, ranId string, body *models.RanInfoUpd
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

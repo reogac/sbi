@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:26 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -35,11 +35,15 @@ func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, 
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UdrConfiguration)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UdrConfiguration: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -65,11 +69,15 @@ func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, 
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UdmConfiguration)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UdmConfiguration: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -95,11 +103,15 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.NssfConfiguration)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode NssfConfiguration: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -139,11 +151,15 @@ func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSession
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.SessionManagementConfiguration)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SessionManagementConfiguration: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -174,11 +190,15 @@ func GetUserPlaneConfiguration(cli sbi.ConsumerClient, body *models.UserPlaneCon
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.UserPlaneConfigurationResponse)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UserPlaneConfigurationResponse: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

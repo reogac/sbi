@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:47 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -48,6 +48,8 @@ func SessionResourceNotify(cli sbi.ConsumerClient, smCtxRef string, body *models
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -82,11 +84,15 @@ func SessionResourceModifyIndication(cli sbi.ConsumerClient, smCtxRef string, bo
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.SessionResourceModifyConfirm)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SessionResourceModifyConfirm: %+v", err)
+		}
 	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

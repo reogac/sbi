@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:51 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -45,14 +45,20 @@ func HandoverRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, body
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.HandoverRequestAcknowledge)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode HandoverRequestAcknowledge: %+v", err)
+		}
 	case 400:
 		ersp = new(models.HandoverRequestFailure)
-		err = response.DecodeBody(ersp)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode HandoverRequestFailure: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

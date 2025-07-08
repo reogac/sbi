@@ -4,7 +4,8 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pcf/uepol"
 )
-func (p *Producer) HandleCreateIndividualUEPolicyAssociation(body *models.PolicyAssociationRequest)(rsp *models.PolicyAssociation,prob *models.ProblemDetails){
+func (p *Producer) HandleCreateIndividualUEPolicyAssociation(body *models.PolicyAssociationRequest)(headers map[string]string,rsp *models.PolicyAssociation,prob *models.ProblemDetails){
+// headers: Location
 	return
 }
 

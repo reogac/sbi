@@ -1,15 +1,15 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:36:03 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:47 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SmPolicyData struct {
-	ResetIds           []string                      `json:"resetIds,omitempty"`
 	SmPolicySnssaiData map[string]SmPolicySnssaiData `json:"smPolicySnssaiData"`
 	UmDataLimits       map[string]UsageMonDataLimit  `json:"umDataLimits,omitempty"`
 	UmData             map[string]UsageMonData       `json:"umData,omitempty"`
 	SuppFeat           string                        `json:"suppFeat,omitempty"`
+	ResetIds           []string                      `json:"resetIds,omitempty"`
 }

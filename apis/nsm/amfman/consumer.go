@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -40,11 +40,15 @@ func AmfRegister(cli sbi.ConsumerClient, body *models.AmfRegistrationRequest) (r
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.AmfRegistrationResponse)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode AmfRegistrationResponse: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -75,11 +79,15 @@ func GetSupportedPlmnList(cli sbi.ConsumerClient, body *models.GetSupportedPlmnL
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.GetSupportedPlmnListResponse)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode GetSupportedPlmnListResponse: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

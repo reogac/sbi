@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:36:04 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,18 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "AssociationRequest",
+		Method:  http.MethodPost,
+		Path:    "/associate",
+		Handler: OnAssociationRequest,
+	},
+	{
+		Label:   "DisassociationRequest",
+		Method:  http.MethodPut,
+		Path:    "/disassociate/:smfId",
+		Handler: OnDisassociationRequest,
+	},
 	{
 		Label:   "SessionEstablishment",
 		Method:  http.MethodPost,
@@ -29,18 +41,6 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPut,
 		Path:    "/session/delete/:seid",
 		Handler: OnSessionDeletion,
-	},
-	{
-		Label:   "AssociationRequest",
-		Method:  http.MethodPost,
-		Path:    "/associate",
-		Handler: OnAssociationRequest,
-	},
-	{
-		Label:   "DisassociationRequest",
-		Method:  http.MethodPut,
-		Path:    "/disassociate/:smfId",
-		Handler: OnDisassociationRequest,
 	},
 }
 

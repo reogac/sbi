@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -8,23 +8,23 @@ package models
 
 type QosData struct {
 	FiveQi               *int   `json:"5qi,omitempty"`
-	Qnc                  *bool  `json:"qnc,omitempty"`
-	ReflectiveQos        *bool  `json:"reflectiveQos,omitempty"`
-	GbrDl                string `json:"gbrDl,omitempty"`
 	AverWindow           *int   `json:"averWindow,omitempty"`
+	ReflectiveQos        *bool  `json:"reflectiveQos,omitempty"`
 	SharingKeyDl         string `json:"sharingKeyDl,omitempty"`
-	MaxPacketLossRateUl  *int   `json:"maxPacketLossRateUl,omitempty"`
-	ExtMaxDataBurstVol   *int   `json:"extMaxDataBurstVol,omitempty"`
+	MaxPacketLossRateDl  *int   `json:"maxPacketLossRateDl,omitempty"`
 	PacketDelayBudget    *int   `json:"packetDelayBudget,omitempty"`
+	PacketErrorRate      string `json:"packetErrorRate,omitempty"`
 	MaxbrDl              string `json:"maxbrDl,omitempty"`
 	GbrUl                string `json:"gbrUl,omitempty"`
-	Arp                  *Arp   `json:"arp,omitempty"`
+	GbrDl                string `json:"gbrDl,omitempty"`
+	Qnc                  *bool  `json:"qnc,omitempty"`
+	MaxDataBurstVol      *int   `json:"maxDataBurstVol,omitempty"`
+	MaxPacketLossRateUl  *int   `json:"maxPacketLossRateUl,omitempty"`
 	SharingKeyUl         string `json:"sharingKeyUl,omitempty"`
-	DefQosFlowIndication *bool  `json:"defQosFlowIndication,omitempty"`
+	ExtMaxDataBurstVol   *int   `json:"extMaxDataBurstVol,omitempty"`
 	QosId                string `json:"qosId"`
 	MaxbrUl              string `json:"maxbrUl,omitempty"`
+	Arp                  *Arp   `json:"arp,omitempty"`
 	PriorityLevel        *int   `json:"priorityLevel,omitempty"`
-	MaxDataBurstVol      *int   `json:"maxDataBurstVol,omitempty"`
-	MaxPacketLossRateDl  *int   `json:"maxPacketLossRateDl,omitempty"`
-	PacketErrorRate      string `json:"packetErrorRate,omitempty"`
+	DefQosFlowIndication *bool  `json:"defQosFlowIndication,omitempty"`
 }

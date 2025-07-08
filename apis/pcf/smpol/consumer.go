@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -44,11 +44,15 @@ func UpdateSMPolicy(cli sbi.ConsumerClient, smPolicyId string, body *models.SmPo
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.SmPolicyDecision)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SmPolicyDecision: %+v", err)
+		}
 	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -87,6 +91,8 @@ func DeleteSMPolicy(cli sbi.ConsumerClient, smPolicyId string, body *models.SmPo
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -98,7 +104,8 @@ func DeleteSMPolicy(cli sbi.ConsumerClient, smPolicyId string, body *models.SmPo
 // Description:
 // Path: /sm-policies
 // Path Params:
-func CreateSMPolicy(cli sbi.ConsumerClient, body *models.SmPolicyContextData) (rsp *models.SmPolicyDecision, err error) {
+// Response headers: Location
+func CreateSMPolicy(cli sbi.ConsumerClient, body *models.SmPolicyContextData) (headers map[string]string, rsp *models.SmPolicyDecision, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -116,12 +123,17 @@ func CreateSMPolicy(cli sbi.ConsumerClient, body *models.SmPolicyContextData) (r
 
 	switch response.GetCode() {
 	case 201:
+		headers = response.GetHeaders()
 		rsp = new(models.SmPolicyDecision)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SmPolicyDecision: %+v", err)
+		}
 	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -152,11 +164,15 @@ func GetSMPolicy(cli sbi.ConsumerClient, smPolicyId string) (rsp *models.SmPolic
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.SmPolicyControl)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode SmPolicyControl: %+v", err)
+		}
 	case 400, 401, 403, 404, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

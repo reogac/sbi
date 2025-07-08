@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:54 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,18 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "ConfirmAuth",
+		Method:  http.MethodPost,
+		Path:    "/:supi/auth-events",
+		Handler: OnConfirmAuth,
+	},
+	{
+		Label:   "GenerateAv",
+		Method:  http.MethodPost,
+		Path:    "/:supi/hss-security-information/:hssAuthType/generate-av",
+		Handler: OnGenerateAv,
+	},
 	{
 		Label:   "DeleteAuth",
 		Method:  http.MethodPut,
@@ -41,18 +53,6 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodGet,
 		Path:    "/or/:supiOrSuci/security-information-rg",
 		Handler: OnGetRgAuthData,
-	},
-	{
-		Label:   "ConfirmAuth",
-		Method:  http.MethodPost,
-		Path:    "/:supi/auth-events",
-		Handler: OnConfirmAuth,
-	},
-	{
-		Label:   "GenerateAv",
-		Method:  http.MethodPost,
-		Path:    "/:supi/hss-security-information/:hssAuthType/generate-av",
-		Handler: OnGenerateAv,
 	},
 }
 

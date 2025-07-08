@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:56 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -40,11 +40,15 @@ func Deconceal(cli sbi.ConsumerClient, body *models.DeconcealReqData) (rsp *mode
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.DeconcealRspData)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode DeconcealRspData: %+v", err)
+		}
 	case 400, 403, 404, 500, 501, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

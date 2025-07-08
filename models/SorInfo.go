@@ -1,19 +1,19 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:36:02 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SorInfo struct {
-	AckInd                  bool               `json:"ackInd"`
-	Countersor              string             `json:"countersor,omitempty"`
-	ProvisioningTime        string             `json:"provisioningTime"`
-	UsimSupportOfSorCmci    *bool              `json:"usimSupportOfSorCmci,omitempty"`
-	StoreSorCmciInMe        *bool              `json:"storeSorCmciInMe,omitempty"`
 	SteeringContainer       *SteeringContainer `json:"steeringContainer,omitempty"`
+	AckInd                  bool               `json:"ackInd"`
 	SorMacIausf             string             `json:"sorMacIausf,omitempty"`
+	Countersor              string             `json:"countersor,omitempty"`
 	SorTransparentContainer string             `json:"sorTransparentContainer,omitempty"`
+	StoreSorCmciInMe        *bool              `json:"storeSorCmciInMe,omitempty"`
+	ProvisioningTime        string             `json:"provisioningTime"`
 	SorCmci                 string             `json:"sorCmci,omitempty"`
+	UsimSupportOfSorCmci    *bool              `json:"usimSupportOfSorCmci,omitempty"`
 }

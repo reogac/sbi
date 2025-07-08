@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:54 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,45 +17,6 @@ const (
 	PATH_ROOT string = "nudm-ueau/v1"
 )
 
-// Summary: Create a new confirmation event
-// Description:
-// Path: /:supi/auth-events
-// Path Params: supi
-func ConfirmAuth(cli sbi.ConsumerClient, supi string, body *models.AuthEvent) (rsp *models.AuthEvent, err error) {
-
-	if len(supi) == 0 {
-		err = fmt.Errorf("supi is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/%s/auth-events", PATH_ROOT, supi)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.AuthEvent)
-		err = response.DecodeBody(rsp)
-	case 400, 404, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
 // Summary: Generate authentication data for the UE in EPS or IMS domain
 // Description:
 // Path: /:supi/hss-security-information/:hssAuthType/generate-av
@@ -67,12 +28,12 @@ type GenerateAvParams struct {
 
 func GenerateAv(cli sbi.ConsumerClient, params GenerateAvParams, body *models.HssAuthenticationInfoRequest) (rsp *models.HssAuthenticationInfoResult, err error) {
 
-	if len(params.HssAuthType) == 0 {
-		err = fmt.Errorf("hssAuthType is required")
-		return
-	}
 	if len(params.Supi) == 0 {
 		err = fmt.Errorf("supi is required")
+		return
+	}
+	if len(params.HssAuthType) == 0 {
+		err = fmt.Errorf("hssAuthType is required")
 		return
 	}
 	if body == nil {
@@ -92,11 +53,15 @@ func GenerateAv(cli sbi.ConsumerClient, params GenerateAvParams, body *models.Hs
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.HssAuthenticationInfoResult)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode HssAuthenticationInfoResult: %+v", err)
+		}
 	case 400, 403, 404, 500, 501, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -144,6 +109,8 @@ func DeleteAuth(cli sbi.ConsumerClient, params DeleteAuthParams, body *models.Au
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -178,11 +145,15 @@ func GenerateGbaAv(cli sbi.ConsumerClient, supi string, body *models.GbaAuthenti
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.GbaAuthenticationInfoResult)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode GbaAuthenticationInfoResult: %+v", err)
+		}
 	case 400, 403, 404, 500, 501, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -217,11 +188,15 @@ func GenerateProseAV(cli sbi.ConsumerClient, supiOrSuci string, body *models.Pro
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.ProSeAuthenticationInfoResult)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode ProSeAuthenticationInfoResult: %+v", err)
+		}
 	case 400, 403, 404, 500, 501, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -256,11 +231,15 @@ func GenerateAuthData(cli sbi.ConsumerClient, supiOrSuci string, body *models.Au
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.AuthenticationInfoResult)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode AuthenticationInfoResult: %+v", err)
+		}
 	case 400, 403, 404, 500, 501, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -273,12 +252,12 @@ func GenerateAuthData(cli sbi.ConsumerClient, supiOrSuci string, body *models.Au
 // Path: /or/:supiOrSuci/security-information-rg
 // Path Params: supiOrSuci
 type GetRgAuthDataParams struct {
+	IfNoneMatch       string
 	IfModifiedSince   string
 	SupiOrSuci        string
 	AuthenticatedInd  bool
 	SupportedFeatures string
 	PlmnId            *models.PlmnId
-	IfNoneMatch       string
 }
 
 func GetRgAuthData(cli sbi.ConsumerClient, params GetRgAuthDataParams) (rsp *models.RgAuthCtx, err error) {
@@ -290,18 +269,18 @@ func GetRgAuthData(cli sbi.ConsumerClient, params GetRgAuthDataParams) (rsp *mod
 
 	path := fmt.Sprintf("%s/or/%s/security-information-rg", PATH_ROOT, params.SupiOrSuci)
 	request := sbi.NewRequest(path, http.MethodGet, nil)
-	if len(params.IfNoneMatch) > 0 {
-		request.AddHeader("If-None-Match", params.IfNoneMatch)
-	}
-	if len(params.IfModifiedSince) > 0 {
-		request.AddHeader("If-Modified-Since", params.IfModifiedSince)
-	}
 	request.AddParam("authenticated-ind", models.BoolToString(params.AuthenticatedInd))
 	if len(params.SupportedFeatures) > 0 {
 		request.AddParam("supported-features", params.SupportedFeatures)
 	}
 	if params.PlmnId != nil {
 		request.AddParam("plmn-id", models.PlmnIdToString(*params.PlmnId))
+	}
+	if len(params.IfNoneMatch) > 0 {
+		request.AddHeader("If-None-Match", params.IfNoneMatch)
+	}
+	if len(params.IfModifiedSince) > 0 {
+		request.AddHeader("If-Modified-Since", params.IfModifiedSince)
 	}
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -313,11 +292,60 @@ func GetRgAuthData(cli sbi.ConsumerClient, params GetRgAuthDataParams) (rsp *mod
 	switch response.GetCode() {
 	case 200:
 		rsp = new(models.RgAuthCtx)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode RgAuthCtx: %+v", err)
+		}
 	case 400, 403, 404, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Create a new confirmation event
+// Description:
+// Path: /:supi/auth-events
+// Path Params: supi
+// Response headers: Location
+func ConfirmAuth(cli sbi.ConsumerClient, supi string, body *models.AuthEvent) (headers map[string]string, rsp *models.AuthEvent, err error) {
+
+	if len(supi) == 0 {
+		err = fmt.Errorf("supi is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/%s/auth-events", PATH_ROOT, supi)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		headers = response.GetHeaders()
+		rsp = new(models.AuthEvent)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode AuthEvent: %+v", err)
+		}
+	case 400, 404, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

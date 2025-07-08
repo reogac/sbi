@@ -1,57 +1,57 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:58 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SmPolicyContextData struct {
-	AccessType              AccessType                `json:"accessType,omitempty"`
-	ServingNetwork          *PlmnIdNid                `json:"servingNetwork,omitempty"`
-	UserLocationInfo        *UserLocation             `json:"userLocationInfo,omitempty"`
-	Ipv4Address             string                    `json:"ipv4Address,omitempty"`
-	RecoveryTime            string                    `json:"recoveryTime,omitempty"`
 	PcfUeInfo               *PcfUeCallbackInfo        `json:"pcfUeInfo,omitempty"`
-	DnnSelMode              DnnSelectionMode          `json:"dnnSelMode,omitempty"`
-	RatType                 RatType                   `json:"ratType,omitempty"`
-	VplmnQos                *VplmnQos                 `json:"vplmnQos,omitempty"`
-	Ipv6FrameRouteList      []string                  `json:"ipv6FrameRouteList,omitempty"`
-	OnboardInd              *bool                     `json:"onboardInd,omitempty"`
 	InterGrpIds             []string                  `json:"interGrpIds,omitempty"`
-	Ipv6AddressPrefix       string                    `json:"ipv6AddressPrefix,omitempty"`
+	AccessType              AccessType                `json:"accessType,omitempty"`
+	NumOfPackFilter         *int                      `json:"numOfPackFilter,omitempty"`
+	RefQosIndication        *bool                     `json:"refQosIndication,omitempty"`
+	AtsssCapab              AtsssCapability           `json:"atsssCapab,omitempty"`
+	Ipv6FrameRouteList      []string                  `json:"ipv6FrameRouteList,omitempty"`
+	UeTimeZone              string                    `json:"ueTimeZone,omitempty"`
+	VplmnQos                *VplmnQos                 `json:"vplmnQos,omitempty"`
+	TraceReq                *TraceData                `json:"traceReq,omitempty"`
+	SliceInfo               Snssai                    `json:"sliceInfo"`
 	Online                  *bool                     `json:"online,omitempty"`
-	Offline                 *bool                     `json:"offline,omitempty"`
-	QosFlowUsage            QosFlowUsage              `json:"qosFlowUsage,omitempty"`
-	SmfId                   string                    `json:"smfId,omitempty"`
-	Gpsi                    string                    `json:"gpsi,omitempty"`
+	NwdafDatas              []NwdafData               `json:"nwdafDatas,omitempty"`
+	ThreeGppPsDataOffStatus *bool                     `json:"3gppPsDataOffStatus,omitempty"`
+	SuppFeat                string                    `json:"suppFeat,omitempty"`
+	AccNetChId              *AccNetChId               `json:"accNetChId,omitempty"`
+	Supi                    string                    `json:"supi"`
+	AddAccessInfo           *AdditionalAccessInfo     `json:"addAccessInfo,omitempty"`
 	Pei                     string                    `json:"pei,omitempty"`
+	Ipv6AddressPrefix       string                    `json:"ipv6AddressPrefix,omitempty"`
+	SubsSessAmbr            *Ambr                     `json:"subsSessAmbr,omitempty"`
+	RecoveryTime            string                    `json:"recoveryTime,omitempty"`
+	ServNfId                *ServingNfIdentity        `json:"servNfId,omitempty"`
+	SatBackhaulCategory     SatelliteBackhaulCategory `json:"satBackhaulCategory,omitempty"`
+	InvalidSupi             *bool                     `json:"invalidSupi,omitempty"`
+	DnnSelMode              DnnSelectionMode          `json:"dnnSelMode,omitempty"`
+	UserLocationInfo        *UserLocation             `json:"userLocationInfo,omitempty"`
 	IpDomain                string                    `json:"ipDomain,omitempty"`
 	SubsDefQos              *SubscribedDefaultQos     `json:"subsDefQos,omitempty"`
-	SuppFeat                string                    `json:"suppFeat,omitempty"`
-	Ipv4FrameRouteList      []string                  `json:"ipv4FrameRouteList,omitempty"`
-	SatBackhaulCategory     SatelliteBackhaulCategory `json:"satBackhaulCategory,omitempty"`
-	NotificationUri         string                    `json:"notificationUri"`
-	NumOfPackFilter         *int                      `json:"numOfPackFilter,omitempty"`
-	ThreeGppPsDataOffStatus *bool                     `json:"3gppPsDataOffStatus,omitempty"`
+	QosFlowUsage            QosFlowUsage              `json:"qosFlowUsage,omitempty"`
 	PvsInfo                 []ServerAddressingInfo    `json:"pvsInfo,omitempty"`
-	Supi                    string                    `json:"supi"`
-	InvalidSupi             *bool                     `json:"invalidSupi,omitempty"`
-	UeTimeZone              string                    `json:"ueTimeZone,omitempty"`
-	SubsSessAmbr            *Ambr                     `json:"subsSessAmbr,omitempty"`
-	AuthProfIndex           string                    `json:"authProfIndex,omitempty"`
-	ServNfId                *ServingNfIdentity        `json:"servNfId,omitempty"`
-	NwdafDatas              []NwdafData               `json:"nwdafDatas,omitempty"`
-	AccNetChId              *AccNetChId               `json:"accNetChId,omitempty"`
+	Gpsi                    string                    `json:"gpsi,omitempty"`
+	PduSessionId            int                       `json:"pduSessionId"`
 	PduSessionType          PduSessionType            `json:"pduSessionType"`
 	Chargingcharacteristics string                    `json:"chargingcharacteristics,omitempty"`
-	AddAccessInfo           *AdditionalAccessInfo     `json:"addAccessInfo,omitempty"`
-	TraceReq                *TraceData                `json:"traceReq,omitempty"`
-	AtsssCapab              AtsssCapability           `json:"atsssCapab,omitempty"`
-	ChargEntityAddr         *AccNetChargingAddress    `json:"chargEntityAddr,omitempty"`
-	PduSessionId            int                       `json:"pduSessionId"`
-	Dnn                     string                    `json:"dnn"`
-	RefQosIndication        *bool                     `json:"refQosIndication,omitempty"`
-	SliceInfo               Snssai                    `json:"sliceInfo"`
+	RatType                 RatType                   `json:"ratType,omitempty"`
 	MaPduInd                MaPduIndication           `json:"maPduInd,omitempty"`
+	ChargEntityAddr         *AccNetChargingAddress    `json:"chargEntityAddr,omitempty"`
+	ServingNetwork          *PlmnIdNid                `json:"servingNetwork,omitempty"`
+	Ipv4FrameRouteList      []string                  `json:"ipv4FrameRouteList,omitempty"`
+	OnboardInd              *bool                     `json:"onboardInd,omitempty"`
+	Dnn                     string                    `json:"dnn"`
+	NotificationUri         string                    `json:"notificationUri"`
+	Ipv4Address             string                    `json:"ipv4Address,omitempty"`
+	AuthProfIndex           string                    `json:"authProfIndex,omitempty"`
+	Offline                 *bool                     `json:"offline,omitempty"`
+	SmfId                   string                    `json:"smfId,omitempty"`
 }

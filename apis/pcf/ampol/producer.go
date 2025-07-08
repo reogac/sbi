@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:36:00 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -24,11 +24,11 @@ func OnCreateIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleCreateIndividualAMPolicyAssociation(body)
+	headers, rsp, prob := prod.HandleCreateIndividualAMPolicyAssociation(body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
+		ctx.WriteResponse(201, rsp, headers)
 		return
 	}
 
@@ -128,7 +128,7 @@ func OnReportObservedEventTriggersForIndividualAMPolicyAssociation(ctx sbi.Reque
 }
 
 type Producer interface {
-	HandleCreateIndividualAMPolicyAssociation(*models.PolicyAssociationRequest) (*models.PolicyAssociation, *models.ProblemDetails)
+	HandleCreateIndividualAMPolicyAssociation(*models.PolicyAssociationRequest) (map[string]string, *models.PolicyAssociation, *models.ProblemDetails)
 
 	HandleReadIndividualAMPolicyAssociation(string) (*models.PolicyAssociation, *models.ProblemDetails)
 

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:52 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:38 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -45,11 +45,15 @@ func AmfSubscribe(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *m
 	switch response.GetCode() {
 	case 201:
 		rsp = new(models.AmfSubscribeResponse)
-		err = response.DecodeBody(rsp)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode AmfSubscribeResponse: %+v", err)
+		}
 	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
@@ -84,6 +88,8 @@ func SendPaging(cli sbi.ConsumerClient, body *models.PagingMessage) (err error) 
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
 		}
 	default:
 		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())

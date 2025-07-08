@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:57 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:43 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,10 +13,10 @@ import (
 
 var _routes = []sbi.Route[Producer]{
 	{
-		Label:   "ProseAuthenticationsPost",
+		Label:   "EapAuthMethod",
 		Method:  http.MethodPost,
-		Path:    "/prose-authentications",
-		Handler: OnProseAuthenticationsPost,
+		Path:    "/ue-authentications/:authCtxId/eap-session",
+		Handler: OnEapAuthMethod,
 	},
 	{
 		Label:   "DeleteEapAuthenticationResult",
@@ -25,10 +25,28 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnDeleteEapAuthenticationResult,
 	},
 	{
+		Label:   "DeleteProSeAuthenticationResult",
+		Method:  http.MethodDelete,
+		Path:    "/prose-authentications/:authCtxId/prose-auth",
+		Handler: OnDeleteProSeAuthenticationResult,
+	},
+	{
+		Label:   "Delete5gAkaAuthenticationResult",
+		Method:  http.MethodDelete,
+		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
+		Handler: OnDelete5gAkaAuthenticationResult,
+	},
+	{
 		Label:   "RgAuthenticationsPost",
 		Method:  http.MethodPost,
 		Path:    "/rg-authentications",
 		Handler: OnRgAuthenticationsPost,
+	},
+	{
+		Label:   "ProseAuthenticationsPost",
+		Method:  http.MethodPost,
+		Path:    "/prose-authentications",
+		Handler: OnProseAuthenticationsPost,
 	},
 	{
 		Label:   "ProseAuth",
@@ -53,24 +71,6 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPut,
 		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
 		Handler: OnUeAuthentications5gAkaConfirmationPut,
-	},
-	{
-		Label:   "Delete5gAkaAuthenticationResult",
-		Method:  http.MethodDelete,
-		Path:    "/ue-authentications/:authCtxId/5g-aka-confirmation",
-		Handler: OnDelete5gAkaAuthenticationResult,
-	},
-	{
-		Label:   "EapAuthMethod",
-		Method:  http.MethodPost,
-		Path:    "/ue-authentications/:authCtxId/eap-session",
-		Handler: OnEapAuthMethod,
-	},
-	{
-		Label:   "DeleteProSeAuthenticationResult",
-		Method:  http.MethodDelete,
-		Path:    "/prose-authentications/:authCtxId/prose-auth",
-		Handler: OnDeleteProSeAuthenticationResult,
 	},
 }
 

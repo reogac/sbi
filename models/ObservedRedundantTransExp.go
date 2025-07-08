@@ -1,18 +1,18 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jun 17 13:35:41 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul  8 13:19:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ObservedRedundantTransExp struct {
-	VarPktDropRateUl *float64 `json:"varPktDropRateUl,omitempty"`
-	AvgPktDropRateDl *int     `json:"avgPktDropRateDl,omitempty"`
-	VarPktDropRateDl *float64 `json:"varPktDropRateDl,omitempty"`
-	AvgPktDelayUl    *int     `json:"avgPktDelayUl,omitempty"`
 	VarPktDelayUl    *float64 `json:"varPktDelayUl,omitempty"`
 	AvgPktDelayDl    *int     `json:"avgPktDelayDl,omitempty"`
 	VarPktDelayDl    *float64 `json:"varPktDelayDl,omitempty"`
 	AvgPktDropRateUl *int     `json:"avgPktDropRateUl,omitempty"`
+	VarPktDropRateUl *float64 `json:"varPktDropRateUl,omitempty"`
+	AvgPktDropRateDl *int     `json:"avgPktDropRateDl,omitempty"`
+	VarPktDropRateDl *float64 `json:"varPktDropRateDl,omitempty"`
+	AvgPktDelayUl    *int     `json:"avgPktDelayUl,omitempty"`
 }
