@@ -111,29 +111,22 @@ components:
         - nh
 
     EndpointInfo:
-      description: Location address of an deployed network function
+      description: Address of an deployed network function
       type: object
       properties:
         uuid:
           type: string
           description: An unique identity
-        sbiUrl:
+        gwId:
           type: string
-          description: SBI transport address
-        name:
+          description: Gateway Identity
+        stickiness:
           type: string
-          description: Server name for mTLS verification
-        gwUrl:
-          type: string
-          description: Gateway Url
-        gwName:
-          type: string
-          description: Gateway name for mTLS verification
+          description: Session sticky header
 
       required:
         - uuid
-        - sbiUrl
-        - gwUrl
+        - gwId
 
     RanUeId:
       description: Identification of UeContext at gnB

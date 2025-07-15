@@ -7,9 +7,7 @@ Do not modify
 package models
 
 type EndpointInfo struct {
-	SbiUrl string `json:"sbiUrl"`
-	Name   string `json:"name,omitempty"`
-	GwUrl  string `json:"gwUrl"`
-	GwName string `json:"gwName,omitempty"`
-	Uuid   string `json:"uuid"`
+	GwId       string `json:"gwId"`
+	Uuid       string `json:"uuid"`
+	Stickiness string `json:"stickiness,omitempty"`
 }
