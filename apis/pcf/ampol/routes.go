@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:47 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,12 +12,6 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
-	{
-		Label:   "ReadIndividualAMPolicyAssociation",
-		Method:  http.MethodGet,
-		Path:    "/policies/:polAssoId",
-		Handler: OnReadIndividualAMPolicyAssociation,
-	},
 	{
 		Label:   "DeleteIndividualAMPolicyAssociation",
 		Method:  http.MethodDelete,
@@ -35,6 +29,12 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPost,
 		Path:    "/policies",
 		Handler: OnCreateIndividualAMPolicyAssociation,
+	},
+	{
+		Label:   "ReadIndividualAMPolicyAssociation",
+		Method:  http.MethodGet,
+		Path:    "/policies/:polAssoId",
+		Handler: OnReadIndividualAMPolicyAssociation,
 	},
 }
 

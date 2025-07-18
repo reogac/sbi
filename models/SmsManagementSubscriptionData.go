@@ -1,19 +1,19 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SmsManagementSubscriptionData struct {
-	MoSmsBarringAll     *bool      `json:"moSmsBarringAll,omitempty"`
-	MoSmsBarringRoaming *bool      `json:"moSmsBarringRoaming,omitempty"`
-	TraceData           *TraceData `json:"traceData,omitempty"`
-	SupportedFeatures   string     `json:"supportedFeatures,omitempty"`
 	MtSmsSubscribed     *bool      `json:"mtSmsSubscribed,omitempty"`
 	MtSmsBarringAll     *bool      `json:"mtSmsBarringAll,omitempty"`
+	SharedSmsMngDataIds []string   `json:"sharedSmsMngDataIds,omitempty"`
+	TraceData           *TraceData `json:"traceData,omitempty"`
+	MoSmsBarringRoaming *bool      `json:"moSmsBarringRoaming,omitempty"`
+	SupportedFeatures   string     `json:"supportedFeatures,omitempty"`
 	MtSmsBarringRoaming *bool      `json:"mtSmsBarringRoaming,omitempty"`
 	MoSmsSubscribed     *bool      `json:"moSmsSubscribed,omitempty"`
-	SharedSmsMngDataIds []string   `json:"sharedSmsMngDataIds,omitempty"`
+	MoSmsBarringAll     *bool      `json:"moSmsBarringAll,omitempty"`
 }

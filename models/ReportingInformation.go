@@ -1,19 +1,19 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ReportingInformation struct {
-	SampRatio         *int               `json:"sampRatio,omitempty"`
-	PartitionCriteria []string           `json:"partitionCriteria,omitempty"`
-	GrpRepTime        *int               `json:"grpRepTime,omitempty"`
-	ImmRep            *bool              `json:"immRep,omitempty"`
 	MonDur            string             `json:"monDur,omitempty"`
 	RepPeriod         *int               `json:"repPeriod,omitempty"`
-	NotifMethod       NotificationMethod `json:"notifMethod,omitempty"`
-	MaxReportNbr      *int               `json:"maxReportNbr,omitempty"`
+	SampRatio         *int               `json:"sampRatio,omitempty"`
+	PartitionCriteria []string           `json:"partitionCriteria,omitempty"`
 	NotifFlag         NotificationFlag   `json:"notifFlag,omitempty"`
+	ImmRep            *bool              `json:"immRep,omitempty"`
+	MaxReportNbr      *int               `json:"maxReportNbr,omitempty"`
+	NotifMethod       NotificationMethod `json:"notifMethod,omitempty"`
+	GrpRepTime        *int               `json:"grpRepTime,omitempty"`
 }

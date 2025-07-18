@@ -1,30 +1,30 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SdmSubscription struct {
-	Dnn                        string                       `json:"dnn,omitempty"`
-	UeConSmfDataSubFilter      *UeContextInSmfDataSubFilter `json:"ueConSmfDataSubFilter,omitempty"`
-	Expires                    string                       `json:"expires,omitempty"`
+	SubscriptionId             string                       `json:"subscriptionId,omitempty"`
+	ImmediateReport            *bool                        `json:"immediateReport,omitempty"`
+	UdrRestartInd              *bool                        `json:"udrRestartInd,omitempty"`
+	CallbackReference          string                       `json:"callbackReference"`
 	AmfServiceName             ServiceName                  `json:"amfServiceName,omitempty"`
-	MonitoredResourceUris      []string                     `json:"monitoredResourceUris"`
+	SingleNssai                *Snssai                      `json:"singleNssai,omitempty"`
+	DataRestorationCallbackUri string                       `json:"dataRestorationCallbackUri,omitempty"`
 	PlmnId                     *PlmnId                      `json:"plmnId,omitempty"`
+	Report                     *ImmediateReport             `json:"report,omitempty"`
+	UniqueSubscription         *bool                        `json:"uniqueSubscription,omitempty"`
+	ImplicitUnsubscribe        *bool                        `json:"implicitUnsubscribe,omitempty"`
+	Dnn                        string                       `json:"dnn,omitempty"`
+	SupportedFeatures          string                       `json:"supportedFeatures,omitempty"`
 	ContextInfo                *ContextInfo                 `json:"contextInfo,omitempty"`
 	NfChangeFilter             *bool                        `json:"nfChangeFilter,omitempty"`
-	UniqueSubscription         *bool                        `json:"uniqueSubscription,omitempty"`
-	UdrRestartInd              *bool                        `json:"udrRestartInd,omitempty"`
-	NfInstanceId               string                       `json:"nfInstanceId"`
-	ImplicitUnsubscribe        *bool                        `json:"implicitUnsubscribe,omitempty"`
-	SubscriptionId             string                       `json:"subscriptionId,omitempty"`
-	CallbackReference          string                       `json:"callbackReference"`
-	ImmediateReport            *bool                        `json:"immediateReport,omitempty"`
 	ResetIds                   []string                     `json:"resetIds,omitempty"`
-	DataRestorationCallbackUri string                       `json:"dataRestorationCallbackUri,omitempty"`
-	SingleNssai                *Snssai                      `json:"singleNssai,omitempty"`
-	Report                     *ImmediateReport             `json:"report,omitempty"`
-	SupportedFeatures          string                       `json:"supportedFeatures,omitempty"`
+	UeConSmfDataSubFilter      *UeContextInSmfDataSubFilter `json:"ueConSmfDataSubFilter,omitempty"`
+	NfInstanceId               string                       `json:"nfInstanceId"`
+	Expires                    string                       `json:"expires,omitempty"`
+	MonitoredResourceUris      []string                     `json:"monitoredResourceUris"`
 }

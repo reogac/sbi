@@ -1,19 +1,19 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type QosFlowProfile struct {
-	Rqa                   ReflectiveQoSAttribute `json:"rqa,omitempty"`
-	AdditionalQosFlowInfo AdditionalQosFlowInfo  `json:"additionalQosFlowInfo,omitempty"`
 	FiveQi                int                    `json:"5qi"`
-	GbrQosFlowInfo        *GbrQosFlowInformation `json:"gbrQosFlowInfo,omitempty"`
-	Arp                   *Arp                   `json:"arp,omitempty"`
-	QosMonitoringReq      QosMonitoringReq       `json:"qosMonitoringReq,omitempty"`
-	QosRepPeriod          *int                   `json:"qosRepPeriod,omitempty"`
 	NonDynamic5Qi         *NonDynamic5Qi         `json:"nonDynamic5Qi,omitempty"`
+	Arp                   *Arp                   `json:"arp,omitempty"`
+	Rqa                   ReflectiveQoSAttribute `json:"rqa,omitempty"`
+	QosRepPeriod          *int                   `json:"qosRepPeriod,omitempty"`
 	Dynamic5Qi            *Dynamic5Qi            `json:"dynamic5Qi,omitempty"`
+	GbrQosFlowInfo        *GbrQosFlowInformation `json:"gbrQosFlowInfo,omitempty"`
+	AdditionalQosFlowInfo AdditionalQosFlowInfo  `json:"additionalQosFlowInfo,omitempty"`
+	QosMonitoringReq      QosMonitoringReq       `json:"qosMonitoringReq,omitempty"`
 }

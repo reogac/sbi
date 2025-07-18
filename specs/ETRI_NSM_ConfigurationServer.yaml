@@ -147,6 +147,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AmfSetConfiguration'
+        slices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SliceConfiguration'
+        plmnPeers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomePlmnConfiguration'
       required:
         - amfSets
 
@@ -253,6 +261,19 @@ components:
           type: array
           items:
             type: string
+      required:
+        - id
+
+    HomePlmnConfiguration:
+      description: Home network configuration
+      type: object
+      properties:
+        id:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+        slices:
+          type: array
+          items:
+            $ref: 'TS29531_Nnssf_NSSelection.yaml#/components/schemas/MappingOfSnssai'
       required:
         - id
 

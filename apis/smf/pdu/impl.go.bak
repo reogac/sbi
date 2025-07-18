@@ -4,7 +4,7 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/smf/pdu"
 )
-func (p *Producer) HandleRetrieveSmContext(smContextRef string,body *models.SmContextRetrieveData)(rsp *models.SmContextRetrievedData,prob *models.ProblemDetails){
+func (p *Producer) HandleUpdatePduSession(pduSessionRef string,body *models.UpdatePduSessionRequest)(rsp *models.UpdatePduSessionResponse,ersp *models.UpdatePduSessionErrorResponse,prob *models.ProblemDetails){
 	return
 }
 
@@ -12,20 +12,12 @@ func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.Rel
 	return
 }
 
-func (p *Producer) HandleUpdatePduSession(pduSessionRef string,body *models.UpdatePduSessionRequest)(rsp *models.UpdatePduSessionResponse,ersp *models.UpdatePduSessionErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.RetrieveData)(rsp *models.RetrievedData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleTransferMoData(pduSessionRef string,body *models.TransferMoDataRequest)(prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandlePostSmContexts(callback *models.EndpointInfo,body *models.PostSmContextsRequest)(headers map[string]string,rsp *models.PostSmContextsResponse,ersp *models.PostSmContextsErrorResponse,prob *models.ProblemDetails){
 // headers: Location
+	return
+}
+
+func (p *Producer) HandleRetrieveSmContext(smContextRef string,body *models.SmContextRetrieveData)(rsp *models.SmContextRetrievedData,prob *models.ProblemDetails){
 	return
 }
 
@@ -43,6 +35,14 @@ func (p *Producer) HandleSendMoData(smContextRef string,body *models.SendMoDataR
 
 func (p *Producer) HandlePostPduSessions(body *models.PostPduSessionsRequest)(headers map[string]string,rsp *models.PostPduSessionsResponse,ersp *models.PostPduSessionsErrorResponse,prob *models.ProblemDetails){
 // headers: Location
+	return
+}
+
+func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.RetrieveData)(rsp *models.RetrievedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleTransferMoData(pduSessionRef string,body *models.TransferMoDataRequest)(prob *models.ProblemDetails){
 	return
 }
 */

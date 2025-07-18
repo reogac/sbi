@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,34 +13,22 @@ import (
 
 var _routes = []sbi.Route[Producer]{
 	{
-		Label:   "RetrieveSmContext",
-		Method:  http.MethodPost,
-		Path:    "/sm-contexts/:smContextRef/retrieve",
-		Handler: OnRetrieveSmContext,
-	},
-	{
 		Label:   "ReleasePduSession",
 		Method:  http.MethodPost,
 		Path:    "/pdu-sessions/:pduSessionRef/release",
 		Handler: OnReleasePduSession,
 	},
 	{
-		Label:   "RetrievePduSession",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/retrieve",
-		Handler: OnRetrievePduSession,
-	},
-	{
-		Label:   "TransferMoData",
-		Method:  http.MethodPost,
-		Path:    "/pdu-sessions/:pduSessionRef/transfer-mo-data",
-		Handler: OnTransferMoData,
-	},
-	{
 		Label:   "PostSmContexts",
 		Method:  http.MethodPost,
 		Path:    "/sm-contexts",
 		Handler: OnPostSmContexts,
+	},
+	{
+		Label:   "RetrieveSmContext",
+		Method:  http.MethodPost,
+		Path:    "/sm-contexts/:smContextRef/retrieve",
+		Handler: OnRetrieveSmContext,
 	},
 	{
 		Label:   "UpdateSmContext",
@@ -71,6 +59,18 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPost,
 		Path:    "/pdu-sessions/:pduSessionRef/modify",
 		Handler: OnUpdatePduSession,
+	},
+	{
+		Label:   "RetrievePduSession",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions/:pduSessionRef/retrieve",
+		Handler: OnRetrievePduSession,
+	},
+	{
+		Label:   "TransferMoData",
+		Method:  http.MethodPost,
+		Path:    "/pdu-sessions/:pduSessionRef/transfer-mo-data",
+		Handler: OnTransferMoData,
 	},
 }
 

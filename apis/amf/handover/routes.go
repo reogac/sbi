@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,12 +12,6 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
-	{
-		Label:   "PathSwitch",
-		Method:  http.MethodPost,
-		Path:    "/pathswitch/:ueId",
-		Handler: OnPathSwitch,
-	},
 	{
 		Label:   "HandoverRequired",
 		Method:  http.MethodPost,
@@ -35,6 +29,12 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPut,
 		Path:    "/cancel/:ueId",
 		Handler: OnHandoverCancel,
+	},
+	{
+		Label:   "PathSwitch",
+		Method:  http.MethodPost,
+		Path:    "/pathswitch/:ueId",
+		Handler: OnPathSwitch,
 	},
 }
 

@@ -4,14 +4,6 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/nsm/conf"
 )
-func (p *Producer) HandleGetSessionManagementConfiguration(params *conf.GetSessionManagementConfigurationParams)(rsp *models.SessionManagementConfiguration,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetUserPlaneConfiguration(body *models.UserPlaneConfigurationRequest)(rsp *models.UserPlaneConfigurationResponse,prob *models.ProblemDetails){
-	return
-}
-
 func (p *Producer) HandleGetUdrConfiguration()(rsp *models.UdrConfiguration,prob *models.ProblemDetails){
 	return
 }
@@ -21,6 +13,14 @@ func (p *Producer) HandleGetUdmConfiguration()(rsp *models.UdmConfiguration,prob
 }
 
 func (p *Producer) HandleGetNssfConfiguration()(rsp *models.NssfConfiguration,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetSessionManagementConfiguration(params *conf.GetSessionManagementConfigurationParams)(rsp *models.SessionManagementConfiguration,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetUserPlaneConfiguration(body *models.UserPlaneConfigurationRequest)(rsp *models.UserPlaneConfigurationResponse,prob *models.ProblemDetails){
 	return
 }
 */

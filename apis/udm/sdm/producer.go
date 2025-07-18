@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:41 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -13,29 +13,43 @@ import (
 	"io"
 )
 
-func OnSNSSAIsAck(ctx sbi.RequestContext, prod Producer) {
+func OnGetTraceConfigData(ctx sbi.RequestContext, prod Producer) {
 	var err error
+	var params GetTraceConfigDataParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// read 'supi'
-	var supi string
-	supi = ctx.Param("supi")
-	if len(supi) == 0 {
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	var body *models.AcknowledgeInfo
-	body = new(models.AcknowledgeInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	} else if err == io.EOF {
-		body = nil
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
 	}
+
 	// call application handler
-	prob := prod.HandleSNSSAIsAck(supi, body)
+	headers, rsp, prob := prod.HandleGetTraceConfigData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
 
 	// check for problem
 	if prob != nil {
@@ -43,8 +57,51 @@ func OnSNSSAIsAck(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
-	// success
-	ctx.WriteResponse(204, nil, nil)
+}
+
+func OnGetSmsMngtData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetSmsMngtDataParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetSmsMngtData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
 
 }
 
@@ -72,38 +129,12 @@ func OnUnsubscribeForSharedData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetUeCtxInSmsfData(ctx sbi.RequestContext, prod Producer) {
-	var params GetUeCtxInSmsfDataParams
+func OnGetGroupIdentifiers(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetGroupIdentifiersParams
 
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetUeCtxInSmsfData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetProseData(ctx sbi.RequestContext, prod Producer) {
-	var params GetProseDataParams
+	// read 'af-id'
+	params.AfId = ctx.Param("af-id")
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
@@ -111,18 +142,28 @@ func OnGetProseData(ctx sbi.RequestContext, prod Producer) {
 	// read 'If-Modified-Since'
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
+	// read 'ext-group-id'
+	params.ExtGroupId = ctx.Param("ext-group-id")
+
+	// read 'int-group-id'
+	params.IntGroupId = ctx.Param("int-group-id")
+
+	// read 'ue-id-ind'
+	ueIdIndStr := ctx.Param("ue-id-ind")
+	if len(ueIdIndStr) > 0 {
+		var ueIdIndTmp bool
+		if ueIdIndTmp, err = models.BoolFromString(ueIdIndStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ue-id-ind failed: %+v", err)), nil)
+			return
+		}
+		params.UeIdInd = &ueIdIndTmp
 	}
 
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// call application handler
-	headers, rsp, prob := prod.HandleGetProseData(&params)
+	headers, rsp, prob := prod.HandleGetGroupIdentifiers(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -138,65 +179,9 @@ func OnGetProseData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnUpuAck(ctx sbi.RequestContext, prod Producer) {
+func OnGetSmfSelData(ctx sbi.RequestContext, prod Producer) {
 	var err error
-
-	// read 'supi'
-	var supi string
-	supi = ctx.Param("supi")
-	if len(supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	var body *models.AcknowledgeInfo
-	body = new(models.AcknowledgeInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	} else if err == io.EOF {
-		body = nil
-	}
-	// call application handler
-	prob := prod.HandleUpuAck(supi, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGetDataSets(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetDataSetsParams
-
-	// read 'dataset-names'
-	datasetNamesStr := ctx.Param("dataset-names")
-	if len(datasetNamesStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "dataset-names is required"), nil)
-		return
-	}
-
-	if params.DatasetNames, err = models.ArrayOfStringFromString(datasetNamesStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse dataset-names failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdNidFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
+	var params GetSmfSelDataParams
 
 	// read 'disaster-roaming-ind'
 	disasterRoamingIndStr := ctx.Param("disaster-roaming-ind")
@@ -209,78 +194,11 @@ func OnGetDataSets(ctx sbi.RequestContext, prod Producer) {
 		params.DisasterRoamingInd = &disasterRoamingIndTmp
 	}
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
 
 	// read 'If-Modified-Since'
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetDataSets(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetEcrData(ctx sbi.RequestContext, prod Producer) {
-	var params GetEcrDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetEcrData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetSmsData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetSmsDataParams
 
 	// read 'supi'
 	params.Supi = ctx.Param("supi")
@@ -301,14 +219,8 @@ func OnGetSmsData(ctx sbi.RequestContext, prod Producer) {
 		}
 	}
 
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
 	// call application handler
-	headers, rsp, prob := prod.HandleGetSmsData(&params)
+	headers, rsp, prob := prod.HandleGetSmfSelData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -324,23 +236,216 @@ func OnGetSmsData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnSubscribeToSharedData(ctx sbi.RequestContext, prod Producer) {
+func OnGetSmData(ctx sbi.RequestContext, prod Producer) {
 	var err error
+	var params GetSmDataParams
+
+	// read 'single-nssai'
+	singleNssaiStr := ctx.Param("single-nssai")
+	if len(singleNssaiStr) > 0 {
+		if params.SingleNssai, err = models.SnssaiFromString(singleNssaiStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'dnn'
+	params.Dnn = ctx.Param("dnn")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetSmData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetIndividualSharedData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetIndividualSharedDataParams
+
+	// read 'sharedDataId'
+	sharedDataIdStr := ctx.Param("sharedDataId")
+	if len(sharedDataIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "sharedDataId is required"), nil)
+		return
+	}
+
+	if params.SharedDataId, err = models.ArrayOfStringFromString(sharedDataIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse sharedDataId failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetIndividualSharedData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnModify(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ModifyParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'subscriptionId'
+	params.SubscriptionId = ctx.Param("subscriptionId")
+	if len(params.SubscriptionId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subscriptionId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.SdmSubscription)
+	body := new(models.SdmSubsModification)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	headers, rsp, prob := prod.HandleSubscribeToSharedData(body)
+	rsp, prob := prod.HandleModify(&params, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(201, rsp, headers)
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnModifySharedDataSubs(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params ModifySharedDataSubsParams
+
+	// read 'subscriptionId'
+	params.SubscriptionId = ctx.Param("subscriptionId")
+	if len(params.SubscriptionId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subscriptionId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.SdmSubsModification)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleModifySharedDataSubs(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetEcrData(ctx sbi.RequestContext, prod Producer) {
+	var params GetEcrDataParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetEcrData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
 		return
 	}
 
@@ -388,49 +493,37 @@ func OnGetLcsMoData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetSupiOrGpsi(ctx sbi.RequestContext, prod Producer) {
+func OnGetLcsBcaData(ctx sbi.RequestContext, prod Producer) {
 	var err error
-	var params GetSupiOrGpsiParams
+	var params GetLcsBcaDataParams
 
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'af-id'
-	params.AfId = ctx.Param("af-id")
-
-	// read 'af-service-id'
-	params.AfServiceId = ctx.Param("af-service-id")
-
-	// read 'app-port-id'
-	appPortIdStr := ctx.Param("app-port-id")
-	if len(appPortIdStr) > 0 {
-		if params.AppPortId, err = models.AppPortIdFromString(appPortIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse app-port-id failed: %+v", err)), nil)
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
 			return
 		}
 	}
 
-	// read 'mtc-provider-info'
-	params.MtcProviderInfo = ctx.Param("mtc-provider-info")
-
-	// read 'requested-gpsi-type'
-	params.RequestedGpsiType = ctx.Param("requested-gpsi-type")
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
 
 	// read 'If-Modified-Since'
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
 	// call application handler
-	headers, rsp, prob := prod.HandleGetSupiOrGpsi(&params)
+	headers, rsp, prob := prod.HandleGetLcsBcaData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -446,29 +539,33 @@ func OnGetSupiOrGpsi(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnCAGAck(ctx sbi.RequestContext, prod Producer) {
-	var err error
+func OnGetV2xData(ctx sbi.RequestContext, prod Producer) {
+	var params GetV2xDataParams
 
 	// read 'supi'
-	var supi string
-	supi = ctx.Param("supi")
-	if len(supi) == 0 {
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	var body *models.AcknowledgeInfo
-	body = new(models.AcknowledgeInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	} else if err == io.EOF {
-		body = nil
-	}
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
 	// call application handler
-	prob := prod.HandleCAGAck(supi, body)
+	headers, rsp, prob := prod.HandleGetV2xData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
 
 	// check for problem
 	if prob != nil {
@@ -476,39 +573,33 @@ func OnCAGAck(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
 }
 
-func OnModifySharedDataSubs(ctx sbi.RequestContext, prod Producer) {
+func OnSubscribe(ctx sbi.RequestContext, prod Producer) {
 	var err error
-	var params ModifySharedDataSubsParams
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'subscriptionId'
-	params.SubscriptionId = ctx.Param("subscriptionId")
-	if len(params.SubscriptionId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subscriptionId is required"), nil)
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.SdmSubsModification)
+	body := new(models.SdmSubscription)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleModifySharedDataSubs(&params, body)
+	headers, rsp, prob := prod.HandleSubscribe(ueId, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
+		ctx.WriteResponse(201, rsp, headers)
 		return
 	}
 
@@ -520,45 +611,37 @@ func OnModifySharedDataSubs(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetMultipleIdentifiers(ctx sbi.RequestContext, prod Producer) {
+func OnGetDataSets(ctx sbi.RequestContext, prod Producer) {
 	var err error
-	var params GetMultipleIdentifiersParams
+	var params GetDataSetsParams
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'gpsi-list'
-	gpsiListStr := ctx.Param("gpsi-list")
-	if len(gpsiListStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "gpsi-list is required"), nil)
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
 		return
 	}
 
-	if params.GpsiList, err = models.ArrayOfStringFromString(gpsiListStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse gpsi-list failed: %+v", err)), nil)
+	// read 'dataset-names'
+	datasetNamesStr := ctx.Param("dataset-names")
+	if len(datasetNamesStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "dataset-names is required"), nil)
 		return
 	}
 
-	// call application handler
-	headers, rsp, prob := prod.HandleGetMultipleIdentifiers(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
+	if params.DatasetNames, err = models.ArrayOfStringFromString(datasetNamesStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse dataset-names failed: %+v", err)), nil)
 		return
 	}
 
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdNidFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
 	}
-
-}
-
-func OnGetNSSAI(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetNSSAIParams
 
 	// read 'disaster-roaming-ind'
 	disasterRoamingIndStr := ctx.Param("disaster-roaming-ind")
@@ -571,70 +654,8 @@ func OnGetNSSAI(ctx sbi.RequestContext, prod Producer) {
 		params.DisasterRoamingInd = &disasterRoamingIndTmp
 	}
 
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetNSSAI(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetTraceConfigData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetTraceConfigDataParams
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
@@ -643,7 +664,7 @@ func OnGetTraceConfigData(ctx sbi.RequestContext, prod Producer) {
 	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// call application handler
-	headers, rsp, prob := prod.HandleGetTraceConfigData(&params)
+	headers, rsp, prob := prod.HandleGetDataSets(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -662,6 +683,12 @@ func OnGetTraceConfigData(ctx sbi.RequestContext, prod Producer) {
 func OnGetLcsPrivacyData(ctx sbi.RequestContext, prod Producer) {
 	var params GetLcsPrivacyDataParams
 
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
 	if len(params.UeId) == 0 {
@@ -671,12 +698,6 @@ func OnGetLcsPrivacyData(ctx sbi.RequestContext, prod Producer) {
 
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// call application handler
 	headers, rsp, prob := prod.HandleGetLcsPrivacyData(&params)
@@ -695,41 +716,30 @@ func OnGetLcsPrivacyData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetGroupIdentifiers(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetGroupIdentifiersParams
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'ext-group-id'
-	params.ExtGroupId = ctx.Param("ext-group-id")
-
-	// read 'int-group-id'
-	params.IntGroupId = ctx.Param("int-group-id")
-
-	// read 'ue-id-ind'
-	ueIdIndStr := ctx.Param("ue-id-ind")
-	if len(ueIdIndStr) > 0 {
-		var ueIdIndTmp bool
-		if ueIdIndTmp, err = models.BoolFromString(ueIdIndStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ue-id-ind failed: %+v", err)), nil)
-			return
-		}
-		params.UeIdInd = &ueIdIndTmp
-	}
+func OnGetUcData(ctx sbi.RequestContext, prod Producer) {
+	var params GetUcDataParams
 
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
-	// read 'af-id'
-	params.AfId = ctx.Param("af-id")
+	// read 'uc-purpose'
+	params.UcPurpose = ctx.Param("uc-purpose")
 
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
 
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
 	// call application handler
-	headers, rsp, prob := prod.HandleGetGroupIdentifiers(&params)
+	headers, rsp, prob := prod.HandleGetUcData(&params)
 
 	// check for success response
 	if rsp != nil {
@@ -742,102 +752,6 @@ func OnGetGroupIdentifiers(ctx sbi.RequestContext, prod Producer) {
 		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
-
-}
-
-func OnGetUeCtxInAmfData(ctx sbi.RequestContext, prod Producer) {
-	var params GetUeCtxInAmfDataParams
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetUeCtxInAmfData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnUnsubscribe(ctx sbi.RequestContext, prod Producer) {
-	var params UnsubscribeParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'subscriptionId'
-	params.SubscriptionId = ctx.Param("subscriptionId")
-	if len(params.SubscriptionId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subscriptionId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleUnsubscribe(&params)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnSorAckInfo(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'supi'
-	var supi string
-	supi = ctx.Param("supi")
-	if len(supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	var body *models.AcknowledgeInfo
-	body = new(models.AcknowledgeInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	} else if err == io.EOF {
-		body = nil
-	}
-	// call application handler
-	prob := prod.HandleSorAckInfo(supi, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -907,291 +821,6 @@ func OnGetAmData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetSmData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetSmDataParams
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'single-nssai'
-	singleNssaiStr := ctx.Param("single-nssai")
-	if len(singleNssaiStr) > 0 {
-		if params.SingleNssai, err = models.SnssaiFromString(singleNssaiStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'dnn'
-	params.Dnn = ctx.Param("dnn")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetSmData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnSubscribe(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.SdmSubscription)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleSubscribe(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetLcsBcaData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetLcsBcaDataParams
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetLcsBcaData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnModify(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params ModifyParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'subscriptionId'
-	params.SubscriptionId = ctx.Param("subscriptionId")
-	if len(params.SubscriptionId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subscriptionId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.SdmSubsModification)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleModify(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetIndividualSharedData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetIndividualSharedDataParams
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'sharedDataId'
-	sharedDataIdStr := ctx.Param("sharedDataId")
-	if len(sharedDataIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "sharedDataId is required"), nil)
-		return
-	}
-
-	if params.SharedDataId, err = models.ArrayOfStringFromString(sharedDataIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse sharedDataId failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetIndividualSharedData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetSmfSelData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetSmfSelDataParams
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'disaster-roaming-ind'
-	disasterRoamingIndStr := ctx.Param("disaster-roaming-ind")
-	if len(disasterRoamingIndStr) > 0 {
-		var disasterRoamingIndTmp bool
-		if disasterRoamingIndTmp, err = models.BoolFromString(disasterRoamingIndStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse disaster-roaming-ind failed: %+v", err)), nil)
-			return
-		}
-		params.DisasterRoamingInd = &disasterRoamingIndTmp
-	}
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetSmfSelData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
 func OnGetUeCtxInSmfData(ctx sbi.RequestContext, prod Producer) {
 	var params GetUeCtxInSmfDataParams
 
@@ -1222,41 +851,89 @@ func OnGetUeCtxInSmfData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetSmsMngtData(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetSmsMngtDataParams
+func OnUnsubscribe(ctx sbi.RequestContext, prod Producer) {
+	var params UnsubscribeParams
 
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'plmn-id'
-	plmnIdStr := ctx.Param("plmn-id")
-	if len(plmnIdStr) > 0 {
-		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
-			return
-		}
+	// read 'subscriptionId'
+	params.SubscriptionId = ctx.Param("subscriptionId")
+	if len(params.SubscriptionId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "subscriptionId is required"), nil)
+		return
 	}
 
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
 		return
 	}
 
 	// call application handler
-	headers, rsp, prob := prod.HandleGetSmsMngtData(&params)
+	prob := prod.HandleUnsubscribe(&params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnSorAckInfo(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'supi'
+	var supi string
+	supi = ctx.Param("supi")
+	if len(supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.AcknowledgeInfo
+	body = new(models.AcknowledgeInfo)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	prob := prod.HandleSorAckInfo(supi, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnSubscribeToSharedData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.SdmSubscription)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleSubscribeToSharedData(body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
+		ctx.WriteResponse(201, rsp, headers)
 		return
 	}
 
@@ -1265,6 +942,106 @@ func OnGetSmsMngtData(ctx sbi.RequestContext, prod Producer) {
 		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
+
+}
+
+func OnGetUeCtxInAmfData(ctx sbi.RequestContext, prod Producer) {
+	var params GetUeCtxInAmfDataParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetUeCtxInAmfData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnUpuAck(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'supi'
+	var supi string
+	supi = ctx.Param("supi")
+	if len(supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.AcknowledgeInfo
+	body = new(models.AcknowledgeInfo)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	prob := prod.HandleUpuAck(supi, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnCAGAck(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'supi'
+	var supi string
+	supi = ctx.Param("supi")
+	if len(supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.AcknowledgeInfo
+	body = new(models.AcknowledgeInfo)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	prob := prod.HandleCAGAck(supi, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -1306,9 +1083,346 @@ func OnUpdateSORInfo(ctx sbi.RequestContext, prod Producer) {
 
 }
 
+func OnGetMultipleIdentifiers(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetMultipleIdentifiersParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'gpsi-list'
+	gpsiListStr := ctx.Param("gpsi-list")
+	if len(gpsiListStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "gpsi-list is required"), nil)
+		return
+	}
+
+	if params.GpsiList, err = models.ArrayOfStringFromString(gpsiListStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse gpsi-list failed: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetMultipleIdentifiers(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetUeCtxInSmsfData(ctx sbi.RequestContext, prod Producer) {
+	var params GetUeCtxInSmsfDataParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetUeCtxInSmsfData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetSmsData(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetSmsDataParams
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetSmsData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetProseData(ctx sbi.RequestContext, prod Producer) {
+	var params GetProseDataParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetProseData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetMbsData(ctx sbi.RequestContext, prod Producer) {
+	var params GetMbsDataParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetMbsData(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnSNSSAIsAck(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'supi'
+	var supi string
+	supi = ctx.Param("supi")
+	if len(supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	var body *models.AcknowledgeInfo
+	body = new(models.AcknowledgeInfo)
+	if err = sbi.Decode(contentLength, content, body); err != nil && err != io.EOF {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	} else if err == io.EOF {
+		body = nil
+	}
+	// call application handler
+	prob := prod.HandleSNSSAIsAck(supi, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnGetNSSAI(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetNSSAIParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'plmn-id'
+	plmnIdStr := ctx.Param("plmn-id")
+	if len(plmnIdStr) > 0 {
+		if params.PlmnId, err = models.PlmnIdFromString(plmnIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse plmn-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'disaster-roaming-ind'
+	disasterRoamingIndStr := ctx.Param("disaster-roaming-ind")
+	if len(disasterRoamingIndStr) > 0 {
+		var disasterRoamingIndTmp bool
+		if disasterRoamingIndTmp, err = models.BoolFromString(disasterRoamingIndStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse disaster-roaming-ind failed: %+v", err)), nil)
+			return
+		}
+		params.DisasterRoamingInd = &disasterRoamingIndTmp
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetNSSAI(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetSupiOrGpsi(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetSupiOrGpsiParams
+
+	// read 'If-None-Match'
+	params.IfNoneMatch = ctx.Header("If-None-Match")
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'app-port-id'
+	appPortIdStr := ctx.Param("app-port-id")
+	if len(appPortIdStr) > 0 {
+		if params.AppPortId, err = models.AppPortIdFromString(appPortIdStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse app-port-id failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'af-service-id'
+	params.AfServiceId = ctx.Param("af-service-id")
+
+	// read 'mtc-provider-info'
+	params.MtcProviderInfo = ctx.Param("mtc-provider-info")
+
+	// read 'af-id'
+	params.AfId = ctx.Param("af-id")
+
+	// read 'requested-gpsi-type'
+	params.RequestedGpsiType = ctx.Param("requested-gpsi-type")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleGetSupiOrGpsi(&params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
 func OnGetSharedData(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params GetSharedDataParams
+
+	// read 'If-Modified-Since'
+	params.IfModifiedSince = ctx.Header("If-Modified-Since")
 
 	// read 'shared-data-ids'
 	sharedDataIdsStr := ctx.Param("shared-data-ids")
@@ -1328,9 +1442,6 @@ func OnGetSharedData(ctx sbi.RequestContext, prod Producer) {
 	// read 'If-None-Match'
 	params.IfNoneMatch = ctx.Header("If-None-Match")
 
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
 	// call application handler
 	headers, rsp, prob := prod.HandleGetSharedData(&params)
 
@@ -1348,185 +1459,74 @@ func OnGetSharedData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetV2xData(ctx sbi.RequestContext, prod Producer) {
-	var params GetV2xDataParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetV2xData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetMbsData(ctx sbi.RequestContext, prod Producer) {
-	var params GetMbsDataParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetMbsData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetUcData(ctx sbi.RequestContext, prod Producer) {
-	var params GetUcDataParams
-
-	// read 'uc-purpose'
-	params.UcPurpose = ctx.Param("uc-purpose")
-
-	// read 'If-None-Match'
-	params.IfNoneMatch = ctx.Header("If-None-Match")
-
-	// read 'If-Modified-Since'
-	params.IfModifiedSince = ctx.Header("If-Modified-Since")
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	headers, rsp, prob := prod.HandleGetUcData(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
 type Producer interface {
-	HandleSNSSAIsAck(string, *models.AcknowledgeInfo) *models.ProblemDetails
+	HandleGetTraceConfigData(*GetTraceConfigDataParams) (map[string]string, *models.TraceDataResponse, *models.ProblemDetails)
+
+	HandleGetSmsMngtData(*GetSmsMngtDataParams) (map[string]string, *models.SmsManagementSubscriptionData, *models.ProblemDetails)
 
 	HandleUnsubscribeForSharedData(string) *models.ProblemDetails
 
-	HandleGetUeCtxInSmsfData(*GetUeCtxInSmsfDataParams) (*models.UeContextInSmsfData, *models.ProblemDetails)
+	HandleGetGroupIdentifiers(*GetGroupIdentifiersParams) (map[string]string, *models.GroupIdentifiers, *models.ProblemDetails)
 
-	HandleGetProseData(*GetProseDataParams) (map[string]string, *models.ProseSubscriptionData, *models.ProblemDetails)
+	HandleGetSmfSelData(*GetSmfSelDataParams) (map[string]string, *models.SmfSelectionSubscriptionData, *models.ProblemDetails)
 
-	HandleUpuAck(string, *models.AcknowledgeInfo) *models.ProblemDetails
+	HandleGetSmData(*GetSmDataParams) (map[string]string, *models.SmSubsData, *models.ProblemDetails)
 
-	HandleGetDataSets(*GetDataSetsParams) (map[string]string, *models.SubscriptionDataSets, *models.ProblemDetails)
+	HandleGetIndividualSharedData(*GetIndividualSharedDataParams) (map[string]string, *models.SharedData, *models.ProblemDetails)
 
-	HandleGetEcrData(*GetEcrDataParams) (map[string]string, *models.EnhancedCoverageRestrictionData, *models.ProblemDetails)
-
-	HandleGetSmsData(*GetSmsDataParams) (map[string]string, *models.SmsSubscriptionData, *models.ProblemDetails)
-
-	HandleSubscribeToSharedData(*models.SdmSubscription) (map[string]string, *models.SdmSubscription, *models.ProblemDetails)
-
-	HandleGetLcsMoData(*GetLcsMoDataParams) (map[string]string, *models.LcsMoData, *models.ProblemDetails)
-
-	HandleGetSupiOrGpsi(*GetSupiOrGpsiParams) (map[string]string, *models.IdTranslationResult, *models.ProblemDetails)
-
-	HandleCAGAck(string, *models.AcknowledgeInfo) *models.ProblemDetails
+	HandleModify(*ModifyParams, *models.SdmSubsModification) (*models.Schema, *models.ProblemDetails)
 
 	HandleModifySharedDataSubs(*ModifySharedDataSubsParams, *models.SdmSubsModification) (*models.Schema, *models.ProblemDetails)
 
-	HandleGetMultipleIdentifiers(*GetMultipleIdentifiersParams) (map[string]string, *map[string]models.SupiInfo, *models.ProblemDetails)
+	HandleGetEcrData(*GetEcrDataParams) (map[string]string, *models.EnhancedCoverageRestrictionData, *models.ProblemDetails)
 
-	HandleGetNSSAI(*GetNSSAIParams) (map[string]string, *models.Nssai, *models.ProblemDetails)
+	HandleGetLcsMoData(*GetLcsMoDataParams) (map[string]string, *models.LcsMoData, *models.ProblemDetails)
 
-	HandleGetTraceConfigData(*GetTraceConfigDataParams) (map[string]string, *models.TraceDataResponse, *models.ProblemDetails)
+	HandleGetLcsBcaData(*GetLcsBcaDataParams) (map[string]string, *models.LcsBroadcastAssistanceTypesData, *models.ProblemDetails)
+
+	HandleGetV2xData(*GetV2xDataParams) (map[string]string, *models.V2xSubscriptionData, *models.ProblemDetails)
+
+	HandleSubscribe(string, *models.SdmSubscription) (map[string]string, *models.SdmSubscription, *models.ProblemDetails)
+
+	HandleGetDataSets(*GetDataSetsParams) (map[string]string, *models.SubscriptionDataSets, *models.ProblemDetails)
 
 	HandleGetLcsPrivacyData(*GetLcsPrivacyDataParams) (map[string]string, *models.LcsPrivacyData, *models.ProblemDetails)
 
-	HandleGetGroupIdentifiers(*GetGroupIdentifiersParams) (map[string]string, *models.GroupIdentifiers, *models.ProblemDetails)
+	HandleGetUcData(*GetUcDataParams) (map[string]string, *models.UcSubscriptionData, *models.ProblemDetails)
 
-	HandleGetUeCtxInAmfData(*GetUeCtxInAmfDataParams) (*models.UeContextInAmfData, *models.ProblemDetails)
+	HandleGetAmData(*GetAmDataParams) (map[string]string, *models.AccessAndMobilitySubscriptionData, *models.ProblemDetails)
+
+	HandleGetUeCtxInSmfData(*GetUeCtxInSmfDataParams) (*models.UeContextInSmfData, *models.ProblemDetails)
 
 	HandleUnsubscribe(*UnsubscribeParams) *models.ProblemDetails
 
 	HandleSorAckInfo(string, *models.AcknowledgeInfo) *models.ProblemDetails
 
-	HandleGetAmData(*GetAmDataParams) (map[string]string, *models.AccessAndMobilitySubscriptionData, *models.ProblemDetails)
+	HandleSubscribeToSharedData(*models.SdmSubscription) (map[string]string, *models.SdmSubscription, *models.ProblemDetails)
 
-	HandleGetSmData(*GetSmDataParams) (map[string]string, *models.SmSubsData, *models.ProblemDetails)
+	HandleGetUeCtxInAmfData(*GetUeCtxInAmfDataParams) (*models.UeContextInAmfData, *models.ProblemDetails)
 
-	HandleSubscribe(string, *models.SdmSubscription) (map[string]string, *models.SdmSubscription, *models.ProblemDetails)
+	HandleUpuAck(string, *models.AcknowledgeInfo) *models.ProblemDetails
 
-	HandleGetLcsBcaData(*GetLcsBcaDataParams) (map[string]string, *models.LcsBroadcastAssistanceTypesData, *models.ProblemDetails)
-
-	HandleModify(*ModifyParams, *models.SdmSubsModification) (*models.Schema, *models.ProblemDetails)
-
-	HandleGetIndividualSharedData(*GetIndividualSharedDataParams) (map[string]string, *models.SharedData, *models.ProblemDetails)
-
-	HandleGetSmfSelData(*GetSmfSelDataParams) (map[string]string, *models.SmfSelectionSubscriptionData, *models.ProblemDetails)
-
-	HandleGetUeCtxInSmfData(*GetUeCtxInSmfDataParams) (*models.UeContextInSmfData, *models.ProblemDetails)
-
-	HandleGetSmsMngtData(*GetSmsMngtDataParams) (map[string]string, *models.SmsManagementSubscriptionData, *models.ProblemDetails)
+	HandleCAGAck(string, *models.AcknowledgeInfo) *models.ProblemDetails
 
 	HandleUpdateSORInfo(string, *models.SorUpdateInfo) (*models.SorInfo, *models.ProblemDetails)
 
-	HandleGetSharedData(*GetSharedDataParams) (map[string]string, *[]models.SharedData, *models.ProblemDetails)
+	HandleGetMultipleIdentifiers(*GetMultipleIdentifiersParams) (map[string]string, *map[string]models.SupiInfo, *models.ProblemDetails)
 
-	HandleGetV2xData(*GetV2xDataParams) (map[string]string, *models.V2xSubscriptionData, *models.ProblemDetails)
+	HandleGetUeCtxInSmsfData(*GetUeCtxInSmsfDataParams) (*models.UeContextInSmsfData, *models.ProblemDetails)
+
+	HandleGetSmsData(*GetSmsDataParams) (map[string]string, *models.SmsSubscriptionData, *models.ProblemDetails)
+
+	HandleGetProseData(*GetProseDataParams) (map[string]string, *models.ProseSubscriptionData, *models.ProblemDetails)
 
 	HandleGetMbsData(*GetMbsDataParams) (map[string]string, *models.MbsSubscriptionData, *models.ProblemDetails)
 
-	HandleGetUcData(*GetUcDataParams) (map[string]string, *models.UcSubscriptionData, *models.ProblemDetails)
+	HandleSNSSAIsAck(string, *models.AcknowledgeInfo) *models.ProblemDetails
+
+	HandleGetNSSAI(*GetNSSAIParams) (map[string]string, *models.Nssai, *models.ProblemDetails)
+
+	HandleGetSupiOrGpsi(*GetSupiOrGpsiParams) (map[string]string, *models.IdTranslationResult, *models.ProblemDetails)
+
+	HandleGetSharedData(*GetSharedDataParams) (map[string]string, *[]models.SharedData, *models.ProblemDetails)
 }

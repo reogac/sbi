@@ -1,20 +1,20 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SubscriptionDataSubscriptions struct {
-	SubscriptionId            string               `json:"subscriptionId,omitempty"`
-	UniqueSubscription        *bool                `json:"uniqueSubscription,omitempty"`
-	SupportedFeatures         string               `json:"supportedFeatures,omitempty"`
 	UeId                      string               `json:"ueId,omitempty"`
-	OriginalCallbackReference string               `json:"originalCallbackReference,omitempty"`
-	MonitoredResourceUris     []string             `json:"monitoredResourceUris"`
 	Expiry                    string               `json:"expiry,omitempty"`
 	HssSubscriptionInfo       *HssSubscriptionInfo `json:"hssSubscriptionInfo,omitempty"`
+	SubscriptionId            string               `json:"subscriptionId,omitempty"`
+	UniqueSubscription        *bool                `json:"uniqueSubscription,omitempty"`
 	CallbackReference         string               `json:"callbackReference"`
+	OriginalCallbackReference string               `json:"originalCallbackReference,omitempty"`
+	MonitoredResourceUris     []string             `json:"monitoredResourceUris"`
 	SdmSubscription           *SdmSubscription     `json:"sdmSubscription,omitempty"`
+	SupportedFeatures         string               `json:"supportedFeatures,omitempty"`
 }

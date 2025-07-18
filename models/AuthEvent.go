@@ -1,20 +1,20 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AuthEvent struct {
-	Success                    bool     `json:"success"`
+	AuthType                   AuthType `json:"authType"`
 	TimeStamp                  string   `json:"timeStamp"`
+	Success                    bool     `json:"success"`
 	ServingNetworkName         string   `json:"servingNetworkName"`
 	AuthRemovalInd             *bool    `json:"authRemovalInd,omitempty"`
-	ResetIds                   []string `json:"resetIds,omitempty"`
-	NfInstanceId               string   `json:"nfInstanceId"`
 	NfSetId                    string   `json:"nfSetId,omitempty"`
+	ResetIds                   []string `json:"resetIds,omitempty"`
 	DataRestorationCallbackUri string   `json:"dataRestorationCallbackUri,omitempty"`
 	UdrRestartInd              *bool    `json:"udrRestartInd,omitempty"`
-	AuthType                   AuthType `json:"authType"`
+	NfInstanceId               string   `json:"nfInstanceId"`
 }

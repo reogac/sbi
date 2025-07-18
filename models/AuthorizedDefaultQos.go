@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul  8 13:19:44 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 15:09:46 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -8,13 +8,13 @@ package models
 
 type AuthorizedDefaultQos struct {
 	Arp                *Arp   `json:"arp,omitempty"`
+	MaxDataBurstVol    *int   `json:"maxDataBurstVol,omitempty"`
 	MaxbrUl            string `json:"maxbrUl,omitempty"`
-	MaxbrDl            string `json:"maxbrDl,omitempty"`
-	GbrDl              string `json:"gbrDl,omitempty"`
+	GbrUl              string `json:"gbrUl,omitempty"`
 	ExtMaxDataBurstVol *int   `json:"extMaxDataBurstVol,omitempty"`
 	FiveQi             *int   `json:"5qi,omitempty"`
-	AverWindow         *int   `json:"averWindow,omitempty"`
-	MaxDataBurstVol    *int   `json:"maxDataBurstVol,omitempty"`
-	GbrUl              string `json:"gbrUl,omitempty"`
 	PriorityLevel      *int   `json:"priorityLevel,omitempty"`
+	AverWindow         *int   `json:"averWindow,omitempty"`
+	MaxbrDl            string `json:"maxbrDl,omitempty"`
+	GbrDl              string `json:"gbrDl,omitempty"`
 }
