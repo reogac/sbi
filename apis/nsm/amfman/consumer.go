@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -58,16 +58,16 @@ func AmfRegister(cli sbi.ConsumerClient, body *models.AmfRegistrationRequest) (r
 
 // Summary:
 // Description:
-// Path: /supported-plmn-list
+// Path: /supported-slices
 // Path Params:
-func GetSupportedPlmnList(cli sbi.ConsumerClient, body *models.GetSupportedPlmnListRequest) (rsp *models.GetSupportedPlmnListResponse, err error) {
+func GetSupportedSlices(cli sbi.ConsumerClient, body *models.GetSupportedSlicesRequest) (rsp *models.GetSupportedSlicesResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/supported-plmn-list", PATH_ROOT)
+	path := fmt.Sprintf("%s/supported-slices", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodGet, body)
 	var response *sbi.Response
 	if response, err = cli.Send(request); err != nil {
@@ -78,9 +78,9 @@ func GetSupportedPlmnList(cli sbi.ConsumerClient, body *models.GetSupportedPlmnL
 
 	switch response.GetCode() {
 	case 201:
-		rsp = new(models.GetSupportedPlmnListResponse)
+		rsp = new(models.GetSupportedSlicesResponse)
 		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode GetSupportedPlmnListResponse: %+v", err)
+			err = fmt.Errorf("Fail to decode GetSupportedSlicesResponse: %+v", err)
 		}
 	case 500:
 		prob := new(models.ProblemDetails)

@@ -4,6 +4,18 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udm/ueauth"
 )
+func (p *Producer) HandleGenerateAv(params *ueauth.GenerateAvParams,body *models.HssAuthenticationInfoRequest)(rsp *models.HssAuthenticationInfoResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteAuth(params *ueauth.DeleteAuthParams,body *models.AuthEvent)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGenerateGbaAv(supi string,body *models.GbaAuthenticationInfoRequest)(rsp *models.GbaAuthenticationInfoResult,prob *models.ProblemDetails){
+	return
+}
+
 func (p *Producer) HandleGenerateProseAV(supiOrSuci string,body *models.ProSeAuthenticationInfoRequest)(rsp *models.ProSeAuthenticationInfoResult,prob *models.ProblemDetails){
 	return
 }
@@ -18,18 +30,6 @@ func (p *Producer) HandleGetRgAuthData(params *ueauth.GetRgAuthDataParams)(rsp *
 
 func (p *Producer) HandleConfirmAuth(supi string,body *models.AuthEvent)(headers map[string]string,rsp *models.AuthEvent,prob *models.ProblemDetails){
 // headers: Location
-	return
-}
-
-func (p *Producer) HandleGenerateAv(params *ueauth.GenerateAvParams,body *models.HssAuthenticationInfoRequest)(rsp *models.HssAuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteAuth(params *ueauth.DeleteAuthParams,body *models.AuthEvent)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGenerateGbaAv(supi string,body *models.GbaAuthenticationInfoRequest)(rsp *models.GbaAuthenticationInfoResult,prob *models.ProblemDetails){
 	return
 }
 */

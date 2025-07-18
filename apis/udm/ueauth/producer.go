@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,6 +11,125 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
+
+func OnGenerateAv(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GenerateAvParams
+
+	// read 'hssAuthType'
+	params.HssAuthType = ctx.Param("hssAuthType")
+	if len(params.HssAuthType) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "hssAuthType is required"), nil)
+		return
+	}
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.HssAuthenticationInfoRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGenerateAv(&params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnDeleteAuth(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params DeleteAuthParams
+
+	// read 'supi'
+	params.Supi = ctx.Param("supi")
+	if len(params.Supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'authEventId'
+	params.AuthEventId = ctx.Param("authEventId")
+	if len(params.AuthEventId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authEventId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.AuthEvent)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleDeleteAuth(&params, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnGenerateGbaAv(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'supi'
+	var supi string
+	supi = ctx.Param("supi")
+	if len(supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.GbaAuthenticationInfoRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGenerateGbaAv(supi, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
 
 func OnGenerateProseAV(ctx sbi.RequestContext, prod Producer) {
 	var err error
@@ -178,126 +297,13 @@ func OnConfirmAuth(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGenerateAv(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GenerateAvParams
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'hssAuthType'
-	params.HssAuthType = ctx.Param("hssAuthType")
-	if len(params.HssAuthType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "hssAuthType is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.HssAuthenticationInfoRequest)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGenerateAv(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnDeleteAuth(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params DeleteAuthParams
-
-	// read 'supi'
-	params.Supi = ctx.Param("supi")
-	if len(params.Supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// read 'authEventId'
-	params.AuthEventId = ctx.Param("authEventId")
-	if len(params.AuthEventId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authEventId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.AuthEvent)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDeleteAuth(&params, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGenerateGbaAv(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'supi'
-	var supi string
-	supi = ctx.Param("supi")
-	if len(supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.GbaAuthenticationInfoRequest)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGenerateGbaAv(supi, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
 type Producer interface {
+	HandleGenerateAv(*GenerateAvParams, *models.HssAuthenticationInfoRequest) (*models.HssAuthenticationInfoResult, *models.ProblemDetails)
+
+	HandleDeleteAuth(*DeleteAuthParams, *models.AuthEvent) *models.ProblemDetails
+
+	HandleGenerateGbaAv(string, *models.GbaAuthenticationInfoRequest) (*models.GbaAuthenticationInfoResult, *models.ProblemDetails)
+
 	HandleGenerateProseAV(string, *models.ProSeAuthenticationInfoRequest) (*models.ProSeAuthenticationInfoResult, *models.ProblemDetails)
 
 	HandleGenerateAuthData(string, *models.AuthenticationInfoRequest) (*models.AuthenticationInfoResult, *models.ProblemDetails)
@@ -305,10 +311,4 @@ type Producer interface {
 	HandleGetRgAuthData(*GetRgAuthDataParams) (*models.RgAuthCtx, *models.ProblemDetails)
 
 	HandleConfirmAuth(string, *models.AuthEvent) (map[string]string, *models.AuthEvent, *models.ProblemDetails)
-
-	HandleGenerateAv(*GenerateAvParams, *models.HssAuthenticationInfoRequest) (*models.HssAuthenticationInfoResult, *models.ProblemDetails)
-
-	HandleDeleteAuth(*DeleteAuthParams, *models.AuthEvent) *models.ProblemDetails
-
-	HandleGenerateGbaAv(string, *models.GbaAuthenticationInfoRequest) (*models.GbaAuthenticationInfoResult, *models.ProblemDetails)
 }

@@ -72,15 +72,15 @@ components:
   schemas:
 
     SupportedTAItem:
-      description: Supported TA item at gnB
+      description: Supported TA item at gnB for serving Plmn
       type: object
       properties:
         tac:
           type: string
-        plmnList:
+        slices:
           type: array
           items:
-            $ref: 'ETRI_NSM_Amf_Management.yaml#/components/schemas/SupportedPlmnItem'
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
       required:
         - tac
 

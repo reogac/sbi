@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:45 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,18 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "EapAuthMethod",
+		Method:  http.MethodPost,
+		Path:    "/ue-authentications/:authCtxId/eap-session",
+		Handler: OnEapAuthMethod,
+	},
+	{
+		Label:   "UeAuthenticationsPost",
+		Method:  http.MethodPost,
+		Path:    "/ue-authentications",
+		Handler: OnUeAuthenticationsPost,
+	},
 	{
 		Label:   "UeAuthentications5gAkaConfirmationPut",
 		Method:  http.MethodPut,
@@ -25,34 +37,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnDelete5gAkaAuthenticationResult,
 	},
 	{
-		Label:   "EapAuthMethod",
+		Label:   "ProseAuthenticationsPost",
 		Method:  http.MethodPost,
-		Path:    "/ue-authentications/:authCtxId/eap-session",
-		Handler: OnEapAuthMethod,
-	},
-	{
-		Label:   "DeleteEapAuthenticationResult",
-		Method:  http.MethodDelete,
-		Path:    "/ue-authentications/:authCtxId/eap-session",
-		Handler: OnDeleteEapAuthenticationResult,
-	},
-	{
-		Label:   "DeleteProSeAuthenticationResult",
-		Method:  http.MethodDelete,
-		Path:    "/prose-authentications/:authCtxId/prose-auth",
-		Handler: OnDeleteProSeAuthenticationResult,
-	},
-	{
-		Label:   "UeAuthenticationsPost",
-		Method:  http.MethodPost,
-		Path:    "/ue-authentications",
-		Handler: OnUeAuthenticationsPost,
-	},
-	{
-		Label:   "UeAuthenticationsDeregisterPost",
-		Method:  http.MethodPost,
-		Path:    "/ue-authentications/deregister",
-		Handler: OnUeAuthenticationsDeregisterPost,
+		Path:    "/prose-authentications",
+		Handler: OnProseAuthenticationsPost,
 	},
 	{
 		Label:   "ProseAuth",
@@ -61,16 +49,28 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnProseAuth,
 	},
 	{
+		Label:   "DeleteProSeAuthenticationResult",
+		Method:  http.MethodDelete,
+		Path:    "/prose-authentications/:authCtxId/prose-auth",
+		Handler: OnDeleteProSeAuthenticationResult,
+	},
+	{
+		Label:   "UeAuthenticationsDeregisterPost",
+		Method:  http.MethodPost,
+		Path:    "/ue-authentications/deregister",
+		Handler: OnUeAuthenticationsDeregisterPost,
+	},
+	{
+		Label:   "DeleteEapAuthenticationResult",
+		Method:  http.MethodDelete,
+		Path:    "/ue-authentications/:authCtxId/eap-session",
+		Handler: OnDeleteEapAuthenticationResult,
+	},
+	{
 		Label:   "RgAuthenticationsPost",
 		Method:  http.MethodPost,
 		Path:    "/rg-authentications",
 		Handler: OnRgAuthenticationsPost,
-	},
-	{
-		Label:   "ProseAuthenticationsPost",
-		Method:  http.MethodPost,
-		Path:    "/prose-authentications",
-		Handler: OnProseAuthenticationsPost,
 	},
 }
 

@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -40,19 +40,19 @@ func OnAmfRegister(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnGetSupportedPlmnList(ctx sbi.RequestContext, prod Producer) {
+func OnGetSupportedSlices(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.GetSupportedPlmnListRequest)
+	body := new(models.GetSupportedSlicesRequest)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleGetSupportedPlmnList(body)
+	rsp, prob := prod.HandleGetSupportedSlices(body)
 
 	// check for success response
 	if rsp != nil {
@@ -71,5 +71,5 @@ func OnGetSupportedPlmnList(ctx sbi.RequestContext, prod Producer) {
 type Producer interface {
 	HandleAmfRegister(*models.AmfRegistrationRequest) (*models.AmfRegistrationResponse, *models.ProblemDetails)
 
-	HandleGetSupportedPlmnList(*models.GetSupportedPlmnListRequest) (*models.GetSupportedPlmnListResponse, *models.ProblemDetails)
+	HandleGetSupportedSlices(*models.GetSupportedSlicesRequest) (*models.GetSupportedSlicesResponse, *models.ProblemDetails)
 }

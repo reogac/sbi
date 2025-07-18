@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:43 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:33 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,60 +12,6 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
-	{
-		Label:   "IpSmGwRegistration",
-		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/ip-sm-gw",
-		Handler: OnIpSmGwRegistration,
-	},
-	{
-		Label:   "DeregAMF",
-		Method:  http.MethodPost,
-		Path:    "/:ueId/registrations/amf-3gpp-access/dereg-amf",
-		Handler: OnDeregAMF,
-	},
-	{
-		Label:   "UpdateNon3GppRegistration",
-		Method:  http.MethodPatch,
-		Path:    "/:ueId/registrations/amf-non-3gpp-access",
-		Handler: OnUpdateNon3GppRegistration,
-	},
-	{
-		Label:   "UpdateSmfRegistration",
-		Method:  http.MethodPatch,
-		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
-		Handler: OnUpdateSmfRegistration,
-	},
-	{
-		Label:   "NwdafDeregistration",
-		Method:  http.MethodDelete,
-		Path:    "/:ueId/registrations/nwdaf-registrations/:nwdafRegistrationId",
-		Handler: OnNwdafDeregistration,
-	},
-	{
-		Label:   "GetNon3GppRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/amf-non-3gpp-access",
-		Handler: OnGetNon3GppRegistration,
-	},
-	{
-		Label:   "GetSmfRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/smf-registrations",
-		Handler: OnGetSmfRegistration,
-	},
-	{
-		Label:   "Registration",
-		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
-		Handler: OnRegistration,
-	},
-	{
-		Label:   "GetNwdafRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/nwdaf-registrations",
-		Handler: OnGetNwdafRegistration,
-	},
 	{
 		Label:   "GetRegistrations",
 		Method:  http.MethodGet,
@@ -79,22 +25,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnThreeGppRegistration,
 	},
 	{
-		Label:   "Update3GppRegistration",
-		Method:  http.MethodPatch,
-		Path:    "/:ueId/registrations/amf-3gpp-access",
-		Handler: OnUpdate3GppRegistration,
-	},
-	{
-		Label:   "RetrieveSmfRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
-		Handler: OnRetrieveSmfRegistration,
-	},
-	{
-		Label:   "ThreeGppSmsfDeregistration",
+		Label:   "SmfDeregistration",
 		Method:  http.MethodDelete,
-		Path:    "/:ueId/registrations/smsf-3gpp-access",
-		Handler: OnThreeGppSmsfDeregistration,
+		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
+		Handler: OnSmfDeregistration,
 	},
 	{
 		Label:   "Get3GppSmsfRegistration",
@@ -103,10 +37,22 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnGet3GppSmsfRegistration,
 	},
 	{
-		Label:   "Non3GppSmsfDeregistration",
-		Method:  http.MethodDelete,
-		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
-		Handler: OnNon3GppSmsfDeregistration,
+		Label:   "IpSmGwRegistration",
+		Method:  http.MethodPut,
+		Path:    "/:ueId/registrations/ip-sm-gw",
+		Handler: OnIpSmGwRegistration,
+	},
+	{
+		Label:   "Update3GppRegistration",
+		Method:  http.MethodPatch,
+		Path:    "/:ueId/registrations/amf-3gpp-access",
+		Handler: OnUpdate3GppRegistration,
+	},
+	{
+		Label:   "Registration",
+		Method:  http.MethodPut,
+		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
+		Handler: OnRegistration,
 	},
 	{
 		Label:   "ThreeGppSmsfRegistration",
@@ -115,10 +61,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnThreeGppSmsfRegistration,
 	},
 	{
-		Label:   "GetLocationInfo",
+		Label:   "GetIpSmGwRegistration",
 		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/location",
-		Handler: OnGetLocationInfo,
+		Path:    "/:ueId/registrations/ip-sm-gw",
+		Handler: OnGetIpSmGwRegistration,
 	},
 	{
 		Label:   "SendRoutingInfoSm",
@@ -127,16 +73,40 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnSendRoutingInfoSm,
 	},
 	{
+		Label:   "Get3GppRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/amf-3gpp-access",
+		Handler: OnGet3GppRegistration,
+	},
+	{
+		Label:   "UpdateRoamingInformation",
+		Method:  http.MethodPost,
+		Path:    "/:ueId/registrations/amf-3gpp-access/roaming-info-update",
+		Handler: OnUpdateRoamingInformation,
+	},
+	{
+		Label:   "ThreeGppSmsfDeregistration",
+		Method:  http.MethodDelete,
+		Path:    "/:ueId/registrations/smsf-3gpp-access",
+		Handler: OnThreeGppSmsfDeregistration,
+	},
+	{
+		Label:   "Non3GppRegistration",
+		Method:  http.MethodPut,
+		Path:    "/:ueId/registrations/amf-non-3gpp-access",
+		Handler: OnNon3GppRegistration,
+	},
+	{
 		Label:   "GetNon3GppSmsfRegistration",
 		Method:  http.MethodGet,
 		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
 		Handler: OnGetNon3GppSmsfRegistration,
 	},
 	{
-		Label:   "GetIpSmGwRegistration",
-		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/ip-sm-gw",
-		Handler: OnGetIpSmGwRegistration,
+		Label:   "Non3GppSmsfDeregistration",
+		Method:  http.MethodDelete,
+		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
+		Handler: OnNon3GppSmsfDeregistration,
 	},
 	{
 		Label:   "IpSmGwDeregistration",
@@ -151,22 +121,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnNwdafRegistration,
 	},
 	{
-		Label:   "UpdateNwdafRegistration",
-		Method:  http.MethodPatch,
-		Path:    "/:ueId/registrations/nwdaf-registrations/:nwdafRegistrationId",
-		Handler: OnUpdateNwdafRegistration,
-	},
-	{
-		Label:   "SmfDeregistration",
-		Method:  http.MethodDelete,
-		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
-		Handler: OnSmfDeregistration,
-	},
-	{
-		Label:   "Non3GppSmsfRegistration",
-		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
-		Handler: OnNon3GppSmsfRegistration,
+		Label:   "GetNon3GppRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/amf-non-3gpp-access",
+		Handler: OnGetNon3GppRegistration,
 	},
 	{
 		Label:   "TriggerPCSCFRestoration",
@@ -175,10 +133,16 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnTriggerPCSCFRestoration,
 	},
 	{
-		Label:   "Get3GppRegistration",
+		Label:   "GetNwdafRegistration",
 		Method:  http.MethodGet,
-		Path:    "/:ueId/registrations/amf-3gpp-access",
-		Handler: OnGet3GppRegistration,
+		Path:    "/:ueId/registrations/nwdaf-registrations",
+		Handler: OnGetNwdafRegistration,
+	},
+	{
+		Label:   "NwdafDeregistration",
+		Method:  http.MethodDelete,
+		Path:    "/:ueId/registrations/nwdaf-registrations/:nwdafRegistrationId",
+		Handler: OnNwdafDeregistration,
 	},
 	{
 		Label:   "PeiUpdate",
@@ -187,16 +151,52 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnPeiUpdate,
 	},
 	{
-		Label:   "UpdateRoamingInformation",
-		Method:  http.MethodPost,
-		Path:    "/:ueId/registrations/amf-3gpp-access/roaming-info-update",
-		Handler: OnUpdateRoamingInformation,
+		Label:   "UpdateNon3GppRegistration",
+		Method:  http.MethodPatch,
+		Path:    "/:ueId/registrations/amf-non-3gpp-access",
+		Handler: OnUpdateNon3GppRegistration,
 	},
 	{
-		Label:   "Non3GppRegistration",
+		Label:   "Non3GppSmsfRegistration",
 		Method:  http.MethodPut,
-		Path:    "/:ueId/registrations/amf-non-3gpp-access",
-		Handler: OnNon3GppRegistration,
+		Path:    "/:ueId/registrations/smsf-non-3gpp-access",
+		Handler: OnNon3GppSmsfRegistration,
+	},
+	{
+		Label:   "GetSmfRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/smf-registrations",
+		Handler: OnGetSmfRegistration,
+	},
+	{
+		Label:   "RetrieveSmfRegistration",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
+		Handler: OnRetrieveSmfRegistration,
+	},
+	{
+		Label:   "UpdateSmfRegistration",
+		Method:  http.MethodPatch,
+		Path:    "/:ueId/registrations/smf-registrations/:pduSessionId",
+		Handler: OnUpdateSmfRegistration,
+	},
+	{
+		Label:   "GetLocationInfo",
+		Method:  http.MethodGet,
+		Path:    "/:ueId/registrations/location",
+		Handler: OnGetLocationInfo,
+	},
+	{
+		Label:   "UpdateNwdafRegistration",
+		Method:  http.MethodPatch,
+		Path:    "/:ueId/registrations/nwdaf-registrations/:nwdafRegistrationId",
+		Handler: OnUpdateNwdafRegistration,
+	},
+	{
+		Label:   "DeregAMF",
+		Method:  http.MethodPost,
+		Path:    "/:ueId/registrations/amf-3gpp-access/dereg-amf",
+		Handler: OnDeregAMF,
 	},
 }
 

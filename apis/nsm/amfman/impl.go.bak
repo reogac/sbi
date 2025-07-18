@@ -8,7 +8,7 @@ func (p *Producer) HandleAmfRegister(body *models.AmfRegistrationRequest)(rsp *m
 	return
 }
 
-func (p *Producer) HandleGetSupportedPlmnList(body *models.GetSupportedPlmnListRequest)(rsp *models.GetSupportedPlmnListResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSupportedSlices(body *models.GetSupportedSlicesRequest)(rsp *models.GetSupportedSlicesResponse,prob *models.ProblemDetails){
 	return
 }
 */

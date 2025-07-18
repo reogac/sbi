@@ -1,22 +1,22 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type HandoverRequest struct {
-	SourceToTargetContent []byte                    `json:"sourceToTargetContent,omitempty"`
-	Sessions              []N2SmInfoDownlinkContent `json:"sessions,omitempty"`
-	SecurityContext       SecurityContext           `json:"securityContext"`
-	Guami                 Guami                     `json:"guami"`
+	AllowedNssai          AllowedNssai              `json:"allowedNssai"`
+	MaskedImeisv          []byte                    `json:"maskedImeisv,omitempty"`
 	NewSecInd             bool                      `json:"newSecInd"`
-	UeAmbr                UeAmbr                    `json:"ueAmbr"`
 	AmfUeId               int64                     `json:"amfUeId"`
 	HandoverType          int16                     `json:"handoverType"`
-	AllowedNssai          AllowedNssai              `json:"allowedNssai"`
+	SecurityContext       SecurityContext           `json:"securityContext"`
+	Guami                 Guami                     `json:"guami"`
 	Cause                 N2Cause                   `json:"cause"`
-	MaskedImeisv          []byte                    `json:"maskedImeisv,omitempty"`
 	UeSecurityCapability  UeSecurityCapability      `json:"ueSecurityCapability"`
+	UeAmbr                UeAmbr                    `json:"ueAmbr"`
+	SourceToTargetContent []byte                    `json:"sourceToTargetContent,omitempty"`
+	Sessions              []N2SmInfoDownlinkContent `json:"sessions,omitempty"`
 }

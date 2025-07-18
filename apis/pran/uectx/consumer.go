@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,45 +16,6 @@ import (
 const (
 	PATH_ROOT string = "pran-uectx/v1"
 )
-
-// Summary:
-// Description:
-// Path: /uectx/setup/:ueId
-// Path Params: ueId
-func UeContextSetup(cli sbi.ConsumerClient, ueId int64, body *models.UeContextSetupRequest) (rsp *models.UeContextSetupResponse, ersp *models.UeContextSetupFailure, err error) {
-
-	path := fmt.Sprintf("%s/uectx/setup/%s", PATH_ROOT, models.Int64ToString(ueId))
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.UeContextSetupResponse)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode UeContextSetupResponse: %+v", err)
-		}
-	case 400:
-		ersp = new(models.UeContextSetupFailure)
-		if err = response.DecodeBody(ersp); err != nil {
-			err = fmt.Errorf("Fail to decode UeContextSetupFailure: %+v", err)
-		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -158,6 +119,45 @@ func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContext
 			err = fmt.Errorf("Fail to decode UeContextReleaseComplete: %+v", err)
 		}
 	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /uectx/setup/:ueId
+// Path Params: ueId
+func UeContextSetup(cli sbi.ConsumerClient, ueId int64, body *models.UeContextSetupRequest) (rsp *models.UeContextSetupResponse, ersp *models.UeContextSetupFailure, err error) {
+
+	path := fmt.Sprintf("%s/uectx/setup/%s", PATH_ROOT, models.Int64ToString(ueId))
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(models.UeContextSetupResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UeContextSetupResponse: %+v", err)
+		}
+	case 400:
+		ersp = new(models.UeContextSetupFailure)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode UeContextSetupFailure: %+v", err)
+		}
+	case 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

@@ -1,13 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:50 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type MbsSessionId struct {
+	Tmgi *Tmgi  `json:"tmgi,omitempty"`
 	Ssm  *Ssm   `json:"ssm,omitempty"`
 	Nid  string `json:"nid,omitempty"`
-	Tmgi *Tmgi  `json:"tmgi,omitempty"`
 }

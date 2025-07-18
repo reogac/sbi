@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,188 +16,6 @@ import (
 const (
 	PATH_ROOT string = "nsmf-pdusession/v1"
 )
-
-// Summary: Send MO Data
-// Description:
-// Path: /sm-contexts/:smContextRef/send-mo-data
-// Path Params: smContextRef
-func SendMoData(cli sbi.ConsumerClient, smContextRef string, body *models.SendMoDataRequest) (ersp *models.ExtProblemDetails, err error) {
-
-	if len(smContextRef) == 0 {
-		err = fmt.Errorf("smContextRef is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/sm-contexts/%s/send-mo-data", PATH_ROOT, smContextRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 401, 403, 404, 413, 415, 429, 500, 503:
-		ersp = new(models.ExtProblemDetails)
-		if err = response.DecodeBody(ersp); err != nil {
-			err = fmt.Errorf("Fail to decode ExtProblemDetails: %+v", err)
-		}
-	case 411:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Create
-// Description:
-// Path: /pdu-sessions
-// Path Params:
-// Response headers: Location
-func PostPduSessions(cli sbi.ConsumerClient, body *models.PostPduSessionsRequest) (headers map[string]string, rsp *models.PostPduSessionsResponse, ersp *models.PostPduSessionsErrorResponse, err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pdu-sessions", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		headers = response.GetHeaders()
-		rsp = new(models.PostPduSessionsResponse)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode PostPduSessionsResponse: %+v", err)
-		}
-	case 400, 403, 404, 500, 503:
-		ersp = new(models.PostPduSessionsErrorResponse)
-		if err = response.DecodeBody(ersp); err != nil {
-			err = fmt.Errorf("Fail to decode PostPduSessionsErrorResponse: %+v", err)
-		}
-	case 411, 413, 415, 429:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Update (initiated by V-SMF or I-SMF)
-// Description:
-// Path: /pdu-sessions/:pduSessionRef/modify
-// Path Params: pduSessionRef
-func UpdatePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.UpdatePduSessionRequest) (rsp *models.UpdatePduSessionResponse, ersp *models.UpdatePduSessionErrorResponse, err error) {
-
-	if len(pduSessionRef) == 0 {
-		err = fmt.Errorf("pduSessionRef is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pdu-sessions/%s/modify", PATH_ROOT, pduSessionRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UpdatePduSessionResponse)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode UpdatePduSessionResponse: %+v", err)
-		}
-	case 204:
-		return
-	case 400, 403, 404, 500, 503:
-		ersp = new(models.UpdatePduSessionErrorResponse)
-		if err = response.DecodeBody(ersp); err != nil {
-			err = fmt.Errorf("Fail to decode UpdatePduSessionErrorResponse: %+v", err)
-		}
-	case 411, 413, 415, 429:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary: Release
-// Description:
-// Path: /pdu-sessions/:pduSessionRef/release
-// Path Params: pduSessionRef
-func ReleasePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.ReleasePduSessionRequest) (rsp *models.ReleasePduSessionResponse, err error) {
-
-	if len(pduSessionRef) == 0 {
-		err = fmt.Errorf("pduSessionRef is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/pdu-sessions/%s/release", PATH_ROOT, pduSessionRef)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.ReleasePduSessionResponse)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode ReleasePduSessionResponse: %+v", err)
-		}
-	case 204:
-		return
-	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary: Create SM Context
 // Description:
@@ -339,6 +157,102 @@ func UpdateSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.U
 	return
 }
 
+// Summary: Create
+// Description:
+// Path: /pdu-sessions
+// Path Params:
+// Response headers: Location
+func PostPduSessions(cli sbi.ConsumerClient, body *models.PostPduSessionsRequest) (headers map[string]string, rsp *models.PostPduSessionsResponse, ersp *models.PostPduSessionsErrorResponse, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pdu-sessions", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		headers = response.GetHeaders()
+		rsp = new(models.PostPduSessionsResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode PostPduSessionsResponse: %+v", err)
+		}
+	case 400, 403, 404, 500, 503:
+		ersp = new(models.PostPduSessionsErrorResponse)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode PostPduSessionsErrorResponse: %+v", err)
+		}
+	case 411, 413, 415, 429:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Update (initiated by V-SMF or I-SMF)
+// Description:
+// Path: /pdu-sessions/:pduSessionRef/modify
+// Path Params: pduSessionRef
+func UpdatePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.UpdatePduSessionRequest) (rsp *models.UpdatePduSessionResponse, ersp *models.UpdatePduSessionErrorResponse, err error) {
+
+	if len(pduSessionRef) == 0 {
+		err = fmt.Errorf("pduSessionRef is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pdu-sessions/%s/modify", PATH_ROOT, pduSessionRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UpdatePduSessionResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UpdatePduSessionResponse: %+v", err)
+		}
+	case 204:
+		return
+	case 400, 403, 404, 500, 503:
+		ersp = new(models.UpdatePduSessionErrorResponse)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode UpdatePduSessionErrorResponse: %+v", err)
+		}
+	case 411, 413, 415, 429:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
 // Summary: Release SM Context
 // Description:
 // Path: /sm-contexts/:smContextRef/release
@@ -364,6 +278,92 @@ func ReleaseSmContext(cli sbi.ConsumerClient, smContextRef string, body *models.
 		rsp = new(models.SmContextReleasedData)
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode SmContextReleasedData: %+v", err)
+		}
+	case 204:
+		return
+	case 400, 403, 404, 411, 413, 415, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Send MO Data
+// Description:
+// Path: /sm-contexts/:smContextRef/send-mo-data
+// Path Params: smContextRef
+func SendMoData(cli sbi.ConsumerClient, smContextRef string, body *models.SendMoDataRequest) (ersp *models.ExtProblemDetails, err error) {
+
+	if len(smContextRef) == 0 {
+		err = fmt.Errorf("smContextRef is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/sm-contexts/%s/send-mo-data", PATH_ROOT, smContextRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 401, 403, 404, 413, 415, 429, 500, 503:
+		ersp = new(models.ExtProblemDetails)
+		if err = response.DecodeBody(ersp); err != nil {
+			err = fmt.Errorf("Fail to decode ExtProblemDetails: %+v", err)
+		}
+	case 411:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary: Release
+// Description:
+// Path: /pdu-sessions/:pduSessionRef/release
+// Path Params: pduSessionRef
+func ReleasePduSession(cli sbi.ConsumerClient, pduSessionRef string, body *models.ReleasePduSessionRequest) (rsp *models.ReleasePduSessionResponse, err error) {
+
+	if len(pduSessionRef) == 0 {
+		err = fmt.Errorf("pduSessionRef is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/pdu-sessions/%s/release", PATH_ROOT, pduSessionRef)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.ReleasePduSessionResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode ReleasePduSessionResponse: %+v", err)
 		}
 	case 204:
 		return

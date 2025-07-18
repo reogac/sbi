@@ -132,10 +132,10 @@ components:
       properties:
         setId:
           type: string
-        supportedPlmns:
+        slices:
           type: array
           items:
-            $ref: 'ETRI_NSM_Amf_Management.yaml#/components/schemas/SupportedPlmnItem'
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
       required:
         - setId
 

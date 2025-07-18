@@ -1,13 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:48 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:38 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ServiceAreaId struct {
-	Sac    string `json:"sac"`
 	PlmnId PlmnId `json:"plmnId"`
 	Lac    string `json:"lac"`
+	Sac    string `json:"sac"`
 }

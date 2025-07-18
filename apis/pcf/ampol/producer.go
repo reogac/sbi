@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:47 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,34 +11,6 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
-
-func OnCreateIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.PolicyAssociationRequest)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleCreateIndividualAMPolicyAssociation(body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
 
 func OnReadIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer) {
 
@@ -127,12 +99,40 @@ func OnReportObservedEventTriggersForIndividualAMPolicyAssociation(ctx sbi.Reque
 
 }
 
-type Producer interface {
-	HandleCreateIndividualAMPolicyAssociation(*models.PolicyAssociationRequest) (map[string]string, *models.PolicyAssociation, *models.ProblemDetails)
+func OnCreateIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer) {
+	var err error
 
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.PolicyAssociationRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleCreateIndividualAMPolicyAssociation(body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+type Producer interface {
 	HandleReadIndividualAMPolicyAssociation(string) (*models.PolicyAssociation, *models.ProblemDetails)
 
 	HandleDeleteIndividualAMPolicyAssociation(string) *models.ProblemDetails
 
 	HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(string, *models.PolicyAssociationUpdateRequest) (*models.PolicyUpdate, *models.ProblemDetails)
+
+	HandleCreateIndividualAMPolicyAssociation(*models.PolicyAssociationRequest) (map[string]string, *models.PolicyAssociation, *models.ProblemDetails)
 }

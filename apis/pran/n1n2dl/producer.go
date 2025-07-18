@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:36 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,47 +12,6 @@ import (
 	"github.com/reogac/sbi/models"
 	"io"
 )
-
-func OnSessionResourceRelease(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId int64
-	ueIdStr := ctx.Param("ueId")
-	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.SessionResourceReleaseRequest)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleSessionResourceRelease(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
 
 func OnN2SmInfoDownlink(ctx sbi.RequestContext, prod Producer) {
 	var err error
@@ -176,12 +135,53 @@ func OnSessionResourceModify(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-type Producer interface {
-	HandleSessionResourceRelease(int64, *models.SessionResourceReleaseRequest) (*models.SessionResourceReleaseResponse, *models.ProblemDetails)
+func OnSessionResourceRelease(ctx sbi.RequestContext, prod Producer) {
+	var err error
 
+	// read 'ueId'
+	var ueId int64
+	ueIdStr := ctx.Param("ueId")
+	if len(ueIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.SessionResourceReleaseRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleSessionResourceRelease(ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+type Producer interface {
 	HandleN2SmInfoDownlink(int64, *models.N2SmInfoDownlinkTransport) *models.ProblemDetails
 
 	HandleSessionResourceSetup(int64, *models.SessionResourceSetupRequest) (*models.SessionResourceSetupResponse, *models.ProblemDetails)
 
 	HandleSessionResourceModify(int64, *models.SessionResourceModifyRequest) (*models.SessionResourceModifyResponse, *models.ProblemDetails)
+
+	HandleSessionResourceRelease(int64, *models.SessionResourceReleaseRequest) (*models.SessionResourceReleaseResponse, *models.ProblemDetails)
 }

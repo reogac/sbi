@@ -1,26 +1,26 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 15:09:49 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Fri Jul 18 16:49:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type EeSubscription struct {
+	ScefDiamHost               string                             `json:"scefDiamHost,omitempty"`
+	Gpsi                       string                             `json:"gpsi,omitempty"`
+	ExcludeGpsiList            []string                           `json:"excludeGpsiList,omitempty"`
+	UdrRestartInd              *bool                              `json:"udrRestartInd,omitempty"`
+	NotifyCorrelationId        string                             `json:"notifyCorrelationId,omitempty"`
+	SecondCallbackRef          string                             `json:"secondCallbackRef,omitempty"`
+	EpcAppliedInd              *bool                              `json:"epcAppliedInd,omitempty"`
+	ScefDiamRealm              string                             `json:"scefDiamRealm,omitempty"`
+	DataRestorationCallbackUri string                             `json:"dataRestorationCallbackUri,omitempty"`
 	CallbackReference          string                             `json:"callbackReference"`
+	MonitoringConfigurations   map[string]MonitoringConfiguration `json:"monitoringConfigurations"`
 	SubscriptionId             string                             `json:"subscriptionId,omitempty"`
 	ContextInfo                *ContextInfo                       `json:"contextInfo,omitempty"`
-	ScefDiamRealm              string                             `json:"scefDiamRealm,omitempty"`
-	ExcludeGpsiList            []string                           `json:"excludeGpsiList,omitempty"`
-	DataRestorationCallbackUri string                             `json:"dataRestorationCallbackUri,omitempty"`
-	MonitoringConfigurations   map[string]MonitoringConfiguration `json:"monitoringConfigurations"`
 	ReportingOptions           *ReportingOptions                  `json:"reportingOptions,omitempty"`
-	EpcAppliedInd              *bool                              `json:"epcAppliedInd,omitempty"`
-	NotifyCorrelationId        string                             `json:"notifyCorrelationId,omitempty"`
-	UdrRestartInd              *bool                              `json:"udrRestartInd,omitempty"`
 	SupportedFeatures          string                             `json:"supportedFeatures,omitempty"`
-	ScefDiamHost               string                             `json:"scefDiamHost,omitempty"`
-	SecondCallbackRef          string                             `json:"secondCallbackRef,omitempty"`
-	Gpsi                       string                             `json:"gpsi,omitempty"`
 	IncludeGpsiList            []string                           `json:"includeGpsiList,omitempty"`
 }
