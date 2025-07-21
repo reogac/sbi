@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Mon Jul 21 09:39:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AmfRegistrationResponse struct {
-	AmfPointer int16    `json:"amfPointer"`
-	Slices     []Snssai `json:"slices,omitempty"`
+	PlmnPeers  []HomePlmnConfiguration `json:"plmnPeers,omitempty"`
+	AmfPointer int16                   `json:"amfPointer"`
+	Slices     []Snssai                `json:"slices,omitempty"`
 }
