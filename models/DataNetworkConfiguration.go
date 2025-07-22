@@ -1,17 +1,17 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 15:13:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 15:35:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type DataNetworkConfiguration struct {
+	Name          string  `json:"name"`
+	Dns           *IpAddr `json:"dns,omitempty"`
 	Pcscf         *IpAddr `json:"pcscf,omitempty"`
 	DhcpServer    string  `json:"dhcpServer,omitempty"`
 	Cidr          string  `json:"cidr,omitempty"`
 	IpRange       *int64  `json:"ipRange,omitempty"`
 	PoolIndexList []int16 `json:"poolIndexList,omitempty"`
-	Name          string  `json:"name"`
-	Dns           *IpAddr `json:"dns,omitempty"`
 }

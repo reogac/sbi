@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 15:13:42 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 15:35:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -16,40 +16,6 @@ import (
 const (
 	PATH_ROOT string = "nsm-conf/v1"
 )
-
-// Summary:
-// Description:
-// Path: /udm-config
-// Path Params:
-func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/udm-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UdmConfiguration)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode UdmConfiguration: %+v", err)
-		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
 
 // Summary:
 // Description:
@@ -90,8 +56,8 @@ func GetNssfConfiguration(cli sbi.ConsumerClient) (rsp *models.NssfConfiguration
 // Path: /smf-config/:uuid/:slice
 // Path Params: uuid, slice
 type GetSessionManagementConfigurationParams struct {
-	Slice *models.Snssai
 	Uuid  string
+	Slice *models.Snssai
 }
 
 func GetSessionManagementConfiguration(cli sbi.ConsumerClient, params GetSessionManagementConfigurationParams) (rsp *models.SessionManagementConfiguration, err error) {
@@ -226,6 +192,40 @@ func GetUdrConfiguration(cli sbi.ConsumerClient) (rsp *models.UdrConfiguration, 
 		rsp = new(models.UdrConfiguration)
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode UdrConfiguration: %+v", err)
+		}
+	case 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /udm-config
+// Path Params:
+func GetUdmConfiguration(cli sbi.ConsumerClient) (rsp *models.UdmConfiguration, err error) {
+
+	path := fmt.Sprintf("%s/udm-config", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodGet, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.UdmConfiguration)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode UdmConfiguration: %+v", err)
 		}
 	case 500:
 		prob := new(models.ProblemDetails)

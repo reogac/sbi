@@ -355,10 +355,10 @@ components:
       description: Sepp configuration
       type: object
       properties:
-        sepps:
+        plmnList:
           type: array
           items:
             $ref: '#/components/schemas/HomePlmnConfiguration'
       required:
-        - sepps
+        - plmnList
 
