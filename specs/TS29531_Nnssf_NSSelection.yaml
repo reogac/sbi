@@ -277,7 +277,8 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
         homeSnssai:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
-
+        isLbo:
+          type: boolean
 
     SliceInfoForRegistration:
       description: Contains the slice information requested during a Registration procedure
