@@ -272,6 +272,7 @@ components:
       required:
         - servingSnssai
         - homeSnssai
+        - isLbo
       properties:
         servingSnssai:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
