@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:21 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -57,18 +57,6 @@ func OnPathSwitch(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params PathSwitchParams
 
-	// read 'callback'
-	callbackStr := ctx.Header("callback")
-	if len(callbackStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"), nil)
-		return
-	}
-
-	if params.Callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)), nil)
-		return
-	}
-
 	// read 'ueId'
 	ueIdStr := ctx.Param("ueId")
 	if len(ueIdStr) == 0 {
@@ -78,6 +66,18 @@ func OnPathSwitch(ctx sbi.RequestContext, prod Producer) {
 
 	if params.UeId, err = models.Int64FromString(ueIdStr); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'callback'
+	callbackStr := ctx.Header("callback")
+	if len(callbackStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "callback is required"), nil)
+		return
+	}
+
+	if params.Callback, err = models.EndpointInfoFromString(callbackStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse callback failed: %+v", err)), nil)
 		return
 	}
 

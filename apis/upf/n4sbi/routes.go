@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:41 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "SessionEstablishment",
+		Method:  http.MethodPost,
+		Path:    "/session/setup/:smfId",
+		Handler: OnSessionEstablishment,
+	},
 	{
 		Label:   "SessionModification",
 		Method:  http.MethodPut,
@@ -35,12 +41,6 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPut,
 		Path:    "/disassociate/:smfId",
 		Handler: OnDisassociationRequest,
-	},
-	{
-		Label:   "SessionEstablishment",
-		Method:  http.MethodPost,
-		Path:    "/session/setup/:smfId",
-		Handler: OnSessionEstablishment,
 	},
 }
 

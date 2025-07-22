@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:24 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:21 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -11,6 +11,39 @@ import (
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
+
+func OnRanInfoUpdate(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ranId'
+	var ranId string
+	ranId = ctx.Param("ranId")
+	if len(ranId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ranId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.RanInfoUpdateData)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleRanInfoUpdate(ranId, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(201, nil, nil)
+
+}
 
 func OnSmContextStatusNotify(ctx sbi.RequestContext, prod Producer) {
 	var err error
@@ -57,41 +90,8 @@ func OnSmContextStatusNotify(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnRanInfoUpdate(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ranId'
-	var ranId string
-	ranId = ctx.Param("ranId")
-	if len(ranId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ranId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.RanInfoUpdateData)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleRanInfoUpdate(ranId, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(201, nil, nil)
-
-}
-
 type Producer interface {
-	HandleSmContextStatusNotify(*SmContextStatusNotifyParams, *models.SmContextStatusNotification) *models.ProblemDetails
-
 	HandleRanInfoUpdate(string, *models.RanInfoUpdateData) *models.ProblemDetails
+
+	HandleSmContextStatusNotify(*SmContextStatusNotifyParams, *models.SmContextStatusNotification) *models.ProblemDetails
 }

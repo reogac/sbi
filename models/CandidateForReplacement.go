@@ -1,12 +1,12 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type CandidateForReplacement struct {
-	Dnns   []string `json:"dnns,omitempty"`
 	Snssai Snssai   `json:"snssai"`
+	Dnns   []string `json:"dnns,omitempty"`
 }

@@ -117,9 +117,6 @@ components:
         uuid:
           type: string
           description: An unique identity
-        gwId:
-          type: string
-          description: Gateway Identity
         stickiness:
           type: string
           description: Session sticky header

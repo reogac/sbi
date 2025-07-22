@@ -4,11 +4,19 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/smf/pdu"
 )
-func (p *Producer) HandleTransferMoData(pduSessionRef string,body *models.TransferMoDataRequest)(prob *models.ProblemDetails){
+func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.ReleasePduSessionRequest)(rsp *models.ReleasePduSessionResponse,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleReleaseSmContext(smContextRef string,body *models.ReleaseSmContextRequest)(rsp *models.SmContextReleasedData,prob *models.ProblemDetails){
+func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.RetrieveData)(rsp *models.RetrievedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleRetrieveSmContext(smContextRef string,body *models.SmContextRetrieveData)(rsp *models.SmContextRetrievedData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpdateSmContext(smContextRef string,body *models.UpdateSmContextRequest)(rsp *models.UpdateSmContextResponse,ersp *models.UpdateSmContextErrorResponse,prob *models.ProblemDetails){
 	return
 }
 
@@ -16,11 +24,8 @@ func (p *Producer) HandleSendMoData(smContextRef string,body *models.SendMoDataR
 	return
 }
 
-func (p *Producer) HandleReleasePduSession(pduSessionRef string,body *models.ReleasePduSessionRequest)(rsp *models.ReleasePduSessionResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRetrievePduSession(pduSessionRef string,body *models.RetrieveData)(rsp *models.RetrievedData,prob *models.ProblemDetails){
+func (p *Producer) HandlePostPduSessions(body *models.PostPduSessionsRequest)(headers map[string]string,rsp *models.PostPduSessionsResponse,ersp *models.PostPduSessionsErrorResponse,prob *models.ProblemDetails){
+// headers: Location
 	return
 }
 
@@ -33,16 +38,11 @@ func (p *Producer) HandlePostSmContexts(callback *models.EndpointInfo,body *mode
 	return
 }
 
-func (p *Producer) HandleRetrieveSmContext(smContextRef string,body *models.SmContextRetrieveData)(rsp *models.SmContextRetrievedData,prob *models.ProblemDetails){
+func (p *Producer) HandleReleaseSmContext(smContextRef string,body *models.ReleaseSmContextRequest)(rsp *models.SmContextReleasedData,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleUpdateSmContext(smContextRef string,body *models.UpdateSmContextRequest)(rsp *models.UpdateSmContextResponse,ersp *models.UpdateSmContextErrorResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandlePostPduSessions(body *models.PostPduSessionsRequest)(headers map[string]string,rsp *models.PostPduSessionsResponse,ersp *models.PostPduSessionsErrorResponse,prob *models.ProblemDetails){
-// headers: Location
+func (p *Producer) HandleTransferMoData(pduSessionRef string,body *models.TransferMoDataRequest)(prob *models.ProblemDetails){
 	return
 }
 */

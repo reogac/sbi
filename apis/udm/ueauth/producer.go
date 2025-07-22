@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:30 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,21 +12,57 @@ import (
 	"github.com/reogac/sbi/models"
 )
 
+func OnConfirmAuth(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'supi'
+	var supi string
+	supi = ctx.Param("supi")
+	if len(supi) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.AuthEvent)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	headers, rsp, prob := prod.HandleConfirmAuth(supi, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
 func OnGenerateAv(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params GenerateAvParams
-
-	// read 'hssAuthType'
-	params.HssAuthType = ctx.Param("hssAuthType")
-	if len(params.HssAuthType) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "hssAuthType is required"), nil)
-		return
-	}
 
 	// read 'supi'
 	params.Supi = ctx.Param("supi")
 	if len(params.Supi) == 0 {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
+		return
+	}
+
+	// read 'hssAuthType'
+	params.HssAuthType = ctx.Param("hssAuthType")
+	if len(params.HssAuthType) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "hssAuthType is required"), nil)
 		return
 	}
 
@@ -207,6 +243,18 @@ func OnGetRgAuthData(ctx sbi.RequestContext, prod Producer) {
 	var err error
 	var params GetRgAuthDataParams
 
+	// read 'authenticated-ind'
+	authenticatedIndStr := ctx.Param("authenticated-ind")
+	if len(authenticatedIndStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authenticated-ind is required"), nil)
+		return
+	}
+
+	if params.AuthenticatedInd, err = models.BoolFromString(authenticatedIndStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse authenticated-ind failed: %+v", err)), nil)
+		return
+	}
+
 	// read 'supported-features'
 	params.SupportedFeatures = ctx.Param("supported-features")
 
@@ -232,18 +280,6 @@ func OnGetRgAuthData(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
-	// read 'authenticated-ind'
-	authenticatedIndStr := ctx.Param("authenticated-ind")
-	if len(authenticatedIndStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "authenticated-ind is required"), nil)
-		return
-	}
-
-	if params.AuthenticatedInd, err = models.BoolFromString(authenticatedIndStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse authenticated-ind failed: %+v", err)), nil)
-		return
-	}
-
 	// call application handler
 	rsp, prob := prod.HandleGetRgAuthData(&params)
 
@@ -261,43 +297,9 @@ func OnGetRgAuthData(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnConfirmAuth(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'supi'
-	var supi string
-	supi = ctx.Param("supi")
-	if len(supi) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "supi is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.AuthEvent)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleConfirmAuth(supi, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
 type Producer interface {
+	HandleConfirmAuth(string, *models.AuthEvent) (map[string]string, *models.AuthEvent, *models.ProblemDetails)
+
 	HandleGenerateAv(*GenerateAvParams, *models.HssAuthenticationInfoRequest) (*models.HssAuthenticationInfoResult, *models.ProblemDetails)
 
 	HandleDeleteAuth(*DeleteAuthParams, *models.AuthEvent) *models.ProblemDetails
@@ -309,6 +311,4 @@ type Producer interface {
 	HandleGenerateAuthData(string, *models.AuthenticationInfoRequest) (*models.AuthenticationInfoResult, *models.ProblemDetails)
 
 	HandleGetRgAuthData(*GetRgAuthDataParams) (*models.RgAuthCtx, *models.ProblemDetails)
-
-	HandleConfirmAuth(string, *models.AuthEvent) (map[string]string, *models.AuthEvent, *models.ProblemDetails)
 }

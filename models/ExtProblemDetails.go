@@ -1,22 +1,22 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:22 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ExtProblemDetails struct {
-	InvalidParams      []InvalidParam  `json:"invalidParams,omitempty"`
-	NrfId              string          `json:"nrfId,omitempty"`
-	Instance           string          `json:"instance,omitempty"`
-	RemoteError        *bool           `json:"remoteError,omitempty"`
-	Detail             string          `json:"detail,omitempty"`
-	Cause              string          `json:"cause,omitempty"`
 	Status             int             `json:"status"`
-	AccessTokenRequest *AccessTokenReq `json:"accessTokenRequest,omitempty"`
+	Cause              string          `json:"cause,omitempty"`
+	NrfId              string          `json:"nrfId,omitempty"`
 	Type               string          `json:"type,omitempty"`
-	SupportedFeatures  string          `json:"supportedFeatures,omitempty"`
-	Title              string          `json:"title,omitempty"`
 	AccessTokenError   *AccessTokenErr `json:"accessTokenError,omitempty"`
+	AccessTokenRequest *AccessTokenReq `json:"accessTokenRequest,omitempty"`
+	RemoteError        *bool           `json:"remoteError,omitempty"`
+	Title              string          `json:"title,omitempty"`
+	InvalidParams      []InvalidParam  `json:"invalidParams,omitempty"`
+	Detail             string          `json:"detail,omitempty"`
+	Instance           string          `json:"instance,omitempty"`
+	SupportedFeatures  string          `json:"supportedFeatures,omitempty"`
 }

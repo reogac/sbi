@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:21 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -141,8 +141,8 @@ func HandoverCancel(cli sbi.ConsumerClient, ueId int64, body *models.HandoverCan
 // Path: /pathswitch/:ueId
 // Path Params: ueId
 type PathSwitchParams struct {
-	Callback *models.EndpointInfo
 	UeId     int64
+	Callback *models.EndpointInfo
 }
 
 func PathSwitch(cli sbi.ConsumerClient, params PathSwitchParams, body *models.PathSwitchRequest) (rsp *models.PathSwitchAcknowledge, ersp *models.PathSwitchFailure, err error) {

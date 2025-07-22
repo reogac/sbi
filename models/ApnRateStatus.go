@@ -1,15 +1,15 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:22 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type ApnRateStatus struct {
-	RemainExReportsDl *int   `json:"remainExReportsDl,omitempty"`
 	RemainPacketsUl   *int   `json:"remainPacketsUl,omitempty"`
 	RemainPacketsDl   *int   `json:"remainPacketsDl,omitempty"`
 	ValidityTime      string `json:"validityTime,omitempty"`
 	RemainExReportsUl *int   `json:"remainExReportsUl,omitempty"`
+	RemainExReportsDl *int   `json:"remainExReportsDl,omitempty"`
 }

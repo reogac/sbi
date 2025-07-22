@@ -4,11 +4,11 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/amf/callback"
 )
-func (p *Producer) HandleSmContextStatusNotify(params *callback.SmContextStatusNotifyParams,body *models.SmContextStatusNotification)(prob *models.ProblemDetails){
+func (p *Producer) HandleRanInfoUpdate(ranId string,body *models.RanInfoUpdateData)(prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleRanInfoUpdate(ranId string,body *models.RanInfoUpdateData)(prob *models.ProblemDetails){
+func (p *Producer) HandleSmContextStatusNotify(params *callback.SmContextStatusNotifyParams,body *models.SmContextStatusNotification)(prob *models.ProblemDetails){
 	return
 }
 */

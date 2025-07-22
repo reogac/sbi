@@ -4,12 +4,19 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/ausf/ueauth"
 )
-func (p *Producer) HandleUeAuthenticationsPost(body *models.AuthenticationInfo)(headers map[string]string,rsp *models.UEAuthenticationCtx,prob *models.ProblemDetails){
-// headers: Location
+func (p *Producer) HandleDeleteProSeAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleProseAuth(authCtxId string,body *models.ProSeEapSession)(rsp *models.ProseAuthResponse,prob *models.ProblemDetails){
 	return
 }
 
 func (p *Producer) HandleUeAuthentications5gAkaConfirmationPut(authCtxId string,body *models.ConfirmationData)(rsp *models.ConfirmationDataResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteEapAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
 	return
 }
 
@@ -18,18 +25,6 @@ func (p *Producer) HandleDelete5gAkaAuthenticationResult(authCtxId string)(prob 
 }
 
 func (p *Producer) HandleEapAuthMethod(authCtxId string,body *models.EapSession)(rsp *models.EapSession,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteProSeAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUeAuthenticationsDeregisterPost(body *models.DeregistrationInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteEapAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
 	return
 }
 
@@ -43,7 +38,12 @@ func (p *Producer) HandleProseAuthenticationsPost(body *models.ProSeAuthenticati
 	return
 }
 
-func (p *Producer) HandleProseAuth(authCtxId string,body *models.ProSeEapSession)(rsp *models.ProseAuthResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleUeAuthenticationsPost(body *models.AuthenticationInfo)(headers map[string]string,rsp *models.UEAuthenticationCtx,prob *models.ProblemDetails){
+// headers: Location
+	return
+}
+
+func (p *Producer) HandleUeAuthenticationsDeregisterPost(body *models.DeregistrationInfo)(prob *models.ProblemDetails){
 	return
 }
 */

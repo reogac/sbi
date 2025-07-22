@@ -1,50 +1,50 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Fri Jul 18 16:49:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue Jul 22 12:00:17 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type EventSubscription struct {
-	AnySlice           *bool                         `json:"anySlice,omitempty"`
-	LadnDnns           []string                      `json:"ladnDnns,omitempty"`
-	QosRequ            *QosRequirement               `json:"qosRequ,omitempty"`
-	QosFlowRetThds     []RetainabilityThreshold      `json:"qosFlowRetThds,omitempty"`
-	CongThresholds     []ThresholdLevel              `json:"congThresholds,omitempty"`
-	MaxTopAppUlNbr     *int                          `json:"maxTopAppUlNbr,omitempty"`
-	NsiIdInfos         []NsiIdInfo                   `json:"nsiIdInfos,omitempty"`
-	BwRequs            []BwRequirement               `json:"bwRequs,omitempty"`
-	RatFreqs           []RatFreqInformation          `json:"ratFreqs,omitempty"`
-	ListOfAnaSubsets   []string                      `json:"listOfAnaSubsets,omitempty"`
-	DnPerfReqs         []DnPerformanceReq            `json:"dnPerfReqs,omitempty"`
-	NfInstanceIds      []string                      `json:"nfInstanceIds,omitempty"`
-	NfTypes            []string                      `json:"nfTypes,omitempty"`
-	VisitedAreas       []NetworkAreaInfo             `json:"visitedAreas,omitempty"`
-	MaxTopAppDlNbr     *int                          `json:"maxTopAppDlNbr,omitempty"`
-	WlanReqs           []WlanPerformanceReq          `json:"wlanReqs,omitempty"`
-	Snssaia            []Snssai                      `json:"snssaia,omitempty"`
-	Dnns               []string                      `json:"dnns,omitempty"`
 	ExtraReportReq     *EventReportingRequirement    `json:"extraReportReq,omitempty"`
-	RepetitionPeriod   *int                          `json:"repetitionPeriod,omitempty"`
-	TgtUe              *TargetUeInformation          `json:"tgtUe,omitempty"`
-	ExptAnaType        ExpectedAnalyticsType         `json:"exptAnaType,omitempty"`
-	ExptUeBehav        *ExpectedUeBehaviourData      `json:"exptUeBehav,omitempty"`
+	VisitedAreas       []NetworkAreaInfo             `json:"visitedAreas,omitempty"`
 	RedTransReqs       []RedundantTransmissionExpReq `json:"redTransReqs,omitempty"`
-	UpfInfo            *UpfInformation               `json:"upfInfo,omitempty"`
-	Dnais              []string                      `json:"dnais,omitempty"`
-	LoadLevelThreshold *int                          `json:"loadLevelThreshold,omitempty"`
+	AnySlice           *bool                         `json:"anySlice,omitempty"`
+	QosRequ            *QosRequirement               `json:"qosRequ,omitempty"`
+	RepetitionPeriod   *int                          `json:"repetitionPeriod,omitempty"`
 	MatchingDir        MatchingDirection             `json:"matchingDir,omitempty"`
-	NfSetIds           []string                      `json:"nfSetIds,omitempty"`
+	MaxTopAppDlNbr     *int                          `json:"maxTopAppDlNbr,omitempty"`
+	RatFreqs           []RatFreqInformation          `json:"ratFreqs,omitempty"`
+	WlanReqs           []WlanPerformanceReq          `json:"wlanReqs,omitempty"`
+	UpfInfo            *UpfInformation               `json:"upfInfo,omitempty"`
+	CongThresholds     []ThresholdLevel              `json:"congThresholds,omitempty"`
+	Dnais              []string                      `json:"dnais,omitempty"`
+	LadnDnns           []string                      `json:"ladnDnns,omitempty"`
+	NfLoadLvlThds      []ThresholdLevel              `json:"nfLoadLvlThds,omitempty"`
+	NfInstanceIds      []string                      `json:"nfInstanceIds,omitempty"`
+	NetworkArea        *NetworkAreaInfo              `json:"networkArea,omitempty"`
+	NsiLevelThrds      []int                         `json:"nsiLevelThrds,omitempty"`
+	TgtUe              *TargetUeInformation          `json:"tgtUe,omitempty"`
+	NwPerfRequs        []NetworkPerfRequirement      `json:"nwPerfRequs,omitempty"`
+	Dnns               []string                      `json:"dnns,omitempty"`
+	Event              NwdafEvent                    `json:"event"`
+	MaxTopAppUlNbr     *int                          `json:"maxTopAppUlNbr,omitempty"`
+	QosFlowRetThds     []RetainabilityThreshold      `json:"qosFlowRetThds,omitempty"`
 	RanUeThrouThds     []string                      `json:"ranUeThrouThds,omitempty"`
+	DnPerfReqs         []DnPerformanceReq            `json:"dnPerfReqs,omitempty"`
+	LoadLevelThreshold *int                          `json:"loadLevelThreshold,omitempty"`
+	NfSetIds           []string                      `json:"nfSetIds,omitempty"`
+	NfTypes            []string                      `json:"nfTypes,omitempty"`
+	ExptAnaType        ExpectedAnalyticsType         `json:"exptAnaType,omitempty"`
+	ListOfAnaSubsets   []string                      `json:"listOfAnaSubsets,omitempty"`
+	Snssaia            []Snssai                      `json:"snssaia,omitempty"`
+	BwRequs            []BwRequirement               `json:"bwRequs,omitempty"`
 	ExcepRequs         []Exception                   `json:"excepRequs,omitempty"`
+	DisperReqs         []DispersionRequirement       `json:"disperReqs,omitempty"`
 	AppIds             []string                      `json:"appIds,omitempty"`
 	NotificationMethod NotificationMethod            `json:"notificationMethod,omitempty"`
-	NfLoadLvlThds      []ThresholdLevel              `json:"nfLoadLvlThds,omitempty"`
-	NetworkArea        *NetworkAreaInfo              `json:"networkArea,omitempty"`
-	NwPerfRequs        []NetworkPerfRequirement      `json:"nwPerfRequs,omitempty"`
-	DisperReqs         []DispersionRequirement       `json:"disperReqs,omitempty"`
+	NsiIdInfos         []NsiIdInfo                   `json:"nsiIdInfos,omitempty"`
+	ExptUeBehav        *ExpectedUeBehaviourData      `json:"exptUeBehav,omitempty"`
 	AppServerAddrs     []AddrFqdn                    `json:"appServerAddrs,omitempty"`
-	Event              NwdafEvent                    `json:"event"`
-	NsiLevelThrds      []int                         `json:"nsiLevelThrds,omitempty"`
 }
