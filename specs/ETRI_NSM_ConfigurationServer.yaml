@@ -122,6 +122,24 @@ paths:
             application/problem+json:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+  /sepp-config:
+    get:
+      operationId: GetSeppConfiguration
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeppConfiguration'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
 
 components:
   securitySchemes:
@@ -274,6 +292,10 @@ components:
           type: array
           items:
             $ref: 'TS29531_Nnssf_NSSelection.yaml#/components/schemas/MappingOfSnssai'
+        sepps:
+          type: array
+          items:
+            type: string
       required:
         - id
 
@@ -328,3 +350,15 @@ components:
       required:
         - udr
         - suciProfiles
+
+    SeppConfiguration:
+      description: Sepp configuration
+      type: object
+      properties:
+        sepps:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomePlmnConfiguration'
+      required:
+        - sepps
+

@@ -23,4 +23,8 @@ func (p *Producer) HandleGetSessionManagementConfiguration(params *conf.GetSessi
 func (p *Producer) HandleGetUserPlaneConfiguration(body *models.UserPlaneConfigurationRequest)(rsp *models.UserPlaneConfigurationResponse,prob *models.ProblemDetails){
 	return
 }
+
+func (p *Producer) HandleGetSeppConfiguration()(rsp *models.SeppConfiguration,prob *models.ProblemDetails){
+	return
+}
 */
