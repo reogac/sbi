@@ -7,7 +7,7 @@ Do not modify
 package models
 
 type SuciProfile struct {
-	ProtectionScheme string `json:"protectionScheme"`
+	ProtectionScheme int16  `json:"protectionScheme"`
 	PublicKey        string `json:"publicKey"`
 	PrivateKey       string `json:"privateKey"`
 }
