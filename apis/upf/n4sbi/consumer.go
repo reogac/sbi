@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:39 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Thu Jul 31 11:17:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -17,6 +17,45 @@ import (
 const (
 	PATH_ROOT string = "upf-n4/v1"
 )
+
+// Summary:
+// Description:
+// Path: /session/delete/:seid
+// Path Params: seid
+func SessionDeletion(cli sbi.ConsumerClient, seid int64, body *message.PFCPSessionDeletionRequest) (rsp *message.PFCPSessionDeletionResponse, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/session/delete/%s", PATH_ROOT, models.Int64ToString(seid))
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		rsp = new(message.PFCPSessionDeletionResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode message.PFCPSessionDeletionResponse: %+v", err)
+		}
+	case 500, 400:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
 
 // Summary:
 // Description:
@@ -49,7 +88,7 @@ func AssociationRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, b
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode message.PFCPAssociationSetupResponse: %+v", err)
 		}
-	case 500:
+	case 500, 400:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -85,7 +124,7 @@ func DisassociationRequest(cli sbi.ConsumerClient, smfId string) (err error) {
 	switch response.GetCode() {
 	case 201:
 		return
-	case 500:
+	case 500, 400:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -128,7 +167,7 @@ func SessionEstablishment(cli sbi.ConsumerClient, smfId string, body *message.PF
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode message.PFCPSessionEstablishmentResponse: %+v", err)
 		}
-	case 500:
+	case 500, 400:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -167,46 +206,7 @@ func SessionModification(cli sbi.ConsumerClient, seid int64, body *message.PFCPS
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode message.PFCPSessionModificationResponse: %+v", err)
 		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /session/delete/:seid
-// Path Params: seid
-func SessionDeletion(cli sbi.ConsumerClient, seid int64, body *message.PFCPSessionDeletionRequest) (rsp *message.PFCPSessionDeletionResponse, err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/session/delete/%s", PATH_ROOT, models.Int64ToString(seid))
-	request := sbi.NewRequest(path, http.MethodPut, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(message.PFCPSessionDeletionResponse)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode message.PFCPSessionDeletionResponse: %+v", err)
-		}
-	case 500:
+	case 500, 400:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
