@@ -19,4 +19,5 @@ type UeContextSetupRequest struct {
 	AllowedNssai      []AllowedSnssai           `json:"allowedNssai,omitempty"`
 	UeAmbr            UeAmbr                    `json:"ueAmbr"`
 	N2SmInfoDownlinks []N2SmInfoDownlinkContent `json:"N2SmInfoDownlinks,omitempty"`
+	AmfUeInfo         *AmfUeContextInfo         `json:"amfUeInfo,omitempty"`
 }
