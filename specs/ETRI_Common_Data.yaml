@@ -54,11 +54,6 @@ components:
         kamf:
           type: string
           format: binary
-        rand:
-          type: string
-          format: binary
-        authType:
-          $ref: 'TS29509_Nausf_UEAuthentication.yaml#/components/schemas/AuthType'
         plmnId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
         eap:
@@ -508,6 +503,9 @@ components:
           type: boolean
         nfSelection:
             $ref: '#/components/schemas/NfSelection'
+        amfRegion:
+          type: integer
+          format: int16
       required:
         - ranUeId
         - nasSplit
@@ -515,6 +513,7 @@ components:
         - contextRequest
         - transfer
         - rrcCause
+        - amfRegion
 
     InitialUeMessageResponse:
       description: Response from core network for an initial Ue message

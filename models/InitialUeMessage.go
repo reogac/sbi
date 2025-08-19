@@ -18,5 +18,5 @@ type InitialUeMessage struct {
 	RanUeId        RanUeId           `json:"ranUeId"`
 	NasSplit       bool              `json:"nasSplit"`
 	NfSelection    map[string]string `json:"nfSelection,omitempty"`
-	AmfRegion      int
+	AmfRegion      int16             `json:"amfRegion"`
 }
