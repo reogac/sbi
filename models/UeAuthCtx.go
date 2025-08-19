@@ -8,8 +8,6 @@ package models
 
 type UeAuthCtx struct {
 	Supi       string                             `json:"supi"`
-	Rand       []byte                             `json:"rand,omitempty"`
-	AuthType   AuthType                           `json:"authType,omitempty"`
 	PlmnId     PlmnId                             `json:"plmnId"`
 	Eap        []byte                             `json:"eap,omitempty"`
 	EapSuccess bool                               `json:"eapSuccess"`
