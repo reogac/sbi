@@ -10,4 +10,6 @@ type PathSwitchRequest struct {
 	Loc                  UserLocation            `json:"loc"`
 	UeSecurityCapability *UeSecurityCapability   `json:"ueSecurityCapability,omitempty"`
 	Sessions             []N2SmInfoUplinkContent `json:"sessions"`
+	RanUeId              RanUeId                 `json:"ranUeId"`
+	RanNets              []string                `json:"ranNets,omitempty"`
 }

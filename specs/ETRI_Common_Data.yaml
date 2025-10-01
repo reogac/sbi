@@ -427,9 +427,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/N2SmInfoUplinkContent'
+        ranNets:
+          type: array
+          items:
+            type: string
+        ranUeId:
+            $ref: '#/components/schemas/RanUeId'
+
       required:
         - loc
         - sessions
+        - ranUeId
 
     PathSwitchFailure:
       description: Path Switch Failure
