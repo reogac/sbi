@@ -711,6 +711,8 @@ components:
             $ref: 'TS29531_Nnssf_NSSelection.yaml#/components/schemas/AllowedSnssai'
         ueAmbr:
           $ref: '#/components/schemas/UeAmbr'
+        amfUeInfo:
+          $ref: '#/components/schemas/AmfUeContextInfo'
         ueRadCap:
           type: string
         rfsp:

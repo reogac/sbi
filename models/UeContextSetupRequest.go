@@ -19,4 +19,5 @@ type UeContextSetupRequest struct {
 	OldAmf            string                    `json:"oldAmf,omitempty"`
 	AllowedNssai      []AllowedSnssai           `json:"allowedNssai,omitempty"`
 	Rfsp              *int64                    `json:"rfsp,omitempty"`
+	AmfUeInfo         *AmfUeContextInfo         `json:"amfUeInfo,omitempty"`
 }
