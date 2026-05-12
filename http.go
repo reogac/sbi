@@ -1,13 +1,14 @@
 package sbi
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 )
 
-func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http.Request, err error) {
+func BuildHttpRequest(ctx context.Context, sbiRequest *Request, remoteAddr string) (httpRequest *http.Request, err error) {
 	var body io.Reader
 	var bodyLength int64
 	if sbiRequest.body != nil {
@@ -30,7 +31,7 @@ func BuildHttpRequest(sbiRequest *Request, remoteAddr string) (httpRequest *http
 	}
 	link.RawQuery = query.Encode()
 
-	if httpRequest, err = http.NewRequest(sbiRequest.method, link.String(), body); err != nil {
+	if httpRequest, err = http.NewRequestWithContext(ctx, sbiRequest.method, link.String(), body); err != nil {
 		err = fmt.Errorf("Build http request failed: %+v", err)
 		return
 	}
