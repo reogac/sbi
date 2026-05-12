@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Thu Jul 31 11:17:40 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:47 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 

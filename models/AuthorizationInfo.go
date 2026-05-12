@@ -1,13 +1,12 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:45 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type AuthorizationInfo struct {
-	Dnn                    string       `json:"dnn"`
 	MtcProviderInformation string       `json:"mtcProviderInformation"`
 	AuthUpdateCallbackUri  string       `json:"authUpdateCallbackUri"`
 	AfId                   string       `json:"afId,omitempty"`
@@ -15,4 +14,5 @@ type AuthorizationInfo struct {
 	ValidityTime           string       `json:"validityTime,omitempty"`
 	ContextInfo            *ContextInfo `json:"contextInfo,omitempty"`
 	Snssai                 Snssai       `json:"snssai"`
+	Dnn                    string       `json:"dnn"`
 }

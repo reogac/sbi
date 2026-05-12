@@ -1,55 +1,18 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:24 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:32 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package n1n2dl
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 	"io"
 )
-
-func OnN2SmInfoDownlink(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId int64
-	ueIdStr := ctx.Param("ueId")
-	if len(ueIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.N2SmInfoDownlinkTransport)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleN2SmInfoDownlink(ueId, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(201, nil, nil)
-
-}
 
 func OnSessionResourceSetup(ctx sbi.RequestContext, prod Producer) {
 	var err error
@@ -76,7 +39,7 @@ func OnSessionResourceSetup(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleSessionResourceSetup(ueId, body)
+	rsp, prob := prod.HandleSessionResourceSetup(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -119,7 +82,7 @@ func OnSessionResourceModify(ctx sbi.RequestContext, prod Producer) {
 		body = nil
 	}
 	// call application handler
-	rsp, prob := prod.HandleSessionResourceModify(ueId, body)
+	rsp, prob := prod.HandleSessionResourceModify(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -160,7 +123,7 @@ func OnSessionResourceRelease(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleSessionResourceRelease(ueId, body)
+	rsp, prob := prod.HandleSessionResourceRelease(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -176,12 +139,50 @@ func OnSessionResourceRelease(ctx sbi.RequestContext, prod Producer) {
 
 }
 
+func OnN2SmInfoDownlink(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId int64
+	ueIdStr := ctx.Param("ueId")
+	if len(ueIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	if ueId, err = models.Int64FromString(ueIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse ueId failed: %+v", err)), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.N2SmInfoDownlinkTransport)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleN2SmInfoDownlink(ctx.Context(), ueId, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(201, nil, nil)
+
+}
+
 type Producer interface {
-	HandleN2SmInfoDownlink(int64, *models.N2SmInfoDownlinkTransport) *models.ProblemDetails
+	HandleSessionResourceSetup(context.Context, int64, *models.SessionResourceSetupRequest) (*models.SessionResourceSetupResponse, *models.ProblemDetails)
 
-	HandleSessionResourceSetup(int64, *models.SessionResourceSetupRequest) (*models.SessionResourceSetupResponse, *models.ProblemDetails)
+	HandleSessionResourceModify(context.Context, int64, *models.SessionResourceModifyRequest) (*models.SessionResourceModifyResponse, *models.ProblemDetails)
 
-	HandleSessionResourceModify(int64, *models.SessionResourceModifyRequest) (*models.SessionResourceModifyResponse, *models.ProblemDetails)
+	HandleSessionResourceRelease(context.Context, int64, *models.SessionResourceReleaseRequest) (*models.SessionResourceReleaseResponse, *models.ProblemDetails)
 
-	HandleSessionResourceRelease(int64, *models.SessionResourceReleaseRequest) (*models.SessionResourceReleaseResponse, *models.ProblemDetails)
+	HandleN2SmInfoDownlink(context.Context, int64, *models.N2SmInfoDownlinkTransport) *models.ProblemDetails
 }

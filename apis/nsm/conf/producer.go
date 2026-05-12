@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 15:35:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:25 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package conf
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -15,7 +16,7 @@ import (
 func OnGetUdrConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
-	rsp, prob := prod.HandleGetUdrConfiguration()
+	rsp, prob := prod.HandleGetUdrConfiguration(ctx.Context())
 
 	// check for success response
 	if rsp != nil {
@@ -34,7 +35,7 @@ func OnGetUdrConfiguration(ctx sbi.RequestContext, prod Producer) {
 func OnGetUdmConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
-	rsp, prob := prod.HandleGetUdmConfiguration()
+	rsp, prob := prod.HandleGetUdmConfiguration(ctx.Context())
 
 	// check for success response
 	if rsp != nil {
@@ -53,7 +54,7 @@ func OnGetUdmConfiguration(ctx sbi.RequestContext, prod Producer) {
 func OnGetNssfConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
-	rsp, prob := prod.HandleGetNssfConfiguration()
+	rsp, prob := prod.HandleGetNssfConfiguration(ctx.Context())
 
 	// check for success response
 	if rsp != nil {
@@ -73,6 +74,13 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, prod Producer) 
 	var err error
 	var params GetSessionManagementConfigurationParams
 
+	// read 'uuid'
+	params.Uuid = ctx.Param("uuid")
+	if len(params.Uuid) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
+		return
+	}
+
 	// read 'slice'
 	sliceStr := ctx.Param("slice")
 	if len(sliceStr) == 0 {
@@ -85,15 +93,8 @@ func OnGetSessionManagementConfiguration(ctx sbi.RequestContext, prod Producer) 
 		return
 	}
 
-	// read 'uuid'
-	params.Uuid = ctx.Param("uuid")
-	if len(params.Uuid) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "uuid is required"), nil)
-		return
-	}
-
 	// call application handler
-	rsp, prob := prod.HandleGetSessionManagementConfiguration(&params)
+	rsp, prob := prod.HandleGetSessionManagementConfiguration(ctx.Context(), &params)
 
 	// check for success response
 	if rsp != nil {
@@ -121,7 +122,7 @@ func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleGetUserPlaneConfiguration(body)
+	rsp, prob := prod.HandleGetUserPlaneConfiguration(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
@@ -140,7 +141,7 @@ func OnGetUserPlaneConfiguration(ctx sbi.RequestContext, prod Producer) {
 func OnGetSeppConfiguration(ctx sbi.RequestContext, prod Producer) {
 
 	// call application handler
-	rsp, prob := prod.HandleGetSeppConfiguration()
+	rsp, prob := prod.HandleGetSeppConfiguration(ctx.Context())
 
 	// check for success response
 	if rsp != nil {
@@ -157,15 +158,15 @@ func OnGetSeppConfiguration(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleGetUdrConfiguration() (*models.UdrConfiguration, *models.ProblemDetails)
+	HandleGetUdrConfiguration(context.Context) (*models.UdrConfiguration, *models.ProblemDetails)
 
-	HandleGetUdmConfiguration() (*models.UdmConfiguration, *models.ProblemDetails)
+	HandleGetUdmConfiguration(context.Context) (*models.UdmConfiguration, *models.ProblemDetails)
 
-	HandleGetNssfConfiguration() (*models.NssfConfiguration, *models.ProblemDetails)
+	HandleGetNssfConfiguration(context.Context) (*models.NssfConfiguration, *models.ProblemDetails)
 
-	HandleGetSessionManagementConfiguration(*GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
+	HandleGetSessionManagementConfiguration(context.Context, *GetSessionManagementConfigurationParams) (*models.SessionManagementConfiguration, *models.ProblemDetails)
 
-	HandleGetUserPlaneConfiguration(*models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
+	HandleGetUserPlaneConfiguration(context.Context, *models.UserPlaneConfigurationRequest) (*models.UserPlaneConfigurationResponse, *models.ProblemDetails)
 
-	HandleGetSeppConfiguration() (*models.SeppConfiguration, *models.ProblemDetails)
+	HandleGetSeppConfiguration(context.Context) (*models.SeppConfiguration, *models.ProblemDetails)
 }

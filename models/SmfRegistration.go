@@ -1,31 +1,31 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:37 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:45 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
 type SmfRegistration struct {
-	EpdgInd                     *bool              `json:"epdgInd,omitempty"`
-	DeregCallbackUri            string             `json:"deregCallbackUri,omitempty"`
-	DataRestorationCallbackUri  string             `json:"dataRestorationCallbackUri,omitempty"`
 	PduSessionId                int                `json:"pduSessionId"`
-	PcscfRestorationCallbackUri string             `json:"pcscfRestorationCallbackUri,omitempty"`
-	PcfId                       string             `json:"pcfId,omitempty"`
-	PgwIpAddr                   *IpAddress         `json:"pgwIpAddr,omitempty"`
+	SingleNssai                 Snssai             `json:"singleNssai"`
 	RegistrationTime            string             `json:"registrationTime,omitempty"`
 	UdrRestartInd               *bool              `json:"udrRestartInd,omitempty"`
+	DeregCallbackUri            string             `json:"deregCallbackUri,omitempty"`
+	RegistrationReason          RegistrationReason `json:"registrationReason,omitempty"`
 	SmfSetId                    string             `json:"smfSetId,omitempty"`
-	SingleNssai                 Snssai             `json:"singleNssai"`
+	SupportedFeatures           string             `json:"supportedFeatures,omitempty"`
 	Dnn                         string             `json:"dnn,omitempty"`
+	EmergencyServices           *bool              `json:"emergencyServices,omitempty"`
 	PlmnId                      PlmnId             `json:"plmnId"`
 	PgwFqdn                     string             `json:"pgwFqdn,omitempty"`
-	RegistrationReason          RegistrationReason `json:"registrationReason,omitempty"`
+	SmfInstanceId               string             `json:"smfInstanceId"`
+	PcscfRestorationCallbackUri string             `json:"pcscfRestorationCallbackUri,omitempty"`
+	PgwIpAddr                   *IpAddress         `json:"pgwIpAddr,omitempty"`
 	ContextInfo                 *ContextInfo       `json:"contextInfo,omitempty"`
 	ResetIds                    []string           `json:"resetIds,omitempty"`
-	SmfInstanceId               string             `json:"smfInstanceId"`
-	SupportedFeatures           string             `json:"supportedFeatures,omitempty"`
-	EmergencyServices           *bool              `json:"emergencyServices,omitempty"`
 	LastSynchronizationTime     string             `json:"lastSynchronizationTime,omitempty"`
+	EpdgInd                     *bool              `json:"epdgInd,omitempty"`
+	PcfId                       string             `json:"pcfId,omitempty"`
+	DataRestorationCallbackUri  string             `json:"dataRestorationCallbackUri,omitempty"`
 }

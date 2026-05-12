@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:19 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:27 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package uectx
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -19,45 +20,9 @@ const (
 
 // Summary:
 // Description:
-// Path: /n2sminfo/:ueId
-// Path Params: ueId
-func N2SmInfoUplink(cli sbi.ConsumerClient, ueId int64, body *models.N2SmInfoUplinkTransport) (err error) {
-
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/n2sminfo/%s", PATH_ROOT, models.Int64ToString(ueId))
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		return
-	case 400, 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
 // Path: /release/:ueId
 // Path Params: ueId
-func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContextReleaseRequest) (err error) {
+func UeContextRelease(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.UeContextReleaseRequest) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -67,7 +32,7 @@ func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContext
 	path := fmt.Sprintf("%s/release/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -93,7 +58,7 @@ func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContext
 // Description:
 // Path: /rrc/:ueId
 // Path Params: ueId
-func RrcInactivityStatusReport(cli sbi.ConsumerClient, ueId int64, body *models.RrcInactivityTransportReport) (err error) {
+func RrcInactivityStatusReport(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.RrcInactivityTransportReport) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -103,7 +68,43 @@ func RrcInactivityStatusReport(cli sbi.ConsumerClient, ueId int64, body *models.
 	path := fmt.Sprintf("%s/rrc/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 201:
+		return
+	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /n2sminfo/:ueId
+// Path Params: ueId
+func N2SmInfoUplink(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.N2SmInfoUplinkTransport) (err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/n2sminfo/%s", PATH_ROOT, models.Int64ToString(ueId))
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

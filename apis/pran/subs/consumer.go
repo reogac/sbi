@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:28 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:36 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package subs
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /subscribe
 // Path Params:
-func AmfSubscribe(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *models.AmfSubscribeRequest) (rsp *models.AmfSubscribeResponse, err error) {
+func AmfSubscribe(cli sbi.ConsumerClient, ctx context.Context, callback *models.EndpointInfo, body *models.AmfSubscribeRequest) (rsp *models.AmfSubscribeResponse, err error) {
 
 	if callback == nil {
 		err = fmt.Errorf("callback is required")
@@ -36,7 +37,7 @@ func AmfSubscribe(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *m
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	request.AddHeader("callback", models.EndpointInfoToString(*callback))
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -65,7 +66,7 @@ func AmfSubscribe(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *m
 // Description:
 // Path: /paging
 // Path Params:
-func SendPaging(cli sbi.ConsumerClient, body *models.PagingMessage) (err error) {
+func SendPaging(cli sbi.ConsumerClient, ctx context.Context, body *models.PagingMessage) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -75,7 +76,7 @@ func SendPaging(cli sbi.ConsumerClient, body *models.PagingMessage) (err error) 
 	path := fmt.Sprintf("%s/paging", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

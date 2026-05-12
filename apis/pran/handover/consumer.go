@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:35 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package handover
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /request
 // Path Params:
-func HandoverRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *models.HandoverRequest) (rsp *models.HandoverRequestAcknowledge, ersp *models.HandoverRequestFailure, err error) {
+func HandoverRequest(cli sbi.ConsumerClient, ctx context.Context, callback *models.EndpointInfo, body *models.HandoverRequest) (rsp *models.HandoverRequestAcknowledge, ersp *models.HandoverRequestFailure, err error) {
 
 	if callback == nil {
 		err = fmt.Errorf("callback is required")
@@ -36,7 +37,7 @@ func HandoverRequest(cli sbi.ConsumerClient, callback *models.EndpointInfo, body
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	request.AddHeader("callback", models.EndpointInfoToString(*callback))
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

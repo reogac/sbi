@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:23 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:31 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package n1n2ul
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /res-notify/:smCtxRef
 // Path Params: smCtxRef
-func SessionResourceNotify(cli sbi.ConsumerClient, smCtxRef string, body *models.SessionResourceNotification) (err error) {
+func SessionResourceNotify(cli sbi.ConsumerClient, ctx context.Context, smCtxRef string, body *models.SessionResourceNotification) (err error) {
 
 	if len(smCtxRef) == 0 {
 		err = fmt.Errorf("smCtxRef is required")
@@ -35,7 +36,7 @@ func SessionResourceNotify(cli sbi.ConsumerClient, smCtxRef string, body *models
 	path := fmt.Sprintf("%s/res-notify/%s", PATH_ROOT, smCtxRef)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -61,7 +62,7 @@ func SessionResourceNotify(cli sbi.ConsumerClient, smCtxRef string, body *models
 // Description:
 // Path: /res-modify/:smCtxRef
 // Path Params: smCtxRef
-func SessionResourceModifyIndication(cli sbi.ConsumerClient, smCtxRef string, body *models.SessionResourceModifyIndication) (rsp *models.SessionResourceModifyConfirm, err error) {
+func SessionResourceModifyIndication(cli sbi.ConsumerClient, ctx context.Context, smCtxRef string, body *models.SessionResourceModifyIndication) (rsp *models.SessionResourceModifyConfirm, err error) {
 
 	if len(smCtxRef) == 0 {
 		err = fmt.Errorf("smCtxRef is required")
@@ -75,7 +76,7 @@ func SessionResourceModifyIndication(cli sbi.ConsumerClient, smCtxRef string, bo
 	path := fmt.Sprintf("%s/res-modify/%s", PATH_ROOT, smCtxRef)
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

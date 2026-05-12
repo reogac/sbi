@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:23 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:31 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package n1n2ul
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -32,7 +33,7 @@ func OnSessionResourceNotify(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	prob := prod.HandleSessionResourceNotify(smCtxRef, body)
+	prob := prod.HandleSessionResourceNotify(ctx.Context(), smCtxRef, body)
 
 	// check for problem
 	if prob != nil {
@@ -65,7 +66,7 @@ func OnSessionResourceModifyIndication(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleSessionResourceModifyIndication(smCtxRef, body)
+	rsp, prob := prod.HandleSessionResourceModifyIndication(ctx.Context(), smCtxRef, body)
 
 	// check for success response
 	if rsp != nil {
@@ -82,7 +83,7 @@ func OnSessionResourceModifyIndication(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleSessionResourceNotify(string, *models.SessionResourceNotification) *models.ProblemDetails
+	HandleSessionResourceNotify(context.Context, string, *models.SessionResourceNotification) *models.ProblemDetails
 
-	HandleSessionResourceModifyIndication(string, *models.SessionResourceModifyIndication) (*models.SessionResourceModifyConfirm, *models.ProblemDetails)
+	HandleSessionResourceModifyIndication(context.Context, string, *models.SessionResourceModifyIndication) (*models.SessionResourceModifyConfirm, *models.ProblemDetails)
 }

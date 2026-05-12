@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:28 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package n2nas
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /init-ue-msg
 // Path Params:
-func InitialUeMessage(cli sbi.ConsumerClient, callback *models.EndpointInfo, body *models.InitialUeMessage) (rsp *models.InitialUeMessageResponse, err error) {
+func InitialUeMessage(cli sbi.ConsumerClient, ctx context.Context, callback *models.EndpointInfo, body *models.InitialUeMessage) (rsp *models.InitialUeMessageResponse, err error) {
 
 	if callback == nil {
 		err = fmt.Errorf("callback is required")
@@ -36,7 +37,7 @@ func InitialUeMessage(cli sbi.ConsumerClient, callback *models.EndpointInfo, bod
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	request.AddHeader("callback", models.EndpointInfoToString(*callback))
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -65,7 +66,7 @@ func InitialUeMessage(cli sbi.ConsumerClient, callback *models.EndpointInfo, bod
 // Description:
 // Path: /nas-ul/:ueId
 // Path Params: ueId
-func NasUl(cli sbi.ConsumerClient, ueId int64, body *models.NasUplinkTransport) (err error) {
+func NasUl(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.NasUplinkTransport) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -75,7 +76,7 @@ func NasUl(cli sbi.ConsumerClient, ueId int64, body *models.NasUplinkTransport) 
 	path := fmt.Sprintf("%s/nas-ul/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -101,7 +102,7 @@ func NasUl(cli sbi.ConsumerClient, ueId int64, body *models.NasUplinkTransport) 
 // Description:
 // Path: /nas-err/:ueId
 // Path Params: ueId
-func NasErr(cli sbi.ConsumerClient, ueId int64, body *models.UplinkNasError) (err error) {
+func NasErr(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.UplinkNasError) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -111,7 +112,7 @@ func NasErr(cli sbi.ConsumerClient, ueId int64, body *models.UplinkNasError) (er
 	path := fmt.Sprintf("%s/nas-err/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

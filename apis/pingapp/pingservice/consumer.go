@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:23 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package pingservice
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /ping
 // Path Params:
-func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingResponse, err error) {
+func Ping(cli sbi.ConsumerClient, ctx context.Context, body *models.PingRequest) (rsp *models.PingResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -31,7 +32,7 @@ func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingRes
 	path := fmt.Sprintf("%s/ping", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -60,7 +61,7 @@ func Ping(cli sbi.ConsumerClient, body *models.PingRequest) (rsp *models.PingRes
 // Description:
 // Path: /forward
 // Path Params:
-func Forward(cli sbi.ConsumerClient, body *models.PingFwRequest) (rsp *models.PingResponse, err error) {
+func Forward(cli sbi.ConsumerClient, ctx context.Context, body *models.PingFwRequest) (rsp *models.PingResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -70,7 +71,7 @@ func Forward(cli sbi.ConsumerClient, body *models.PingFwRequest) (rsp *models.Pi
 	path := fmt.Sprintf("%s/forward", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

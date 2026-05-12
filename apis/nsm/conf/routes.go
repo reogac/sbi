@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 15:35:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:25 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,18 +12,6 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
-	{
-		Label:   "GetUserPlaneConfiguration",
-		Method:  http.MethodGet,
-		Path:    "/upf-config",
-		Handler: OnGetUserPlaneConfiguration,
-	},
-	{
-		Label:   "GetSeppConfiguration",
-		Method:  http.MethodGet,
-		Path:    "/sepp-config",
-		Handler: OnGetSeppConfiguration,
-	},
 	{
 		Label:   "GetUdrConfiguration",
 		Method:  http.MethodGet,
@@ -47,6 +35,18 @@ var _routes = []sbi.Route[Producer]{
 		Method:  http.MethodPost,
 		Path:    "/smf-config/:uuid/:slice",
 		Handler: OnGetSessionManagementConfiguration,
+	},
+	{
+		Label:   "GetUserPlaneConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/upf-config",
+		Handler: OnGetUserPlaneConfiguration,
+	},
+	{
+		Label:   "GetSeppConfiguration",
+		Method:  http.MethodGet,
+		Path:    "/sepp-config",
+		Handler: OnGetSeppConfiguration,
 	},
 }
 

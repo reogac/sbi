@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:33 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package uectx
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /amfinfo/:ueId
 // Path Params: ueId
-func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ueId int64, body *models.AmfUeContextInfo) (err error) {
+func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.AmfUeContextInfo) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -31,7 +32,7 @@ func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ueId int64, body *models.Amf
 	path := fmt.Sprintf("%s/amfinfo/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -57,12 +58,12 @@ func UpdateAmfUeContextInfo(cli sbi.ConsumerClient, ueId int64, body *models.Amf
 // Description:
 // Path: /uectx/modify/:ueId
 // Path Params: ueId
-func UeContextModify(cli sbi.ConsumerClient, ueId int64, body *models.UeContextModifyRequest) (rsp *models.UeContextModifyResponse, ersp *models.UeContextModifyFailure, err error) {
+func UeContextModify(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.UeContextModifyRequest) (rsp *models.UeContextModifyResponse, ersp *models.UeContextModifyFailure, err error) {
 
 	path := fmt.Sprintf("%s/uectx/modify/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -96,7 +97,7 @@ func UeContextModify(cli sbi.ConsumerClient, ueId int64, body *models.UeContextM
 // Description:
 // Path: /uectx/release/:ueId
 // Path Params: ueId
-func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContextReleaseCommand) (rsp *models.UeContextReleaseComplete, err error) {
+func UeContextRelease(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.UeContextReleaseCommand) (rsp *models.UeContextReleaseComplete, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -106,7 +107,7 @@ func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContext
 	path := fmt.Sprintf("%s/uectx/release/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -135,12 +136,12 @@ func UeContextRelease(cli sbi.ConsumerClient, ueId int64, body *models.UeContext
 // Description:
 // Path: /uectx/setup/:ueId
 // Path Params: ueId
-func UeContextSetup(cli sbi.ConsumerClient, ueId int64, body *models.UeContextSetupRequest) (rsp *models.UeContextSetupResponse, ersp *models.UeContextSetupFailure, err error) {
+func UeContextSetup(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.UeContextSetupRequest) (rsp *models.UeContextSetupResponse, ersp *models.UeContextSetupFailure, err error) {
 
 	path := fmt.Sprintf("%s/uectx/setup/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

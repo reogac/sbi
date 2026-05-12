@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:15 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:24 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package amfman
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -24,7 +25,7 @@ func OnAmfRegister(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleAmfRegister(body)
+	rsp, prob := prod.HandleAmfRegister(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
@@ -52,7 +53,7 @@ func OnGetSupportedSlices(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleGetSupportedSlices(body)
+	rsp, prob := prod.HandleGetSupportedSlices(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
@@ -69,7 +70,7 @@ func OnGetSupportedSlices(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleAmfRegister(*models.AmfRegistrationRequest) (*models.AmfRegistrationResponse, *models.ProblemDetails)
+	HandleAmfRegister(context.Context, *models.AmfRegistrationRequest) (*models.AmfRegistrationResponse, *models.ProblemDetails)
 
-	HandleGetSupportedSlices(*models.GetSupportedSlicesRequest) (*models.GetSupportedSlicesResponse, *models.ProblemDetails)
+	HandleGetSupportedSlices(context.Context, *models.GetSupportedSlicesRequest) (*models.GetSupportedSlicesResponse, *models.ProblemDetails)
 }

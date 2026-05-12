@@ -4,20 +4,20 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/pcf/ampol"
 )
-func (p *Producer) HandleCreateIndividualAMPolicyAssociation(body *models.PolicyAssociationRequest)(headers map[string]string,rsp *models.PolicyAssociation,prob *models.ProblemDetails){
+func (p *Producer) HandleCreateIndividualAMPolicyAssociation(ctx context.Context, body *models.PolicyAssociationRequest)(headers map[string]string,rsp *models.PolicyAssociation,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleReadIndividualAMPolicyAssociation(polAssoId string)(rsp *models.PolicyAssociation,prob *models.ProblemDetails){
+func (p *Producer) HandleDeleteIndividualAMPolicyAssociation(ctx context.Context, polAssoId string)(prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleDeleteIndividualAMPolicyAssociation(polAssoId string)(prob *models.ProblemDetails){
+func (p *Producer) HandleReadIndividualAMPolicyAssociation(ctx context.Context, polAssoId string)(rsp *models.PolicyAssociation,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(polAssoId string,body *models.PolicyAssociationUpdateRequest)(rsp *models.PolicyUpdate,prob *models.ProblemDetails){
+func (p *Producer) HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(ctx context.Context, polAssoId string,body *models.PolicyAssociationUpdateRequest)(rsp *models.PolicyUpdate,prob *models.ProblemDetails){
 	return
 }
 */

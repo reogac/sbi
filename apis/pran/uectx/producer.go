@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:25 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:33 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package uectx
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -38,7 +39,7 @@ func OnUpdateAmfUeContextInfo(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	prob := prod.HandleUpdateAmfUeContextInfo(ueId, body)
+	prob := prod.HandleUpdateAmfUeContextInfo(ctx.Context(), ueId, body)
 
 	// check for problem
 	if prob != nil {
@@ -78,7 +79,7 @@ func OnUeContextModify(ctx sbi.RequestContext, prod Producer) {
 		body = nil
 	}
 	// call application handler
-	rsp, ersp, prob := prod.HandleUeContextModify(ueId, body)
+	rsp, ersp, prob := prod.HandleUeContextModify(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -125,7 +126,7 @@ func OnUeContextRelease(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleUeContextRelease(ueId, body)
+	rsp, prob := prod.HandleUeContextRelease(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -168,7 +169,7 @@ func OnUeContextSetup(ctx sbi.RequestContext, prod Producer) {
 		body = nil
 	}
 	// call application handler
-	rsp, ersp, prob := prod.HandleUeContextSetup(ueId, body)
+	rsp, ersp, prob := prod.HandleUeContextSetup(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -191,11 +192,11 @@ func OnUeContextSetup(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleUpdateAmfUeContextInfo(int64, *models.AmfUeContextInfo) *models.ProblemDetails
+	HandleUpdateAmfUeContextInfo(context.Context, int64, *models.AmfUeContextInfo) *models.ProblemDetails
 
-	HandleUeContextModify(int64, *models.UeContextModifyRequest) (*models.UeContextModifyResponse, *models.UeContextModifyFailure, *models.ProblemDetails)
+	HandleUeContextModify(context.Context, int64, *models.UeContextModifyRequest) (*models.UeContextModifyResponse, *models.UeContextModifyFailure, *models.ProblemDetails)
 
-	HandleUeContextRelease(int64, *models.UeContextReleaseCommand) (*models.UeContextReleaseComplete, *models.ProblemDetails)
+	HandleUeContextRelease(context.Context, int64, *models.UeContextReleaseCommand) (*models.UeContextReleaseComplete, *models.ProblemDetails)
 
-	HandleUeContextSetup(int64, *models.UeContextSetupRequest) (*models.UeContextSetupResponse, *models.UeContextSetupFailure, *models.ProblemDetails)
+	HandleUeContextSetup(context.Context, int64, *models.UeContextSetupRequest) (*models.UeContextSetupResponse, *models.UeContextSetupFailure, *models.ProblemDetails)
 }

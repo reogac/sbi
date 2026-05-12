@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:27 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:35 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package handover
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -37,7 +38,7 @@ func OnHandoverRequest(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, ersp, prob := prod.HandleHandoverRequest(callback, body)
+	rsp, ersp, prob := prod.HandleHandoverRequest(ctx.Context(), callback, body)
 
 	// check for success response
 	if rsp != nil {
@@ -60,5 +61,5 @@ func OnHandoverRequest(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleHandoverRequest(*models.EndpointInfo, *models.HandoverRequest) (*models.HandoverRequestAcknowledge, *models.HandoverRequestFailure, *models.ProblemDetails)
+	HandleHandoverRequest(context.Context, *models.EndpointInfo, *models.HandoverRequest) (*models.HandoverRequestAcknowledge, *models.HandoverRequestFailure, *models.ProblemDetails)
 }

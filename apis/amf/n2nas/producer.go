@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:20 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:28 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package n2nas
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -37,7 +38,7 @@ func OnInitialUeMessage(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleInitialUeMessage(callback, body)
+	rsp, prob := prod.HandleInitialUeMessage(ctx.Context(), callback, body)
 
 	// check for success response
 	if rsp != nil {
@@ -78,7 +79,7 @@ func OnNasUl(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	prob := prod.HandleNasUl(ueId, body)
+	prob := prod.HandleNasUl(ctx.Context(), ueId, body)
 
 	// check for problem
 	if prob != nil {
@@ -116,7 +117,7 @@ func OnNasErr(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	prob := prod.HandleNasErr(ueId, body)
+	prob := prod.HandleNasErr(ctx.Context(), ueId, body)
 
 	// check for problem
 	if prob != nil {
@@ -130,9 +131,9 @@ func OnNasErr(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleInitialUeMessage(*models.EndpointInfo, *models.InitialUeMessage) (*models.InitialUeMessageResponse, *models.ProblemDetails)
+	HandleInitialUeMessage(context.Context, *models.EndpointInfo, *models.InitialUeMessage) (*models.InitialUeMessageResponse, *models.ProblemDetails)
 
-	HandleNasUl(int64, *models.NasUplinkTransport) *models.ProblemDetails
+	HandleNasUl(context.Context, int64, *models.NasUplinkTransport) *models.ProblemDetails
 
-	HandleNasErr(int64, *models.UplinkNasError) *models.ProblemDetails
+	HandleNasErr(context.Context, int64, *models.UplinkNasError) *models.ProblemDetails
 }

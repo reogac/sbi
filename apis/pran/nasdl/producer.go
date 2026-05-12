@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:26 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:34 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package nasdl
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -37,7 +38,7 @@ func OnNasDl(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	prob := prod.HandleNasDl(ueId, body)
+	prob := prod.HandleNasDl(ctx.Context(), ueId, body)
 
 	// check for problem
 	if prob != nil {
@@ -51,5 +52,5 @@ func OnNasDl(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleNasDl(int64, *models.NasDownlinkTransport) *models.ProblemDetails
+	HandleNasDl(context.Context, int64, *models.NasDownlinkTransport) *models.ProblemDetails
 }

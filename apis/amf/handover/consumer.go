@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:27 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package handover
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -21,7 +22,7 @@ const (
 // Description:
 // Path: /require/:ueId
 // Path Params: ueId
-func HandoverRequired(cli sbi.ConsumerClient, ueId int64, body *models.HandoverRequired) (rsp *models.HandoverCommand, ersp *models.HandoverPreparationFailure, err error) {
+func HandoverRequired(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.HandoverRequired) (rsp *models.HandoverCommand, ersp *models.HandoverPreparationFailure, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -31,7 +32,7 @@ func HandoverRequired(cli sbi.ConsumerClient, ueId int64, body *models.HandoverR
 	path := fmt.Sprintf("%s/require/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -65,7 +66,7 @@ func HandoverRequired(cli sbi.ConsumerClient, ueId int64, body *models.HandoverR
 // Description:
 // Path: /notify/:ueId
 // Path Params: ueId
-func HandoverNotify(cli sbi.ConsumerClient, ueId int64, body *models.HandoverNotify) (err error) {
+func HandoverNotify(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.HandoverNotify) (err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -75,7 +76,7 @@ func HandoverNotify(cli sbi.ConsumerClient, ueId int64, body *models.HandoverNot
 	path := fmt.Sprintf("%s/notify/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -101,7 +102,7 @@ func HandoverNotify(cli sbi.ConsumerClient, ueId int64, body *models.HandoverNot
 // Description:
 // Path: /cancel/:ueId
 // Path Params: ueId
-func HandoverCancel(cli sbi.ConsumerClient, ueId int64, body *models.HandoverCancel) (rsp *models.HandoverCancelAcknowledge, err error) {
+func HandoverCancel(cli sbi.ConsumerClient, ctx context.Context, ueId int64, body *models.HandoverCancel) (rsp *models.HandoverCancelAcknowledge, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -111,7 +112,7 @@ func HandoverCancel(cli sbi.ConsumerClient, ueId int64, body *models.HandoverCan
 	path := fmt.Sprintf("%s/cancel/%s", PATH_ROOT, models.Int64ToString(ueId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -141,11 +142,11 @@ func HandoverCancel(cli sbi.ConsumerClient, ueId int64, body *models.HandoverCan
 // Path: /pathswitch/:ueId
 // Path Params: ueId
 type PathSwitchParams struct {
-	UeId     int64
 	Callback *models.EndpointInfo
+	UeId     int64
 }
 
-func PathSwitch(cli sbi.ConsumerClient, params PathSwitchParams, body *models.PathSwitchRequest) (rsp *models.PathSwitchAcknowledge, ersp *models.PathSwitchFailure, err error) {
+func PathSwitch(cli sbi.ConsumerClient, ctx context.Context, params PathSwitchParams, body *models.PathSwitchRequest) (rsp *models.PathSwitchAcknowledge, ersp *models.PathSwitchFailure, err error) {
 
 	if params.Callback == nil {
 		err = fmt.Errorf("callback is required")
@@ -160,7 +161,7 @@ func PathSwitch(cli sbi.ConsumerClient, params PathSwitchParams, body *models.Pa
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	request.AddHeader("callback", models.EndpointInfoToString(*params.Callback))
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

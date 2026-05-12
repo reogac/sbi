@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:43 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package ampol
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -17,92 +18,12 @@ const (
 	PATH_ROOT string = "npcf-am-policy-control/v1"
 )
 
-// Summary: Delete individual AM policy association.
-// Description:
-// Path: /policies/:polAssoId
-// Path Params: polAssoId
-func DeleteIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId string) (err error) {
-
-	if len(polAssoId) == 0 {
-		err = fmt.Errorf("polAssoId is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policies/%s", PATH_ROOT, polAssoId)
-	request := sbi.NewRequest(path, http.MethodDelete, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 204:
-		return
-	case 400, 401, 403, 404, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-//Summary: Report observed event triggers and obtain updated policies for an individual AM policy association.
-
-// Description:
-// Path: /policies/:polAssoId/update
-// Path Params: polAssoId
-func ReportObservedEventTriggersForIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId string, body *models.PolicyAssociationUpdateRequest) (rsp *models.PolicyUpdate, err error) {
-
-	if len(polAssoId) == 0 {
-		err = fmt.Errorf("polAssoId is required")
-		return
-	}
-	if body == nil {
-		err = fmt.Errorf("body is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/policies/%s/update", PATH_ROOT, polAssoId)
-	request := sbi.NewRequest(path, http.MethodPost, body)
-	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.PolicyUpdate)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode PolicyUpdate: %+v", err)
-		}
-	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
 // Summary: Create individual AM policy association.
 // Description:
 // Path: /policies
 // Path Params:
 // Response headers: Location
-func CreateIndividualAMPolicyAssociation(cli sbi.ConsumerClient, body *models.PolicyAssociationRequest) (headers map[string]string, rsp *models.PolicyAssociation, err error) {
+func CreateIndividualAMPolicyAssociation(cli sbi.ConsumerClient, ctx context.Context, body *models.PolicyAssociationRequest) (headers map[string]string, rsp *models.PolicyAssociation, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
@@ -112,7 +33,7 @@ func CreateIndividualAMPolicyAssociation(cli sbi.ConsumerClient, body *models.Po
 	path := fmt.Sprintf("%s/policies", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -138,11 +59,47 @@ func CreateIndividualAMPolicyAssociation(cli sbi.ConsumerClient, body *models.Po
 	return
 }
 
+// Summary: Delete individual AM policy association.
+// Description:
+// Path: /policies/:polAssoId
+// Path Params: polAssoId
+func DeleteIndividualAMPolicyAssociation(cli sbi.ConsumerClient, ctx context.Context, polAssoId string) (err error) {
+
+	if len(polAssoId) == 0 {
+		err = fmt.Errorf("polAssoId is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policies/%s", PATH_ROOT, polAssoId)
+	request := sbi.NewRequest(path, http.MethodDelete, nil)
+	var response *sbi.Response
+	if response, err = cli.Send(ctx, request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 401, 403, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
 // Summary: Read individual AM policy association.
 // Description:
 // Path: /policies/:polAssoId
 // Path Params: polAssoId
-func ReadIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId string) (rsp *models.PolicyAssociation, err error) {
+func ReadIndividualAMPolicyAssociation(cli sbi.ConsumerClient, ctx context.Context, polAssoId string) (rsp *models.PolicyAssociation, err error) {
 
 	if len(polAssoId) == 0 {
 		err = fmt.Errorf("polAssoId is required")
@@ -152,7 +109,7 @@ func ReadIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId string)
 	path := fmt.Sprintf("%s/policies/%s", PATH_ROOT, polAssoId)
 	request := sbi.NewRequest(path, http.MethodGet, nil)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -165,6 +122,50 @@ func ReadIndividualAMPolicyAssociation(cli sbi.ConsumerClient, polAssoId string)
 			err = fmt.Errorf("Fail to decode PolicyAssociation: %+v", err)
 		}
 	case 400, 401, 403, 404, 429, 500, 503:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+//Summary: Report observed event triggers and obtain updated policies for an individual AM policy association.
+
+// Description:
+// Path: /policies/:polAssoId/update
+// Path Params: polAssoId
+func ReportObservedEventTriggersForIndividualAMPolicyAssociation(cli sbi.ConsumerClient, ctx context.Context, polAssoId string, body *models.PolicyAssociationUpdateRequest) (rsp *models.PolicyUpdate, err error) {
+
+	if len(polAssoId) == 0 {
+		err = fmt.Errorf("polAssoId is required")
+		return
+	}
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/policies/%s/update", PATH_ROOT, polAssoId)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(ctx, request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.PolicyUpdate)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode PolicyUpdate: %+v", err)
+		}
+	case 400, 401, 403, 404, 411, 413, 415, 429, 500, 503:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

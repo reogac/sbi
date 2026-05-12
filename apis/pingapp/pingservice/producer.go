@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:14 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:23 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package pingservice
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -24,7 +25,7 @@ func OnPing(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandlePing(body)
+	rsp, prob := prod.HandlePing(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
@@ -52,7 +53,7 @@ func OnForward(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleForward(body)
+	rsp, prob := prod.HandleForward(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
@@ -69,7 +70,7 @@ func OnForward(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandlePing(*models.PingRequest) (*models.PingResponse, *models.ProblemDetails)
+	HandlePing(context.Context, *models.PingRequest) (*models.PingResponse, *models.ProblemDetails)
 
-	HandleForward(*models.PingFwRequest) (*models.PingResponse, *models.ProblemDetails)
+	HandleForward(context.Context, *models.PingFwRequest) (*models.PingResponse, *models.ProblemDetails)
 }

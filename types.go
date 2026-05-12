@@ -1,6 +1,7 @@
 package sbi
 
 import (
+	"context"
 	"io"
 	"net/url"
 )
@@ -68,7 +69,7 @@ func (rsp *Response) CloseBody() {
 
 // Abstraction of a consumer client
 type ConsumerClient interface {
-	Send(*Request) (*Response, error)
+	Send(context.Context, *Request) (*Response, error)
 }
 
 // an abstraction of the context where a request is received at a producer. The
@@ -82,6 +83,7 @@ type RequestContext interface {
 	Param(string) string  // get a parameter from the request (application handler need it)
 	Header(string) string // get a header parameter from the request (application handler need it)
 	WriteResponse(int, SbiIE, map[string]string)
+	Context() context.Context
 }
 
 type Route[T any] struct {

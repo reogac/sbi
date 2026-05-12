@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:32 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:40 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package ueid
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -24,7 +25,7 @@ func OnDeconceal(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleDeconceal(body)
+	rsp, prob := prod.HandleDeconceal(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
@@ -41,5 +42,5 @@ func OnDeconceal(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleDeconceal(*models.DeconcealReqData) (*models.DeconcealRspData, *models.ProblemDetails)
+	HandleDeconceal(context.Context, *models.DeconcealReqData) (*models.DeconcealRspData, *models.ProblemDetails)
 }

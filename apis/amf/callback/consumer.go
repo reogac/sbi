@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:21 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:29 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package callback
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -26,7 +27,7 @@ type SmContextStatusNotifyParams struct {
 	SessionId int16
 }
 
-func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyParams, body *models.SmContextStatusNotification) (err error) {
+func SmContextStatusNotify(cli sbi.ConsumerClient, ctx context.Context, params SmContextStatusNotifyParams, body *models.SmContextStatusNotification) (err error) {
 
 	if len(params.Supi) == 0 {
 		err = fmt.Errorf("supi is required")
@@ -40,7 +41,7 @@ func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyP
 	path := fmt.Sprintf("%s/smctx/%s/%s", PATH_ROOT, params.Supi, models.Int16ToString(params.SessionId))
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 
@@ -66,7 +67,7 @@ func SmContextStatusNotify(cli sbi.ConsumerClient, params SmContextStatusNotifyP
 // Description:
 // Path: /ran-updated/:ranId
 // Path Params: ranId
-func RanInfoUpdate(cli sbi.ConsumerClient, ranId string, body *models.RanInfoUpdateData) (err error) {
+func RanInfoUpdate(cli sbi.ConsumerClient, ctx context.Context, ranId string, body *models.RanInfoUpdateData) (err error) {
 
 	if len(ranId) == 0 {
 		err = fmt.Errorf("ranId is required")
@@ -80,7 +81,7 @@ func RanInfoUpdate(cli sbi.ConsumerClient, ranId string, body *models.RanInfoUpd
 	path := fmt.Sprintf("%s/ran-updated/%s", PATH_ROOT, ranId)
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
-	if response, err = cli.Send(request); err != nil {
+	if response, err = cli.Send(ctx, request); err != nil {
 		return
 	}
 

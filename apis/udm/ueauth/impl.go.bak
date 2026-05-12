@@ -4,32 +4,32 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udm/ueauth"
 )
-func (p *Producer) HandleConfirmAuth(supi string,body *models.AuthEvent)(headers map[string]string,rsp *models.AuthEvent,prob *models.ProblemDetails){
+func (p *Producer) HandleDeleteAuth(ctx context.Context, params *ueauth.DeleteAuthParams,body *models.AuthEvent)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGenerateGbaAv(ctx context.Context, supi string,body *models.GbaAuthenticationInfoRequest)(rsp *models.GbaAuthenticationInfoResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGenerateProseAV(ctx context.Context, supiOrSuci string,body *models.ProSeAuthenticationInfoRequest)(rsp *models.ProSeAuthenticationInfoResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGenerateAuthData(ctx context.Context, supiOrSuci string,body *models.AuthenticationInfoRequest)(rsp *models.AuthenticationInfoResult,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetRgAuthData(ctx context.Context, params *ueauth.GetRgAuthDataParams)(rsp *models.RgAuthCtx,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleConfirmAuth(ctx context.Context, supi string,body *models.AuthEvent)(headers map[string]string,rsp *models.AuthEvent,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleGenerateAv(params *ueauth.GenerateAvParams,body *models.HssAuthenticationInfoRequest)(rsp *models.HssAuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteAuth(params *ueauth.DeleteAuthParams,body *models.AuthEvent)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGenerateGbaAv(supi string,body *models.GbaAuthenticationInfoRequest)(rsp *models.GbaAuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGenerateProseAV(supiOrSuci string,body *models.ProSeAuthenticationInfoRequest)(rsp *models.ProSeAuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGenerateAuthData(supiOrSuci string,body *models.AuthenticationInfoRequest)(rsp *models.AuthenticationInfoResult,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetRgAuthData(params *ueauth.GetRgAuthDataParams)(rsp *models.RgAuthCtx,prob *models.ProblemDetails){
+func (p *Producer) HandleGenerateAv(ctx context.Context, params *ueauth.GenerateAvParams,body *models.HssAuthenticationInfoRequest)(rsp *models.HssAuthenticationInfoResult,prob *models.ProblemDetails){
 	return
 }
 */

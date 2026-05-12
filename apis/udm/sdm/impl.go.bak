@@ -4,165 +4,165 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/udm/sdm"
 )
-func (p *Producer) HandleGetSharedData(params *sdm.GetSharedDataParams)(headers map[string]string,rsp *[]models.SharedData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSmfSelData(ctx context.Context, params *sdm.GetSmfSelDataParams)(headers map[string]string,rsp *models.SmfSelectionSubscriptionData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetMultipleIdentifiers(params *sdm.GetMultipleIdentifiersParams)(headers map[string]string,rsp *map[string]models.SupiInfo,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSharedData(ctx context.Context, params *sdm.GetSharedDataParams)(headers map[string]string,rsp *[]models.SharedData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleUnsubscribe(params *sdm.UnsubscribeParams)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSupiOrGpsi(params *sdm.GetSupiOrGpsiParams)(headers map[string]string,rsp *models.IdTranslationResult,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleUpuAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleModifySharedDataSubs(params *sdm.ModifySharedDataSubsParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetEcrData(params *sdm.GetEcrDataParams)(headers map[string]string,rsp *models.EnhancedCoverageRestrictionData,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleSorAckInfo(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetSmData(params *sdm.GetSmDataParams)(headers map[string]string,rsp *models.SmSubsData,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleGetSmsData(params *sdm.GetSmsDataParams)(headers map[string]string,rsp *models.SmsSubscriptionData,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleGetLcsMoData(params *sdm.GetLcsMoDataParams)(headers map[string]string,rsp *models.LcsMoData,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleGetProseData(params *sdm.GetProseDataParams)(headers map[string]string,rsp *models.ProseSubscriptionData,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleGetMbsData(params *sdm.GetMbsDataParams)(headers map[string]string,rsp *models.MbsSubscriptionData,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleGetDataSets(params *sdm.GetDataSetsParams)(headers map[string]string,rsp *models.SubscriptionDataSets,prob *models.ProblemDetails){
-// headers: Cache-Control, ETag, Last-Modified
-	return
-}
-
-func (p *Producer) HandleGetUeCtxInSmsfData(params *sdm.GetUeCtxInSmsfDataParams)(rsp *models.UeContextInSmsfData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleCAGAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleSubscribe(ueId string,body *models.SdmSubscription)(headers map[string]string,rsp *models.SdmSubscription,prob *models.ProblemDetails){
+func (p *Producer) HandleSubscribe(ctx context.Context, ueId string,body *models.SdmSubscription)(headers map[string]string,rsp *models.SdmSubscription,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleGetSmsMngtData(params *sdm.GetSmsMngtDataParams)(headers map[string]string,rsp *models.SmsManagementSubscriptionData,prob *models.ProblemDetails){
+func (p *Producer) HandleSorAckInfo(ctx context.Context, supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUpuAck(ctx context.Context, supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetNSSAI(ctx context.Context, params *sdm.GetNSSAIParams)(headers map[string]string,rsp *models.Nssai,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetLcsBcaData(params *sdm.GetLcsBcaDataParams)(headers map[string]string,rsp *models.LcsBroadcastAssistanceTypesData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetUeCtxInSmfData(ctx context.Context, params *sdm.GetUeCtxInSmfDataParams)(rsp *models.UeContextInSmfData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetUeCtxInSmsfData(ctx context.Context, params *sdm.GetUeCtxInSmsfDataParams)(rsp *models.UeContextInSmsfData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetTraceConfigData(ctx context.Context, params *sdm.GetTraceConfigDataParams)(headers map[string]string,rsp *models.TraceDataResponse,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetUeCtxInSmfData(params *sdm.GetUeCtxInSmfDataParams)(rsp *models.UeContextInSmfData,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleSNSSAIsAck(supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetAmData(params *sdm.GetAmDataParams)(headers map[string]string,rsp *models.AccessAndMobilitySubscriptionData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSmData(ctx context.Context, params *sdm.GetSmDataParams)(headers map[string]string,rsp *models.SmSubsData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetSmfSelData(params *sdm.GetSmfSelDataParams)(headers map[string]string,rsp *models.SmfSelectionSubscriptionData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetLcsMoData(ctx context.Context, params *sdm.GetLcsMoDataParams)(headers map[string]string,rsp *models.LcsMoData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetUcData(params *sdm.GetUcDataParams)(headers map[string]string,rsp *models.UcSubscriptionData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetUeCtxInAmfData(ctx context.Context, params *sdm.GetUeCtxInAmfDataParams)(rsp *models.UeContextInAmfData,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetLcsBcaData(ctx context.Context, params *sdm.GetLcsBcaDataParams)(headers map[string]string,rsp *models.LcsBroadcastAssistanceTypesData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleSubscribeToSharedData(body *models.SdmSubscription)(headers map[string]string,rsp *models.SdmSubscription,prob *models.ProblemDetails){
+func (p *Producer) HandleGetV2xData(ctx context.Context, params *sdm.GetV2xDataParams)(headers map[string]string,rsp *models.V2xSubscriptionData,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleUpdateSORInfo(ctx context.Context, supi string,body *models.SorUpdateInfo)(rsp *models.SorInfo,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModifySharedDataSubs(ctx context.Context, params *sdm.ModifySharedDataSubsParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetIndividualSharedData(ctx context.Context, params *sdm.GetIndividualSharedDataParams)(headers map[string]string,rsp *models.SharedData,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleGetMultipleIdentifiers(ctx context.Context, params *sdm.GetMultipleIdentifiersParams)(headers map[string]string,rsp *map[string]models.SupiInfo,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleSNSSAIsAck(ctx context.Context, supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetEcrData(ctx context.Context, params *sdm.GetEcrDataParams)(headers map[string]string,rsp *models.EnhancedCoverageRestrictionData,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleGetMbsData(ctx context.Context, params *sdm.GetMbsDataParams)(headers map[string]string,rsp *models.MbsSubscriptionData,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleGetUcData(ctx context.Context, params *sdm.GetUcDataParams)(headers map[string]string,rsp *models.UcSubscriptionData,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleSubscribeToSharedData(ctx context.Context, body *models.SdmSubscription)(headers map[string]string,rsp *models.SdmSubscription,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleGetNSSAI(params *sdm.GetNSSAIParams)(headers map[string]string,rsp *models.Nssai,prob *models.ProblemDetails){
+func (p *Producer) HandleGetAmData(ctx context.Context, params *sdm.GetAmDataParams)(headers map[string]string,rsp *models.AccessAndMobilitySubscriptionData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetLcsPrivacyData(params *sdm.GetLcsPrivacyDataParams)(headers map[string]string,rsp *models.LcsPrivacyData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSmsData(ctx context.Context, params *sdm.GetSmsDataParams)(headers map[string]string,rsp *models.SmsSubscriptionData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetV2xData(params *sdm.GetV2xDataParams)(headers map[string]string,rsp *models.V2xSubscriptionData,prob *models.ProblemDetails){
+func (p *Producer) HandleGetLcsPrivacyData(ctx context.Context, params *sdm.GetLcsPrivacyDataParams)(headers map[string]string,rsp *models.LcsPrivacyData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleModify(params *sdm.ModifyParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUpdateSORInfo(supi string,body *models.SorUpdateInfo)(rsp *models.SorInfo,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleUnsubscribeForSharedData(subscriptionId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleGetGroupIdentifiers(params *sdm.GetGroupIdentifiersParams)(headers map[string]string,rsp *models.GroupIdentifiers,prob *models.ProblemDetails){
+func (p *Producer) HandleGetProseData(ctx context.Context, params *sdm.GetProseDataParams)(headers map[string]string,rsp *models.ProseSubscriptionData,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetIndividualSharedData(params *sdm.GetIndividualSharedDataParams)(headers map[string]string,rsp *models.SharedData,prob *models.ProblemDetails){
+func (p *Producer) HandleUnsubscribe(ctx context.Context, params *sdm.UnsubscribeParams)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleModify(ctx context.Context, params *sdm.ModifyParams,body *models.SdmSubsModification)(rsp *models.Schema,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetSupiOrGpsi(ctx context.Context, params *sdm.GetSupiOrGpsiParams)(headers map[string]string,rsp *models.IdTranslationResult,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }
 
-func (p *Producer) HandleGetUeCtxInAmfData(params *sdm.GetUeCtxInAmfDataParams)(rsp *models.UeContextInAmfData,prob *models.ProblemDetails){
+func (p *Producer) HandleUnsubscribeForSharedData(ctx context.Context, subscriptionId string)(prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleGetTraceConfigData(params *sdm.GetTraceConfigDataParams)(headers map[string]string,rsp *models.TraceDataResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleGetSmsMngtData(ctx context.Context, params *sdm.GetSmsMngtDataParams)(headers map[string]string,rsp *models.SmsManagementSubscriptionData,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleCAGAck(ctx context.Context, supi string,body *models.AcknowledgeInfo)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleGetGroupIdentifiers(ctx context.Context, params *sdm.GetGroupIdentifiersParams)(headers map[string]string,rsp *models.GroupIdentifiers,prob *models.ProblemDetails){
+// headers: Cache-Control, ETag, Last-Modified
+	return
+}
+
+func (p *Producer) HandleGetDataSets(ctx context.Context, params *sdm.GetDataSetsParams)(headers map[string]string,rsp *models.SubscriptionDataSets,prob *models.ProblemDetails){
 // headers: Cache-Control, ETag, Last-Modified
 	return
 }

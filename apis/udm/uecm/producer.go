@@ -1,16 +1,123 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:31 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:39 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package uecm
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
 )
+
+func OnGetNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetNwdafRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'analytics-ids'
+	analyticsIdsStr := ctx.Param("analytics-ids")
+	if len(analyticsIdsStr) > 0 {
+		if params.AnalyticsIds, err = models.ArrayOfStringFromString(analyticsIdsStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse analytics-ids failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetNwdafRegistration(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnSendRoutingInfoSm(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.RoutingInfoSmRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleSendRoutingInfoSm(ctx.Context(), ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
+	var params GetNon3GppRegistrationParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGetNon3GppRegistration(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
 
 func OnGetNon3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
 	var params GetNon3GppSmsfRegistrationParams
@@ -26,7 +133,7 @@ func OnGetNon3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
 	params.SupportedFeatures = ctx.Param("supported-features")
 
 	// call application handler
-	rsp, prob := prod.HandleGetNon3GppSmsfRegistration(&params)
+	rsp, prob := prod.HandleGetNon3GppSmsfRegistration(ctx.Context(), &params)
 
 	// check for success response
 	if rsp != nil {
@@ -42,152 +149,7 @@ func OnGetNon3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnIpSmGwDeregistration(ctx sbi.RequestContext, prod Producer) {
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleIpSmGwDeregistration(ueId)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGetLocationInfo(ctx sbi.RequestContext, prod Producer) {
-	var params GetLocationInfoParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetLocationInfo(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnUpdateNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params UpdateNwdafRegistrationParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'nwdafRegistrationId'
-	params.NwdafRegistrationId = ctx.Param("nwdafRegistrationId")
-	if len(params.NwdafRegistrationId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "nwdafRegistrationId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.NwdafRegistrationModification)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdateNwdafRegistration(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnUpdateNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params UpdateNon3GppRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.AmfNon3GppAccessRegistrationModification)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdateNon3GppRegistration(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnIpSmGwRegistration(ctx sbi.RequestContext, prod Producer) {
+func OnNon3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -200,18 +162,18 @@ func OnIpSmGwRegistration(ctx sbi.RequestContext, prod Producer) {
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.IpSmGwRegistration)
+	body := new(models.SmsfRegistration)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleIpSmGwRegistration(ueId, body)
+	headers, rsp, prob := prod.HandleNon3GppSmsfRegistration(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
+		ctx.WriteResponse(200, rsp, headers)
 		return
 	}
 
@@ -226,16 +188,8 @@ func OnIpSmGwRegistration(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params NwdafRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
+func OnNwdafDeregistration(ctx sbi.RequestContext, prod Producer) {
+	var params NwdafDeregistrationParams
 
 	// read 'nwdafRegistrationId'
 	params.NwdafRegistrationId = ctx.Param("nwdafRegistrationId")
@@ -244,16 +198,120 @@ func OnNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleNwdafDeregistration(ctx.Context(), &params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnPeiUpdate(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.NwdafRegistration)
+	body := new(models.PeiUpdateInfo)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleNwdafRegistration(&params, body)
+	prob := prod.HandlePeiUpdate(ctx.Context(), ueId, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnUpdateRoamingInformation(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.RoamingInfoUpdate)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateRoamingInformation(ctx.Context(), ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(201, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.AmfNon3GppAccessRegistration)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleNon3GppRegistration(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -272,14 +330,9 @@ func OnNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnThreeGppSmsfDeregistration(ctx sbi.RequestContext, prod Producer) {
-	var params ThreeGppSmsfDeregistrationParams
-
-	// read 'smsf-set-id'
-	params.SmsfSetId = ctx.Param("smsf-set-id")
-
-	// read 'If-Match'
-	params.IfMatch = ctx.Header("If-Match")
+func OnRetrieveSmfRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params RetrieveSmfRegistrationParams
 
 	// read 'ueId'
 	params.UeId = ctx.Param("ueId")
@@ -288,8 +341,150 @@ func OnThreeGppSmsfDeregistration(ctx sbi.RequestContext, prod Producer) {
 		return
 	}
 
+	// read 'pduSessionId'
+	pduSessionIdStr := ctx.Param("pduSessionId")
+	if len(pduSessionIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"), nil)
+		return
+	}
+
+	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)), nil)
+		return
+	}
+
 	// call application handler
-	prob := prod.HandleThreeGppSmsfDeregistration(&params)
+	rsp, prob := prod.HandleRetrieveSmfRegistration(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGet3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
+	var params Get3GppSmsfRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGet3GppSmsfRegistration(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnSmfDeregistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params SmfDeregistrationParams
+
+	// read 'smf-set-id'
+	params.SmfSetId = ctx.Param("smf-set-id")
+
+	// read 'smf-instance-id'
+	params.SmfInstanceId = ctx.Param("smf-instance-id")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'pduSessionId'
+	pduSessionIdStr := ctx.Param("pduSessionId")
+	if len(pduSessionIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"), nil)
+		return
+	}
+
+	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleSmfDeregistration(ctx.Context(), &params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnUpdateSmfRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params UpdateSmfRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'pduSessionId'
+	pduSessionIdStr := ctx.Param("pduSessionId")
+	if len(pduSessionIdStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"), nil)
+		return
+	}
+
+	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.SmfRegistrationModification)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateSmfRegistration(ctx.Context(), &params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
 
 	// check for problem
 	if prob != nil {
@@ -334,7 +529,7 @@ func OnRegistration(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleRegistration(&params, body)
+	rsp, prob := prod.HandleRegistration(ctx.Context(), &params, body)
 
 	// check for success response
 	if rsp != nil {
@@ -350,6 +545,178 @@ func OnRegistration(ctx sbi.RequestContext, prod Producer) {
 
 	// success
 	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnThreeGppSmsfDeregistration(ctx sbi.RequestContext, prod Producer) {
+	var params ThreeGppSmsfDeregistrationParams
+
+	// read 'If-Match'
+	params.IfMatch = ctx.Header("If-Match")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'smsf-set-id'
+	params.SmsfSetId = ctx.Param("smsf-set-id")
+
+	// call application handler
+	prob := prod.HandleThreeGppSmsfDeregistration(ctx.Context(), &params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnNon3GppSmsfDeregistration(ctx sbi.RequestContext, prod Producer) {
+	var params Non3GppSmsfDeregistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'smsf-set-id'
+	params.SmsfSetId = ctx.Param("smsf-set-id")
+
+	// read 'If-Match'
+	params.IfMatch = ctx.Header("If-Match")
+
+	// call application handler
+	prob := prod.HandleNon3GppSmsfDeregistration(ctx.Context(), &params)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnGetIpSmGwRegistration(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGetIpSmGwRegistration(ctx.Context(), ueId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetLocationInfo(ctx sbi.RequestContext, prod Producer) {
+	var params GetLocationInfoParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetLocationInfo(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnGetRegistrations(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetRegistrationsParams
+
+	// read 'single-nssai'
+	singleNssaiStr := ctx.Param("single-nssai")
+	if len(singleNssaiStr) > 0 {
+		if params.SingleNssai, err = models.SnssaiFromString(singleNssaiStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'dnn'
+	params.Dnn = ctx.Param("dnn")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'registration-dataset-names'
+	registrationDatasetNamesStr := ctx.Param("registration-dataset-names")
+	if len(registrationDatasetNamesStr) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "registration-dataset-names is required"), nil)
+		return
+	}
+
+	if params.RegistrationDatasetNames, err = models.ArrayOfStringFromString(registrationDatasetNamesStr); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse registration-dataset-names failed: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGetRegistrations(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
 
 }
 
@@ -373,7 +740,7 @@ func OnThreeGppRegistration(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleThreeGppRegistration(ueId, body)
+	rsp, prob := prod.HandleThreeGppRegistration(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -392,7 +759,7 @@ func OnThreeGppRegistration(ctx sbi.RequestContext, prod Producer) {
 
 }
 
-func OnNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
+func OnDeregAMF(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
 	// read 'ueId'
@@ -405,14 +772,54 @@ func OnNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
 
 	// decode request body
 	contentLength, content := ctx.RequestBody()
-	body := new(models.AmfNon3GppAccessRegistration)
+	body := new(models.AmfDeregInfo)
 	if err = sbi.Decode(contentLength, content, body); err != nil {
 		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
 		return
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleNon3GppRegistration(ueId, body)
+	prob := prod.HandleDeregAMF(ctx.Context(), ueId, body)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnGetSmfRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params GetSmfRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'single-nssai'
+	singleNssaiStr := ctx.Param("single-nssai")
+	if len(singleNssaiStr) > 0 {
+		if params.SingleNssai, err = models.SnssaiFromString(singleNssaiStr); err != nil {
+			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)), nil)
+			return
+		}
+	}
+
+	// read 'dnn'
+	params.Dnn = ctx.Param("dnn")
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// call application handler
+	rsp, prob := prod.HandleGetSmfRegistration(ctx.Context(), &params)
 
 	// check for success response
 	if rsp != nil {
@@ -425,9 +832,6 @@ func OnNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
 		ctx.WriteResponse(prob.Status, prob, nil)
 		return
 	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
 
 }
 
@@ -451,11 +855,283 @@ func OnThreeGppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	headers, rsp, prob := prod.HandleThreeGppSmsfRegistration(ueId, body)
+	headers, rsp, prob := prod.HandleThreeGppSmsfRegistration(ctx.Context(), ueId, body)
 
 	// check for success response
 	if rsp != nil {
 		ctx.WriteResponse(200, rsp, headers)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnIpSmGwDeregistration(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	prob := prod.HandleIpSmGwDeregistration(ctx.Context(), ueId)
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params NwdafRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'nwdafRegistrationId'
+	params.NwdafRegistrationId = ctx.Param("nwdafRegistrationId")
+	if len(params.NwdafRegistrationId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "nwdafRegistrationId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.NwdafRegistration)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleNwdafRegistration(ctx.Context(), &params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnGet3GppRegistration(ctx sbi.RequestContext, prod Producer) {
+	var params Get3GppRegistrationParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleGet3GppRegistration(ctx.Context(), &params)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
+func OnUpdateNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params UpdateNwdafRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'nwdafRegistrationId'
+	params.NwdafRegistrationId = ctx.Param("nwdafRegistrationId")
+	if len(params.NwdafRegistrationId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "nwdafRegistrationId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.NwdafRegistrationModification)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateNwdafRegistration(ctx.Context(), &params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnUpdate3GppRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params Update3GppRegistrationParams
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.Amf3GppAccessRegistrationModification)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdate3GppRegistration(ctx.Context(), &params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnUpdateNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+	var params UpdateNon3GppRegistrationParams
+
+	// read 'ueId'
+	params.UeId = ctx.Param("ueId")
+	if len(params.UeId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// read 'supported-features'
+	params.SupportedFeatures = ctx.Param("supported-features")
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.AmfNon3GppAccessRegistrationModification)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleUpdateNon3GppRegistration(ctx.Context(), &params, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+	// success
+	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnIpSmGwRegistration(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// read 'ueId'
+	var ueId string
+	ueId = ctx.Param("ueId")
+	if len(ueId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
+		return
+	}
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.IpSmGwRegistration)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleIpSmGwRegistration(ctx.Context(), ueId, body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
@@ -482,682 +1158,7 @@ func OnTriggerPCSCFRestoration(ctx sbi.RequestContext, prod Producer) {
 	}
 
 	// call application handler
-	prob := prod.HandleTriggerPCSCFRestoration(body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGetRegistrations(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetRegistrationsParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'registration-dataset-names'
-	registrationDatasetNamesStr := ctx.Param("registration-dataset-names")
-	if len(registrationDatasetNamesStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "registration-dataset-names is required"), nil)
-		return
-	}
-
-	if params.RegistrationDatasetNames, err = models.ArrayOfStringFromString(registrationDatasetNamesStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse registration-dataset-names failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'single-nssai'
-	singleNssaiStr := ctx.Param("single-nssai")
-	if len(singleNssaiStr) > 0 {
-		if params.SingleNssai, err = models.SnssaiFromString(singleNssaiStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'dnn'
-	params.Dnn = ctx.Param("dnn")
-
-	// call application handler
-	rsp, prob := prod.HandleGetRegistrations(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGet3GppRegistration(ctx sbi.RequestContext, prod Producer) {
-	var params Get3GppRegistrationParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGet3GppRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnPeiUpdate(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.PeiUpdateInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandlePeiUpdate(ueId, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnNwdafDeregistration(ctx sbi.RequestContext, prod Producer) {
-	var params NwdafDeregistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'nwdafRegistrationId'
-	params.NwdafRegistrationId = ctx.Param("nwdafRegistrationId")
-	if len(params.NwdafRegistrationId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "nwdafRegistrationId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleNwdafDeregistration(&params)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnSendRoutingInfoSm(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.RoutingInfoSmRequest)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleSendRoutingInfoSm(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnDeregAMF(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.AmfDeregInfo)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleDeregAMF(ueId, body)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnUpdateRoamingInformation(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.RoamingInfoUpdate)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdateRoamingInformation(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(201, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGetNon3GppRegistration(ctx sbi.RequestContext, prod Producer) {
-	var params GetNon3GppRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetNon3GppRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnGetSmfRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetSmfRegistrationParams
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'single-nssai'
-	singleNssaiStr := ctx.Param("single-nssai")
-	if len(singleNssaiStr) > 0 {
-		if params.SingleNssai, err = models.SnssaiFromString(singleNssaiStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse single-nssai failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'dnn'
-	params.Dnn = ctx.Param("dnn")
-
-	// call application handler
-	rsp, prob := prod.HandleGetSmfRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnUpdateSmfRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params UpdateSmfRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'pduSessionId'
-	pduSessionIdStr := ctx.Param("pduSessionId")
-	if len(pduSessionIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"), nil)
-		return
-	}
-
-	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.SmfRegistrationModification)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdateSmfRegistration(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGet3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
-	var params Get3GppSmsfRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGet3GppSmsfRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnNon3GppSmsfDeregistration(ctx sbi.RequestContext, prod Producer) {
-	var params Non3GppSmsfDeregistrationParams
-
-	// read 'smsf-set-id'
-	params.SmsfSetId = ctx.Param("smsf-set-id")
-
-	// read 'If-Match'
-	params.IfMatch = ctx.Header("If-Match")
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// call application handler
-	prob := prod.HandleNon3GppSmsfDeregistration(&params)
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnUpdate3GppRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params Update3GppRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.Amf3GppAccessRegistrationModification)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleUpdate3GppRegistration(&params, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGetNwdafRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params GetNwdafRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'analytics-ids'
-	analyticsIdsStr := ctx.Param("analytics-ids")
-	if len(analyticsIdsStr) > 0 {
-		if params.AnalyticsIds, err = models.ArrayOfStringFromString(analyticsIdsStr); err != nil {
-			ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse analytics-ids failed: %+v", err)), nil)
-			return
-		}
-	}
-
-	// read 'supported-features'
-	params.SupportedFeatures = ctx.Param("supported-features")
-
-	// call application handler
-	rsp, prob := prod.HandleGetNwdafRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnRetrieveSmfRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params RetrieveSmfRegistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'pduSessionId'
-	pduSessionIdStr := ctx.Param("pduSessionId")
-	if len(pduSessionIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"), nil)
-		return
-	}
-
-	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleRetrieveSmfRegistration(&params)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnNon3GppSmsfRegistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// decode request body
-	contentLength, content := ctx.RequestBody()
-	body := new(models.SmsfRegistration)
-	if err = sbi.Decode(contentLength, content, body); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
-		return
-	}
-
-	// call application handler
-	headers, rsp, prob := prod.HandleNon3GppSmsfRegistration(ueId, body)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-	// success
-	ctx.WriteResponse(204, nil, nil)
-
-}
-
-func OnGetIpSmGwRegistration(ctx sbi.RequestContext, prod Producer) {
-
-	// read 'ueId'
-	var ueId string
-	ueId = ctx.Param("ueId")
-	if len(ueId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleGetIpSmGwRegistration(ueId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnSmfDeregistration(ctx sbi.RequestContext, prod Producer) {
-	var err error
-	var params SmfDeregistrationParams
-
-	// read 'ueId'
-	params.UeId = ctx.Param("ueId")
-	if len(params.UeId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "ueId is required"), nil)
-		return
-	}
-
-	// read 'pduSessionId'
-	pduSessionIdStr := ctx.Param("pduSessionId")
-	if len(pduSessionIdStr) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "pduSessionId is required"), nil)
-		return
-	}
-
-	if params.PduSessionId, err = models.IntFromString(pduSessionIdStr); err != nil {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("parse pduSessionId failed: %+v", err)), nil)
-		return
-	}
-
-	// read 'smf-set-id'
-	params.SmfSetId = ctx.Param("smf-set-id")
-
-	// read 'smf-instance-id'
-	params.SmfInstanceId = ctx.Param("smf-instance-id")
-
-	// call application handler
-	prob := prod.HandleSmfDeregistration(&params)
+	prob := prod.HandleTriggerPCSCFRestoration(ctx.Context(), body)
 
 	// check for problem
 	if prob != nil {
@@ -1171,65 +1172,65 @@ func OnSmfDeregistration(ctx sbi.RequestContext, prod Producer) {
 }
 
 type Producer interface {
-	HandleGetNon3GppSmsfRegistration(*GetNon3GppSmsfRegistrationParams) (*models.SmsfRegistration, *models.ProblemDetails)
+	HandleGetNwdafRegistration(context.Context, *GetNwdafRegistrationParams) (*[]models.NwdafRegistration, *models.ProblemDetails)
 
-	HandleIpSmGwDeregistration(string) *models.ProblemDetails
+	HandleSendRoutingInfoSm(context.Context, string, *models.RoutingInfoSmRequest) (*models.RoutingInfoSmResponse, *models.ProblemDetails)
 
-	HandleGetLocationInfo(*GetLocationInfoParams) (*models.LocationInfo, *models.ProblemDetails)
+	HandleGetNon3GppRegistration(context.Context, *GetNon3GppRegistrationParams) (*models.AmfNon3GppAccessRegistration, *models.ProblemDetails)
 
-	HandleUpdateNwdafRegistration(*UpdateNwdafRegistrationParams, *models.NwdafRegistrationModification) (*models.Schema, *models.ProblemDetails)
+	HandleGetNon3GppSmsfRegistration(context.Context, *GetNon3GppSmsfRegistrationParams) (*models.SmsfRegistration, *models.ProblemDetails)
 
-	HandleUpdateNon3GppRegistration(*UpdateNon3GppRegistrationParams, *models.AmfNon3GppAccessRegistrationModification) (*models.PatchResult, *models.ProblemDetails)
+	HandleNon3GppSmsfRegistration(context.Context, string, *models.SmsfRegistration) (map[string]string, *models.SmsfRegistration, *models.ProblemDetails)
 
-	HandleIpSmGwRegistration(string, *models.IpSmGwRegistration) (*models.IpSmGwRegistration, *models.ProblemDetails)
+	HandleNwdafDeregistration(context.Context, *NwdafDeregistrationParams) *models.ProblemDetails
 
-	HandleNwdafRegistration(*NwdafRegistrationParams, *models.NwdafRegistration) (*models.NwdafRegistration, *models.ProblemDetails)
+	HandlePeiUpdate(context.Context, string, *models.PeiUpdateInfo) *models.ProblemDetails
 
-	HandleThreeGppSmsfDeregistration(*ThreeGppSmsfDeregistrationParams) *models.ProblemDetails
+	HandleUpdateRoamingInformation(context.Context, string, *models.RoamingInfoUpdate) (*models.RoamingInfoUpdate, *models.ProblemDetails)
 
-	HandleRegistration(*RegistrationParams, *models.SmfRegistration) (*models.SmfRegistration, *models.ProblemDetails)
+	HandleNon3GppRegistration(context.Context, string, *models.AmfNon3GppAccessRegistration) (*models.AmfNon3GppAccessRegistration, *models.ProblemDetails)
 
-	HandleThreeGppRegistration(string, *models.Amf3GppAccessRegistration) (*models.Amf3GppAccessRegistration, *models.ProblemDetails)
+	HandleRetrieveSmfRegistration(context.Context, *RetrieveSmfRegistrationParams) (*models.SmfRegistration, *models.ProblemDetails)
 
-	HandleNon3GppRegistration(string, *models.AmfNon3GppAccessRegistration) (*models.AmfNon3GppAccessRegistration, *models.ProblemDetails)
+	HandleGet3GppSmsfRegistration(context.Context, *Get3GppSmsfRegistrationParams) (*models.SmsfRegistration, *models.ProblemDetails)
 
-	HandleThreeGppSmsfRegistration(string, *models.SmsfRegistration) (map[string]string, *models.SmsfRegistration, *models.ProblemDetails)
+	HandleSmfDeregistration(context.Context, *SmfDeregistrationParams) *models.ProblemDetails
 
-	HandleTriggerPCSCFRestoration(*models.TriggerRequest) *models.ProblemDetails
+	HandleUpdateSmfRegistration(context.Context, *UpdateSmfRegistrationParams, *models.SmfRegistrationModification) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleGetRegistrations(*GetRegistrationsParams) (*models.RegistrationDataSets, *models.ProblemDetails)
+	HandleRegistration(context.Context, *RegistrationParams, *models.SmfRegistration) (*models.SmfRegistration, *models.ProblemDetails)
 
-	HandleGet3GppRegistration(*Get3GppRegistrationParams) (*models.Amf3GppAccessRegistration, *models.ProblemDetails)
+	HandleThreeGppSmsfDeregistration(context.Context, *ThreeGppSmsfDeregistrationParams) *models.ProblemDetails
 
-	HandlePeiUpdate(string, *models.PeiUpdateInfo) *models.ProblemDetails
+	HandleNon3GppSmsfDeregistration(context.Context, *Non3GppSmsfDeregistrationParams) *models.ProblemDetails
 
-	HandleNwdafDeregistration(*NwdafDeregistrationParams) *models.ProblemDetails
+	HandleGetIpSmGwRegistration(context.Context, string) (*models.IpSmGwRegistration, *models.ProblemDetails)
 
-	HandleSendRoutingInfoSm(string, *models.RoutingInfoSmRequest) (*models.RoutingInfoSmResponse, *models.ProblemDetails)
+	HandleGetLocationInfo(context.Context, *GetLocationInfoParams) (*models.LocationInfo, *models.ProblemDetails)
 
-	HandleDeregAMF(string, *models.AmfDeregInfo) *models.ProblemDetails
+	HandleGetRegistrations(context.Context, *GetRegistrationsParams) (*models.RegistrationDataSets, *models.ProblemDetails)
 
-	HandleUpdateRoamingInformation(string, *models.RoamingInfoUpdate) (*models.RoamingInfoUpdate, *models.ProblemDetails)
+	HandleThreeGppRegistration(context.Context, string, *models.Amf3GppAccessRegistration) (*models.Amf3GppAccessRegistration, *models.ProblemDetails)
 
-	HandleGetNon3GppRegistration(*GetNon3GppRegistrationParams) (*models.AmfNon3GppAccessRegistration, *models.ProblemDetails)
+	HandleDeregAMF(context.Context, string, *models.AmfDeregInfo) *models.ProblemDetails
 
-	HandleGetSmfRegistration(*GetSmfRegistrationParams) (*models.SmfRegistrationInfo, *models.ProblemDetails)
+	HandleGetSmfRegistration(context.Context, *GetSmfRegistrationParams) (*models.SmfRegistrationInfo, *models.ProblemDetails)
 
-	HandleUpdateSmfRegistration(*UpdateSmfRegistrationParams, *models.SmfRegistrationModification) (*models.PatchResult, *models.ProblemDetails)
+	HandleThreeGppSmsfRegistration(context.Context, string, *models.SmsfRegistration) (map[string]string, *models.SmsfRegistration, *models.ProblemDetails)
 
-	HandleGet3GppSmsfRegistration(*Get3GppSmsfRegistrationParams) (*models.SmsfRegistration, *models.ProblemDetails)
+	HandleIpSmGwDeregistration(context.Context, string) *models.ProblemDetails
 
-	HandleNon3GppSmsfDeregistration(*Non3GppSmsfDeregistrationParams) *models.ProblemDetails
+	HandleNwdafRegistration(context.Context, *NwdafRegistrationParams, *models.NwdafRegistration) (*models.NwdafRegistration, *models.ProblemDetails)
 
-	HandleUpdate3GppRegistration(*Update3GppRegistrationParams, *models.Amf3GppAccessRegistrationModification) (*models.PatchResult, *models.ProblemDetails)
+	HandleGet3GppRegistration(context.Context, *Get3GppRegistrationParams) (*models.Amf3GppAccessRegistration, *models.ProblemDetails)
 
-	HandleGetNwdafRegistration(*GetNwdafRegistrationParams) (*[]models.NwdafRegistration, *models.ProblemDetails)
+	HandleUpdateNwdafRegistration(context.Context, *UpdateNwdafRegistrationParams, *models.NwdafRegistrationModification) (*models.Schema, *models.ProblemDetails)
 
-	HandleRetrieveSmfRegistration(*RetrieveSmfRegistrationParams) (*models.SmfRegistration, *models.ProblemDetails)
+	HandleUpdate3GppRegistration(context.Context, *Update3GppRegistrationParams, *models.Amf3GppAccessRegistrationModification) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleNon3GppSmsfRegistration(string, *models.SmsfRegistration) (map[string]string, *models.SmsfRegistration, *models.ProblemDetails)
+	HandleUpdateNon3GppRegistration(context.Context, *UpdateNon3GppRegistrationParams, *models.AmfNon3GppAccessRegistrationModification) (*models.PatchResult, *models.ProblemDetails)
 
-	HandleGetIpSmGwRegistration(string) (*models.IpSmGwRegistration, *models.ProblemDetails)
+	HandleIpSmGwRegistration(context.Context, string, *models.IpSmGwRegistration) (*models.IpSmGwRegistration, *models.ProblemDetails)
 
-	HandleSmfDeregistration(*SmfDeregistrationParams) *models.ProblemDetails
+	HandleTriggerPCSCFRestoration(context.Context, *models.TriggerRequest) *models.ProblemDetails
 }

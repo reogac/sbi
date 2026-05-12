@@ -4,46 +4,46 @@ import (
 	"github.com/reogac/sbi/models"
 	"github.com/reogac/sbi/apis/ausf/ueauth"
 )
-func (p *Producer) HandleDeleteProSeAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
+func (p *Producer) HandleUeAuthenticationsDeregisterPost(ctx context.Context, body *models.DeregistrationInfo)(prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleProseAuth(authCtxId string,body *models.ProSeEapSession)(rsp *models.ProseAuthResponse,prob *models.ProblemDetails){
+func (p *Producer) HandleEapAuthMethod(ctx context.Context, authCtxId string,body *models.EapSession)(rsp *models.EapSession,prob *models.ProblemDetails){
 	return
 }
 
-func (p *Producer) HandleUeAuthentications5gAkaConfirmationPut(authCtxId string,body *models.ConfirmationData)(rsp *models.ConfirmationDataResponse,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDeleteEapAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleDelete5gAkaAuthenticationResult(authCtxId string)(prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleEapAuthMethod(authCtxId string,body *models.EapSession)(rsp *models.EapSession,prob *models.ProblemDetails){
-	return
-}
-
-func (p *Producer) HandleRgAuthenticationsPost(body *models.RgAuthenticationInfo)(headers map[string]string,rsp *models.RgAuthCtx,prob *models.ProblemDetails){
+func (p *Producer) HandleRgAuthenticationsPost(ctx context.Context, body *models.RgAuthenticationInfo)(headers map[string]string,rsp *models.RgAuthCtx,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleProseAuthenticationsPost(body *models.ProSeAuthenticationInfo)(headers map[string]string,rsp *models.ProSeAuthenticationCtx,prob *models.ProblemDetails){
+func (p *Producer) HandleProseAuthenticationsPost(ctx context.Context, body *models.ProSeAuthenticationInfo)(headers map[string]string,rsp *models.ProSeAuthenticationCtx,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleUeAuthenticationsPost(body *models.AuthenticationInfo)(headers map[string]string,rsp *models.UEAuthenticationCtx,prob *models.ProblemDetails){
+func (p *Producer) HandleProseAuth(ctx context.Context, authCtxId string,body *models.ProSeEapSession)(rsp *models.ProseAuthResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleUeAuthenticationsPost(ctx context.Context, body *models.AuthenticationInfo)(headers map[string]string,rsp *models.UEAuthenticationCtx,prob *models.ProblemDetails){
 // headers: Location
 	return
 }
 
-func (p *Producer) HandleUeAuthenticationsDeregisterPost(body *models.DeregistrationInfo)(prob *models.ProblemDetails){
+func (p *Producer) HandleUeAuthentications5gAkaConfirmationPut(ctx context.Context, authCtxId string,body *models.ConfirmationData)(rsp *models.ConfirmationDataResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDelete5gAkaAuthenticationResult(ctx context.Context, authCtxId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteEapAuthenticationResult(ctx context.Context, authCtxId string)(prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleDeleteProSeAuthenticationResult(ctx context.Context, authCtxId string)(prob *models.ProblemDetails){
 	return
 }
 */

@@ -1,12 +1,13 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:35 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:43 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package ampol
 
 import (
+	"context"
 	"fmt"
 	"github.com/reogac/sbi"
 	"github.com/reogac/sbi/models"
@@ -24,38 +25,11 @@ func OnCreateIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer
 	}
 
 	// call application handler
-	headers, rsp, prob := prod.HandleCreateIndividualAMPolicyAssociation(body)
+	headers, rsp, prob := prod.HandleCreateIndividualAMPolicyAssociation(ctx.Context(), body)
 
 	// check for success response
 	if rsp != nil {
 		ctx.WriteResponse(201, rsp, headers)
-		return
-	}
-
-	// check for problem
-	if prob != nil {
-		ctx.WriteResponse(prob.Status, prob, nil)
-		return
-	}
-
-}
-
-func OnReadIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer) {
-
-	// read 'polAssoId'
-	var polAssoId string
-	polAssoId = ctx.Param("polAssoId")
-	if len(polAssoId) == 0 {
-		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"), nil)
-		return
-	}
-
-	// call application handler
-	rsp, prob := prod.HandleReadIndividualAMPolicyAssociation(polAssoId)
-
-	// check for success response
-	if rsp != nil {
-		ctx.WriteResponse(200, rsp, nil)
 		return
 	}
 
@@ -78,7 +52,7 @@ func OnDeleteIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer
 	}
 
 	// call application handler
-	prob := prod.HandleDeleteIndividualAMPolicyAssociation(polAssoId)
+	prob := prod.HandleDeleteIndividualAMPolicyAssociation(ctx.Context(), polAssoId)
 
 	// check for problem
 	if prob != nil {
@@ -88,6 +62,33 @@ func OnDeleteIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer
 
 	// success
 	ctx.WriteResponse(204, nil, nil)
+
+}
+
+func OnReadIndividualAMPolicyAssociation(ctx sbi.RequestContext, prod Producer) {
+
+	// read 'polAssoId'
+	var polAssoId string
+	polAssoId = ctx.Param("polAssoId")
+	if len(polAssoId) == 0 {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, "polAssoId is required"), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleReadIndividualAMPolicyAssociation(ctx.Context(), polAssoId)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
 
 }
 
@@ -111,7 +112,7 @@ func OnReportObservedEventTriggersForIndividualAMPolicyAssociation(ctx sbi.Reque
 	}
 
 	// call application handler
-	rsp, prob := prod.HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(polAssoId, body)
+	rsp, prob := prod.HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(ctx.Context(), polAssoId, body)
 
 	// check for success response
 	if rsp != nil {
@@ -128,11 +129,11 @@ func OnReportObservedEventTriggersForIndividualAMPolicyAssociation(ctx sbi.Reque
 }
 
 type Producer interface {
-	HandleCreateIndividualAMPolicyAssociation(*models.PolicyAssociationRequest) (map[string]string, *models.PolicyAssociation, *models.ProblemDetails)
+	HandleCreateIndividualAMPolicyAssociation(context.Context, *models.PolicyAssociationRequest) (map[string]string, *models.PolicyAssociation, *models.ProblemDetails)
 
-	HandleReadIndividualAMPolicyAssociation(string) (*models.PolicyAssociation, *models.ProblemDetails)
+	HandleDeleteIndividualAMPolicyAssociation(context.Context, string) *models.ProblemDetails
 
-	HandleDeleteIndividualAMPolicyAssociation(string) *models.ProblemDetails
+	HandleReadIndividualAMPolicyAssociation(context.Context, string) (*models.PolicyAssociation, *models.ProblemDetails)
 
-	HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(string, *models.PolicyAssociationUpdateRequest) (*models.PolicyUpdate, *models.ProblemDetails)
+	HandleReportObservedEventTriggersForIndividualAMPolicyAssociation(context.Context, string, *models.PolicyAssociationUpdateRequest) (*models.PolicyUpdate, *models.ProblemDetails)
 }

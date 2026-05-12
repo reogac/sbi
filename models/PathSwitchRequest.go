@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue Jul 22 12:00:18 KST 2025 by TungTQ<tqtung@etri.re.kr>
+Generated at Tue May 12 13:32:27 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -10,6 +10,6 @@ type PathSwitchRequest struct {
 	Loc                  UserLocation            `json:"loc"`
 	UeSecurityCapability *UeSecurityCapability   `json:"ueSecurityCapability,omitempty"`
 	Sessions             []N2SmInfoUplinkContent `json:"sessions"`
-	RanUeId              RanUeId                 `json:"ranUeId"`
 	RanNets              []string                `json:"ranNets,omitempty"`
+	RanUeId              RanUeId                 `json:"ranUeId"`
 }
