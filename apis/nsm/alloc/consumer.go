@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Aug 26 10:02:45 KST 2026 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Aug 26 11:15:54 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -82,6 +82,45 @@ func AllocateIpSegments(cli sbi.ConsumerClient, ctx context.Context, body *model
 		rsp = new(models.IpSegmentResponse)
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode IpSegmentResponse: %+v", err)
+		}
+	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /leases
+// Path Params:
+func RenewLeases(cli sbi.ConsumerClient, ctx context.Context, body *models.LeaseRenewalRequest) (rsp *models.LeaseRenewalResponse, err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/leases", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPut, body)
+	var response *sbi.Response
+	if response, err = cli.Send(ctx, request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 200:
+		rsp = new(models.LeaseRenewalResponse)
+		if err = response.DecodeBody(rsp); err != nil {
+			err = fmt.Errorf("Fail to decode LeaseRenewalResponse: %+v", err)
 		}
 	case 400, 500:
 		prob := new(models.ProblemDetails)

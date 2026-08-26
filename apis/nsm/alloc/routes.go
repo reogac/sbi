@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Aug 26 10:02:45 KST 2026 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Aug 26 11:15:54 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -12,6 +12,12 @@ import (
 )
 
 var _routes = []sbi.Route[Producer]{
+	{
+		Label:   "ReleaseIpSegments",
+		Method:  http.MethodPost,
+		Path:    "/ip-segments/release",
+		Handler: OnReleaseIpSegments,
+	},
 	{
 		Label:   "AmfRegister",
 		Method:  http.MethodPut,
@@ -25,10 +31,10 @@ var _routes = []sbi.Route[Producer]{
 		Handler: OnAllocateIpSegments,
 	},
 	{
-		Label:   "ReleaseIpSegments",
-		Method:  http.MethodPost,
-		Path:    "/ip-segments/release",
-		Handler: OnReleaseIpSegments,
+		Label:   "RenewLeases",
+		Method:  http.MethodPut,
+		Path:    "/leases",
+		Handler: OnRenewLeases,
 	},
 }
 

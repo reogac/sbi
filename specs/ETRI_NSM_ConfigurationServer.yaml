@@ -10,6 +10,12 @@ info:
     request named and leaves the rest absent. An unknown topic is a 400; an
     absent or empty topic list means every topic.
 
+    The read is conditional. The request carries the version the consumer has
+    already applied; if that is the version NSM would render, the answer is
+    `unchanged` and no sub-objects. A conditional request in all but name, with
+    the content hash as the ETag - the difference being that it is expressed in
+    the body rather than in the status line.
+
     The request's topic list is the only selector. NSM does not scope the answer
     by caller: the SBI server terminates mutual TLS against the deployment's CA,
     so mesh membership is the trust boundary and there is no second one inside
@@ -83,14 +89,30 @@ components:
 
     ConfigurationRequest:
       description: |
-        The topics the consumer holds. An absent or empty list means every
-        topic, which keeps a plain curl and oam-cli useful.
+        The topics the consumer holds, and the version it holds them at.
       type: object
       properties:
         topics:
           type: array
           items:
             $ref: '#/components/schemas/ConfigurationTopic'
+        knownVersion:
+          description: |
+            The version the consumer has already applied, or empty if it has
+            none. Empty is what boot looks like, which is why boot needs no
+            separate path: an NF that starts with nothing is an NF whose known
+            version is empty, and it gets everything.
+
+            Send only a version that was **applied**. A consumer that refused an
+            answer - because adopting it would have left it unable to serve -
+            still holds the version before it, and sending the one it refused
+            would have NSM answer "unchanged" forever while the consumer sat on
+            configuration it had already rejected.
+
+            It is compared against the version of what this request would render,
+            so it is meaningful only for a request naming the same topics. Every
+            consumer asks for the same set every time.
+          type: string
 
     ConfigurationResponse:
       description: |
@@ -101,6 +123,49 @@ components:
         never NSM's - an HTTP status cannot express it.
       type: object
       properties:
+        version:
+          description: |
+            The content hash of everything else in this body: change nothing and
+            it does not move, change what this consumer would receive and it
+            does.
+
+            A hash rather than a counter, and the difference is what it buys. It
+            needs no persistence, so NSM restarting produces the same version and
+            nobody re-pulls. It is computed per request from what NSM holds, so
+            two replicas answer identically without talking to each other. It
+            needs no dependency map, because the question "would this consumer
+            get something different" is answered by the answer itself rather than
+            by NSM knowing which topics a data network affects. And it is exact:
+            an edit that does not change what *this* consumer would receive
+            leaves this version alone, whatever the operator touched.
+
+            Hashes do not order - you cannot tell newer from older - and nothing
+            needs them to. A consumer never applies a version; it re-reads, and a
+            read always returns what NSM currently holds.
+
+            It covers exactly the topics that were asked for, so it is only
+            comparable across requests that asked for the same ones. Every
+            consumer asks for the same set every time.
+          type: string
+        unchanged:
+          description: |
+            True when the request's knownVersion is the version NSM would have
+            rendered, in which case every sub-object below is absent and there is
+            nothing for the consumer to do.
+
+            It is stated rather than inferred, and that is the whole reason it
+            exists. Presence is the discriminator for the topics, so "asked for
+            and absent" already means "NSM holds nothing for that topic" - a real
+            answer a consumer checks for and reports. A body with everything
+            absent could not also mean "nothing moved" without those two
+            colliding, and the one that would lose is the diagnosable one.
+
+            The natural encoding is a 304 with no body at all. The generator this
+            API is produced by emits exactly one success response per operation,
+            so a second status code would reach the consumer through its default
+            branch as a bare error. A field costs forty bytes against the few
+            kilobytes it replaces.
+          type: boolean
         slicing:
           $ref: '#/components/schemas/SlicingConfiguration'
         smf:
@@ -113,6 +178,8 @@ components:
           $ref: '#/components/schemas/UdrConfiguration'
         sepp:
           $ref: '#/components/schemas/SeppConfiguration'
+      required:
+        - version
 
     AmfSetConfiguration:
       description: |

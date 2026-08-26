@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Wed Aug 26 10:02:45 KST 2026 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Aug 26 11:15:54 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -69,6 +69,34 @@ func OnAllocateIpSegments(ctx sbi.RequestContext, prod Producer) {
 
 }
 
+func OnRenewLeases(ctx sbi.RequestContext, prod Producer) {
+	var err error
+
+	// decode request body
+	contentLength, content := ctx.RequestBody()
+	body := new(models.LeaseRenewalRequest)
+	if err = sbi.Decode(contentLength, content, body); err != nil {
+		ctx.WriteResponse(400, models.CreateProblemDetails(400, fmt.Sprintf("Fail to decode request body: %+v", err)), nil)
+		return
+	}
+
+	// call application handler
+	rsp, prob := prod.HandleRenewLeases(ctx.Context(), body)
+
+	// check for success response
+	if rsp != nil {
+		ctx.WriteResponse(200, rsp, nil)
+		return
+	}
+
+	// check for problem
+	if prob != nil {
+		ctx.WriteResponse(prob.Status, prob, nil)
+		return
+	}
+
+}
+
 func OnReleaseIpSegments(ctx sbi.RequestContext, prod Producer) {
 	var err error
 
@@ -98,6 +126,8 @@ type Producer interface {
 	HandleAmfRegister(context.Context, *models.AmfRegistrationRequest) (*models.AmfRegistrationResponse, *models.ProblemDetails)
 
 	HandleAllocateIpSegments(context.Context, *models.IpSegmentRequest) (*models.IpSegmentResponse, *models.ProblemDetails)
+
+	HandleRenewLeases(context.Context, *models.LeaseRenewalRequest) (*models.LeaseRenewalResponse, *models.ProblemDetails)
 
 	HandleReleaseIpSegments(context.Context, *models.IpSegmentReleaseRequest) *models.ProblemDetails
 }

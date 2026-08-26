@@ -12,6 +12,10 @@ func (p *Producer) HandleAllocateIpSegments(ctx context.Context, body *models.Ip
 	return
 }
 
+func (p *Producer) HandleRenewLeases(ctx context.Context, body *models.LeaseRenewalRequest)(rsp *models.LeaseRenewalResponse,prob *models.ProblemDetails){
+	return
+}
+
 func (p *Producer) HandleReleaseIpSegments(ctx context.Context, body *models.IpSegmentReleaseRequest)(prob *models.ProblemDetails){
 	return
 }

@@ -17,6 +17,11 @@ info:
     every attempt would burn the space on a schedule; asking again returns what
     this uuid already holds.
 
+    A claim is a lease. It expires unless the holder re-asserts it, which the
+    holder does on the same tick that reads its configuration - so liveness is
+    the holder saying it is alive rather than anyone else's opinion about
+    whether it is reachable.
+
     © 2024, ETRI
     All rights reserved.
 servers:
@@ -93,6 +98,39 @@ paths:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
 
+  /leases:
+    put:
+      operationId: RenewLeases
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaseRenewalRequest'
+        required: true
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaseRenewalResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
   /ip-segments/release:
     post:
       operationId: ReleaseIpSegments
@@ -142,15 +180,26 @@ components:
 
     AmfRegistrationResponse:
       description: |
-        The pointer this instance holds within its set, and nothing else. The
-        set's slices and the roaming peer list are configuration and arrive on
-        the slicing topic, so an AMF can re-read them without re-running an
-        allocation.
+        The pointer this instance holds within its set, and the lease that holds
+        it. The set's slices and the roaming peer list are configuration and
+        arrive on the slicing topic, so an AMF can re-read them without
+        re-running an allocation.
       type: object
       properties:
         amfPointer:
           type: integer
           format: int16
+        lease:
+          description: |
+            What to re-assert on the renewal tick.
+
+            It is handed back rather than derived so that the holder never
+            composes one. The name encodes which space and which value, and a
+            consumer that built it from the parts it happens to know would be two
+            implementations of one encoding, drifting independently - the failure
+            this whole interface avoids by naming things once, on the side that
+            owns them.
+          $ref: '#/components/schemas/Lease'
       required:
         - amfPointer
 
@@ -223,6 +272,14 @@ components:
           type: array
           items:
             type: string
+        leases:
+          description: |
+            One lease per granted prefix, to be re-asserted on the renewal tick.
+            Handed back rather than derived, for the reason on
+            AmfRegistrationResponse.lease.
+          type: array
+          items:
+            $ref: '#/components/schemas/Lease'
         allocationLength:
           type: integer
           format: int32
@@ -272,3 +329,93 @@ components:
             $ref: '#/components/schemas/IpSegmentKey'
       required:
         - uuid
+
+    Lease:
+      description: |
+        One claim, named the same way whatever kind of thing it is: a space that
+        knows how to enumerate its own candidates, and the value taken out of it.
+
+        An AMF pointer is `amfpointer/<region>-<set>` and a decimal pointer; a UE
+        IP segment is `ipseg/<networkInstance>/<dnai>/<family>/<ipIndex>` and a
+        prefix. Nothing between the holder and the space needs to know which it
+        is holding, which is what lets one renewal cover both.
+      type: object
+      properties:
+        space:
+          type: string
+        value:
+          type: string
+      required:
+        - space
+        - value
+
+    LeaseRenewalRequest:
+      description: |
+        The holder re-asserting what it believes it holds.
+
+        **The holder says what it holds rather than asking what NSM thinks it
+        holds**, and that is what makes the exchange recoverable rather than
+        merely periodic. Whether NSM's leases survive its own restart is a
+        property of where it keeps them, and even a store that keeps them can be
+        behind; a renewal that only refreshed what NSM still remembered would
+        confirm nothing and every live NF would be left using a resource NSM had
+        forgotten. Asserted this way, the first renewal after a restart hands the
+        table back - each holder re-acquires exactly what it already has, because
+        nothing else has taken it yet.
+
+        That is why this shape does not change with the storage underneath it:
+        the holder is authoritative about what it holds either way.
+      type: object
+      properties:
+        uuid:
+          type: string
+        leases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lease'
+      required:
+        - uuid
+
+    LeaseRenewalResponse:
+      description: |
+        What the holder may keep, and what it may not.
+      type: object
+      properties:
+        confirmed:
+          description: |
+            The leases this holder still has, with their expiry pushed out. A
+            value NSM had forgotten but nobody else had taken comes back here:
+            re-acquiring what the holder demonstrably still has is the whole
+            point of it asserting.
+          type: array
+          items:
+            $ref: '#/components/schemas/Lease'
+        lost:
+          description: |
+            Leases this holder asserted that somebody else now holds. This is a
+            fault rather than a state, and the only correct response to it is an
+            alarm plus whatever stops the holder using the value: two live
+            holders of one AMF pointer alias each other's GUTI space, and two of
+            one IP segment hand the same address to two UEs.
+
+            Empty in every ordinary run, and reachable in practice only after NSM
+            has restarted and given a value away before its holder renewed.
+          type: array
+          items:
+            $ref: '#/components/schemas/Lease'
+        leaseSeconds:
+          description: |
+            How long the confirmed leases last from now, if nothing renews them.
+
+            A duration rather than an instant, deliberately. An absolute expiry
+            is only meaningful if the holder's clock and NSM's agree, and nothing
+            in this deployment makes them; a duration is measured on the side
+            that has to act on it. NSM holds the absolute time, because there it
+            is the one clock that matters.
+
+            The holder's renewal period must be several times shorter than this,
+            so that a lease survives a few missed ticks.
+          type: integer
+          format: int32
+      required:
+        - leaseSeconds

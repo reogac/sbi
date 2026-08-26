@@ -6,9 +6,8 @@ Do not modify
 
 package models
 
-type GrantType string
-
-// Define constant values for GrantType
-const (
-	GRANTTYPE_CLIENT_CREDENTIALS GrantType = "client_credentials"
-)
+type LeaseRenewalResponse struct {
+	Confirmed    []Lease `json:"confirmed,omitempty"`
+	Lost         []Lease `json:"lost,omitempty"`
+	LeaseSeconds int32   `json:"leaseSeconds"`
+}
