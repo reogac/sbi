@@ -1,10 +1,10 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue May 12 13:32:24 KST 2026 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Aug 26 10:02:45 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
-package amfman
+package alloc
 
 import (
 	"context"
@@ -15,12 +15,12 @@ import (
 )
 
 const (
-	PATH_ROOT string = "nsm-man/v1"
+	PATH_ROOT string = "nsm-alloc/v1"
 )
 
 // Summary:
 // Description:
-// Path: /register
+// Path: /amf-pointer
 // Path Params:
 func AmfRegister(cli sbi.ConsumerClient, ctx context.Context, body *models.AmfRegistrationRequest) (rsp *models.AmfRegistrationResponse, err error) {
 
@@ -29,7 +29,7 @@ func AmfRegister(cli sbi.ConsumerClient, ctx context.Context, body *models.AmfRe
 		return
 	}
 
-	path := fmt.Sprintf("%s/register", PATH_ROOT)
+	path := fmt.Sprintf("%s/amf-pointer", PATH_ROOT)
 	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
 	if response, err = cli.Send(ctx, request); err != nil {
@@ -39,12 +39,12 @@ func AmfRegister(cli sbi.ConsumerClient, ctx context.Context, body *models.AmfRe
 	defer response.CloseBody()
 
 	switch response.GetCode() {
-	case 201:
+	case 200:
 		rsp = new(models.AmfRegistrationResponse)
 		if err = response.DecodeBody(rsp); err != nil {
 			err = fmt.Errorf("Fail to decode AmfRegistrationResponse: %+v", err)
 		}
-	case 500:
+	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)
@@ -59,17 +59,17 @@ func AmfRegister(cli sbi.ConsumerClient, ctx context.Context, body *models.AmfRe
 
 // Summary:
 // Description:
-// Path: /supported-slices
+// Path: /ip-segments
 // Path Params:
-func GetSupportedSlices(cli sbi.ConsumerClient, ctx context.Context, body *models.GetSupportedSlicesRequest) (rsp *models.GetSupportedSlicesResponse, err error) {
+func AllocateIpSegments(cli sbi.ConsumerClient, ctx context.Context, body *models.IpSegmentRequest) (rsp *models.IpSegmentResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/supported-slices", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, body)
+	path := fmt.Sprintf("%s/ip-segments", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPut, body)
 	var response *sbi.Response
 	if response, err = cli.Send(ctx, request); err != nil {
 		return
@@ -78,12 +78,48 @@ func GetSupportedSlices(cli sbi.ConsumerClient, ctx context.Context, body *model
 	defer response.CloseBody()
 
 	switch response.GetCode() {
-	case 201:
-		rsp = new(models.GetSupportedSlicesResponse)
+	case 200:
+		rsp = new(models.IpSegmentResponse)
 		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode GetSupportedSlicesResponse: %+v", err)
+			err = fmt.Errorf("Fail to decode IpSegmentResponse: %+v", err)
 		}
-	case 500:
+	case 400, 500:
+		prob := new(models.ProblemDetails)
+		if err = response.DecodeBody(prob); err == nil {
+			err = sbi.ErrorFromProblemDetails(prob)
+		} else {
+			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
+		}
+	default:
+		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
+	}
+	return
+}
+
+// Summary:
+// Description:
+// Path: /ip-segments/release
+// Path Params:
+func ReleaseIpSegments(cli sbi.ConsumerClient, ctx context.Context, body *models.IpSegmentReleaseRequest) (err error) {
+
+	if body == nil {
+		err = fmt.Errorf("body is required")
+		return
+	}
+
+	path := fmt.Sprintf("%s/ip-segments/release", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
+	var response *sbi.Response
+	if response, err = cli.Send(ctx, request); err != nil {
+		return
+	}
+
+	defer response.CloseBody()
+
+	switch response.GetCode() {
+	case 204:
+		return
+	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

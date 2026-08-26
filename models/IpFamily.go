@@ -6,8 +6,10 @@ Do not modify
 
 package models
 
-type AmfRegistrationRequest struct {
-	Uuid   string `json:"uuid"`
-	AmfSet string `json:"amfSet"`
-	PlmnId PlmnId `json:"plmnId"`
-}
+type IpFamily string
+
+// Define constant values for IpFamily
+const (
+	IPFAMILY_IPV4 IpFamily = "IPV4"
+	IPFAMILY_IPV6 IpFamily = "IPV6"
+)

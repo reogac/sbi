@@ -6,8 +6,6 @@ Do not modify
 
 package models
 
-type AmfSetConfiguration struct {
-	SetId  string   `json:"setId"`
-	Region string   `json:"region"`
-	Slices []Snssai `json:"slices,omitempty"`
+type ConfigurationRequest struct {
+	Topics []string `json:"topics,omitempty"`
 }

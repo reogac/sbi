@@ -1,12 +1,12 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue May 12 13:32:25 KST 2026 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Aug 26 10:02:44 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
 package models
 
-type UserPlaneConfigurationResponse struct {
+type UserPlaneConfiguration struct {
 	TransportNetworks []string             `json:"transportNetworks"`
 	DataNetworks      []DataNetworkInfo    `json:"dataNetworks"`
 	Slices            []SliceConfiguration `json:"slices"`

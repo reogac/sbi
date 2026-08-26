@@ -1,0 +1,18 @@
+/*package your pkg
+
+import (
+	"github.com/reogac/sbi/models"
+	"github.com/reogac/sbi/apis/nsm/alloc"
+)
+func (p *Producer) HandleAmfRegister(ctx context.Context, body *models.AmfRegistrationRequest)(rsp *models.AmfRegistrationResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleAllocateIpSegments(ctx context.Context, body *models.IpSegmentRequest)(rsp *models.IpSegmentResponse,prob *models.ProblemDetails){
+	return
+}
+
+func (p *Producer) HandleReleaseIpSegments(ctx context.Context, body *models.IpSegmentReleaseRequest)(prob *models.ProblemDetails){
+	return
+}
+*/

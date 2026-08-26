@@ -1,6 +1,6 @@
 /*
 This file is generated with a SBI APIs generator tool developed by ETRI
-Generated at Tue May 12 13:32:25 KST 2026 by TungTQ<tqtung@etri.re.kr>
+Generated at Wed Aug 26 10:02:44 KST 2026 by TungTQ<tqtung@etri.re.kr>
 Do not modify
 */
 
@@ -20,167 +20,17 @@ const (
 
 // Summary:
 // Description:
-// Path: /udr-config
+// Path: /configuration
 // Path Params:
-func GetUdrConfiguration(cli sbi.ConsumerClient, ctx context.Context) (rsp *models.UdrConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/udr-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(ctx, request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UdrConfiguration)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode UdrConfiguration: %+v", err)
-		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /udm-config
-// Path Params:
-func GetUdmConfiguration(cli sbi.ConsumerClient, ctx context.Context) (rsp *models.UdmConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/udm-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(ctx, request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.UdmConfiguration)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode UdmConfiguration: %+v", err)
-		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /nssf-config
-// Path Params:
-func GetNssfConfiguration(cli sbi.ConsumerClient, ctx context.Context) (rsp *models.NssfConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/nssf-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(ctx, request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.NssfConfiguration)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode NssfConfiguration: %+v", err)
-		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /smf-config/:uuid/:slice
-// Path Params: uuid, slice
-type GetSessionManagementConfigurationParams struct {
-	Uuid  string
-	Slice *models.Snssai
-}
-
-func GetSessionManagementConfiguration(cli sbi.ConsumerClient, ctx context.Context, params GetSessionManagementConfigurationParams) (rsp *models.SessionManagementConfiguration, err error) {
-
-	if params.Slice == nil {
-		err = fmt.Errorf("slice is required")
-		return
-	}
-	if len(params.Uuid) == 0 {
-		err = fmt.Errorf("uuid is required")
-		return
-	}
-
-	path := fmt.Sprintf("%s/smf-config/%s/%s", PATH_ROOT, params.Uuid, models.SnssaiToString(*params.Slice))
-	request := sbi.NewRequest(path, http.MethodPost, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(ctx, request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 201:
-		rsp = new(models.SessionManagementConfiguration)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode SessionManagementConfiguration: %+v", err)
-		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /upf-config
-// Path Params:
-func GetUserPlaneConfiguration(cli sbi.ConsumerClient, ctx context.Context, body *models.UserPlaneConfigurationRequest) (rsp *models.UserPlaneConfigurationResponse, err error) {
+func GetConfiguration(cli sbi.ConsumerClient, ctx context.Context, body *models.ConfigurationRequest) (rsp *models.ConfigurationResponse, err error) {
 
 	if body == nil {
 		err = fmt.Errorf("body is required")
 		return
 	}
 
-	path := fmt.Sprintf("%s/upf-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, body)
+	path := fmt.Sprintf("%s/configuration", PATH_ROOT)
+	request := sbi.NewRequest(path, http.MethodPost, body)
 	var response *sbi.Response
 	if response, err = cli.Send(ctx, request); err != nil {
 		return
@@ -190,45 +40,11 @@ func GetUserPlaneConfiguration(cli sbi.ConsumerClient, ctx context.Context, body
 
 	switch response.GetCode() {
 	case 200:
-		rsp = new(models.UserPlaneConfigurationResponse)
+		rsp = new(models.ConfigurationResponse)
 		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode UserPlaneConfigurationResponse: %+v", err)
+			err = fmt.Errorf("Fail to decode ConfigurationResponse: %+v", err)
 		}
-	case 500:
-		prob := new(models.ProblemDetails)
-		if err = response.DecodeBody(prob); err == nil {
-			err = sbi.ErrorFromProblemDetails(prob)
-		} else {
-			err = fmt.Errorf("Fail to decode ProblemDetails: %+v", err)
-		}
-	default:
-		err = fmt.Errorf("%d, %s", response.GetCode(), response.GetStatus())
-	}
-	return
-}
-
-// Summary:
-// Description:
-// Path: /sepp-config
-// Path Params:
-func GetSeppConfiguration(cli sbi.ConsumerClient, ctx context.Context) (rsp *models.SeppConfiguration, err error) {
-
-	path := fmt.Sprintf("%s/sepp-config", PATH_ROOT)
-	request := sbi.NewRequest(path, http.MethodGet, nil)
-	var response *sbi.Response
-	if response, err = cli.Send(ctx, request); err != nil {
-		return
-	}
-
-	defer response.CloseBody()
-
-	switch response.GetCode() {
-	case 200:
-		rsp = new(models.SeppConfiguration)
-		if err = response.DecodeBody(rsp); err != nil {
-			err = fmt.Errorf("Fail to decode SeppConfiguration: %+v", err)
-		}
-	case 500:
+	case 400, 500:
 		prob := new(models.ProblemDetails)
 		if err = response.DecodeBody(prob); err == nil {
 			err = sbi.ErrorFromProblemDetails(prob)

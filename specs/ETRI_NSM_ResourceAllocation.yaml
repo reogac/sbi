@@ -1,0 +1,274 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: NSM Resource Allocation APIs
+  description: |
+    NSM resource allocation service.
+
+    Two resources, one shape. An AMF pointer and an SMF's UE-IP segments are
+    both an exclusive claim on part of a small finite space, held by an instance
+    until it releases the claim or NSM decides the holder is gone. They are here
+    together rather than beside the configuration they are used with, because a
+    read and an allocation want opposite things: a read must be repeatable and
+    free of side effects, an allocation must be exclusive.
+
+    Every operation is idempotent under the caller's mesh endpoint uuid. The
+    consumer retries indefinitely, so an operation that allocated afresh on
+    every attempt would burn the space on a schedule; asking again returns what
+    this uuid already holds.
+
+    © 2024, ETRI
+    All rights reserved.
+servers:
+  - url: '{apiRoot}/nsm-alloc/v1'
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
+
+paths:
+  /amf-pointer:
+    put:
+      operationId: AmfRegister
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmfRegistrationRequest'
+        required: true
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmfRegistrationResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /ip-segments:
+    put:
+      operationId: AllocateIpSegments
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IpSegmentRequest'
+        required: true
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IpSegmentResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+  /ip-segments/release:
+    post:
+      operationId: ReleaseIpSegments
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IpSegmentReleaseRequest'
+        required: true
+
+      responses:
+        '204':
+          description: No Content
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+  schemas:
+    AmfRegistrationRequest:
+      description: AMF pointer claim
+      type: object
+      properties:
+        uuid:
+          type: string
+        amfSet:
+          type: string
+        plmnId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+      required:
+        - uuid
+        - amfSet
+        - plmnId
+
+    AmfRegistrationResponse:
+      description: |
+        The pointer this instance holds within its set, and nothing else. The
+        set's slices and the roaming peer list are configuration and arrive on
+        the slicing topic, so an AMF can re-read them without re-running an
+        allocation.
+      type: object
+      properties:
+        amfPointer:
+          type: integer
+          format: int16
+      required:
+        - amfPointer
+
+    IpSegmentKey:
+      description: |
+        Which address space a segment is drawn from. The four fields are the
+        whole identity: the network instance is the routing domain that makes
+        addresses unique, the DNAI is the point of access the prefixes are
+        routed to, and ipIndex separates ranges a subscription may select
+        between within one instance and family.
+
+        dnn is carried as well, but as a label rather than as part of the
+        identity: one data network may be reached through several network
+        instances, and two ranges under one name may then legitimately overlap.
+      type: object
+      properties:
+        dnn:
+          type: string
+        networkInstance:
+          type: string
+        dnai:
+          type: string
+        family:
+          $ref: 'ETRI_NSM_ConfigurationServer.yaml#/components/schemas/IpFamily'
+        ipIndex:
+          type: integer
+          format: int32
+      required:
+        - dnn
+        - networkInstance
+        - family
+
+    IpSegmentClaim:
+      description: |
+        A claim on segments of one address space.
+
+        count is how many segments this instance wants to hold in total, not how
+        many to add: the call is idempotent under the uuid, so asking again with
+        a larger count tops up and asking again with the same count returns what
+        is already held. One segment is a hard ceiling on concurrent sessions,
+        and an SMF should ask for another at a high-water mark rather than at
+        exhaustion, because a rejected PDU session is UE-visible and an NSM round
+        trip is slow next to a session establishment.
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/IpSegmentKey'
+        count:
+          type: integer
+          format: int32
+      required:
+        - key
+
+    IpSegmentGrant:
+      description: |
+        The segment prefixes this instance holds for one address space, and the
+        length to hand out of them. A prefix is meaningful with no other
+        configuration: it goes into a routing table, a Framed-Route or the UPF's
+        route add verbatim, and it survives any edit to the space it came from.
+
+        An empty prefix list is a real answer rather than an error. NSM allocates
+        resources and does not manage NFs, so a space with no free segment now
+        may have one later; the SMF installs the data network either way and
+        asks again.
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/IpSegmentKey'
+        prefixes:
+          type: array
+          items:
+            type: string
+        allocationLength:
+          type: integer
+          format: int32
+      required:
+        - key
+        - allocationLength
+
+    IpSegmentRequest:
+      description: UE IP segment claim
+      type: object
+      properties:
+        uuid:
+          type: string
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/IpSegmentClaim'
+      required:
+        - uuid
+
+    IpSegmentResponse:
+      description: |
+        One grant per claim, in the order the claims were made, so a caller can
+        match them without re-deriving the key.
+      type: object
+      properties:
+        grants:
+          type: array
+          items:
+            $ref: '#/components/schemas/IpSegmentGrant'
+      required:
+        - grants
+
+    IpSegmentReleaseRequest:
+      description: |
+        Give back segments on a graceful stop. An empty key list releases
+        everything this uuid holds, which is what an NF that is shutting down
+        means. Releasing is an optimisation rather than a requirement: NSM
+        reclaims what a holder that is gone left behind either way.
+      type: object
+      properties:
+        uuid:
+          type: string
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/IpSegmentKey'
+      required:
+        - uuid

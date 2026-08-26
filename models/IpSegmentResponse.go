@@ -6,8 +6,6 @@ Do not modify
 
 package models
 
-type AmfRegistrationRequest struct {
-	Uuid   string `json:"uuid"`
-	AmfSet string `json:"amfSet"`
-	PlmnId PlmnId `json:"plmnId"`
+type IpSegmentResponse struct {
+	Grants []IpSegmentGrant `json:"grants"`
 }

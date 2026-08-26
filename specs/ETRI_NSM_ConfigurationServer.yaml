@@ -1,9 +1,27 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 2.0.0
   title: NSM Configuration Server APIs
   description: |
     NSM Configuration service
+
+    One read operation. The response is a struct of per-topic sub-objects and
+    presence is the discriminator: NSM fills the sub-object of every topic the
+    request named and leaves the rest absent. An unknown topic is a 400; an
+    absent or empty topic list means every topic.
+
+    The request's topic list is the only selector. NSM does not scope the answer
+    by caller: the SBI server terminates mutual TLS against the deployment's CA,
+    so mesh membership is the trust boundary and there is no second one inside
+    it. Across a cluster boundary NSM sees the gateway's certificate rather than
+    the caller's anyway.
+
+    Nothing here allocates. Every topic renders as a pure function of what NSM
+    holds, so a consumer may repeat this call as often as it likes and two
+    replicas answer it identically. The exclusive allocations - an AMF pointer,
+    an SMF's UE-IP segments - are their own operations in the resource
+    allocation API.
+
     © 2024, ETRI
     All rights reserved.
 servers:
@@ -14,98 +32,14 @@ servers:
         description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
 
 paths:
-  /udr-config:
-    get:
-      operationId: GetUdrConfiguration
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UdrConfiguration'
-
-        '500':
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
-
-  /udm-config:
-    get:
-      operationId: GetUdmConfiguration
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UdmConfiguration'
-
-        '500':
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
-
-
-  /nssf-config:
-    get:
-      operationId: GetNssfConfiguration
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NssfConfiguration'
-
-        '500':
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
-
-  /smf-config/{uuid}/{slice}:
+  /configuration:
     post:
-      operationId: GetSessionManagementConfiguration
-      parameters:
-        - name: uuid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: slice
-          in: path
-          required: true
-          schema:
-            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
-
-      responses:
-        '201':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SessionManagementConfiguration'
-
-        '500':
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
-  /upf-config:
-    get:
-      operationId: GetUserPlaneConfiguration
+      operationId: GetConfiguration
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserPlaneConfigurationRequest'
+              $ref: '#/components/schemas/ConfigurationRequest'
         required: true
 
       responses:
@@ -114,7 +48,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPlaneConfigurationResponse'
+                $ref: '#/components/schemas/ConfigurationResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
 
         '500':
           description: Internal Server Error
@@ -122,33 +63,69 @@ paths:
             application/problem+json:
               schema:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
-  /sepp-config:
-    get:
-      operationId: GetSeppConfiguration
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SeppConfiguration'
-
-        '500':
-          description: Internal Server Error
-          content:
-            application/problem+json:
-              schema:
-                $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
-
 
 components:
   securitySchemes:
   schemas:
+    ConfigurationTopic:
+      description: |
+        A unit of configuration that is rendered, held and applied on its own.
+        A topic is a rendered view rather than one of NSM's tables: NSM decides
+        how to compute it, the consumer keeps asking for the same one.
+      type: string
+      enum:
+        - slicing
+        - session-management
+        - user-plane
+        - udm
+        - udr
+        - sepp
+
+    ConfigurationRequest:
+      description: |
+        The topics the consumer holds. An absent or empty list means every
+        topic, which keeps a plain curl and oam-cli useful.
+      type: object
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigurationTopic'
+
+    ConfigurationResponse:
+      description: |
+        One sub-object per requested topic. A topic that was not asked for is
+        absent; a topic that was asked for is present even when what it renders
+        is empty, so a consumer can tell "nothing configured" from "not asked
+        for". Whether an empty answer is *enough* is the consumer's judgement,
+        never NSM's - an HTTP status cannot express it.
+      type: object
+      properties:
+        slicing:
+          $ref: '#/components/schemas/SlicingConfiguration'
+        smf:
+          $ref: '#/components/schemas/SessionManagementConfiguration'
+        upf:
+          $ref: '#/components/schemas/UserPlaneConfiguration'
+        udm:
+          $ref: '#/components/schemas/UdmConfiguration'
+        udr:
+          $ref: '#/components/schemas/UdrConfiguration'
+        sepp:
+          $ref: '#/components/schemas/SeppConfiguration'
+
     AmfSetConfiguration:
-      description: Amf set configuration
+      description: |
+        One AMF set: which region it is in and which slices it serves.
+
+        region is its own field rather than the leading part of setId, because
+        a consumer that had to split "10-100" on the hyphen would be parsing a
+        composed key to take a decision.
       type: object
       properties:
         setId:
+          type: string
+        region:
           type: string
         slices:
           type: array
@@ -156,9 +133,17 @@ components:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
       required:
         - setId
+        - region
 
-    NssfConfiguration:
-      description: Nssf configuration
+    SlicingConfiguration:
+      description: |
+        The slice/AMF-set table, the serving slice list and the roaming peers.
+
+        Three consumers filter this one view rather than asking for three:
+        DAMF maps a slice onto an AMF set, PRAN takes the union of the slices of
+        the sets in its own region, an AMF takes its own set's slices. All three
+        change together whenever an operator edits an AMF set, so they are one
+        topic - a consumer never sees half an edit.
       type: object
       properties:
         amfSets:
@@ -176,33 +161,130 @@ components:
       required:
         - amfSets
 
-    DataNetworkConfiguration:
-      description: Data network configuration
+    IpFamily:
+      description: The address family an address space allocates from.
+      type: string
+      enum:
+        - IPV4
+        - IPV6
+
+    UeIpSource:
+      description: |
+        Where a UE address on this space comes from. Only POOL is allocated by
+        the SMF out of segments NSM leases it; the other three are allocated
+        elsewhere and NSM leases no segment for them, but the space still
+        carries the DNS, P-CSCF and MTU the session needs.
+      type: string
+      enum:
+        - POOL
+        - DHCP
+        - DN_AAA
+        - STATIC
+
+    AddressSpaceConfiguration:
+      description: |
+        One address space: a set of prefixes in one routing domain, with the
+        length NSM leases in and the length a session is given out of it.
+
+        segmentLength is the size of the chunk NSM leases to a single SMF
+        instance; allocationLength is what one PDU session gets - 32 for IPv4,
+        64 for IPv6 SLAAC, shorter for prefix delegation. Both are explicit
+        because an index into a partition is meaningless without the divisor,
+        and the divisor is exactly the thing an operator edit changes.
+
+        dnai names the point of access these prefixes are routed to. An address
+        from a prefix routed to one N6 attachment is useless on a session
+        anchored elsewhere, so it is part of the space's identity rather than an
+        attribute of it. Empty means the space is reachable at every DNAI its
+        network instance declares.
+      type: object
+      properties:
+        family:
+          $ref: '#/components/schemas/IpFamily'
+        dnai:
+          type: string
+        ipIndex:
+          type: integer
+          format: int32
+        source:
+          $ref: '#/components/schemas/UeIpSource'
+        prefixes:
+          type: array
+          items:
+            type: string
+        segmentLength:
+          type: integer
+          format: int32
+        allocationLength:
+          type: integer
+          format: int32
+        exclusions:
+          type: array
+          items:
+            type: string
+        dhcpServer:
+          type: string
+      required:
+        - family
+        - source
+
+    NetworkInstanceConfiguration:
+      description: |
+        One routing domain under a data network, and the identity that makes UE
+        addresses unique: two addresses may repeat across network instances and
+        must not repeat within one. It is what the UPF is told on the PDI and
+        the FAR, and it is not a selection mechanism - the SMF must already know
+        which instance a session belongs to before it builds the rules.
+
+        dnais are the points of access at which this instance is reached; the
+        SMF selects an anchor by DNAI and then tells the UPF the instance.
       type: object
       properties:
         name:
           type: string
+        dnais:
+          type: array
+          items:
+            type: string
+        addressSpaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressSpaceConfiguration'
         dns:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/IpAddr'
         pcscf:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/IpAddr'
-        dhcpServer:
-          type: string
-        cidr:
-          type: string
-        ipRange:
+        mtu:
           type: integer
-          format: int64
-        poolIndexList:
+          format: int32
+      required:
+        - name
+
+    DataNetworkConfiguration:
+      description: |
+        A data network as an SMF sees it: its name, the slices that reach it,
+        and the routing domains under it. snssais is carried so the SMF filters
+        locally rather than NSM filtering per caller.
+      type: object
+      properties:
+        name:
+          type: string
+        snssais:
           type: array
           items:
-            type: integer
-            format: int16
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+        networkInstances:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkInstanceConfiguration'
       required:
         - name
 
     SessionManagementConfiguration:
-      description: Session management configuration for an SMF
+      description: |
+        Everything an SMF reads. It allocates nothing: the segments this SMF may
+        hand addresses out of come from AllocateIpSegments, so this view has no
+        side effect and may be re-read at any time.
       type: object
       properties:
         transportNetworks:
@@ -224,30 +306,28 @@ components:
         - slices
 
     DataNetworkInfo:
-      description: Data network Information
+      description: |
+        A data network as a UPF sees it: the slices that reach it and the
+        prefixes whose downlink traffic belongs in a GTP tunnel. A list rather
+        than one CIDR, because adding a prefix to an address space must not
+        renumber anything.
       type: object
       properties:
         name:
           type: string
-        cidr:
-          type: string
-      required:
-        - name
-        - cidr
-
-    UserPlaneConfigurationRequest:
-      description: Request User Plane configuration from UPF
-      type: object
-      properties:
-        slices:
+        snssais:
           type: array
           items:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
+        prefixes:
+          type: array
+          items:
+            type: string
       required:
-        - slices
+        - name
 
-    UserPlaneConfigurationResponse:
-      description: User Plane configuration response to UPF
+    UserPlaneConfiguration:
+      description: Everything a UPF reads.
       type: object
       properties:
         transportNetworks:
@@ -263,12 +343,11 @@ components:
           items:
             $ref: '#/components/schemas/SliceConfiguration'
 
-
       required:
         - dataNetworks
         - transportNetworks
         - slices
-    
+
     SliceConfiguration:
       description: Slice configuration
       type: object
@@ -362,4 +441,3 @@ components:
             $ref: '#/components/schemas/HomePlmnConfiguration'
       required:
         - plmnList
-
